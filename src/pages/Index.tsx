@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +10,7 @@ import { ArrowDown, ArrowRight, Search, Utensils, Calculator, BookOpen, Heart, U
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { ContentItem } from "@/types/content";
 
 const Home = () => {
   // Ref for scrolling to content
@@ -22,22 +24,22 @@ const Home = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="hero-section bg-gradient-to-b from-background to-primary/5">
+      {/* Hero Section - Updated with lush green colors */}
+      <section className="hero-section bg-gradient-to-b from-mint to-spring/40">
         <HeroCanvas />
         <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center">
-          <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">Nourish Your Body. Elevate Your Life.</span>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-forest bg-mint/40 rounded-full animate-fade-in">Nourish Your Body. Elevate Your Life.</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in text-forest" style={{ animationDelay: "0.2s" }}>
             Your Path to <span className="text-gradient">Personalized</span> Nutrition & Wellness
           </h1>
-          <p className="text-xl md:text-2xl mb-10 max-w-2xl text-foreground/80 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+          <p className="text-xl md:text-2xl mb-10 max-w-2xl text-forest/80 animate-fade-in" style={{ animationDelay: "0.4s" }}>
             Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: "0.6s" }}>
-            <Button asChild size="lg" className="text-lg px-8 rounded-full bg-gradient-to-r from-teal-light to-secondary hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Button asChild size="lg" className="text-lg px-8 rounded-full bg-gradient-to-r from-moss to-forest hover:shadow-lg transition-all duration-300 hover:-translate-y-1 text-white">
               <Link to="/tools">Explore Tools</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-lg px-8 rounded-full border-2">
+            <Button asChild size="lg" variant="outline" className="text-lg px-8 rounded-full border-2 border-forest text-forest hover:bg-forest/10">
               <Link to="/recipes">View Recipes</Link>
             </Button>
           </div>
@@ -46,7 +48,7 @@ const Home = () => {
             <Button 
               variant="ghost" 
               size="icon" 
-              className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50"
+              className="rounded-full bg-spring/30 backdrop-blur-sm hover:bg-spring/50 text-forest"
               onClick={scrollToContent}
               aria-label="Scroll down"
             >
@@ -511,7 +513,7 @@ const LatestContent = () => {
       <div className="py-8">
         <div className="container mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-green-800 dark:text-green-300">Latest Content</h2>
+            <h2 className="text-3xl font-bold text-forest dark:text-spring">Latest Content</h2>
             <p className="text-muted-foreground mt-2">Loading our latest articles and recipes...</p>
           </div>
         </div>
@@ -525,19 +527,19 @@ const LatestContent = () => {
   }
 
   return (
-    <div className="py-16 bg-green-50 dark:bg-green-950/30">
+    <div className="py-16 bg-mint/30 dark:bg-forest/30">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-green-800 dark:text-green-300">Latest Content</h2>
+          <h2 className="text-3xl font-bold text-forest dark:text-mint">Latest Content</h2>
           <p className="text-muted-foreground mt-2">Discover our newest articles and recipes</p>
         </div>
         
         {latestBlogs.length > 0 && (
           <div className="mb-16">
-            <h3 className="text-2xl font-semibold mb-6 text-green-700 dark:text-green-400">Latest Articles</h3>
+            <h3 className="text-2xl font-semibold mb-6 text-forest dark:text-mint">Latest Articles</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {latestBlogs.map(blog => (
-                <Card key={blog.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
+                <Card key={blog.id} className="overflow-hidden border-leaf/20 dark:border-leaf/30 hover:shadow-md transition-shadow">
                   <div className="h-48 overflow-hidden">
                     <img 
                       src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} 
@@ -549,13 +551,13 @@ const LatestContent = () => {
                     />
                   </div>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{blog.title}</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-forest dark:text-spring line-clamp-2">{blog.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-2">
                     <p className="text-muted-foreground text-sm line-clamp-3">{blog.description}</p>
                   </CardContent>
                   <CardFooter>
-                    <Link to={`/blog/${blog.id}`} className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium">
+                    <Link to={`/blog/${blog.id}`} className="text-moss dark:text-spring hover:text-forest dark:hover:text-mint text-sm font-medium">
                       Read Article →
                     </Link>
                   </CardFooter>
@@ -563,7 +565,7 @@ const LatestContent = () => {
               ))}
             </div>
             <div className="text-center mt-8">
-              <Link to="/blog" className="inline-block px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
+              <Link to="/blog" className="inline-block px-6 py-2 bg-forest hover:bg-forest/80 text-white rounded-md transition-colors dark:bg-moss dark:hover:bg-moss/90">
                 View All Articles
               </Link>
             </div>
@@ -572,10 +574,10 @@ const LatestContent = () => {
         
         {latestRecipes.length > 0 && (
           <div>
-            <h3 className="text-2xl font-semibold mb-6 text-green-700 dark:text-green-400">Latest Recipes</h3>
+            <h3 className="text-2xl font-semibold mb-6 text-forest dark:text-spring">Latest Recipes</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {latestRecipes.map(recipe => (
-                <Card key={recipe.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
+                <Card key={recipe.id} className="overflow-hidden border-leaf/20 dark:border-leaf/30 hover:shadow-md transition-shadow">
                   <div className="h-48 overflow-hidden">
                     <img 
                       src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} 
@@ -587,13 +589,13 @@ const LatestContent = () => {
                     />
                   </div>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{recipe.title}</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-forest dark:text-spring line-clamp-2">{recipe.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-2">
                     <p className="text-muted-foreground text-sm line-clamp-3">{recipe.description}</p>
                   </CardContent>
                   <CardFooter>
-                    <Link to={`/recipes/${recipe.id}`} className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium">
+                    <Link to={`/recipes/${recipe.id}`} className="text-moss dark:text-spring hover:text-forest dark:hover:text-mint text-sm font-medium">
                       View Recipe →
                     </Link>
                   </CardFooter>
@@ -601,7 +603,7 @@ const LatestContent = () => {
               ))}
             </div>
             <div className="text-center mt-8">
-              <Link to="/recipes" className="inline-block px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
+              <Link to="/recipes" className="inline-block px-6 py-2 bg-forest hover:bg-forest/80 text-white rounded-md transition-colors dark:bg-moss dark:hover:bg-moss/90">
                 View All Recipes
               </Link>
             </div>
@@ -613,3 +615,4 @@ const LatestContent = () => {
 };
 
 export default Home;
+
