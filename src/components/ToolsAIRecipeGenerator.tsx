@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ImageUploader from "@/components/ImageUploader";
-import { Loader2, Share2, Download, FileText, WhatsappIcon, Share } from "lucide-react";
+import { Loader2, Share2, Download, FileText, Share } from "lucide-react";
 import EmailCollectionForm from "./EmailCollectionForm";
 import html2pdf from "html2pdf.js";
 
@@ -27,13 +26,11 @@ const ToolsAIRecipeGenerator = () => {
   const [hasSubmittedEmail, setHasSubmittedEmail] = useState(false);
   
   useEffect(() => {
-    // Check if user has already submitted email
     const storedEmail = localStorage.getItem('dietaryGuideEmail');
     if (storedEmail) {
       setHasSubmittedEmail(true);
     }
     
-    // Create storage buckets if they don't exist
     const createBuckets = async () => {
       try {
         await supabase.functions.invoke('create-bucket');
@@ -58,12 +55,11 @@ const ToolsAIRecipeGenerator = () => {
     setIsGenerating(true);
     
     try {
-      // Call the Supabase edge function to generate content
       const { data, error } = await supabase.functions.invoke('ai-generator', {
         body: {
           prompt: `Create a healthy recipe using these ingredients: ${ingredients}. ${mealType ? `This should be a ${mealType} dish.` : ''} ${diet && diet !== 'none' ? `Make it ${diet}.` : ''} ${time ? `The recipe should take about ${time} to prepare and cook.` : ''} Include a title, ingredients with measurements, cooking instructions, and nutritional information if possible. Format the output with proper Markdown to ensure good readability.`,
           type: "recipe",
-          model: "google/gemini-flash-1.5" // Use Google's Gemini model
+          model: "google/gemini-flash-1.5"
         }
       });
 
@@ -71,7 +67,6 @@ const ToolsAIRecipeGenerator = () => {
         throw new Error(error.message);
       }
 
-      // Extract title from content
       const content = data.content;
       const titleMatch = content.match(/^#\s(.+)$/m) || content.match(/^(.+)$/m);
       if (titleMatch && titleMatch[1]) {
@@ -118,10 +113,8 @@ const ToolsAIRecipeGenerator = () => {
     setIsPublishing(true);
     
     try {
-      // Create a short description from the content
       const description = generatedRecipe.substring(0, 200) + '...';
       
-      // Insert into Supabase
       const { data, error } = await supabase
         .from('auto_blogs')
         .insert({
@@ -145,7 +138,6 @@ const ToolsAIRecipeGenerator = () => {
         variant: "default",
       });
       
-      // Reset form
       setIngredients("");
       setMealType("");
       setDiet("");
@@ -176,7 +168,6 @@ const ToolsAIRecipeGenerator = () => {
       return;
     }
     
-    // Create a temporary div to render the recipe with proper formatting
     const element = document.createElement('div');
     element.className = 'recipe-pdf-content';
     element.innerHTML = `
@@ -196,12 +187,10 @@ const ToolsAIRecipeGenerator = () => {
       </style>
     `;
     
-    // Add title image if available
     if (imageUrl) {
       element.innerHTML += `<img src="${imageUrl}" alt="${recipeTitle}" />`;
     }
     
-    // Add the recipe content, converting markdown to HTML
     const markdownToHTML = (markdown) => {
       return markdown
         .replace(/^# (.*$)/gm, '<h1>$1</h1>')
@@ -219,7 +208,6 @@ const ToolsAIRecipeGenerator = () => {
     element.innerHTML += markdownToHTML(generatedRecipe);
     document.body.appendChild(element);
     
-    // Generate PDF
     const opt = {
       margin: [0.5, 0.5, 0.5, 0.5],
       filename: `${recipeTitle || 'recipe'}.pdf`,
@@ -392,7 +380,6 @@ const ToolsAIRecipeGenerator = () => {
             <CardContent className="pt-6">
               <div className="prose dark:prose-invert max-w-none mb-4 whitespace-pre-line">
                 {generatedRecipe.split('\n').map((line, index) => {
-                  // Format headers
                   if (line.startsWith('# ')) {
                     return <h1 key={index} className="text-2xl font-bold mt-4 mb-2 text-green-800 dark:text-green-300">{line.substring(2)}</h1>;
                   }
@@ -403,19 +390,16 @@ const ToolsAIRecipeGenerator = () => {
                     return <h3 key={index} className="text-lg font-bold mt-2 mb-1 text-green-600 dark:text-green-500">{line.substring(4)}</h3>;
                   }
                   
-                  // Format lists
                   if (line.startsWith('- ')) {
                     return <li key={index} className="ml-4 mb-1">{line.substring(2)}</li>;
                   }
                   
-                  // Format bold text
                   if (line.includes('**')) {
                     return <p key={index} className="mb-2" dangerouslySetInnerHTML={{ 
                       __html: line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
                     }} />;
                   }
                   
-                  // Regular paragraphs
                   return line ? <p key={index} className="mb-2">{line}</p> : <br key={index} />;
                 })}
               </div>
