@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -80,70 +79,64 @@ const ContentDetailPage = () => {
   const formatContent = (content: string) => {
     if (!content) return null;
     
-    // Handle Markdown-like content
-    const parts = content.split('\n\n');
+    // Split the content by paragraphs
+    let parts = content.split('\n\n');
+    
+    // Handle single newlines as well (for lists)
+    if (parts.length === 1 && content.includes('\n')) {
+      parts = content.split('\n');
+    }
     
     return parts.map((paragraph, index) => {
+      // Handle bold text with ** markers
+      const processBoldText = (text: string) => {
+        if (!text.includes('**')) return text;
+        
+        return <span dangerouslySetInnerHTML={{ 
+          __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+        }} />;
+      };
+      
       // Handle headings
       if (paragraph.startsWith('# ')) {
-        return <h2 key={index} className="text-2xl font-bold mt-8 mb-4 text-green-800 dark:text-green-300">{paragraph.substring(2)}</h2>;
+        return <h2 key={index} className="text-2xl font-bold mt-8 mb-4 text-green-800 dark:text-green-300">{processBoldText(paragraph.substring(2))}</h2>;
       } 
       
       if (paragraph.startsWith('## ')) {
-        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-green-700 dark:text-green-400">{paragraph.substring(3)}</h3>;
+        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-green-700 dark:text-green-400">{processBoldText(paragraph.substring(3))}</h3>;
       }
       
       if (paragraph.startsWith('### ')) {
-        return <h4 key={index} className="text-lg font-bold mt-5 mb-2 text-green-600 dark:text-green-500">{paragraph.substring(4)}</h4>;
-      }
-      
-      // Handle lists
-      if (paragraph.includes('\n- ')) {
-        const listItems = paragraph.split('\n- ');
-        const title = listItems.shift(); // Get any text before the list
-        
-        return (
-          <div key={index} className="mb-6">
-            {title && title !== "" && <p className="mb-2">{title}</p>}
-            <ul className="list-disc pl-6 space-y-1">
-              {listItems.map((item, i) => (
-                <li key={i} className="mb-1">{item}</li>
-              ))}
-            </ul>
-          </div>
-        );
+        return <h4 key={index} className="text-lg font-bold mt-5 mb-2 text-green-600 dark:text-green-500">{processBoldText(paragraph.substring(4))}</h4>;
       }
       
       // Handle numbered lists
-      if (paragraph.includes('\n1. ')) {
-        const listItems = paragraph.split('\n');
-        const title = listItems[0].startsWith('1. ') ? null : listItems.shift();
-        
+      if (/^\d+\.\s/.test(paragraph)) {
+        const number = paragraph.match(/^\d+\./)?.[0] || '';
+        const content = paragraph.substring(number.length + 1);
         return (
-          <div key={index} className="mb-6">
-            {title && <p className="mb-2">{title}</p>}
-            <ol className="list-decimal pl-6 space-y-1">
-              {listItems.map((item, i) => {
-                const numberMatch = item.match(/^\d+\.\s/);
-                if (numberMatch) {
-                  const content = item.substring(numberMatch[0].length);
-                  return <li key={i} className="mb-1">{content}</li>;
-                }
-                return <li key={i} className="mb-1">{item}</li>;
-              })}
-            </ol>
+          <div key={index} className="flex gap-2 mb-2">
+            <span className="font-bold min-w-[20px]">{number}</span>
+            <span>{processBoldText(content)}</span>
           </div>
         );
       }
       
-      // Handle simple bullet points at start of paragraph
-      if (paragraph.startsWith('- ')) {
+      // Handle bullet points 
+      if (paragraph.startsWith('* ') || paragraph.startsWith('- ')) {
         return (
-          <div key={index} className="mb-4">
-            <ul className="list-disc pl-6">
-              <li>{paragraph.substring(2)}</li>
-            </ul>
-          </div>
+          <li key={index} className="ml-6 mb-2 list-disc">
+            {processBoldText(paragraph.substring(2))}
+          </li>
+        );
+      }
+      
+      // Handle multi-level bullet points and sub-lists
+      if (paragraph.startsWith('  * ') || paragraph.startsWith('  - ')) {
+        return (
+          <li key={index} className="ml-12 mb-2 list-disc">
+            {processBoldText(paragraph.substring(4))}
+          </li>
         );
       }
       
@@ -153,7 +146,11 @@ const ContentDetailPage = () => {
       }
       
       // Regular paragraphs
-      return <p key={index} className="mb-4 leading-relaxed">{paragraph}</p>;
+      return (
+        <p key={index} className="mb-4 leading-relaxed">
+          {processBoldText(paragraph)}
+        </p>
+      );
     });
   };
 

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,16 +23,24 @@ const ToolsPage = () => {
   const [activeTab, setActiveTab] = useState("bmi");
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [isAccessGranted, setIsAccessGranted] = useState(false);
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
 
   useEffect(() => {
     // Check if user has already submitted email in this session
     const storedEmail = localStorage.getItem('dietaryGuideEmail');
     if (storedEmail) {
       setIsAccessGranted(true);
+      setEmailSubmitted(true);
     }
   }, []);
 
   const calculateBMI = () => {
+    if (!isAccessGranted && !emailSubmitted) {
+      setShowEmailForm(true);
+      localStorage.setItem('pendingTabAccess', 'bmi');
+      return;
+    }
+    
     if (!height || !weight) return;
     
     const heightInMeters = parseFloat(height) / 100;
@@ -58,7 +65,7 @@ const ToolsPage = () => {
 
   const handleTabClick = (tabId: string) => {
     // Only show email form if user hasn't granted access yet
-    if (!isAccessGranted && tabId !== "bmi") {
+    if (!isAccessGranted && !emailSubmitted) {
       setShowEmailForm(true);
       // Store which tab they were trying to access
       localStorage.setItem('pendingTabAccess', tabId);
@@ -69,6 +76,7 @@ const ToolsPage = () => {
 
   const handleEmailSubmissionComplete = () => {
     setIsAccessGranted(true);
+    setEmailSubmitted(true);
     setShowEmailForm(false);
     
     // Navigate to the tab they were trying to access
