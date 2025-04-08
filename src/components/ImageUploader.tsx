@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,6 +19,24 @@ const ImageUploader = ({
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(existingImageUrl || null);
+  
+  useEffect(() => {
+    // Update preview URL if existingImageUrl changes
+    if (existingImageUrl) {
+      setPreviewUrl(existingImageUrl);
+    }
+    
+    // Create storage buckets if they don't exist
+    const createBuckets = async () => {
+      try {
+        await supabase.functions.invoke('create-bucket');
+      } catch (error) {
+        console.error("Error creating buckets:", error);
+      }
+    };
+    
+    createBuckets();
+  }, [existingImageUrl]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,7 +73,10 @@ const ImageUploader = ({
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
         .from(bucketName)
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
         
       if (error) throw error;
       

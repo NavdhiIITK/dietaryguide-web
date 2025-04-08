@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -15,6 +15,16 @@ const EmailCollectionForm = ({ toolName, onComplete }: EmailCollectionFormProps)
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  
+  useEffect(() => {
+    // Check if user has already submitted email
+    const storedEmail = localStorage.getItem('dietaryGuideEmail');
+    if (storedEmail) {
+      setEmail(storedEmail);
+      // If email already exists, immediately complete
+      onComplete();
+    }
+  }, [onComplete]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
