@@ -139,7 +139,7 @@ const ToolsAIMealAnalyzer = () => {
             <CardTitle>Meal Analysis</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="prose max-w-none whitespace-pre-line">
+            <div className="prose dark:prose-invert max-w-none whitespace-pre-line">
               {analysisResult}
             </div>
             <Button 
@@ -152,8 +152,8 @@ const ToolsAIMealAnalyzer = () => {
           </CardContent>
         </Card>
       ) : (
-        <div className="bg-muted/30 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
-          <div className="text-center text-foreground/70">
+        <div className="bg-muted/30 dark:bg-gray-700/50 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
+          <div className="text-center text-foreground/70 dark:text-gray-300">
             {isAnalyzing ? (
               <div className="space-y-2">
                 <div className="text-lg">Analyzing your meal...</div>

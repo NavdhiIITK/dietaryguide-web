@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ImageUploader from "@/components/ImageUploader";
+import { Loader2 } from "lucide-react";
 
 const ToolsAIRecipeGenerator = () => {
   const { toast } = useToast();
@@ -206,7 +207,12 @@ const ToolsAIRecipeGenerator = () => {
         onClick={generateRecipe}
         disabled={isGenerating}
       >
-        {isGenerating ? "Generating..." : "Generate Recipe"}
+        {isGenerating ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Generating...
+          </>
+        ) : "Generate Recipe"}
       </Button>
       
       {generatedRecipe ? (
@@ -219,7 +225,7 @@ const ToolsAIRecipeGenerator = () => {
               <Textarea 
                 value={generatedRecipe}
                 onChange={(e) => setGeneratedRecipe(e.target.value)}
-                className="min-h-[300px] font-mono text-sm mb-4"
+                className="min-h-[300px] font-mono text-sm mb-4 dark:bg-gray-800 dark:text-gray-200"
               />
               <div className="flex gap-4">
                 <Button 
@@ -249,14 +255,19 @@ const ToolsAIRecipeGenerator = () => {
                 onClick={publishRecipe}
                 disabled={isPublishing}
               >
-                {isPublishing ? "Publishing..." : "Publish Recipe"}
+                {isPublishing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Publishing...
+                  </>
+                ) : "Publish Recipe"}
               </Button>
             </CardContent>
           </Card>
         </div>
       ) : (
-        <div className="bg-muted/30 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
-          <div className="text-center text-foreground/70">
+        <div className="bg-muted/30 dark:bg-gray-700/50 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
+          <div className="text-center text-foreground/70 dark:text-gray-300">
             {isGenerating ? (
               <div className="space-y-2">
                 <div className="text-lg">Generating recipe...</div>
