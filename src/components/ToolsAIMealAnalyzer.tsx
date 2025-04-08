@@ -10,6 +10,9 @@ import { supabase } from "@/integrations/supabase/client";
 import ImageUploader from "@/components/ImageUploader";
 import { Loader2 } from "lucide-react";
 import EmailCollectionForm from "./EmailCollectionForm";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const ToolsAIMealAnalyzer = () => {
   const { toast } = useToast();
@@ -19,6 +22,13 @@ const ToolsAIMealAnalyzer = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [analysisMethod, setAnalysisMethod] = useState("text");
   const [hasSubmittedEmail, setHasSubmittedEmail] = useState(false);
+  
+  // Additional meal details
+  const [mealType, setMealType] = useState("");
+  const [goalType, setGoalType] = useState("");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
+  const [calorieGoal, setCalorieGoal] = useState("");
+  const [additionalNotes, setAdditionalNotes] = useState("");
   
   useEffect(() => {
     // Check if user has already submitted email
@@ -63,11 +73,36 @@ const ToolsAIMealAnalyzer = () => {
     try {
       let prompt = "";
       
+      // Build a detailed prompt based on all the information provided
       if (analysisMethod === "text") {
-        prompt = `Analyze this meal: ${mealDescription}. Please provide a detailed nutritional breakdown including estimated calories, macronutrients (protein, carbs, fats), key vitamins and minerals, and general health insights. Also include pros of the meal and suggestions for improvement if applicable.`;
+        prompt = `Analyze this meal: ${mealDescription}.`;
       } else {
-        prompt = `Analyze the meal in the uploaded image. I'll describe what I see: a meal that likely contains various ingredients and components. Please provide a detailed nutritional breakdown including estimated calories, macronutrients (protein, carbs, fats), key vitamins and minerals, and general health insights. Also include pros of the meal and suggestions for improvement if applicable.`;
+        prompt = `Analyze the meal in the uploaded image. I'll describe what I see: a meal that likely contains various ingredients and components.`;
       }
+      
+      // Add additional context from user inputs
+      if (mealType) {
+        prompt += ` This is a ${mealType} meal.`;
+      }
+      
+      if (goalType) {
+        prompt += ` My nutritional goal is ${goalType}.`;
+      }
+      
+      if (dietaryRestrictions) {
+        prompt += ` I have the following dietary restrictions: ${dietaryRestrictions}.`;
+      }
+      
+      if (calorieGoal) {
+        prompt += ` My daily calorie goal is around ${calorieGoal} calories.`;
+      }
+      
+      if (additionalNotes) {
+        prompt += ` Additional notes: ${additionalNotes}.`;
+      }
+      
+      // Final analysis instructions
+      prompt += ` Please provide a detailed nutritional breakdown including estimated calories, macronutrients (protein, carbs, fats), key vitamins and minerals, and general health insights. Also include pros of the meal and suggestions for improvement if applicable. Format the output with proper Markdown to ensure good readability, using sections and bullet points.`;
 
       // Call the Supabase edge function to generate content
       const { data, error } = await supabase.functions.invoke('ai-generator', {
@@ -151,6 +186,83 @@ const ToolsAIMealAnalyzer = () => {
         </TabsContent>
       </Tabs>
       
+      {/* Additional meal details section */}
+      <Card className="border-green-200 dark:border-green-900">
+        <CardHeader className="bg-green-50 dark:bg-green-950/30 border-b border-green-100 dark:border-green-900/50">
+          <CardTitle className="text-green-800 dark:text-green-300">Additional Details (Optional)</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="meal-type">Type of Meal</Label>
+              <Select value={mealType} onValueChange={setMealType}>
+                <SelectTrigger id="meal-type">
+                  <SelectValue placeholder="Select meal type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="breakfast">Breakfast</SelectItem>
+                  <SelectItem value="lunch">Lunch</SelectItem>
+                  <SelectItem value="dinner">Dinner</SelectItem>
+                  <SelectItem value="snack">Snack</SelectItem>
+                  <SelectItem value="post-workout">Post-Workout</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="goal-type">Nutritional Goal</Label>
+              <Select value={goalType} onValueChange={setGoalType}>
+                <SelectTrigger id="goal-type">
+                  <SelectValue placeholder="Select your goal" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="weight loss">Weight Loss</SelectItem>
+                  <SelectItem value="muscle gain">Muscle Gain</SelectItem>
+                  <SelectItem value="maintenance">Maintenance</SelectItem>
+                  <SelectItem value="improved energy">Improved Energy</SelectItem>
+                  <SelectItem value="better health">Better Health</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
+          <div>
+            <Label htmlFor="dietary-restrictions">Dietary Restrictions</Label>
+            <Textarea 
+              id="dietary-restrictions" 
+              placeholder="e.g., vegetarian, gluten-free, dairy-free, allergic to nuts, etc."
+              value={dietaryRestrictions}
+              onChange={(e) => setDietaryRestrictions(e.target.value)}
+              className="min-h-[70px]"
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="calorie-goal">Daily Calorie Goal (if known)</Label>
+              <Input 
+                id="calorie-goal" 
+                type="text" 
+                placeholder="e.g., 2000"
+                value={calorieGoal}
+                onChange={(e) => setCalorieGoal(e.target.value)}
+              />
+            </div>
+          </div>
+          
+          <div>
+            <Label htmlFor="additional-notes">Additional Notes</Label>
+            <Textarea 
+              id="additional-notes" 
+              placeholder="e.g., I'm trying to increase my protein intake, I'm concerned about sodium levels, etc."
+              value={additionalNotes}
+              onChange={(e) => setAdditionalNotes(e.target.value)}
+              className="min-h-[70px]"
+            />
+          </div>
+        </CardContent>
+      </Card>
+      
       <Button 
         className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700" 
         onClick={analyzeMeal}
@@ -184,7 +296,7 @@ const ToolsAIMealAnalyzer = () => {
                 }
                 
                 // Format lists
-                if (line.startsWith('- ')) {
+                if (line.startsWith('* ') || line.startsWith('- ')) {
                   return <li key={index} className="ml-4 mb-1">{line.substring(2)}</li>;
                 }
                 

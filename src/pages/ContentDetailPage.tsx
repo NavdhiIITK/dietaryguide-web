@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -79,13 +80,8 @@ const ContentDetailPage = () => {
   const formatContent = (content: string) => {
     if (!content) return null;
     
-    // Split the content by paragraphs
-    let parts = content.split('\n\n');
-    
-    // Handle single newlines as well (for lists)
-    if (parts.length === 1 && content.includes('\n')) {
-      parts = content.split('\n');
-    }
+    // Split the content by paragraphs or sections
+    const parts = content.split('\n\n').map(part => part.trim());
     
     return parts.map((paragraph, index) => {
       // Handle bold text with ** markers
@@ -97,7 +93,30 @@ const ContentDetailPage = () => {
         }} />;
       };
       
-      // Handle headings
+      // Handle numbered lists with format "1. Text" or "1. **Bold** Text"
+      if (/^\d+\.\s/.test(paragraph)) {
+        const number = paragraph.match(/^\d+\./)?.[0] || '';
+        const content = paragraph.substring(number.length + 1).trim();
+        return (
+          <div key={index} className="flex gap-2 mb-4">
+            <span className="font-bold min-w-[24px]">{number}</span>
+            <div className="flex-1">
+              {processBoldText(content)}
+              
+              {/* Handle sub-bullets that might follow a numbered item */}
+              {paragraph.includes('\n* ') && (
+                <ul className="ml-2 mt-2 list-disc">
+                  {paragraph.split('\n* ').slice(1).map((item, i) => (
+                    <li key={i} className="ml-4 mb-1">{processBoldText(item)}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        );
+      }
+      
+      // Handle headings - we need to check for this before bullet points
       if (paragraph.startsWith('# ')) {
         return <h2 key={index} className="text-2xl font-bold mt-8 mb-4 text-green-800 dark:text-green-300">{processBoldText(paragraph.substring(2))}</h2>;
       } 
@@ -110,33 +129,49 @@ const ContentDetailPage = () => {
         return <h4 key={index} className="text-lg font-bold mt-5 mb-2 text-green-600 dark:text-green-500">{processBoldText(paragraph.substring(4))}</h4>;
       }
       
-      // Handle numbered lists
-      if (/^\d+\.\s/.test(paragraph)) {
-        const number = paragraph.match(/^\d+\./)?.[0] || '';
-        const content = paragraph.substring(number.length + 1);
+      // Handle bullet lists (might include nested items)
+      if (paragraph.startsWith('* ')) {
+        const items = paragraph.split('\n* ');
         return (
-          <div key={index} className="flex gap-2 mb-2">
-            <span className="font-bold min-w-[20px]">{number}</span>
-            <span>{processBoldText(content)}</span>
+          <ul key={index} className="ml-6 mb-4 list-disc">
+            {items.filter(item => item.trim()).map((item, i) => {
+              // For the first item, remove the initial "* "
+              const itemText = i === 0 ? item.substring(2) : item;
+              return <li key={i} className="mb-2">{processBoldText(itemText)}</li>;
+            })}
+          </ul>
+        );
+      }
+      
+      // Handle bullet points with dashes
+      if (paragraph.startsWith('- ')) {
+        const items = paragraph.split('\n- ');
+        return (
+          <ul key={index} className="ml-6 mb-4 list-disc">
+            {items.filter(item => item.trim()).map((item, i) => {
+              // For the first item, remove the initial "- "
+              const itemText = i === 0 ? item.substring(2) : item;
+              return <li key={i} className="mb-2">{processBoldText(itemText)}</li>;
+            })}
+          </ul>
+        );
+      }
+      
+      // Handle multi-level sections that might have * bullets inside them
+      if (paragraph.includes('\n* ')) {
+        const parts = paragraph.split('\n* ');
+        const mainText = parts[0];
+        const bulletItems = parts.slice(1);
+        
+        return (
+          <div key={index} className="mb-4">
+            <p className="mb-2">{processBoldText(mainText)}</p>
+            <ul className="ml-6 list-disc">
+              {bulletItems.map((item, i) => (
+                <li key={i} className="mb-1">{processBoldText(item)}</li>
+              ))}
+            </ul>
           </div>
-        );
-      }
-      
-      // Handle bullet points 
-      if (paragraph.startsWith('* ') || paragraph.startsWith('- ')) {
-        return (
-          <li key={index} className="ml-6 mb-2 list-disc">
-            {processBoldText(paragraph.substring(2))}
-          </li>
-        );
-      }
-      
-      // Handle multi-level bullet points and sub-lists
-      if (paragraph.startsWith('  * ') || paragraph.startsWith('  - ')) {
-        return (
-          <li key={index} className="ml-12 mb-2 list-disc">
-            {processBoldText(paragraph.substring(4))}
-          </li>
         );
       }
       
@@ -228,8 +263,8 @@ const ContentDetailPage = () => {
         <article className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
           <div className="mb-6 h-[300px] sm:h-[400px] overflow-hidden">
             <img 
-              src={content.imageUrl} 
-              alt={content.title} 
+              src={content?.imageUrl} 
+              alt={content?.title} 
               className="w-full h-full object-cover"
               onError={(e) => {
                 // Fallback image if the original fails to load
@@ -239,22 +274,22 @@ const ContentDetailPage = () => {
           </div>
           
           <div className="px-6 sm:px-10 py-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-green-800 dark:text-green-300">{content.title}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-green-800 dark:text-green-300">{content?.title}</h1>
             
             <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-8 text-sm text-foreground/70 dark:text-gray-300 border-b border-green-100 dark:border-green-900/30 pb-4">
               <div className="flex items-center">
-                <Calendar className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content.date}
+                <Calendar className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content?.date}
               </div>
               <div className="flex items-center">
-                <User className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content.author}
+                <User className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content?.author}
               </div>
               <div className="flex items-center">
-                <Tag className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content.category}
+                <Tag className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content?.category}
               </div>
             </div>
             
             <div className="prose max-w-none text-foreground/80 dark:text-gray-200 leading-relaxed">
-              {formatContent(content.content)}
+              {content && formatContent(content.content)}
             </div>
           </div>
         </article>

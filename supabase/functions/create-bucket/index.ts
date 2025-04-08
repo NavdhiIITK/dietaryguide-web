@@ -18,42 +18,73 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
-    // Create content-images bucket if it doesn't exist
-    const { data: contentBucketData, error: contentBucketError } = await supabase
-      .storage
-      .createBucket('content-images', { 
-        public: true,
-        fileSizeLimit: 5242880, // 5MB
-      });
-    
-    if (contentBucketError && !contentBucketError.message.includes('already exists')) {
-      throw contentBucketError;
+    // Get bucket name from request body if provided, otherwise use default
+    let bucketName = 'content-images';
+    try {
+      const { bucketName: requestedBucket } = await req.json();
+      if (requestedBucket) {
+        bucketName = requestedBucket;
+      }
+    } catch (e) {
+      // If parsing fails, use default bucket name
+      console.log("Using default bucket name:", bucketName);
     }
     
-    // Create meal-images bucket if it doesn't exist
-    const { data: mealBucketData, error: mealBucketError } = await supabase
+    console.log(`Creating or verifying bucket: ${bucketName}`);
+    
+    // Create the requested bucket if it doesn't exist
+    const { data: bucketData, error: bucketError } = await supabase
       .storage
-      .createBucket('meal-images', { 
+      .createBucket(bucketName, { 
         public: true,
         fileSizeLimit: 5242880, // 5MB
       });
     
-    if (mealBucketError && !mealBucketError.message.includes('already exists')) {
-      throw mealBucketError;
+    if (bucketError && !bucketError.message.includes('already exists')) {
+      throw bucketError;
+    }
+    
+    // Create public storage policy for the bucket
+    try {
+      // Check if policy exists
+      const { data: policies } = await supabase
+        .from('storage')
+        .select('policies')
+        .eq('name', bucketName)
+        .single();
+      
+      if (!policies || policies.length === 0) {
+        // Create policy to allow public access
+        await supabase
+          .rpc('create_storage_policy', {
+            bucket_name: bucketName,
+            policy_name: `${bucketName}_public_access`,
+            definition: "((bucket_id = '${bucketName}'::text) AND (auth.role() = 'authenticated'::text))",
+            operation: 'ALL'
+          });
+        
+        console.log(`Created public access policy for bucket: ${bucketName}`);
+      }
+    } catch (policyError) {
+      // If policy creation fails, log but don't throw error
+      console.warn("Policy creation warning:", policyError);
     }
     
     return new Response(
       JSON.stringify({ 
-        message: "Buckets created or already exist",
-        contentBucket: contentBucketData || "already exists",
-        mealBucket: mealBucketData || "already exists"
+        message: "Bucket created or already exists",
+        bucketName: bucketName,
+        status: bucketData ? "created" : "exists"
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
     console.error("Error:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: JSON.stringify(error)
+      }),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 

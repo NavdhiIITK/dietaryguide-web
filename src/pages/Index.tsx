@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, Search, Utensils, Calculator, BookOpen, Heart, User, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 
 const Home = () => {
   // Ref for scrolling to content
@@ -453,7 +456,158 @@ const Home = () => {
         </div>
       </section>
       
+      {/* Latest Content */}
+      <LatestContent />
+      
       <Footer />
+    </div>
+  );
+};
+
+const LatestContent = () => {
+  const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
+  const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLatestContent = async () => {
+      try {
+        // Fetch latest blogs
+        const { data: blogData, error: blogError } = await supabase
+          .from('auto_blogs')
+          .select('id, title, description, image, category, date')
+          .neq('category', 'Recipes')
+          .eq('is_published', true)
+          .order('date', { ascending: false })
+          .limit(3);
+        
+        if (blogError) throw blogError;
+        
+        // Fetch latest recipes
+        const { data: recipeData, error: recipeError } = await supabase
+          .from('auto_blogs')
+          .select('id, title, description, image, category, date')
+          .eq('category', 'Recipes')
+          .eq('is_published', true)
+          .order('date', { ascending: false })
+          .limit(3);
+        
+        if (recipeError) throw recipeError;
+        
+        setLatestBlogs(blogData as ContentItem[]);
+        setLatestRecipes(recipeData as ContentItem[]);
+      } catch (error) {
+        console.error("Error fetching latest content:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchLatestContent();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="py-8">
+        <div className="container mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-green-800 dark:text-green-300">Latest Content</h2>
+            <p className="text-muted-foreground mt-2">Loading our latest articles and recipes...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // If no content is available yet
+  if (latestBlogs.length === 0 && latestRecipes.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="py-16 bg-green-50 dark:bg-green-950/30">
+      <div className="container mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-green-800 dark:text-green-300">Latest Content</h2>
+          <p className="text-muted-foreground mt-2">Discover our newest articles and recipes</p>
+        </div>
+        
+        {latestBlogs.length > 0 && (
+          <div className="mb-16">
+            <h3 className="text-2xl font-semibold mb-6 text-green-700 dark:text-green-400">Latest Articles</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {latestBlogs.map(blog => (
+                <Card key={blog.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} 
+                      alt={blog.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                      }}
+                    />
+                  </div>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{blog.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pb-2">
+                    <p className="text-muted-foreground text-sm line-clamp-3">{blog.description}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <Link to={`/blog/${blog.id}`} className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium">
+                      Read Article →
+                    </Link>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link to="/blog" className="inline-block px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
+                View All Articles
+              </Link>
+            </div>
+          </div>
+        )}
+        
+        {latestRecipes.length > 0 && (
+          <div>
+            <h3 className="text-2xl font-semibold mb-6 text-green-700 dark:text-green-400">Latest Recipes</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {latestRecipes.map(recipe => (
+                <Card key={recipe.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} 
+                      alt={recipe.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
+                      }}
+                    />
+                  </div>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{recipe.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pb-2">
+                    <p className="text-muted-foreground text-sm line-clamp-3">{recipe.description}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <Link to={`/recipes/${recipe.id}`} className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium">
+                      View Recipe →
+                    </Link>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link to="/recipes" className="inline-block px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
+                View All Recipes
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

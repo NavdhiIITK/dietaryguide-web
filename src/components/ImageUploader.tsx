@@ -68,14 +68,20 @@ const ImageUploader = ({
       // Create a unique file name
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const filePath = `public/${fileName}`;
       
-      // Upload to Supabase Storage
+      // Create bucket first to ensure it exists
+      await supabase.functions.invoke('create-bucket', {
+        body: { bucketName }
+      });
+      
+      // Upload to Supabase Storage with public ACL
       const { data, error } = await supabase.storage
         .from(bucketName)
         .upload(filePath, file, {
           cacheControl: '3600',
-          upsert: false
+          upsert: false,
+          contentType: file.type
         });
         
       if (error) throw error;
