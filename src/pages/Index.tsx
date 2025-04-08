@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 
-// Define ContentItem interface to resolve the type errors
 interface ContentItem {
   id: string;
   title: string;
@@ -21,7 +20,6 @@ interface ContentItem {
 }
 
 const Home = () => {
-  // Ref for scrolling to content
   const contentRef = useRef<HTMLDivElement>(null);
 
   const scrollToContent = () => {
@@ -33,9 +31,9 @@ const Home = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="hero-section bg-gradient-to-b from-background to-primary/5">
+      <section className="hero-section bg-gradient-to-b from-background to-primary/5 pt-16 md:pt-24">
         <HeroCanvas />
-        <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center">
+        <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center pt-8 md:pt-16">
           <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">Nourish Your Body. Elevate Your Life.</span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
             Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
@@ -480,7 +478,6 @@ const LatestContent = () => {
   useEffect(() => {
     const fetchLatestContent = async () => {
       try {
-        // Fetch latest blogs
         const { data: blogData, error: blogError } = await supabase
           .from('auto_blogs')
           .select('id, title, description, image, category, date')
@@ -491,7 +488,6 @@ const LatestContent = () => {
         
         if (blogError) throw blogError;
         
-        // Fetch latest recipes
         const { data: recipeData, error: recipeError } = await supabase
           .from('auto_blogs')
           .select('id, title, description, image, category, date')
@@ -527,7 +523,6 @@ const LatestContent = () => {
     );
   }
 
-  // If no content is available yet
   if (latestBlogs.length === 0 && latestRecipes.length === 0) {
     return null;
   }
