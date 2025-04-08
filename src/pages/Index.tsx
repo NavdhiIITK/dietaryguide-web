@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -24,13 +23,13 @@ const Home = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      {/* Hero Section - Updated with lush green colors */}
+      {/* Hero Section - Updated with lush green colors for bold text */}
       <section className="hero-section bg-gradient-to-b from-mint to-spring/40">
         <HeroCanvas />
         <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center">
           <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-forest bg-mint/40 rounded-full animate-fade-in">Nourish Your Body. Elevate Your Life.</span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in text-forest" style={{ animationDelay: "0.2s" }}>
-            Your Path to <span className="text-gradient">Personalized</span> Nutrition & Wellness
+            Your Path to <span className="text-mint">Personalized</span> Nutrition & Wellness
           </h1>
           <p className="text-xl md:text-2xl mb-10 max-w-2xl text-forest/80 animate-fade-in" style={{ animationDelay: "0.4s" }}>
             Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
@@ -615,4 +614,3 @@ const LatestContent = () => {
 };
 
 export default Home;
-

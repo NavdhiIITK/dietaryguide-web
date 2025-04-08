@@ -1,6 +1,6 @@
 
 export interface ContentItem {
-  id: number;
+  id: string;
   title: string;
   description: string;
   image: string | null;
