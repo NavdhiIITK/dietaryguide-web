@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { Fire } from "lucide-react";
 
 interface Recipe {
   id: string;
@@ -17,6 +19,7 @@ interface Recipe {
   difficulty: string;
   mealType: string;
   dietPreference: string;
+  isTrending?: boolean;
 }
 
 const placeholderImage = "https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80";
@@ -49,7 +52,8 @@ const RecipePage = () => {
           imageUrl: recipe.image || placeholderImage,
           difficulty: "Medium", // This could be extracted from content if available
           mealType: recipe.search_source || "Any",
-          dietPreference: recipe.search_query || "Any"
+          dietPreference: recipe.search_query || "Any",
+          isTrending: recipe.is_trending || false
         }));
         
         setRecipes(transformedRecipes);
@@ -68,6 +72,8 @@ const RecipePage = () => {
   useEffect(() => {
     if (activeFilter === "All Recipes") {
       setFilteredRecipes(recipes);
+    } else if (activeFilter === "Trending") {
+      setFilteredRecipes(recipes.filter(recipe => recipe.isTrending));
     } else if (["Breakfast", "Lunch", "Dinner", "Snacks"].includes(activeFilter)) {
       // Filter by meal type
       setFilteredRecipes(recipes.filter(recipe => 
@@ -107,6 +113,14 @@ const RecipePage = () => {
               onClick={() => setActiveFilter("All Recipes")}
             >
               All Recipes
+            </Button>
+            <Button 
+              variant={activeFilter === "Trending" ? "default" : "outline"} 
+              className="text-sm"
+              onClick={() => setActiveFilter("Trending")}
+            >
+              <Fire className="h-4 w-4 mr-1 text-orange-500" />
+              Trending
             </Button>
             <Button 
               variant={activeFilter === "Breakfast" ? "default" : "outline"} 
@@ -184,13 +198,23 @@ const RecipePage = () => {
           ) : filteredRecipes.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredRecipes.map((recipe) => (
-                <div key={recipe.id} className="bg-background rounded-xl overflow-hidden shadow-md card-hover">
-                  <div className="h-48 bg-muted overflow-hidden">
+                <div 
+                  key={recipe.id} 
+                  className={`bg-background rounded-xl overflow-hidden shadow-md card-hover ${recipe.isTrending ? 'ring-2 ring-orange-400' : ''}`}
+                >
+                  <div className="h-48 bg-muted overflow-hidden relative">
                     <img 
                       src={recipe.imageUrl} 
                       alt={recipe.title} 
                       className="w-full h-full object-cover transition-transform hover:scale-105"
                     />
+                    {recipe.isTrending && (
+                      <div className="absolute top-2 right-2">
+                        <Badge className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white flex items-center gap-1">
+                          <Fire className="h-3 w-3" /> Trending
+                        </Badge>
+                      </div>
+                    )}
                   </div>
                   <div className="p-4">
                     <div className="flex justify-between items-center mb-1">

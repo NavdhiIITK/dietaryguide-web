@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ const ToolsAIRecipeGenerator = () => {
   const [mealType, setMealType] = useState("");
   const [diet, setDiet] = useState("");
   const [time, setTime] = useState("");
+  const [isTrending, setIsTrending] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState("");
@@ -126,7 +128,8 @@ const ToolsAIRecipeGenerator = () => {
           date: new Date().toISOString(),
           is_published: true,
           search_source: mealType || "Quick Recipe",
-          search_query: diet || "Any"
+          search_query: diet || "Any",
+          is_trending: isTrending
         })
         .select();
 
@@ -142,6 +145,7 @@ const ToolsAIRecipeGenerator = () => {
       setMealType("");
       setDiet("");
       setTime("");
+      setIsTrending(false);
       setGeneratedRecipe("");
       setImageUrl("");
       setRecipeTitle("");
@@ -356,6 +360,19 @@ const ToolsAIRecipeGenerator = () => {
             </SelectContent>
           </Select>
         </div>
+      </div>
+      
+      <div className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          id="trending"
+          checked={isTrending}
+          onChange={(e) => setIsTrending(e.target.checked)}
+          className="h-4 w-4 text-green-600 rounded border-green-300 focus:ring-green-500"
+        />
+        <Label htmlFor="trending" className="text-green-800 dark:text-green-300">
+          Mark as trending recipe
+        </Label>
       </div>
       
       <Button 
