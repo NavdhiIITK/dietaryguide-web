@@ -31,16 +31,16 @@ const Navbar = () => {
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-md shadow-md py-2"
+          ? "bg-background/90 backdrop-blur-md shadow-md py-2"
           : "bg-transparent py-4"
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link
           to="/"
-          className="text-2xl md:text-3xl font-serif font-bold text-primary"
+          className="text-2xl md:text-3xl font-display font-bold"
         >
-          Nutriverse
+          <span className="text-gradient">DietaryGuide</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -66,12 +66,16 @@ const Navbar = () => {
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             aria-label="Toggle theme"
+            className="rounded-full hover:bg-muted"
           >
             {theme === "dark" ? (
               <Sun className="h-5 w-5" />
             ) : (
               <Moon className="h-5 w-5" />
             )}
+          </Button>
+          <Button asChild variant="default" className="rounded-full">
+            <Link to="/tools">Get Started</Link>
           </Button>
         </div>
 
@@ -82,6 +86,7 @@ const Navbar = () => {
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             aria-label="Toggle theme"
+            className="rounded-full"
           >
             {theme === "dark" ? (
               <Sun className="h-5 w-5" />
@@ -94,6 +99,7 @@ const Navbar = () => {
             size="icon"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
+            className="rounded-full"
           >
             {mobileMenuOpen ? (
               <X className="h-5 w-5" />
@@ -122,6 +128,9 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            <Button asChild variant="default" className="rounded-full mt-2">
+              <Link to="/tools" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+            </Button>
           </div>
         </nav>
       )}

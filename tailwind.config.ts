@@ -54,14 +54,18 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         // Custom colors
-        "leaf-green": "#4CAF50",
-        "lime-green": "#8BC34A",
-        "soft-brown": "#A1887F",
-        "sky-blue": "#03A9F4",
+        "teal-light": "#4ECDC4",
+        "teal-dark": "#1A535C", 
+        "leaf": "#7CB518",
+        "sunrise": "#FF6B6B",
+        "honey": "#FFD166",
+        "peach": "#FFBE88",
+        "lavender": "#D4ADFC",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
+        display: ["var(--font-display)"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -85,12 +89,22 @@ export default {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
         },
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" }
+        },
+        "slide-in": {
+          "0%": { transform: "translateX(-20px)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "float": "float 6s ease-in-out infinite",
         "rotate": "rotate 20s linear infinite",
+        "fade-in": "fade-in 0.5s ease-out forwards",
+        "slide-in": "slide-in 0.5s ease-out forwards"
       },
     },
   },
