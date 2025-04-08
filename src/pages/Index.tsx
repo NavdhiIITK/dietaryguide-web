@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -53,7 +52,7 @@ const Home = () => {
             </Button>
           </div>
           
-          <div className="absolute bottom-12 animate-bounce animate-fade-in" style={{ animationDelay: "1s" }}>
+          <div className="mt-16 mb-4 animate-bounce animate-fade-in" style={{ animationDelay: "1s" }}>
             <Button 
               variant="ghost" 
               size="icon" 
@@ -172,7 +171,6 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Blog Post Cards */}
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
               <div className="h-48 bg-gradient-to-br from-teal-light to-teal-dark flex items-center justify-center">
                 <span className="text-white font-medium">Featured Image</span>
@@ -259,7 +257,6 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Recipe Cards */}
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
               <div className="h-48 bg-gradient-to-r from-teal-light to-leaf flex items-center justify-center relative">
                 <span className="text-white font-medium">Recipe Image</span>
