@@ -22,6 +22,21 @@ interface Recipe {
   isTrending?: boolean;
 }
 
+// Define a type that extends the auto_blogs table row type to include is_trending
+interface RecipeData {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  category: string | null;
+  image: string | null;
+  date: string | null;
+  search_source: string | null;
+  search_query: string | null;
+  is_trending?: boolean;
+  [key: string]: any; // To allow for other properties
+}
+
 const placeholderImage = "https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80";
 
 const RecipePage = () => {
@@ -43,7 +58,7 @@ const RecipePage = () => {
         if (error) throw error;
         
         // Transform the data
-        const transformedRecipes = data.map(recipe => ({
+        const transformedRecipes = data.map((recipe: RecipeData) => ({
           id: recipe.id,
           title: recipe.title,
           description: recipe.description,
