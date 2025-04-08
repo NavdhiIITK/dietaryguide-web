@@ -1,42 +1,63 @@
+import Index from "@/pages/Index";
+import NotFound from "@/pages/NotFound";
+import ToolsPage from "@/pages/ToolsPage";
+import BlogPage from "@/pages/BlogPage";
+import RecipePage from "@/pages/RecipePage";
+import BlogGenerator from "@/pages/BlogGenerator";
+import RecipeGenerator from "@/pages/RecipeGenerator";
+import ContentDetailPage from "@/pages/ContentDetailPage";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@/components/ThemeProvider";
+function App() {
+  // Routes
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Index />,
+      errorElement: <NotFound />,
+    },
+    {
+      path: "/tools",
+      element: <ToolsPage />,
+    },
+    {
+      path: "/blog",
+      element: <BlogPage />,
+    },
+    {
+      path: "/blog/:id",
+      element: <ContentDetailPage />,
+    },
+    {
+      path: "/recipes",
+      element: <RecipePage />,
+    },
+    {
+      path: "/recipes/:id",
+      element: <ContentDetailPage />,
+    },
+    {
+      path: "/blog-generator",
+      element: <BlogGenerator />,
+    },
+    {
+      path: "/recipe-generator",
+      element: <RecipeGenerator />,
+    },
+    {
+      path: "*",
+      element: <NotFound />,
+    },
+  ]);
 
-// Pages
-import Home from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import BlogPage from "./pages/BlogPage";
-import RecipePage from "./pages/RecipePage";
-import ToolsPage from "./pages/ToolsPage";
-import BlogGenerator from "./pages/BlogGenerator";
-import RecipeGenerator from "./pages/RecipeGenerator";
-
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="light" storageKey="nutriverse-theme">
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/recipes" element={<RecipePage />} />
-            <Route path="/tools" element={<ToolsPage />} />
-            <Route path="/blog-generator" element={<BlogGenerator />} />
-            <Route path="/recipe-generator" element={<RecipeGenerator />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+}
 
 export default App;

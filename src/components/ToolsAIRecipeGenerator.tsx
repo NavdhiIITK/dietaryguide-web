@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import ImageUploader from "@/components/ImageUploader";
 
 const ToolsAIRecipeGenerator = () => {
   const { toast } = useToast();
@@ -15,7 +16,10 @@ const ToolsAIRecipeGenerator = () => {
   const [diet, setDiet] = useState("");
   const [time, setTime] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
   const [generatedRecipe, setGeneratedRecipe] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [recipeTitle, setRecipeTitle] = useState("");
 
   const generateRecipe = async () => {
     if (!ingredients) {
@@ -42,7 +46,14 @@ const ToolsAIRecipeGenerator = () => {
         throw new Error(error.message);
       }
 
-      setGeneratedRecipe(data.content);
+      // Extract title from content
+      const content = data.content;
+      const titleMatch = content.match(/^#\s(.+)$/m) || content.match(/^(.+)$/m);
+      if (titleMatch && titleMatch[1]) {
+        setRecipeTitle(titleMatch[1].trim());
+      }
+
+      setGeneratedRecipe(content);
       
       toast({
         title: "Recipe Generated",
@@ -58,6 +69,75 @@ const ToolsAIRecipeGenerator = () => {
       });
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleImageUploaded = (url: string) => {
+    setImageUrl(url);
+    toast({
+      title: "Image Added",
+      description: "Your image has been added to the recipe.",
+    });
+  };
+
+  const publishRecipe = async () => {
+    if (!generatedRecipe || !recipeTitle) {
+      toast({
+        title: "Missing Information",
+        description: "Please generate a recipe first before publishing.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsPublishing(true);
+    
+    try {
+      // Create a short description from the content
+      const description = generatedRecipe.substring(0, 200) + '...';
+      
+      // Insert into Supabase
+      const { data, error } = await supabase
+        .from('auto_blogs')
+        .insert({
+          title: recipeTitle,
+          description: description,
+          content: generatedRecipe,
+          category: 'Recipes',
+          image: imageUrl,
+          date: new Date().toISOString(),
+          is_published: true,
+          search_source: mealType || "Quick Recipe",
+          search_query: diet || "Any"
+        })
+        .select();
+
+      if (error) throw error;
+      
+      toast({
+        title: "Recipe Published",
+        description: "Your recipe has been published successfully.",
+        variant: "default",
+      });
+      
+      // Reset form
+      setIngredients("");
+      setMealType("");
+      setDiet("");
+      setTime("");
+      setGeneratedRecipe("");
+      setImageUrl("");
+      setRecipeTitle("");
+      
+    } catch (error) {
+      console.error("Error publishing recipe:", error);
+      toast({
+        title: "Publishing Failed",
+        description: error.message || "An error occurred while publishing the recipe.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPublishing(false);
     }
   };
 
@@ -130,23 +210,50 @@ const ToolsAIRecipeGenerator = () => {
       </Button>
       
       {generatedRecipe ? (
-        <Card>
-          <CardContent className="pt-6">
-            <Textarea 
-              value={generatedRecipe}
-              onChange={(e) => setGeneratedRecipe(e.target.value)}
-              className="min-h-[300px] font-mono text-sm"
-              readOnly
-            />
-            <Button 
-              variant="outline" 
-              className="w-full mt-4"
-              onClick={() => navigator.clipboard.writeText(generatedRecipe)}
-            >
-              Copy Recipe
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Generated Recipe</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Textarea 
+                value={generatedRecipe}
+                onChange={(e) => setGeneratedRecipe(e.target.value)}
+                className="min-h-[300px] font-mono text-sm mb-4"
+              />
+              <div className="flex gap-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => navigator.clipboard.writeText(generatedRecipe)}
+                >
+                  Copy Recipe
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Recipe Image</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ImageUploader 
+                onImageUploaded={handleImageUploaded} 
+                existingImageUrl={imageUrl}
+                bucketName="content-images"
+              />
+              
+              <Button 
+                className="w-full mt-4" 
+                onClick={publishRecipe}
+                disabled={isPublishing}
+              >
+                {isPublishing ? "Publishing..." : "Publish Recipe"}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       ) : (
         <div className="bg-muted/30 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
           <div className="text-center text-foreground/70">

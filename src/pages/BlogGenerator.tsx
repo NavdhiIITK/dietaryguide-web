@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,17 +10,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import ImageUploader from "@/components/ImageUploader";
 
 const BlogGenerator = () => {
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
   const [blogTitle, setBlogTitle] = useState("");
   const [blogCategory, setBlogCategory] = useState("");
   const [blogPrompt, setBlogPrompt] = useState("");
   const [generatedBlog, setGeneratedBlog] = useState("");
   const [imagePrompt, setImagePrompt] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleAuthentication = () => {
     if (password === "Navdhi123@") {
@@ -82,11 +86,72 @@ const BlogGenerator = () => {
     }
   };
 
-  const publishBlog = () => {
+  const publishBlog = async () => {
+    if (!blogTitle || !blogCategory || !generatedBlog) {
+      toast({
+        title: "Missing Information",
+        description: "Please generate blog content before publishing.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsPublishing(true);
+    
+    try {
+      // Get the current date for the blog post
+      const currentDate = new Date().toISOString();
+      
+      // Create an excerpt from the content (first 200 characters)
+      const excerpt = generatedBlog.substring(0, 200) + '...';
+      
+      // Insert into Supabase
+      const { data, error } = await supabase
+        .from('auto_blogs')
+        .insert({
+          title: blogTitle,
+          description: excerpt,
+          content: generatedBlog,
+          category: blogCategory,
+          image: imageUrl,
+          date: currentDate,
+          is_published: true
+        })
+        .select();
+
+      if (error) throw error;
+      
+      toast({
+        title: "Blog Published",
+        description: "Your blog has been published successfully.",
+        variant: "default",
+      });
+      
+      // Reset form after successful publish
+      setBlogTitle("");
+      setBlogCategory("");
+      setBlogPrompt("");
+      setGeneratedBlog("");
+      setImagePrompt("");
+      setImageUrl("");
+      
+    } catch (error) {
+      console.error("Error publishing blog:", error);
+      toast({
+        title: "Publishing Failed",
+        description: error.message || "An error occurred while publishing the blog.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
+  const handleImageUploaded = (url: string) => {
+    setImageUrl(url);
     toast({
-      title: "Blog Published",
-      description: "Your blog has been published successfully.",
-      variant: "default",
+      title: "Image Added",
+      description: "Your image has been added to the blog post.",
     });
   };
 
@@ -173,12 +238,12 @@ const BlogGenerator = () => {
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="nutrition">Nutrition</SelectItem>
-                          <SelectItem value="diet">Diet</SelectItem>
-                          <SelectItem value="fitness">Fitness</SelectItem>
-                          <SelectItem value="wellness">Wellness</SelectItem>
-                          <SelectItem value="recipes">Recipes</SelectItem>
-                          <SelectItem value="health">Health</SelectItem>
+                          <SelectItem value="Nutrition">Nutrition</SelectItem>
+                          <SelectItem value="Diet">Diet</SelectItem>
+                          <SelectItem value="Fitness">Fitness</SelectItem>
+                          <SelectItem value="Wellness">Wellness</SelectItem>
+                          <SelectItem value="Recipes">Recipes</SelectItem>
+                          <SelectItem value="Health">Health</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -208,29 +273,37 @@ const BlogGenerator = () => {
               {imagePrompt && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Image Generation Prompt</CardTitle>
+                    <CardTitle>Blog Image</CardTitle>
                     <CardDescription>
-                      Use this prompt with an external AI image generator.
+                      Upload an image for your blog post or use the provided prompt with an external AI image generator.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <Textarea 
-                        value={imagePrompt}
-                        onChange={(e) => setImagePrompt(e.target.value)}
-                        className="min-h-[100px]"
-                      />
-                      <div className="flex gap-4">
+                      <div>
+                        <Label htmlFor="image-prompt">Image Generation Prompt</Label>
+                        <Textarea 
+                          id="image-prompt"
+                          value={imagePrompt}
+                          onChange={(e) => setImagePrompt(e.target.value)}
+                          className="min-h-[100px] mb-4"
+                        />
                         <Button 
                           variant="outline" 
-                          className="w-full"
+                          className="w-full mb-6"
                           onClick={() => navigator.clipboard.writeText(imagePrompt)}
                         >
                           Copy Prompt
                         </Button>
-                        <Button variant="outline" className="w-full">
-                          Upload Image
-                        </Button>
+                      </div>
+                      
+                      <div>
+                        <Label className="mb-2 block">Upload Image</Label>
+                        <ImageUploader 
+                          onImageUploaded={handleImageUploaded} 
+                          existingImageUrl={imageUrl}
+                          bucketName="content-images"
+                        />
                       </div>
                     </div>
                   </CardContent>
@@ -262,8 +335,12 @@ const BlogGenerator = () => {
                         >
                           Copy Content
                         </Button>
-                        <Button className="w-full" onClick={publishBlog}>
-                          Publish Blog
+                        <Button 
+                          className="w-full" 
+                          onClick={publishBlog}
+                          disabled={isPublishing}
+                        >
+                          {isPublishing ? "Publishing..." : "Publish Blog"}
                         </Button>
                       </div>
                     </div>

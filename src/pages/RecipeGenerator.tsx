@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,18 +10,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import ImageUploader from "@/components/ImageUploader";
 
 const RecipeGenerator = () => {
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
   const [recipeTitle, setRecipeTitle] = useState("");
   const [mealType, setMealType] = useState("");
   const [dietaryPreference, setDietaryPreference] = useState("");
   const [recipePrompt, setRecipePrompt] = useState("");
   const [generatedRecipe, setGeneratedRecipe] = useState("");
   const [imagePrompt, setImagePrompt] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleAuthentication = () => {
     if (password === "Navdhi123@") {
@@ -83,11 +87,75 @@ const RecipeGenerator = () => {
     }
   };
 
-  const publishRecipe = () => {
+  const publishRecipe = async () => {
+    if (!recipeTitle || !mealType || !generatedRecipe) {
+      toast({
+        title: "Missing Information",
+        description: "Please generate recipe content before publishing.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsPublishing(true);
+    
+    try {
+      // Get the current date
+      const currentDate = new Date().toISOString();
+      
+      // Create a short description from the content
+      const description = generatedRecipe.substring(0, 200) + '...';
+      
+      // Insert into Supabase
+      const { data, error } = await supabase
+        .from('auto_blogs')
+        .insert({
+          title: recipeTitle,
+          description: description,
+          content: generatedRecipe,
+          category: 'Recipes',
+          image: imageUrl,
+          date: currentDate,
+          is_published: true,
+          search_source: mealType,
+          search_query: dietaryPreference || "Any"
+        })
+        .select();
+
+      if (error) throw error;
+      
+      toast({
+        title: "Recipe Published",
+        description: "Your recipe has been published successfully.",
+        variant: "default",
+      });
+      
+      // Reset form after successful publish
+      setRecipeTitle("");
+      setMealType("");
+      setDietaryPreference("");
+      setRecipePrompt("");
+      setGeneratedRecipe("");
+      setImagePrompt("");
+      setImageUrl("");
+      
+    } catch (error) {
+      console.error("Error publishing recipe:", error);
+      toast({
+        title: "Publishing Failed",
+        description: error.message || "An error occurred while publishing the recipe.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
+  const handleImageUploaded = (url: string) => {
+    setImageUrl(url);
     toast({
-      title: "Recipe Published",
-      description: "Your recipe has been published successfully.",
-      variant: "default",
+      title: "Image Added",
+      description: "Your image has been added to the recipe.",
     });
   };
 
@@ -229,29 +297,37 @@ const RecipeGenerator = () => {
               {imagePrompt && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Image Generation Prompt</CardTitle>
+                    <CardTitle>Recipe Image</CardTitle>
                     <CardDescription>
-                      Use this prompt with an external AI image generator.
+                      Upload an image for your recipe or use the provided prompt with an external AI image generator.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <Textarea 
-                        value={imagePrompt}
-                        onChange={(e) => setImagePrompt(e.target.value)}
-                        className="min-h-[100px]"
-                      />
-                      <div className="flex gap-4">
+                      <div>
+                        <Label htmlFor="image-prompt">Image Generation Prompt</Label>
+                        <Textarea 
+                          id="image-prompt"
+                          value={imagePrompt}
+                          onChange={(e) => setImagePrompt(e.target.value)}
+                          className="min-h-[100px] mb-4"
+                        />
                         <Button 
                           variant="outline" 
-                          className="w-full"
+                          className="w-full mb-6"
                           onClick={() => navigator.clipboard.writeText(imagePrompt)}
                         >
                           Copy Prompt
                         </Button>
-                        <Button variant="outline" className="w-full">
-                          Upload Image
-                        </Button>
+                      </div>
+                      
+                      <div>
+                        <Label className="mb-2 block">Upload Image</Label>
+                        <ImageUploader 
+                          onImageUploaded={handleImageUploaded} 
+                          existingImageUrl={imageUrl}
+                          bucketName="content-images"
+                        />
                       </div>
                     </div>
                   </CardContent>
@@ -283,8 +359,12 @@ const RecipeGenerator = () => {
                         >
                           Copy Content
                         </Button>
-                        <Button className="w-full" onClick={publishRecipe}>
-                          Publish Recipe
+                        <Button 
+                          className="w-full" 
+                          onClick={publishRecipe}
+                          disabled={isPublishing}
+                        >
+                          {isPublishing ? "Publishing..." : "Publish Recipe"}
                         </Button>
                       </div>
                     </div>
