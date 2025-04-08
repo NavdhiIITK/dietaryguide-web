@@ -30,81 +30,135 @@ const HeroCanvas = () => {
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
     
-    // Create floating fruits
-    const fruits: THREE.Mesh[] = [];
-    const fruitGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+    // Create natural organic elements
+    const elements: THREE.Mesh[] = [];
     
-    // Apple (red)
-    const appleMaterial = new THREE.MeshPhongMaterial({ color: 0xff4500 });
-    const apple = new THREE.Mesh(fruitGeometry, appleMaterial);
-    apple.position.set(-3, 1, -2);
-    scene.add(apple);
-    fruits.push(apple);
-    
-    // Orange (orange)
-    const orangeMaterial = new THREE.MeshPhongMaterial({ color: 0xffa500 });
-    const orange = new THREE.Mesh(fruitGeometry, orangeMaterial);
-    orange.position.set(3, -1, -1);
-    orange.scale.set(0.8, 0.8, 0.8);
-    scene.add(orange);
-    fruits.push(orange);
-    
-    // Blueberry (blue)
-    const blueberryMaterial = new THREE.MeshPhongMaterial({ color: 0x4169e1 });
-    const blueberry = new THREE.Mesh(fruitGeometry, blueberryMaterial);
-    blueberry.position.set(2, 2, -3);
-    blueberry.scale.set(0.3, 0.3, 0.3);
-    scene.add(blueberry);
-    fruits.push(blueberry);
-    
-    // Avocado (green)
-    const avocadoMaterial = new THREE.MeshPhongMaterial({ color: 0x2e8b57 });
-    const avocado = new THREE.Mesh(
-      new THREE.SphereGeometry(0.5, 32, 16), 
-      avocadoMaterial
-    );
-    avocado.position.set(-2, -2, -2);
-    avocado.scale.set(0.7, 0.9, 0.7);
-    scene.add(avocado);
-    fruits.push(avocado);
-    
-    // Create a leaf
+    // Create a leaf geometry
     const leafGeometry = new THREE.BufferGeometry();
-    const leafMaterial = new THREE.MeshPhongMaterial({ 
-      color: 0x7cfc00, 
-      side: THREE.DoubleSide 
+    const leafShape = new THREE.Shape();
+
+    // Create a leaf shape
+    leafShape.moveTo(0, 0);
+    leafShape.bezierCurveTo(1, 1, 2, 0, 3, 0);
+    leafShape.bezierCurveTo(3, 1, 2, 2, 0, 2);
+    leafShape.bezierCurveTo(-2, 2, -3, 1, -3, 0);
+    leafShape.bezierCurveTo(-2, 0, -1, 1, 0, 0);
+    
+    // Create leaf geometry
+    const leafDetail = new THREE.ExtrudeGeometry(leafShape, {
+      depth: 0.05,
+      bevelEnabled: true,
+      bevelThickness: 0.05,
+      bevelSize: 0.05,
+      bevelSegments: 3
     });
     
-    // Create a simple leaf shape
-    const vertices = new Float32Array([
-      0, 0, 0,    // base of leaf
-      1, 0.5, 0,  // right edge
-      0, 2, 0,    // tip of leaf
-      -1, 0.5, 0, // left edge
-    ]);
-    
-    const indices = [
-      0, 1, 2,
-      0, 2, 3,
+    // Green leaves (multiple)
+    const leafMaterials = [
+      new THREE.MeshPhongMaterial({ color: 0x4CA64C, shininess: 50 }), // Medium green
+      new THREE.MeshPhongMaterial({ color: 0x2E8B57, shininess: 30 }), // Sea green
+      new THREE.MeshPhongMaterial({ color: 0x228B22, shininess: 70 })  // Forest green
     ];
     
-    leafGeometry.setIndex(indices);
-    leafGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-    leafGeometry.computeVertexNormals();
+    for (let i = 0; i < 7; i++) {
+      const leafMaterial = leafMaterials[i % leafMaterials.length];
+      const leaf = new THREE.Mesh(leafDetail, leafMaterial);
+      
+      leaf.scale.set(0.25, 0.25, 0.25);
+      leaf.rotation.x = Math.random() * Math.PI;
+      leaf.rotation.y = Math.random() * Math.PI;
+      leaf.rotation.z = Math.random() * Math.PI;
+      
+      leaf.position.x = (Math.random() - 0.5) * 10;
+      leaf.position.y = (Math.random() - 0.5) * 6;
+      leaf.position.z = (Math.random() - 0.5) * 10 - 5;
+      
+      scene.add(leaf);
+      elements.push(leaf);
+    }
     
-    const leaf1 = new THREE.Mesh(leafGeometry, leafMaterial);
-    leaf1.position.set(1, 1, -3);
-    leaf1.scale.set(0.5, 0.5, 0.5);
-    scene.add(leaf1);
+    // Create water droplet (sphere with refractive material)
+    const dropletGeometry = new THREE.SphereGeometry(0.6, 32, 32);
+    const dropletMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0xADD8E6,
+      transparent: true,
+      opacity: 0.8,
+      shininess: 90
+    });
     
-    const leaf2 = new THREE.Mesh(leafGeometry, leafMaterial);
-    leaf2.position.set(-1.5, 0, -2);
-    leaf2.rotation.z = Math.PI / 3;
-    leaf2.scale.set(0.4, 0.4, 0.4);
-    scene.add(leaf2);
+    for (let i = 0; i < 5; i++) {
+      const droplet = new THREE.Mesh(dropletGeometry, dropletMaterial);
+      
+      droplet.scale.set(0.3 + Math.random() * 0.3, 0.3 + Math.random() * 0.3, 0.3 + Math.random() * 0.3);
+      droplet.position.x = (Math.random() - 0.5) * 8;
+      droplet.position.y = (Math.random() - 0.5) * 5;
+      droplet.position.z = (Math.random() - 0.5) * 5 - 3;
+      
+      scene.add(droplet);
+      elements.push(droplet);
+    }
+    
+    // Create flower
+    const petalGeometry = new THREE.BufferGeometry();
+    const petalShape = new THREE.Shape();
+    
+    // Create petal shape
+    petalShape.moveTo(0, 0);
+    petalShape.bezierCurveTo(0.5, 1, 1, 2, 0, 3);
+    petalShape.bezierCurveTo(-1, 2, -0.5, 1, 0, 0);
+    
+    // Create petal geometry
+    const petalDetail = new THREE.ExtrudeGeometry(petalShape, {
+      depth: 0.1,
+      bevelEnabled: true,
+      bevelThickness: 0.05,
+      bevelSize: 0.05,
+      bevelSegments: 2
+    });
+    
+    // Create flower center
+    const centerGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const centerMaterial = new THREE.MeshPhongMaterial({ color: 0xFFF44F }); // Yellow
+    
+    // Create complete flowers
+    const flowerColors = [
+      0xFFB6C1, // Light pink
+      0xE6E6FA, // Lavender
+      0xFFFFE0  // Light yellow
+    ];
+    
+    for (let i = 0; i < 3; i++) {
+      const flowerGroup = new THREE.Group();
+      
+      // Create petals
+      const petalMaterial = new THREE.MeshPhongMaterial({ color: flowerColors[i % flowerColors.length] });
+      for (let j = 0; j < 6; j++) {
+        const petal = new THREE.Mesh(petalDetail, petalMaterial);
+        petal.rotation.z = (j / 6) * Math.PI * 2;
+        petal.scale.set(0.2, 0.2, 0.2);
+        flowerGroup.add(petal);
+      }
+      
+      // Add center
+      const center = new THREE.Mesh(centerGeometry, centerMaterial);
+      center.scale.set(0.2, 0.2, 0.2);
+      flowerGroup.add(center);
+      
+      // Position the flower
+      flowerGroup.position.x = (Math.random() - 0.5) * 10;
+      flowerGroup.position.y = (Math.random() - 0.5) * 6;
+      flowerGroup.position.z = (Math.random() - 0.5) * 5 - 4;
+      
+      // Random rotation
+      flowerGroup.rotation.x = Math.random() * Math.PI;
+      flowerGroup.rotation.y = Math.random() * Math.PI;
+      
+      scene.add(flowerGroup);
+      elements.push(flowerGroup);
+    }
     
     // Position camera
-    camera.position.z = 5;
+    camera.position.z = 8;
     
     // Handle window resize
     const handleResize = () => {
@@ -135,30 +189,20 @@ const HeroCanvas = () => {
     const animate = () => {
       const elapsedTime = clock.getElapsedTime();
       
-      // Rotate fruits
-      fruits.forEach((fruit, index) => {
-        fruit.rotation.x = elapsedTime * 0.1 * (index % 2 === 0 ? 1 : -1);
-        fruit.rotation.y = elapsedTime * 0.15;
+      // Animate all elements with gentle floating motion
+      elements.forEach((element, index) => {
+        // Different animation frequency and amplitude for each element
+        const frequency = 0.5 + Math.random() * 0.5;
+        const amplitude = 0.05 + Math.random() * 0.1;
         
-        // Add floating animation
-        fruit.position.y += Math.sin(elapsedTime + index) * 0.002;
+        element.position.y += Math.sin(elapsedTime * frequency + index) * amplitude * 0.02;
+        element.rotation.x += 0.001 * (index % 2 === 0 ? 1 : -1);
+        element.rotation.y += 0.001 * (index % 3 === 0 ? 1 : -1);
+        
+        // Subtle response to mouse movement
+        element.position.x += (mouse.x * 0.01 - element.position.x * 0.01) * 0.1;
+        element.position.y += (-mouse.y * 0.01 - element.position.y * 0.01) * 0.1;
       });
-      
-      // Rotate leaves
-      leaf1.rotation.z = Math.sin(elapsedTime * 0.5) * 0.1;
-      leaf2.rotation.z = Math.PI / 3 + Math.sin(elapsedTime * 0.3) * 0.1;
-      
-      // Move items based on mouse position
-      fruits.forEach(fruit => {
-        fruit.position.x += (mouse.x * 0.01 - fruit.position.x * 0.01) * 0.1;
-        fruit.position.y += (-mouse.y * 0.01 - fruit.position.y * 0.01) * 0.1;
-      });
-      
-      leaf1.position.x += (mouse.x * 0.01 - leaf1.position.x * 0.01) * 0.05;
-      leaf1.position.y += (-mouse.y * 0.01 - leaf1.position.y * 0.01) * 0.05;
-      
-      leaf2.position.x += (mouse.x * 0.01 - leaf2.position.x * 0.01) * 0.03;
-      leaf2.position.y += (-mouse.y * 0.01 - leaf2.position.y * 0.01) * 0.03;
       
       // Render
       renderer.render(scene, camera);
@@ -176,13 +220,16 @@ const HeroCanvas = () => {
       }
       
       // Dispose geometries and materials
-      fruitGeometry.dispose();
-      appleMaterial.dispose();
-      orangeMaterial.dispose();
-      blueberryMaterial.dispose();
-      avocadoMaterial.dispose();
-      leafGeometry.dispose();
-      leafMaterial.dispose();
+      elements.forEach(element => {
+        if (element instanceof THREE.Mesh) {
+          element.geometry.dispose();
+          if (Array.isArray(element.material)) {
+            element.material.forEach(material => material.dispose());
+          } else {
+            element.material.dispose();
+          }
+        }
+      });
       
       renderer.dispose();
     };

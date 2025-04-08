@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 
 interface EmailCollectionFormProps {
   toolName: string;
@@ -86,12 +86,12 @@ const EmailCollectionForm = ({ toolName, onComplete }: EmailCollectionFormProps)
   };
 
   return (
-    <div className="bg-background p-6 rounded-lg shadow-lg max-w-md w-full border border-border">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full border border-green-200 dark:border-green-900">
       {!isCompleted ? (
         <>
-          <h2 className="text-2xl font-bold text-center mb-6">Unlock Our AI Tools</h2>
-          <p className="text-center text-muted-foreground mb-6">
-            Enter your email to access DietaryGuide's premium AI tools.
+          <h2 className="text-2xl font-bold text-center mb-6 text-green-800 dark:text-green-300">Unlock Our AI Tools</h2>
+          <p className="text-center text-muted-foreground mb-6 dark:text-gray-300">
+            Enter your email to access our premium AI tools for nutrition and wellness.
           </p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
@@ -99,25 +99,30 @@ const EmailCollectionForm = ({ toolName, onComplete }: EmailCollectionFormProps)
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full"
+              className="w-full border-green-200 dark:border-green-900 focus:ring-2 focus:ring-green-500"
               required
             />
             <Button 
               type="submit" 
-              className="w-full bg-forest hover:bg-spring"
+              className="w-full bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Processing..." : "Access Tool"}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing...
+                </>
+              ) : "Access Tool"}
             </Button>
           </form>
         </>
       ) : (
         <div className="flex flex-col items-center justify-center py-8">
           <div className="h-16 w-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-            <Check className="h-8 w-8 text-forest dark:text-spring" />
+            <Check className="h-8 w-8 text-green-600 dark:text-green-400" />
           </div>
-          <h3 className="text-xl font-bold mb-2">Thank You!</h3>
-          <p className="text-center text-muted-foreground">
+          <h3 className="text-xl font-bold mb-2 text-green-800 dark:text-green-300">Thank You!</h3>
+          <p className="text-center text-muted-foreground dark:text-gray-300">
             You now have access to all our AI tools.
           </p>
         </div>
