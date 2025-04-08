@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { Fire } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 interface Recipe {
   id: string;
@@ -53,7 +53,7 @@ const RecipePage = () => {
           difficulty: "Medium", // This could be extracted from content if available
           mealType: recipe.search_source || "Any",
           dietPreference: recipe.search_query || "Any",
-          isTrending: recipe.is_trending || false
+          isTrending: Boolean(recipe.is_trending) // Convert to boolean to handle undefined/null
         }));
         
         setRecipes(transformedRecipes);
@@ -119,7 +119,7 @@ const RecipePage = () => {
               className="text-sm"
               onClick={() => setActiveFilter("Trending")}
             >
-              <Fire className="h-4 w-4 mr-1 text-orange-500" />
+              <TrendingUp className="h-4 w-4 mr-1 text-orange-500" />
               Trending
             </Button>
             <Button 
@@ -211,7 +211,7 @@ const RecipePage = () => {
                     {recipe.isTrending && (
                       <div className="absolute top-2 right-2">
                         <Badge className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white flex items-center gap-1">
-                          <Fire className="h-3 w-3" /> Trending
+                          <TrendingUp className="h-3 w-3" /> Trending
                         </Badge>
                       </div>
                     )}

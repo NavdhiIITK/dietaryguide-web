@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +10,16 @@ import { ArrowDown, ArrowRight, Search, Utensils, Calculator, BookOpen, Heart, U
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+
+// Define ContentItem interface to resolve the type errors
+interface ContentItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string | null;
+  category: string | null;
+  date: string | null;
+}
 
 const Home = () => {
   // Ref for scrolling to content
@@ -28,7 +39,7 @@ const Home = () => {
         <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center">
           <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">Nourish Your Body. Elevate Your Life.</span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Your Path to <span className="text-gradient">Personalized</span> Nutrition & Wellness
+            Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
           </h1>
           <p className="text-xl md:text-2xl mb-10 max-w-2xl text-foreground/80 animate-fade-in" style={{ animationDelay: "0.4s" }}>
             Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
