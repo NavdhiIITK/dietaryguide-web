@@ -13,6 +13,19 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+/**
+ * Main Application Component
+ * 
+ * Page Documentation:
+ * - Index/Home: Landing page showcasing nutrition & wellness services, featured content, and tools
+ * - ToolsPage: Collection of AI-powered tools for meal analysis, diet planning, and workout creation
+ * - BlogPage: Archive of nutrition and wellness articles with filtering capabilities
+ * - RecipePage: Collection of healthy recipes with filtering and search functionality
+ * - BlogGenerator: Tool to create nutrition and wellness blog content with AI assistance
+ * - RecipeGenerator: Tool to generate healthy recipes based on ingredients and preferences
+ * - ContentDetailPage: Displays full content for both blogs and recipes with sharing options
+ * - NotFound: Error page when routes don't exist
+ */
 function App() {
   // Routes
   const router = createBrowserRouter([
