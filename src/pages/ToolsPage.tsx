@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import ToolsAIRecipeGenerator from "@/components/ToolsAIRecipeGenerator";
 
 const ToolsPage = () => {
   const [height, setHeight] = useState("");
@@ -135,71 +135,7 @@ const ToolsPage = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-6">
-                    <div>
-                      <Label htmlFor="ingredients">Ingredients (comma separated)</Label>
-                      <Textarea 
-                        id="ingredients" 
-                        placeholder="e.g., chicken, broccoli, rice, garlic" 
-                      />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <Label htmlFor="meal-type">Meal Type</Label>
-                        <Select>
-                          <SelectTrigger id="meal-type">
-                            <SelectValue placeholder="Select type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="breakfast">Breakfast</SelectItem>
-                            <SelectItem value="lunch">Lunch</SelectItem>
-                            <SelectItem value="dinner">Dinner</SelectItem>
-                            <SelectItem value="snack">Snack</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="diet">Dietary Restrictions</Label>
-                        <Select>
-                          <SelectTrigger id="diet">
-                            <SelectValue placeholder="Select diet" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="none">None</SelectItem>
-                            <SelectItem value="vegetarian">Vegetarian</SelectItem>
-                            <SelectItem value="vegan">Vegan</SelectItem>
-                            <SelectItem value="gluten-free">Gluten-Free</SelectItem>
-                            <SelectItem value="keto">Keto</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="time">Time Available</Label>
-                        <Select>
-                          <SelectTrigger id="time">
-                            <SelectValue placeholder="Select time" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="15">15 minutes</SelectItem>
-                            <SelectItem value="30">30 minutes</SelectItem>
-                            <SelectItem value="45">45 minutes</SelectItem>
-                            <SelectItem value="60+">60+ minutes</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    
-                    <Button className="w-full">Generate Recipe</Button>
-                    
-                    <div className="bg-muted/30 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
-                      <div className="text-center text-foreground/70">
-                        Enter ingredients and preferences to generate a recipe.
-                      </div>
-                    </div>
-                  </div>
+                  <ToolsAIRecipeGenerator />
                 </CardContent>
               </Card>
             </TabsContent>

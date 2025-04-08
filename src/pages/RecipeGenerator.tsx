@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const RecipeGenerator = () => {
   const { toast } = useToast();
@@ -39,7 +39,7 @@ const RecipeGenerator = () => {
     }
   };
 
-  const generateRecipe = () => {
+  const generateRecipe = async () => {
     if (!recipeTitle || !mealType || !recipePrompt) {
       toast({
         title: "Missing Information",
@@ -51,65 +51,36 @@ const RecipeGenerator = () => {
 
     setIsGenerating(true);
     
-    // Simulate AI recipe generation
-    setTimeout(() => {
-      const fakeRecipe = `
-# ${recipeTitle}
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-generator', {
+        body: {
+          prompt: `Create a detailed healthy recipe for "${recipeTitle}". This is a ${mealType} dish. ${dietaryPreference ? `It should be suitable for ${dietaryPreference} diets.` : ''} ${recipePrompt}. Include ingredients with measurements, detailed cooking instructions, nutritional information, and serving suggestions.`,
+          type: "recipe"
+        }
+      });
 
-**Preparation Time:** 30 minutes  
-**Cooking Time:** 25 minutes  
-**Servings:** 4  
+      if (error) {
+        throw new Error(error.message);
+      }
 
-## Ingredients
-
-- 2 cups quinoa, rinsed
-- 4 cups vegetable broth
-- 1 tablespoon olive oil
-- 1 onion, diced
-- 3 cloves garlic, minced
-- 2 cups mixed vegetables (bell peppers, zucchini, carrots)
-- 1 can (15 oz) chickpeas, drained and rinsed
-- 1 teaspoon cumin
-- 1 teaspoon paprika
-- 1/2 teaspoon turmeric
-- Salt and pepper to taste
-- Fresh herbs for garnish (parsley, cilantro)
-- Lemon wedges for serving
-
-## Instructions
-
-1. Heat olive oil in a large pot over medium heat. Add onions and cook until translucent, about 5 minutes.
-2. Add garlic and cook for another 30 seconds until fragrant.
-3. Add mixed vegetables and cook for 5 minutes until they begin to soften.
-4. Stir in quinoa, vegetable broth, and spices.
-5. Bring to a boil, then reduce heat to low, cover, and simmer for 15-20 minutes until quinoa is cooked.
-6. Add chickpeas and heat through for 2-3 minutes.
-7. Season with salt and pepper to taste.
-8. Serve hot, garnished with fresh herbs and lemon wedges.
-
-## Nutrition Information
-
-- Calories: 320 per serving
-- Protein: 12g
-- Carbohydrates: 45g
-- Fat: 8g
-- Fiber: 8g
-
-## Notes
-
-This dish can be stored in the refrigerator for up to 3 days. For meal prep, divide into containers after cooling for quick weekday lunches.
-      `;
-      
-      setGeneratedRecipe(fakeRecipe);
-      setImagePrompt(`Professional food photography of ${recipeTitle.toLowerCase()}, top-down view, beautiful plating, natural lighting, on a rustic wooden table, garnished with fresh herbs, vibrant colors`);
-      setIsGenerating(false);
+      setGeneratedRecipe(data.content);
+      setImagePrompt(`Professional food photography of ${recipeTitle}, top-down view, beautiful plating, natural lighting, on a rustic wooden table, garnished with fresh herbs, vibrant colors, healthy meal`);
       
       toast({
         title: "Recipe Generated",
         description: "Your recipe has been generated successfully.",
         variant: "default",
       });
-    }, 3000);
+    } catch (error) {
+      console.error("Error generating recipe:", error);
+      toast({
+        title: "Generation Failed",
+        description: error.message || "An error occurred while generating the recipe.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const publishRecipe = () => {

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const BlogGenerator = () => {
   const { toast } = useToast();
@@ -38,7 +38,7 @@ const BlogGenerator = () => {
     }
   };
 
-  const generateBlog = () => {
+  const generateBlog = async () => {
     if (!blogTitle || !blogCategory || !blogPrompt) {
       toast({
         title: "Missing Information",
@@ -50,44 +50,36 @@ const BlogGenerator = () => {
 
     setIsGenerating(true);
     
-    // Simulate AI blog generation
-    setTimeout(() => {
-      const fakeBlog = `
-# ${blogTitle}
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-generator', {
+        body: {
+          prompt: `Write a comprehensive blog post with the title "${blogTitle}" about ${blogPrompt}. Target audience is health-conscious individuals interested in nutrition and wellness. Category: ${blogCategory}.`,
+          type: "blog"
+        }
+      });
 
-## Introduction
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
+      if (error) {
+        throw new Error(error.message);
+      }
 
-## Benefits of Healthy Eating
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
-
-### Improved Energy Levels
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
-
-### Better Mood and Mental Health
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
-
-## Practical Tips
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
-
-1. Tip one with detailed explanation
-2. Tip two with practical examples
-3. Tip three with scientific backing
-
-## Conclusion
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.
-      `;
-      
-      setGeneratedBlog(fakeBlog);
-      setImagePrompt(`High-quality professional photograph of healthy ${blogTitle.toLowerCase()}, bright lighting, food photography style, nutritional, vibrant colors`);
-      setIsGenerating(false);
+      setGeneratedBlog(data.content);
+      setImagePrompt(`High-quality professional photograph related to ${blogTitle}, bright lighting, food photography style, nutritional, vibrant colors, healthy lifestyle imagery`);
       
       toast({
         title: "Blog Generated",
         description: "Your blog post has been generated successfully.",
         variant: "default",
       });
-    }, 3000);
+    } catch (error) {
+      console.error("Error generating blog:", error);
+      toast({
+        title: "Generation Failed",
+        description: error.message || "An error occurred while generating the blog content.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const publishBlog = () => {
