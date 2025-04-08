@@ -53,10 +53,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom colors
+        // Custom colors - enhanced with lush greens
         "teal-light": "#4ECDC4",
         "teal-dark": "#1A535C", 
         "leaf": "#7CB518",
+        "forest": "#2D6A4F",
+        "spring": "#74C69D",
+        "mint": "#95D5B2",
+        "moss": "#52B788",
+        "emerald": "#1B998B",
         "sunrise": "#FF6B6B",
         "honey": "#FFD166",
         "peach": "#FFBE88",

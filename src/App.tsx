@@ -1,3 +1,5 @@
+
+import { ThemeProvider } from "@/components/ThemeProvider";
 import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 import ToolsPage from "@/pages/ToolsPage";
@@ -54,9 +56,9 @@ function App() {
   ]);
 
   return (
-    <>
+    <ThemeProvider defaultTheme="light">
       <RouterProvider router={router} />
-    </>
+    </ThemeProvider>
   );
 }
 

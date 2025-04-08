@@ -3,14 +3,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Check } from "lucide-react";
+import { Send, Check } from "lucide-react";
 
-interface EmailCollectionFormProps {
-  toolName: string;
-  onComplete: () => void;
-}
-
-const EmailCollectionForm = ({ toolName, onComplete }: EmailCollectionFormProps) => {
+const Newsletter = () => {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,9 +26,9 @@ const EmailCollectionForm = ({ toolName, onComplete }: EmailCollectionFormProps)
     setIsSubmitting(true);
     
     try {
-      // Create the Google Form prefilled URL with the tool name and email
+      // Create the Google Form prefilled URL for newsletter subscription
       const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSf2bV8y1mUy0N5FSOKXJJYw96p2wLa8HWqDcu3E9SwohwIIag/formResponse";
-      const toolParam = encodeURIComponent(toolName);
+      const toolParam = encodeURIComponent("Newsletter");
       const emailParam = encodeURIComponent(email);
       
       const fullUrl = `${formBaseUrl}?entry.453589071=${toolParam}&entry.1562868697=${emailParam}&submit=Submit`;
@@ -61,17 +56,15 @@ const EmailCollectionForm = ({ toolName, onComplete }: EmailCollectionFormProps)
       // Show success message
       setIsCompleted(true);
       toast({
-        title: "Thank you!",
-        description: "Your email has been submitted successfully.",
+        title: "Newsletter Subscription Successful!",
+        description: "Thank you for subscribing to our newsletter.",
       });
       
-      // Store email in localStorage to avoid asking again in the same session
-      localStorage.setItem('dietaryGuideEmail', email);
-      
-      // Call the completion handler after 1.5 seconds
+      // Reset form after 3 seconds
       setTimeout(() => {
-        onComplete();
-      }, 1500);
+        setIsCompleted(false);
+        setEmail("");
+      }, 3000);
       
     } catch (error) {
       console.error("Error submitting email:", error);
@@ -86,44 +79,38 @@ const EmailCollectionForm = ({ toolName, onComplete }: EmailCollectionFormProps)
   };
 
   return (
-    <div className="bg-background p-6 rounded-lg shadow-lg max-w-md w-full border border-border">
+    <div className="w-full max-w-md mx-auto">
+      <div className="text-center mb-6">
+        <h3 className="text-2xl font-bold mb-2">Join Our Newsletter</h3>
+        <p className="text-muted-foreground">Get the latest nutrition tips and healthy recipes delivered to your inbox.</p>
+      </div>
+      
       {!isCompleted ? (
-        <>
-          <h2 className="text-2xl font-bold text-center mb-6">Unlock Our AI Tools</h2>
-          <p className="text-center text-muted-foreground mb-6">
-            Enter your email to access DietaryGuide's premium AI tools.
-          </p>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full"
-              required
-            />
-            <Button 
-              type="submit" 
-              className="w-full bg-forest hover:bg-spring"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Processing..." : "Access Tool"}
-            </Button>
-          </form>
-        </>
+        <form onSubmit={handleSubmit} className="flex space-x-2">
+          <Input
+            type="email"
+            placeholder="Your email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full"
+            required
+          />
+          <Button 
+            type="submit" 
+            className="bg-forest hover:bg-spring text-white"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Sending..." : <Send className="h-4 w-4" />}
+          </Button>
+        </form>
       ) : (
-        <div className="flex flex-col items-center justify-center py-8">
-          <div className="h-16 w-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-4">
-            <Check className="h-8 w-8 text-forest dark:text-spring" />
-          </div>
-          <h3 className="text-xl font-bold mb-2">Thank You!</h3>
-          <p className="text-center text-muted-foreground">
-            You now have access to all our AI tools.
-          </p>
+        <div className="flex items-center justify-center space-x-2 text-forest dark:text-spring py-2">
+          <Check className="h-5 w-5" />
+          <span>Successfully subscribed!</span>
         </div>
       )}
     </div>
   );
 };
 
-export default EmailCollectionForm;
+export default Newsletter;

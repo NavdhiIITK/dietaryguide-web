@@ -16,14 +16,14 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
     
-    --primary: 174 73% 53%;
+    --primary: 155 43% 50%;
     --primary-foreground: 210 40% 98%;
     
-    --secondary: 183 56% 28%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 150 30% 60%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
     
     --accent: 78 76% 44%;
-    --accent-foreground: 210 40% 98%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -33,7 +33,7 @@
     
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 174 73% 53%;
+    --ring: 155 43% 50%;
     
     --radius: 0.75rem;
 
@@ -52,10 +52,10 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
     
-    --primary: 174 73% 53%;
+    --primary: 150 45% 55%;
     --primary-foreground: 222.2 47.4% 11.2%;
     
-    --secondary: 183 56% 28%;
+    --secondary: 155 35% 35%;
     --secondary-foreground: 210 40% 98%;
     
     --accent: 78 76% 44%;
@@ -69,7 +69,7 @@
     
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 174 73% 43%;
+    --ring: 150 45% 55%;
   }
 
   * {
@@ -107,15 +107,15 @@
   }
   
   .glass-card {
-    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg;
+    @apply bg-white/80 dark:bg-black/40 backdrop-blur-sm border border-white/20 shadow-lg;
   }
   
   .btn-primary {
-    @apply bg-gradient-to-r from-teal-light to-secondary text-white font-medium px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1;
+    @apply bg-gradient-to-r from-spring to-forest text-white font-medium px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1;
   }
   
   .btn-secondary {
-    @apply bg-white text-secondary border border-secondary font-medium px-6 py-3 rounded-full hover:bg-secondary hover:text-white transition-all duration-300;
+    @apply bg-white dark:bg-transparent text-forest dark:text-spring border border-forest dark:border-spring font-medium px-6 py-3 rounded-full hover:bg-forest hover:text-white dark:hover:bg-spring dark:hover:text-black transition-all duration-300;
   }
   
   .tag {
@@ -129,6 +129,6 @@
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-teal-dark to-teal-light bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-forest to-spring bg-clip-text text-transparent;
   }
 }

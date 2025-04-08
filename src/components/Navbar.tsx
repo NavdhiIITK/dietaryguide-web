@@ -27,6 +27,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -62,19 +66,19 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-4">
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="rounded-full hover:bg-muted"
+            className="rounded-full border-forest dark:border-spring"
           >
             {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
+              <Sun className="h-5 w-5 text-spring" />
             ) : (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-5 w-5 text-forest" />
             )}
           </Button>
-          <Button asChild variant="default" className="rounded-full">
+          <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white">
             <Link to="/tools">Get Started</Link>
           </Button>
         </div>
@@ -82,16 +86,16 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <div className="flex md:hidden items-center space-x-4">
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="rounded-full"
+            className="rounded-full border-forest dark:border-spring"
           >
             {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
+              <Sun className="h-5 w-5 text-spring" />
             ) : (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-5 w-5 text-forest" />
             )}
           </Button>
           <Button
@@ -128,7 +132,7 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Button asChild variant="default" className="rounded-full mt-2">
+            <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white mt-2">
               <Link to="/tools" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
             </Button>
           </div>
