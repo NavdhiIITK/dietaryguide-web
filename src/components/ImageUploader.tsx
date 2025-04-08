@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, Image as ImageIcon } from "lucide-react";
+import { Upload, Image as ImageIcon, Loader2 } from "lucide-react";
 
 interface ImageUploaderProps {
   onImageUploaded: (imageUrl: string) => void;
@@ -86,9 +86,9 @@ const ImageUploader = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col items-center justify-center border-2 border-dashed border-primary/50 rounded-lg p-6 bg-muted/20 hover:bg-muted/30 transition-colors">
+      <div className="flex flex-col items-center justify-center border-2 border-dashed border-primary/50 rounded-lg p-4 sm:p-6 bg-muted/10 hover:bg-muted/20 transition-colors">
         {previewUrl ? (
-          <div className="w-full max-h-64 overflow-hidden rounded-md mb-4">
+          <div className="w-full max-h-64 overflow-hidden rounded-md mb-4 shadow-md">
             <img 
               src={previewUrl} 
               alt="Preview" 
@@ -96,23 +96,34 @@ const ImageUploader = ({
             />
           </div>
         ) : (
-          <div className="text-center p-8">
-            <ImageIcon className="mx-auto h-12 w-12 text-muted-foreground mb-2" />
-            <p className="text-sm text-muted-foreground">
-              Upload an image for your content
+          <div className="text-center p-6 sm:p-8">
+            <div className="bg-primary/10 rounded-full p-4 inline-block mb-4">
+              <ImageIcon className="h-10 w-10 text-primary" />
+            </div>
+            <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+              Upload an image in JPG, PNG format (max 5MB)
             </p>
           </div>
         )}
         
-        <div className="mt-4">
+        <div className="mt-4 w-full flex justify-center">
           <Button
             variant="outline"
             onClick={() => document.getElementById("fileInput")?.click()}
             disabled={isUploading}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto transition-all hover:border-primary hover:text-primary hover:bg-primary/5"
           >
-            <Upload className="h-4 w-4" />
-            {isUploading ? "Uploading..." : previewUrl ? "Change Image" : "Upload Image"}
+            {isUploading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <Upload className="h-4 w-4" />
+                {previewUrl ? "Change Image" : "Upload Image"}
+              </>
+            )}
           </Button>
           <input
             id="fileInput"

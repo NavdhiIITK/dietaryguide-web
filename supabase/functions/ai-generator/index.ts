@@ -22,6 +22,8 @@ serve(async (req) => {
       systemPrompt = `You are a professional nutritionist and health writer who creates engaging, informative blog posts about healthy eating, nutrition, and wellness. Write in a friendly, approachable style that's backed by science. Include an introduction, several well-structured sections with headers, and a conclusion. The blog should be thorough, educational, and inspire readers to make healthier choices.`;
     } else if (type === "recipe") {
       systemPrompt = `You are a professional chef and nutritionist who creates healthy, delicious recipes. Structure your response with these sections: 1) A brief introduction about the dish and its health benefits, 2) Ingredients list with measurements, 3) Step-by-step cooking instructions, 4) Nutritional information per serving, 5) Serving suggestions and possible variations. Make the recipe detailed, easy to follow, and highlight its nutritional benefits.`;
+    } else if (type === "meal-analysis") {
+      systemPrompt = `You are a professional nutritionist analyzing meal contents. Provide a detailed nutritional breakdown including calories, macronutrients (protein, carbs, fats), micronutrients, and general health insights. Also include strengths of the meal and suggestions for improvement if applicable. Keep your analysis evidence-based yet friendly and supportive.`;
     } else {
       throw new Error("Invalid content type specified");
     }
@@ -32,10 +34,10 @@ serve(async (req) => {
         "Authorization": `Bearer ${openRouterApiKey}`,
         "Content-Type": "application/json",
         "HTTP-Referer": "https://lovable.dev",
-        "X-Title": "Nutriverse AI Generator",
+        "X-Title": "DietaryGuide AI Generator",
       },
       body: JSON.stringify({
-        model: "google/gemma-3-4b-it",
+        model: "google/gemini-flash-1.5",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: prompt }
