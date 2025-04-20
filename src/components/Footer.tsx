@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -52,7 +51,7 @@ const Footer = () => {
         
         <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-foreground/70">
-            © {new Date().getFullYear()} Nutriverse. All rights reserved.
+            © {new Date().getFullYear()} Dietary Guide. All rights reserved.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="#" className="text-foreground/70 hover:text-primary transition-colors">Privacy Policy</a>
