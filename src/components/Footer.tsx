@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link to="/" className="text-2xl font-serif font-bold text-primary">
-              Nutriverse
+              Dietary Guide
             </Link>
             <p className="mt-4 text-foreground/80">
               Empowering you to make healthier choices through nutrition, fitness, and wellness.
@@ -39,7 +39,7 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium mb-2">Coming Soon</h3>
             <p className="text-foreground/80">
-              Nutriverse Mobile App<br />
+              Dietary Guide Mobile App<br />
               iOS & Android
             </p>
             <div className="pt-4">
