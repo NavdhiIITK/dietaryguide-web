@@ -5,13 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Mail } from "lucide-react";
+import { Loader2, Mail, UtensilsCrossed } from "lucide-react";
 
 const ToolsAIDietPlanner = () => {
   const { toast } = useToast();
   const [dietGoal, setDietGoal] = useState("");
+  const [cuisineType, setCuisineType] = useState("western");
+  const [specificCuisine, setSpecificCuisine] = useState("");
   const [dietType, setDietType] = useState("");
   const [mealsPerDay, setMealsPerDay] = useState("");
   const [allergies, setAllergies] = useState("");
@@ -97,7 +100,7 @@ const ToolsAIDietPlanner = () => {
       return;
     }
 
-    if (!dietGoal || !dietType || !mealsPerDay) {
+    if (!dietGoal || !specificCuisine || !dietType || !mealsPerDay) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -109,17 +112,15 @@ const ToolsAIDietPlanner = () => {
     setIsGenerating(true);
     
     try {
-      const prompt = `Create a 7-day healthy meal plan for someone with a goal of ${dietGoal}, following a ${dietType} diet with ${mealsPerDay} meals per day. 
+      const prompt = `Create a 7-day healthy meal plan for someone with a goal of ${dietGoal}, following a ${dietType} diet with ${mealsPerDay} meals per day, specifically focusing on ${specificCuisine} cuisine. 
       ${allergies ? `They have these food allergies/intolerances: ${allergies}.` : "They have no food allergies or intolerances."} 
       ${dislikedFoods ? `They dislike these foods: ${dislikedFoods}.` : "They have no specific food dislikes."}
       
-      ${dietType.includes('Indian') ? `For Indian cuisine, include authentic ${dietType} dishes with traditional ingredients and spices. Consider regional variations and traditional cooking methods.` : ''}
+      ${cuisineType === 'indian' ? `For Indian cuisine, include authentic ${specificCuisine} dishes with traditional ingredients and spices. Consider regional variations and traditional cooking methods. Include proper Indian names of dishes along with brief descriptions in English.` : ''}
       
       Include specific meals with approximate calorie counts and macronutrients (protein, carbs, fat) for each day. 
       Structure the meal plan day by day, with breakfast, lunch, dinner, and snacks clearly labeled. 
-      Also include a shopping list for the week and simple preparation instructions.
-      
-      If suggesting Indian dishes, include proper Indian names of dishes along with brief descriptions in English.`;
+      Also include a shopping list for the week and simple preparation instructions.`;
 
       const { data, error } = await supabase.functions.invoke('ai-generator', {
         body: {
@@ -129,9 +130,7 @@ const ToolsAIDietPlanner = () => {
         }
       });
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      if (error) throw new Error(error.message);
 
       setGeneratedPlan(data.content);
       
@@ -150,6 +149,38 @@ const ToolsAIDietPlanner = () => {
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const cuisineOptions = {
+    indian: [
+      { value: "north-indian", label: "North Indian" },
+      { value: "south-indian", label: "South Indian" },
+      { value: "bengali", label: "Bengali" },
+      { value: "gujarati", label: "Gujarati" },
+      { value: "maharashtrian", label: "Maharashtrian" },
+      { value: "punjabi", label: "Punjabi" },
+      { value: "bihari", label: "Bihari" },
+      { value: "rajasthani", label: "Rajasthani" },
+      { value: "kerala", label: "Kerala" },
+    ],
+    western: [
+      { value: "american", label: "American" },
+      { value: "italian", label: "Italian" },
+      { value: "french", label: "French" },
+      { value: "mediterranean", label: "Mediterranean" },
+      { value: "mexican", label: "Mexican" },
+      { value: "spanish", label: "Spanish" },
+      { value: "greek", label: "Greek" },
+      { value: "german", label: "German" },
+    ],
+    asian: [
+      { value: "chinese", label: "Chinese" },
+      { value: "japanese", label: "Japanese" },
+      { value: "korean", label: "Korean" },
+      { value: "thai", label: "Thai" },
+      { value: "vietnamese", label: "Vietnamese" },
+      { value: "malaysian", label: "Malaysian" },
+    ]
   };
 
   return (
@@ -228,12 +259,6 @@ const ToolsAIDietPlanner = () => {
                   <SelectItem value="low carb">Low Carb</SelectItem>
                   <SelectItem value="vegetarian">Vegetarian</SelectItem>
                   <SelectItem value="vegan">Vegan</SelectItem>
-                  <SelectItem value="mediterranean">Mediterranean</SelectItem>
-                  <SelectItem value="North Indian vegetarian">North Indian Vegetarian</SelectItem>
-                  <SelectItem value="North Indian non-vegetarian">North Indian Non-Vegetarian</SelectItem>
-                  <SelectItem value="South Indian vegetarian">South Indian Vegetarian</SelectItem>
-                  <SelectItem value="South Indian non-vegetarian">South Indian Non-Vegetarian</SelectItem>
-                  <SelectItem value="Indo-Chinese">Indo-Chinese</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -249,6 +274,44 @@ const ToolsAIDietPlanner = () => {
                   <SelectItem value="4 meals">4 meals</SelectItem>
                   <SelectItem value="5 meals">5 meals</SelectItem>
                   <SelectItem value="6 meals">6 meals</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <Label className="text-green-800 dark:text-green-300">Cuisine Type</Label>
+            <RadioGroup
+              value={cuisineType}
+              onValueChange={setCuisineType}
+              className="flex flex-wrap gap-4"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="indian" id="indian" />
+                <Label htmlFor="indian">Indian</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="western" id="western" />
+                <Label htmlFor="western">Western</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="asian" id="asian" />
+                <Label htmlFor="asian">Asian</Label>
+              </div>
+            </RadioGroup>
+
+            <div>
+              <Label htmlFor="specific-cuisine" className="text-green-800 dark:text-green-300">Specific Cuisine</Label>
+              <Select value={specificCuisine} onValueChange={setSpecificCuisine}>
+                <SelectTrigger id="specific-cuisine" className="border-green-200 dark:border-green-900">
+                  <SelectValue placeholder="Select cuisine" />
+                </SelectTrigger>
+                <SelectContent>
+                  {cuisineType && cuisineOptions[cuisineType].map((cuisine) => (
+                    <SelectItem key={cuisine.value} value={cuisine.value}>
+                      {cuisine.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
