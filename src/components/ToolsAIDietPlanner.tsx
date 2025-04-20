@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -24,7 +23,6 @@ const ToolsAIDietPlanner = () => {
   const [hasSubmittedEmail, setHasSubmittedEmail] = useState(false);
 
   useEffect(() => {
-    // Check if user has already submitted email
     const storedEmail = localStorage.getItem('dietaryGuideEmail');
     if (storedEmail) {
       setEmail(storedEmail);
@@ -47,20 +45,17 @@ const ToolsAIDietPlanner = () => {
     setIsSubmittingEmail(true);
     
     try {
-      // Create the Google Form prefilled URL with the tool name and email
       const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSf2bV8y1mUy0N5FSOKXJJYw96p2wLa8HWqDcu3E9SwohwIIag/formResponse";
       const toolParam = encodeURIComponent("AI Diet Planner");
       const emailParam = encodeURIComponent(email);
       
       const fullUrl = `${formBaseUrl}?entry.453589071=${toolParam}&entry.1562868697=${emailParam}&submit=Submit`;
       
-      // Use an iframe to submit the form without navigating away
       const iframe = document.createElement('iframe');
       iframe.name = 'hidden_iframe';
       iframe.style.display = 'none';
       document.body.appendChild(iframe);
       
-      // Create a form element and submit it to the iframe
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = fullUrl;
@@ -68,13 +63,11 @@ const ToolsAIDietPlanner = () => {
       document.body.appendChild(form);
       form.submit();
       
-      // Clean up after submission
       setTimeout(() => {
         document.body.removeChild(form);
         document.body.removeChild(iframe);
       }, 1000);
       
-      // Show success message
       setHasSubmittedEmail(true);
       localStorage.setItem('dietaryGuideEmail', email);
       
@@ -116,20 +109,23 @@ const ToolsAIDietPlanner = () => {
     setIsGenerating(true);
     
     try {
-      // Prepare the prompt
       const prompt = `Create a 7-day healthy meal plan for someone with a goal of ${dietGoal}, following a ${dietType} diet with ${mealsPerDay} meals per day. 
       ${allergies ? `They have these food allergies/intolerances: ${allergies}.` : "They have no food allergies or intolerances."} 
-      ${dislikedFoods ? `They dislike these foods: ${dislikedFoods}.` : "They have no specific food dislikes."} 
+      ${dislikedFoods ? `They dislike these foods: ${dislikedFoods}.` : "They have no specific food dislikes."}
+      
+      ${dietType.includes('Indian') ? `For Indian cuisine, include authentic ${dietType} dishes with traditional ingredients and spices. Consider regional variations and traditional cooking methods.` : ''}
+      
       Include specific meals with approximate calorie counts and macronutrients (protein, carbs, fat) for each day. 
       Structure the meal plan day by day, with breakfast, lunch, dinner, and snacks clearly labeled. 
-      Also include a shopping list for the week and simple preparation instructions.`;
+      Also include a shopping list for the week and simple preparation instructions.
+      
+      If suggesting Indian dishes, include proper Indian names of dishes along with brief descriptions in English.`;
 
-      // Call the Supabase edge function to generate content
       const { data, error } = await supabase.functions.invoke('ai-generator', {
         body: {
           prompt: prompt,
-          type: "blog", // Reusing the blog type for diet plan format
-          model: "google/gemini-flash-1.5" // Use Google's Gemini model
+          type: "blog",
+          model: "google/gemini-flash-1.5"
         }
       });
 
@@ -233,6 +229,11 @@ const ToolsAIDietPlanner = () => {
                   <SelectItem value="vegetarian">Vegetarian</SelectItem>
                   <SelectItem value="vegan">Vegan</SelectItem>
                   <SelectItem value="mediterranean">Mediterranean</SelectItem>
+                  <SelectItem value="North Indian vegetarian">North Indian Vegetarian</SelectItem>
+                  <SelectItem value="North Indian non-vegetarian">North Indian Non-Vegetarian</SelectItem>
+                  <SelectItem value="South Indian vegetarian">South Indian Vegetarian</SelectItem>
+                  <SelectItem value="South Indian non-vegetarian">South Indian Non-Vegetarian</SelectItem>
+                  <SelectItem value="Indo-Chinese">Indo-Chinese</SelectItem>
                 </SelectContent>
               </Select>
             </div>
