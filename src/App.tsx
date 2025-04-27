@@ -1,4 +1,3 @@
-
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
@@ -7,7 +6,9 @@ import BlogPage from "@/pages/BlogPage";
 import RecipePage from "@/pages/RecipePage";
 import BlogGenerator from "@/pages/BlogGenerator";
 import RecipeGenerator from "@/pages/RecipeGenerator";
+import ProductGenerator from "@/pages/ProductGenerator";
 import ContentDetailPage from "@/pages/ContentDetailPage";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -23,11 +24,11 @@ import {
  * - RecipePage: Collection of healthy recipes with filtering and search functionality
  * - BlogGenerator: Tool to create nutrition and wellness blog content with AI assistance
  * - RecipeGenerator: Tool to generate healthy recipes based on ingredients and preferences
+ * - ProductGenerator: Tool to generate product information based on ingredients and preferences
  * - ContentDetailPage: Displays full content for both blogs and recipes with sharing options
  * - NotFound: Error page when routes don't exist
  */
 function App() {
-  // Routes
   const router = createBrowserRouter([
     {
       path: "/",
@@ -61,6 +62,14 @@ function App() {
     {
       path: "/recipe-generator",
       element: <RecipeGenerator />,
+    },
+    {
+      path: "/product-generator",
+      element: (
+        <ProtectedRoute>
+          <ProductGenerator />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "*",
