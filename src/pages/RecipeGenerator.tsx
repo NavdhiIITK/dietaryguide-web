@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -100,13 +99,10 @@ const RecipeGenerator = () => {
     setIsPublishing(true);
     
     try {
-      // Get the current date
       const currentDate = new Date().toISOString();
       
-      // Create a short description from the content
       const description = generatedRecipe.substring(0, 200) + '...';
       
-      // Insert into Supabase
       const { data, error } = await supabase
         .from('auto_blogs')
         .insert({
@@ -130,7 +126,6 @@ const RecipeGenerator = () => {
         variant: "default",
       });
       
-      // Reset form after successful publish
       setRecipeTitle("");
       setMealType("");
       setDietaryPreference("");
@@ -326,7 +321,6 @@ const RecipeGenerator = () => {
                         <ImageUploader 
                           onImageUploaded={handleImageUploaded} 
                           existingImageUrl={imageUrl}
-                          bucketName="content-images"
                         />
                       </div>
                     </div>

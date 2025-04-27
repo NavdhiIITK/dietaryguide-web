@@ -80,7 +80,6 @@ const ProductGenerator = () => {
           <ImageUploader
             onImageUploaded={(url) => setProduct(prev => ({ ...prev, imageUrl: url }))}
             existingImageUrl={product.imageUrl}
-            bucketName="product-images"
           />
         </div>
 

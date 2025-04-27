@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -99,13 +98,10 @@ const BlogGenerator = () => {
     setIsPublishing(true);
     
     try {
-      // Get the current date for the blog post
       const currentDate = new Date().toISOString();
       
-      // Create an excerpt from the content (first 200 characters)
       const excerpt = generatedBlog.substring(0, 200) + '...';
       
-      // Insert into Supabase
       const { data, error } = await supabase
         .from('auto_blogs')
         .insert({
@@ -127,7 +123,6 @@ const BlogGenerator = () => {
         variant: "default",
       });
       
-      // Reset form after successful publish
       setBlogTitle("");
       setBlogCategory("");
       setBlogPrompt("");
@@ -302,7 +297,6 @@ const BlogGenerator = () => {
                         <ImageUploader 
                           onImageUploaded={handleImageUploaded} 
                           existingImageUrl={imageUrl}
-                          bucketName="content-images"
                         />
                       </div>
                     </div>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -23,7 +22,6 @@ const ToolsAIMealAnalyzer = () => {
   const [analysisMethod, setAnalysisMethod] = useState("text");
   const [hasSubmittedEmail, setHasSubmittedEmail] = useState(false);
   
-  // Additional meal details
   const [mealType, setMealType] = useState("");
   const [goalType, setGoalType] = useState("");
   const [dietaryRestrictions, setDietaryRestrictions] = useState("");
@@ -31,13 +29,11 @@ const ToolsAIMealAnalyzer = () => {
   const [additionalNotes, setAdditionalNotes] = useState("");
   
   useEffect(() => {
-    // Check if user has already submitted email
     const storedEmail = localStorage.getItem('dietaryGuideEmail');
     if (storedEmail) {
       setHasSubmittedEmail(true);
     }
     
-    // Create storage buckets if they don't exist
     const createBuckets = async () => {
       try {
         await supabase.functions.invoke('create-bucket');
@@ -73,14 +69,12 @@ const ToolsAIMealAnalyzer = () => {
     try {
       let prompt = "";
       
-      // Build a detailed prompt based on all the information provided
       if (analysisMethod === "text") {
         prompt = `Analyze this meal: ${mealDescription}.`;
       } else {
         prompt = `Analyze the meal in the uploaded image. I'll describe what I see: a meal that likely contains various ingredients and components.`;
       }
       
-      // Add additional context from user inputs
       if (mealType) {
         prompt += ` This is a ${mealType} meal.`;
       }
@@ -101,15 +95,13 @@ const ToolsAIMealAnalyzer = () => {
         prompt += ` Additional notes: ${additionalNotes}.`;
       }
       
-      // Final analysis instructions
       prompt += ` Please provide a detailed nutritional breakdown including estimated calories, macronutrients (protein, carbs, fats), key vitamins and minerals, and general health insights. Also include pros of the meal and suggestions for improvement if applicable. Format the output with proper Markdown to ensure good readability, using sections and bullet points.`;
 
-      // Call the Supabase edge function to generate content
       const { data, error } = await supabase.functions.invoke('ai-generator', {
         body: {
           prompt: prompt,
           type: "meal-analysis",
-          model: "google/gemini-flash-1.5" // Use Google's Gemini model
+          model: "google/gemini-flash-1.5"
         }
       });
 
@@ -180,13 +172,11 @@ const ToolsAIMealAnalyzer = () => {
             <ImageUploader 
               onImageUploaded={handleImageUploaded} 
               existingImageUrl={imageUrl}
-              bucketName="meal-images"
             />
           </div>
         </TabsContent>
       </Tabs>
       
-      {/* Additional meal details section */}
       <Card className="border-green-200 dark:border-green-900">
         <CardHeader className="bg-green-50 dark:bg-green-950/30 border-b border-green-100 dark:border-green-900/50">
           <CardTitle className="text-green-800 dark:text-green-300">Additional Details (Optional)</CardTitle>
@@ -284,7 +274,6 @@ const ToolsAIMealAnalyzer = () => {
           <CardContent>
             <div className="prose dark:prose-invert max-w-none whitespace-pre-line mt-4">
               {analysisResult.split('\n').map((line, index) => {
-                // Format headers
                 if (line.startsWith('# ')) {
                   return <h1 key={index} className="text-2xl font-bold mt-4 mb-2 text-green-800 dark:text-green-300">{line.substring(2)}</h1>;
                 }
@@ -295,19 +284,16 @@ const ToolsAIMealAnalyzer = () => {
                   return <h3 key={index} className="text-lg font-bold mt-2 mb-1 text-green-600 dark:text-green-500">{line.substring(4)}</h3>;
                 }
                 
-                // Format lists
                 if (line.startsWith('* ') || line.startsWith('- ')) {
                   return <li key={index} className="ml-4 mb-1">{line.substring(2)}</li>;
                 }
                 
-                // Format bold text
                 if (line.includes('**')) {
                   return <p key={index} className="mb-2" dangerouslySetInnerHTML={{ 
                     __html: line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
                   }} />;
                 }
                 
-                // Regular paragraphs
                 return line ? <p key={index} className="mb-2">{line}</p> : <br key={index} />;
               })}
             </div>
