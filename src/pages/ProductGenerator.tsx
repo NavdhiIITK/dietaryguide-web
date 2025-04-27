@@ -8,6 +8,7 @@ import ImageUploader from "@/components/ImageUploader";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { Badge } from "@/components/ui/badge";
 
 interface Product {
   id: string;
