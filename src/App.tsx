@@ -7,6 +7,7 @@ import RecipePage from "@/pages/RecipePage";
 import BlogGenerator from "@/pages/BlogGenerator";
 import RecipeGenerator from "@/pages/RecipeGenerator";
 import ProductGenerator from "@/pages/ProductGenerator";
+import ProductsPage from "@/pages/ProductsPage";
 import ContentDetailPage from "@/pages/ContentDetailPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import {
@@ -25,6 +26,7 @@ import {
  * - BlogGenerator: Tool to create nutrition and wellness blog content with AI assistance
  * - RecipeGenerator: Tool to generate healthy recipes based on ingredients and preferences
  * - ProductGenerator: Tool to generate product information based on ingredients and preferences
+ * - ProductsPage: Collection of products with filtering and search functionality
  * - ContentDetailPage: Displays full content for both blogs and recipes with sharing options
  * - NotFound: Error page when routes don't exist
  */
@@ -70,6 +72,10 @@ function App() {
           <ProductGenerator />
         </ProtectedRoute>
       ),
+    },
+    {
+      path: "/products",
+      element: <ProductsPage />,
     },
     {
       path: "*",
