@@ -1,27 +1,19 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { Upload, Image as ImageIcon, Loader2 } from "lucide-react";
 
 interface ImageUploaderProps {
   onImageUploaded: (imageUrl: string) => void;
   existingImageUrl?: string;
-  bucketName?: string;
 }
 
-const ImageUploader = ({ 
-  onImageUploaded, 
-  existingImageUrl,
-  bucketName = "content-images" 
-}: ImageUploaderProps) => {
+const ImageUploader = ({ onImageUploaded, existingImageUrl }: ImageUploaderProps) => {
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(existingImageUrl || null);
   
   useEffect(() => {
-    // Update preview URL if existingImageUrl changes
     if (existingImageUrl) {
       setPreviewUrl(existingImageUrl);
     }
@@ -54,29 +46,22 @@ const ImageUploader = ({
     try {
       setIsUploading(true);
       
-      // Since we're having issues with Supabase storage permissions,
-      // we'll set up a placeholder URL for demo purposes
-      // In a production app, you would need to configure RLS policies in Supabase
+      // For local development, we'll use a temporary URL for preview
+      const imageUrl = `/src/assets/products/${file.name}`;
       
-      // Generate a placeholder URL using the file name
-      const fileName = file.name;
-      const demoUrl = `https://source.unsplash.com/random/300x200/?product`;
-      
-      // Show a toast about the storage policy issue
+      // Show a toast about where to move the file
       toast({
-        title: "Storage Policy Notice",
-        description: "Image upload requires proper Supabase RLS policies. Using placeholder for demo.",
+        title: "Image Upload Notice",
+        description: `Please move the image '${file.name}' to the src/assets/products/ folder manually.`,
       });
       
-      // Set preview with the demo URL
-      setPreviewUrl(demoUrl);
-      onImageUploaded(demoUrl);
+      // Set preview and save the local path
+      setPreviewUrl(imageUrl);
+      onImageUploaded(imageUrl);
       
-      // Log file info for debugging
-      console.log("File that would be uploaded:", {
-        name: fileName,
-        size: file.size,
-        type: file.type
+      console.log("File to be saved:", {
+        name: file.name,
+        path: imageUrl
       });
       
     } catch (error) {

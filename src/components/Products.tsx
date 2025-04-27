@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -12,13 +11,12 @@ interface Product {
   link?: string;
 }
 
-// For now, we'll use dummy data. In a real app, this would come from your database
 const dummyProducts: Product[] = [
   {
     id: "1",
     title: "Organic Chia Seeds",
     description: "Nutrient-rich chia seeds packed with omega-3 fatty acids, fiber, and protein. Perfect for smoothies, puddings, and baked goods.",
-    imageUrl: "https://source.unsplash.com/random/300x200/?chia-seeds",
+    imageUrl: "/src/assets/products/chia-seeds.jpg",
     category: "Superfoods",
     tags: ["organic", "omega-3", "fiber"],
     link: "https://example.com/products/chia-seeds"
@@ -27,7 +25,7 @@ const dummyProducts: Product[] = [
     id: "2",
     title: "Plant-Based Protein Powder",
     description: "Complete plant protein blend with 25g protein per serving. No artificial flavors or sweeteners.",
-    imageUrl: "https://source.unsplash.com/random/300x200/?protein-powder",
+    imageUrl: "/src/assets/products/protein-powder.jpg",
     category: "Supplements",
     tags: ["vegan", "protein", "plant-based"],
     link: "https://example.com/products/protein-powder"
@@ -36,7 +34,7 @@ const dummyProducts: Product[] = [
     id: "3",
     title: "Reusable Glass Water Bottle",
     description: "BPA-free glass bottle with silicone sleeve and measurement markings to help you track your daily water intake.",
-    imageUrl: "https://source.unsplash.com/random/300x200/?water-bottle",
+    imageUrl: "/src/assets/products/water-bottle.jpg",
     category: "Accessories",
     tags: ["hydration", "eco-friendly", "BPA-free"],
     link: "https://example.com/products/water-bottle"
