@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import ImageUploader from "@/components/ImageUploader";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 interface Product {
   id: string;
@@ -19,6 +21,7 @@ interface Product {
 
 const ProductGenerator = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [product, setProduct] = useState<Omit<Product, 'id'>>({
     title: "",
     description: "",
@@ -27,16 +30,48 @@ const ProductGenerator = () => {
     tags: [],
     link: "",
   });
+  
+  const [tagsInput, setTagsInput] = useState("");
+
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTagsInput(e.target.value);
+    const tagsArray = e.target.value
+      .split(",")
+      .map(tag => tag.trim())
+      .filter(Boolean);
+    setProduct(prev => ({ ...prev, tags: tagsArray }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // For now, we'll just log the product. In a real app, you'd save this to a database
-    console.log("Product data:", product);
+    // Create new product with unique ID
+    const newProduct = {
+      ...product,
+      id: uuidv4(),
+    };
+    
+    // Save to localStorage
+    const savedProducts = localStorage.getItem("products");
+    let updatedProducts = [];
+    
+    if (savedProducts) {
+      try {
+        updatedProducts = JSON.parse(savedProducts);
+      } catch (error) {
+        console.error("Error parsing saved products:", error);
+      }
+    }
+    
+    updatedProducts.push(newProduct);
+    localStorage.setItem("products", JSON.stringify(updatedProducts));
+    
+    // Log and show success notification
+    console.log("Product data:", newProduct);
     
     toast({
       title: "Product Created",
-      description: "The product has been successfully created.",
+      description: "The product has been successfully created and added to products page.",
     });
     
     // Reset form
@@ -48,6 +83,10 @@ const ProductGenerator = () => {
       tags: [],
       link: "",
     });
+    setTagsInput("");
+    
+    // Navigate to products page to see the new product
+    navigate("/products");
   };
 
   return (
@@ -81,6 +120,11 @@ const ProductGenerator = () => {
             onImageUploaded={(url) => setProduct(prev => ({ ...prev, imageUrl: url }))}
             existingImageUrl={product.imageUrl}
           />
+          {product.imageUrl && (
+            <p className="text-sm text-amber-600">
+              ⚠️ Important: For the image to appear correctly, please manually place it in the src/assets/products/ folder.
+            </p>
+          )}
         </div>
 
         <div className="space-y-4">
@@ -97,12 +141,17 @@ const ProductGenerator = () => {
           <Label htmlFor="tags">Tags (comma-separated)</Label>
           <Input
             id="tags"
-            value={product.tags.join(", ")}
-            onChange={(e) => setProduct(prev => ({ 
-              ...prev, 
-              tags: e.target.value.split(",").map(tag => tag.trim()).filter(Boolean)
-            }))}
+            value={tagsInput}
+            onChange={handleTagsChange}
+            placeholder="organic, vegan, health"
           />
+          {product.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {product.tags.map((tag, index) => (
+                <Badge key={index} variant="outline">{tag}</Badge>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="space-y-4">

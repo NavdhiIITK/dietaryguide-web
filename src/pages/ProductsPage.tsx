@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Products from "@/components/Products";
+import { Toaster } from "@/components/ui/toaster";
 
 const ProductsPage = () => {
   return (
@@ -11,6 +12,7 @@ const ProductsPage = () => {
         <Products />
       </div>
       <Footer />
+      <Toaster />
     </div>
   );
 };

@@ -1,3 +1,5 @@
+
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -11,6 +13,7 @@ interface Product {
   link?: string;
 }
 
+// Initial dummy products
 const dummyProducts: Product[] = [
   {
     id: "1",
@@ -42,19 +45,39 @@ const dummyProducts: Product[] = [
 ];
 
 const Products = () => {
+  const [products, setProducts] = useState<Product[]>(dummyProducts);
+
+  useEffect(() => {
+    // Load products from localStorage if available
+    const savedProducts = localStorage.getItem("products");
+    if (savedProducts) {
+      try {
+        const parsedProducts = JSON.parse(savedProducts);
+        setProducts([...dummyProducts, ...parsedProducts]);
+      } catch (error) {
+        console.error("Error parsing saved products:", error);
+      }
+    }
+  }, []);
+
   return (
-    <section className="py-12 bg-muted/30">
+    <section className="pt-24 pb-12 bg-muted/30">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Our Products</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dummyProducts.map((product) => (
-            <Card key={product.id} className="overflow-hidden">
+          {products.map((product, index) => (
+            <Card key={product.id || index} className="overflow-hidden">
               <div className="aspect-video relative overflow-hidden">
                 <img 
                   src={product.imageUrl} 
                   alt={product.title}
                   className="object-cover w-full h-full"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/placeholder.svg"; // Fallback image
+                    target.alt = "Image not found";
+                  }}
                 />
               </div>
               
@@ -68,8 +91,8 @@ const Products = () => {
                   <Badge variant="secondary">{product.category}</Badge>
                   
                   <div className="flex flex-wrap gap-2">
-                    {product.tags.map((tag) => (
-                      <Badge key={tag} variant="outline">{tag}</Badge>
+                    {product.tags.map((tag, i) => (
+                      <Badge key={`${tag}-${i}`} variant="outline">{tag}</Badge>
                     ))}
                   </div>
                   

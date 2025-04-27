@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -46,18 +47,21 @@ const ImageUploader = ({ onImageUploaded, existingImageUrl }: ImageUploaderProps
     try {
       setIsUploading(true);
       
-      // For local development, we'll use a temporary URL for preview
+      // Create a local URL path for the image 
       const imageUrl = `/src/assets/products/${file.name}`;
+      
+      // Create a temporary object URL for preview
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewUrl(objectUrl);
+      
+      // Save the local path that will be used when the file is manually moved
+      onImageUploaded(imageUrl);
       
       // Show a toast about where to move the file
       toast({
-        title: "Image Upload Notice",
-        description: `Please move the image '${file.name}' to the src/assets/products/ folder manually.`,
+        title: "Image Selected",
+        description: `For the image to display correctly in production, please move "${file.name}" to the src/assets/products/ folder.`,
       });
-      
-      // Set preview and save the local path
-      setPreviewUrl(imageUrl);
-      onImageUploaded(imageUrl);
       
       console.log("File to be saved:", {
         name: file.name,
@@ -85,6 +89,10 @@ const ImageUploader = ({ onImageUploaded, existingImageUrl }: ImageUploaderProps
               src={previewUrl} 
               alt="Preview" 
               className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "/placeholder.svg";
+              }}
             />
           </div>
         ) : (
