@@ -292,7 +292,7 @@ const BlogGenerator = () => {
                         </Button>
                       </div>
                       
-                      <div>
+                      <div className="space-y-4">
                         <Label className="mb-2 block">Upload Image</Label>
                         <ImageUploader 
                           onImageUploaded={handleImageUploaded} 

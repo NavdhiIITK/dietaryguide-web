@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -46,28 +45,27 @@ const ImageUploader = ({ onImageUploaded, existingImageUrl }: ImageUploaderProps
 
     try {
       setIsUploading(true);
-      
-      // Create a local URL path for the image 
-      const imageUrl = `/src/assets/products/${file.name}`;
-      
-      // Create a temporary object URL for preview
-      const objectUrl = URL.createObjectURL(file);
-      setPreviewUrl(objectUrl);
-      
-      // Save the local path that will be used when the file is manually moved
+
+      // Upload to backend
+      const formData = new FormData();
+      formData.append("image", file);
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+      const data = await response.json();
+      const imageUrl = data.url;
+
+      setPreviewUrl(imageUrl);
       onImageUploaded(imageUrl);
-      
-      // Show a toast about where to move the file
+
       toast({
-        title: "Image Selected",
-        description: `For the image to display correctly in production, please move "${file.name}" to the src/assets/products/ folder.`,
+        title: "Image Uploaded",
+        description: "Your image has been uploaded and saved.",
       });
-      
-      console.log("File to be saved:", {
-        name: file.name,
-        path: imageUrl
-      });
-      
     } catch (error) {
       console.error("Error handling image:", error);
       toast({

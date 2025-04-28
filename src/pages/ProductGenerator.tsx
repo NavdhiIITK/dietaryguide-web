@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -121,11 +120,6 @@ const ProductGenerator = () => {
             onImageUploaded={(url) => setProduct(prev => ({ ...prev, imageUrl: url }))}
             existingImageUrl={product.imageUrl}
           />
-          {product.imageUrl && (
-            <p className="text-sm text-amber-600">
-              ⚠️ Important: For the image to appear correctly, please manually place it in the src/assets/products/ folder.
-            </p>
-          )}
         </div>
 
         <div className="space-y-4">

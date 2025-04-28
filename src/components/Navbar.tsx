@@ -1,9 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
 import { Moon, Sun, Menu, X } from "lucide-react";
+import dgLogo from "../../logo/dg.png";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -43,9 +43,9 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link
           to="/"
-          className="text-2xl md:text-3xl font-display font-bold"
+          className="flex items-center space-x-2 text-2xl md:text-3xl font-display font-bold"
         >
-          <span className="text-gradient">DietaryGuide</span>
+          <img src={dgLogo} alt="Dietary Guide Logo" className="h-8 w-8 object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
