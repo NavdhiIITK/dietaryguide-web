@@ -46,26 +46,35 @@ const ImageUploader = ({ onImageUploaded, existingImageUrl }: ImageUploaderProps
     try {
       setIsUploading(true);
 
-      // Upload to backend
-      const formData = new FormData();
-      formData.append("image", file);
-      const response = await fetch("/upload", {
-        method: "POST",
-        body: formData,
-      });
-      if (!response.ok) {
-        throw new Error("Failed to upload image");
-      }
-      const data = await response.json();
-      const imageUrl = data.url;
-
-      setPreviewUrl(imageUrl);
-      onImageUploaded(imageUrl);
-
-      toast({
-        title: "Image Uploaded",
-        description: "Your image has been uploaded and saved.",
-      });
+      // Client-side file handling (no server upload)
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const imageUrl = event.target.result as string;
+          setPreviewUrl(imageUrl);
+          onImageUploaded(imageUrl);
+          
+          toast({
+            title: "Image Added",
+            description: "Your image has been added.",
+          });
+          
+          setIsUploading(false);
+        }
+      };
+      
+      reader.onerror = () => {
+        toast({
+          title: "Failed to process image",
+          description: "There was an error processing your image.",
+          variant: "destructive",
+        });
+        setIsUploading(false);
+      };
+      
+      reader.readAsDataURL(file);
+      
     } catch (error) {
       console.error("Error handling image:", error);
       toast({
@@ -73,7 +82,6 @@ const ImageUploader = ({ onImageUploaded, existingImageUrl }: ImageUploaderProps
         description: "Please check developer console for details.",
         variant: "destructive",
       });
-    } finally {
       setIsUploading(false);
     }
   };
@@ -114,7 +122,7 @@ const ImageUploader = ({ onImageUploaded, existingImageUrl }: ImageUploaderProps
             {isUploading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Uploading...
+                Processing...
               </>
             ) : (
               <>
