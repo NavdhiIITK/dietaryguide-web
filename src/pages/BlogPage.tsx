@@ -23,6 +23,9 @@ const BlogPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
   const [filteredBlogs, setFilteredBlogs] = useState<Blog[]>([]);
+  const [visibleBlogs, setVisibleBlogs] = useState<Blog[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 6; // Limit blogs per page
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -49,8 +52,11 @@ const BlogPage = () => {
           imageUrl: blog.image || placeholderImage
         }));
         
-        setBlogs(transformedBlogs);
-        setFilteredBlogs(transformedBlogs);
+        // Only take up to 6 blogs
+        const limitedBlogs = transformedBlogs.slice(0, 12);
+        
+        setBlogs(limitedBlogs);
+        setFilteredBlogs(limitedBlogs);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       } finally {
@@ -68,9 +74,27 @@ const BlogPage = () => {
     } else {
       setFilteredBlogs(blogs.filter(blog => blog.category === activeFilter));
     }
+    
+    // Reset to first page when filter changes
+    setCurrentPage(1);
   }, [activeFilter, blogs]);
   
+  // Update visible blogs when page or filtered blogs change
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * blogsPerPage;
+    const endIndex = startIndex + blogsPerPage;
+    setVisibleBlogs(filteredBlogs.slice(startIndex, endIndex));
+  }, [currentPage, filteredBlogs, blogsPerPage]);
+  
   const categories = ["All", "Nutrition", "Diet", "Fitness", "Wellness", "Recipes", "Health"];
+  
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+  
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -127,9 +151,9 @@ const BlogPage = () => {
                 </div>
               ))}
             </div>
-          ) : filteredBlogs.length > 0 ? (
+          ) : visibleBlogs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredBlogs.map((blog) => (
+              {visibleBlogs.map((blog) => (
                 <div key={blog.id} className="bg-background rounded-xl overflow-hidden shadow-md card-hover">
                   <div className="h-56 bg-muted overflow-hidden">
                     <img 
@@ -161,9 +185,9 @@ const BlogPage = () => {
             </div>
           )}
           
-          {filteredBlogs.length > 0 && (
+          {currentPage < totalPages && filteredBlogs.length > blogsPerPage && (
             <div className="mt-12 flex justify-center">
-              <Button variant="outline">Load More</Button>
+              <Button variant="outline" onClick={handleLoadMore}>Load More</Button>
             </div>
           )}
         </div>
