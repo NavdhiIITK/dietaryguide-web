@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp } from "lucide-react";
@@ -22,85 +21,179 @@ interface Recipe {
   isTrending?: boolean;
 }
 
-// Define a type that extends the auto_blogs table row type to include is_trending
-interface RecipeData {
-  id: string;
-  title: string;
-  description: string;
-  content: string;
-  category: string | null;
-  image: string | null;
-  date: string | null;
-  search_source: string | null;
-  search_query: string | null;
-  is_trending?: boolean;
-  [key: string]: any; // To allow for other properties
-}
-
-const placeholderImage = "https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80";
+// Curated high-quality recipes
+const curatedRecipes: Recipe[] = [
+  {
+    id: "1",
+    title: "Mediterranean Quinoa Bowl",
+    description: "A protein-rich quinoa bowl with roasted vegetables, feta cheese, and a light lemon dressing.",
+    prepTime: "25 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Easy",
+    mealType: "Lunch",
+    dietPreference: "Vegetarian",
+    isTrending: true
+  },
+  {
+    id: "2",
+    title: "Wild Salmon with Roasted Vegetables",
+    description: "Omega-3 rich salmon filet with a herb crust, served with seasonal roasted vegetables.",
+    prepTime: "35 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Medium",
+    mealType: "Dinner",
+    dietPreference: "Pescatarian"
+  },
+  {
+    id: "3",
+    title: "Overnight Oats with Berries",
+    description: "Protein-packed overnight oats with mixed berries, chia seeds, and a touch of honey.",
+    prepTime: "10 min + overnight",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1502481851512-e93e25e4a8a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Easy",
+    mealType: "Breakfast",
+    dietPreference: "Vegetarian",
+    isTrending: true
+  },
+  {
+    id: "4",
+    title: "Chickpea and Vegetable Curry",
+    description: "A hearty plant-based curry with chickpeas, spinach, and sweet potatoes in a flavorful coconut sauce.",
+    prepTime: "40 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Medium",
+    mealType: "Dinner",
+    dietPreference: "Vegan"
+  },
+  {
+    id: "5",
+    title: "Protein Power Smoothie Bowl",
+    description: "Nutrient-dense smoothie bowl with Greek yogurt, spinach, and topped with seeds and nuts.",
+    prepTime: "15 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Easy",
+    mealType: "Breakfast",
+    dietPreference: "Vegetarian"
+  },
+  {
+    id: "6",
+    title: "Turkey and Vegetable Lettuce Wraps",
+    description: "Lean ground turkey with colorful vegetables served in crisp lettuce cups for a low-carb option.",
+    prepTime: "25 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1539252554965-80893c9f8744?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Easy",
+    mealType: "Lunch",
+    dietPreference: "Gluten-Free"
+  },
+  {
+    id: "7",
+    title: "Baked Cod with Mediterranean Vegetables",
+    description: "Flaky cod fillets baked with tomatoes, olives, and herbs for a flavorful dinner option.",
+    prepTime: "30 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Medium",
+    mealType: "Dinner",
+    dietPreference: "Pescatarian"
+  },
+  {
+    id: "8",
+    title: "Energizing Blueberry Almond Smoothie",
+    description: "Quick-to-make smoothie that combines antioxidant-rich blueberries with protein from almond butter.",
+    prepTime: "10 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Easy",
+    mealType: "Snack",
+    dietPreference: "Vegetarian",
+    isTrending: true
+  },
+  {
+    id: "9",
+    title: "Black Bean and Sweet Potato Tacos",
+    description: "Plant-based tacos featuring roasted sweet potatoes and spiced black beans with fresh toppings.",
+    prepTime: "35 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Medium",
+    mealType: "Dinner",
+    dietPreference: "Vegan"
+  },
+  {
+    id: "10",
+    title: "Greek Yogurt Parfait with Homemade Granola",
+    description: "Layered Greek yogurt with fresh fruits and crunchy homemade granola for a filling breakfast.",
+    prepTime: "20 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Easy",
+    mealType: "Breakfast",
+    dietPreference: "Vegetarian"
+  },
+  {
+    id: "11",
+    title: "Cauliflower Fried Rice",
+    description: "Low-carb alternative to traditional fried rice using cauliflower with vegetables and eggs.",
+    prepTime: "25 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Medium",
+    mealType: "Dinner",
+    dietPreference: "Gluten-Free"
+  },
+  {
+    id: "12",
+    title: "Avocado and Egg Breakfast Bowl",
+    description: "Nutrient-dense breakfast bowl featuring avocado, poached eggs, and microgreens on whole grains.",
+    prepTime: "20 min",
+    category: "Recipes",
+    imageUrl: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    difficulty: "Medium",
+    mealType: "Breakfast",
+    dietPreference: "Vegetarian",
+    isTrending: true
+  }
+];
 
 const RecipePage = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All Recipes");
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('auto_blogs')
-          .select('*')
-          .eq('category', 'Recipes')
-          .eq('is_published', true)
-          .order('date', { ascending: false });
-          
-        if (error) throw error;
-        
-        // Transform the data
-        const transformedRecipes = data.map((recipe: RecipeData) => ({
-          id: recipe.id,
-          title: recipe.title,
-          description: recipe.description,
-          prepTime: "20-30 min", // This could be extracted from content if available
-          category: "Recipes",
-          imageUrl: recipe.image || placeholderImage,
-          difficulty: "Medium", // This could be extracted from content if available
-          mealType: recipe.search_source || "Any",
-          dietPreference: recipe.search_query || "Any",
-          isTrending: Boolean(recipe.is_trending) // Convert to boolean to handle undefined/null
-        }));
-        
-        setRecipes(transformedRecipes);
-        setFilteredRecipes(transformedRecipes);
-      } catch (error) {
-        console.error("Error fetching recipes:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Simulate loading for a more natural feel
+    const timer = setTimeout(() => {
+      setFilteredRecipes(curatedRecipes);
+      setLoading(false);
+    }, 800);
     
-    fetchRecipes();
+    return () => clearTimeout(timer);
   }, []);
   
   // Filter recipes when activeFilter changes
   useEffect(() => {
     if (activeFilter === "All Recipes") {
-      setFilteredRecipes(recipes);
+      setFilteredRecipes(curatedRecipes);
     } else if (activeFilter === "Trending") {
-      setFilteredRecipes(recipes.filter(recipe => recipe.isTrending));
+      setFilteredRecipes(curatedRecipes.filter(recipe => recipe.isTrending));
     } else if (["Breakfast", "Lunch", "Dinner", "Snacks"].includes(activeFilter)) {
       // Filter by meal type
-      setFilteredRecipes(recipes.filter(recipe => 
+      setFilteredRecipes(curatedRecipes.filter(recipe => 
         recipe.mealType.toLowerCase() === activeFilter.toLowerCase()
       ));
     } else {
       // Filter by dietary preference
-      setFilteredRecipes(recipes.filter(recipe => 
+      setFilteredRecipes(curatedRecipes.filter(recipe => 
         recipe.dietPreference.toLowerCase() === activeFilter.toLowerCase()
       ));
     }
-  }, [activeFilter, recipes]);
+  }, [activeFilter]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -254,12 +347,6 @@ const RecipePage = () => {
             <div className="text-center py-12">
               <h3 className="text-xl font-medium text-foreground/70">No recipes found with the selected filter</h3>
               <p className="mt-2 text-foreground/60">Try selecting a different filter or check back later.</p>
-            </div>
-          )}
-          
-          {filteredRecipes.length > 0 && (
-            <div className="mt-12 flex justify-center">
-              <Button variant="outline">Load More</Button>
             </div>
           )}
         </div>

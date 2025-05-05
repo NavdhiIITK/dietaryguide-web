@@ -18,8 +18,107 @@ interface Blog {
 
 const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
 
+// Curated blog data with high-quality health, diet, and fitness content
+const curatedBlogs: Blog[] = [
+  {
+    id: "1",
+    title: "The Science Behind Intermittent Fasting",
+    excerpt: "Explore how intermittent fasting affects your metabolism, blood sugar levels, and overall health based on recent scientific studies.",
+    date: "May 1, 2025",
+    category: "Diet",
+    imageUrl: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "2",
+    title: "Strength Training Fundamentals for Beginners",
+    excerpt: "A comprehensive guide to building a solid foundation in strength training with proper form and sustainable progression.",
+    date: "April 28, 2025",
+    category: "Fitness",
+    imageUrl: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "3",
+    title: "Mediterranean Diet: Benefits Beyond Weight Loss",
+    excerpt: "Discover how the Mediterranean diet can improve heart health, cognitive function, and longevity according to recent research.",
+    date: "April 24, 2025",
+    category: "Nutrition",
+    imageUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "4",
+    title: "Sleep Optimization for Better Recovery",
+    excerpt: "Learn how quality sleep directly impacts your fitness results, hormone balance, and overall wellness.",
+    date: "April 20, 2025",
+    category: "Wellness",
+    imageUrl: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "5",
+    title: "The Role of Protein in Muscle Development",
+    excerpt: "A detailed analysis of how protein intake affects muscle protein synthesis and optimal timing for performance athletes.",
+    date: "April 16, 2025",
+    category: "Nutrition",
+    imageUrl: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "6",
+    title: "HIIT vs. Steady-State Cardio: What's Right for You?",
+    excerpt: "Compare the benefits and limitations of high-intensity interval training and traditional cardio for different fitness goals.",
+    date: "April 12, 2025",
+    category: "Fitness",
+    imageUrl: "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "7",
+    title: "Understanding Micronutrients and Their Impact on Health",
+    excerpt: "An in-depth look at essential vitamins and minerals that play critical roles in energy production, immune function, and more.",
+    date: "April 8, 2025",
+    category: "Nutrition",
+    imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "8",
+    title: "Mindfulness Practices for Stress Reduction",
+    excerpt: "Evidence-based mindfulness techniques that can lower cortisol levels and improve your body's response to stress.",
+    date: "April 4, 2025",
+    category: "Wellness",
+    imageUrl: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "9",
+    title: "Progressive Overload: The Key to Continuous Improvement",
+    excerpt: "How to implement progressive overload principles in your training routine for sustained strength and muscle gains.",
+    date: "April 1, 2025",
+    category: "Fitness",
+    imageUrl: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "10",
+    title: "Gut Health and Its Connection to Overall Wellness",
+    excerpt: "Exploring the gut-brain axis and how a healthy microbiome influences everything from mood to immunity.",
+    date: "March 28, 2025",
+    category: "Health",
+    imageUrl: "https://images.unsplash.com/photo-1612016668498-4e05e106bb66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "11",
+    title: "Hydration Strategies for Optimal Performance",
+    excerpt: "Beyond the 8 glasses a day: Learn how proper hydration timing and electrolyte balance can enhance your workouts.",
+    date: "March 24, 2025",
+    category: "Health",
+    imageUrl: "https://images.unsplash.com/photo-1529236183275-4fdcf2bc987e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "12",
+    title: "Plant-Based Nutrition: Building a Balanced Diet",
+    excerpt: "How to ensure adequate protein, iron, and B-vitamin intake while following a plant-based or vegan diet.",
+    date: "March 20, 2025",
+    category: "Nutrition",
+    imageUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  }
+];
+
 const BlogPage = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
   const [filteredBlogs, setFilteredBlogs] = useState<Blog[]>([]);
@@ -28,56 +127,26 @@ const BlogPage = () => {
   const blogsPerPage = 6; // Limit blogs per page
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('auto_blogs')
-          .select('*')
-          .eq('is_published', true)
-          .order('date', { ascending: false });
-          
-        if (error) throw error;
-        
-        // Transform the data
-        const transformedBlogs = data.map(blog => ({
-          id: blog.id,
-          title: blog.title,
-          excerpt: blog.description,
-          date: new Date(blog.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          }),
-          category: blog.category,
-          imageUrl: blog.image || placeholderImage
-        }));
-        
-        // Only take up to 6 blogs
-        const limitedBlogs = transformedBlogs.slice(0, 12);
-        
-        setBlogs(limitedBlogs);
-        setFilteredBlogs(limitedBlogs);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Simulate loading for a more natural feel
+    const timer = setTimeout(() => {
+      setFilteredBlogs(curatedBlogs);
+      setLoading(false);
+    }, 800);
     
-    fetchBlogs();
+    return () => clearTimeout(timer);
   }, []);
   
   // Filter blogs when activeFilter changes
   useEffect(() => {
     if (activeFilter === "All") {
-      setFilteredBlogs(blogs);
+      setFilteredBlogs(curatedBlogs);
     } else {
-      setFilteredBlogs(blogs.filter(blog => blog.category === activeFilter));
+      setFilteredBlogs(curatedBlogs.filter(blog => blog.category === activeFilter));
     }
     
     // Reset to first page when filter changes
     setCurrentPage(1);
-  }, [activeFilter, blogs]);
+  }, [activeFilter]);
   
   // Update visible blogs when page or filtered blogs change
   useEffect(() => {
@@ -86,7 +155,7 @@ const BlogPage = () => {
     setVisibleBlogs(filteredBlogs.slice(startIndex, endIndex));
   }, [currentPage, filteredBlogs, blogsPerPage]);
   
-  const categories = ["All", "Nutrition", "Diet", "Fitness", "Wellness", "Recipes", "Health"];
+  const categories = ["All", "Nutrition", "Diet", "Fitness", "Wellness", "Health"];
   
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
   
