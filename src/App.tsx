@@ -1,91 +1,34 @@
-import { ThemeProvider } from "@/components/ThemeProvider";
-import Index from "@/pages/Index";
-import NotFound from "@/pages/NotFound";
-import ToolsPage from "@/pages/ToolsPage";
-import BlogPage from "@/pages/BlogPage";
-import RecipePage from "@/pages/RecipePage";
-import BlogGenerator from "@/pages/BlogGenerator";
-import RecipeGenerator from "@/pages/RecipeGenerator";
-import ProductGenerator from "@/pages/ProductGenerator";
-import ProductsPage from "@/pages/ProductsPage";
-import ContentDetailPage from "@/pages/ContentDetailPage";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 
-/**
- * Main Application Component
- * 
- * Page Documentation:
- * - Index/Home: Landing page showcasing nutrition & wellness services, featured content, and tools
- * - ToolsPage: Collection of AI-powered tools for meal analysis, diet planning, and workout creation
- * - BlogPage: Archive of nutrition and wellness articles with filtering capabilities
- * - RecipePage: Collection of healthy recipes with filtering and search functionality
- * - BlogGenerator: Tool to create nutrition and wellness blog content with AI assistance
- * - RecipeGenerator: Tool to generate healthy recipes based on ingredients and preferences
- * - ProductGenerator: Tool to generate product information based on ingredients and preferences
- * - ProductsPage: Collection of products with filtering and search functionality
- * - ContentDetailPage: Displays full content for both blogs and recipes with sharing options
- * - NotFound: Error page when routes don't exist
- */
+import { Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./components/ThemeProvider";
+import { Toaster } from "./components/ui/toaster";
+
+// Pages
+import Index from "./pages/Index";
+import BlogPage from "./pages/BlogPage";
+import ContentDetailPage from "./pages/ContentDetailPage";
+import RecipePage from "./pages/RecipePage";
+import RecipeDetailPage from "./pages/RecipeDetailPage";
+import ToolsPage from "./pages/ToolsPage";
+import ProductsPage from "./pages/ProductsPage";
+import NotFound from "./pages/NotFound";
+
+import "./App.css";
+
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Index />,
-      errorElement: <NotFound />,
-    },
-    {
-      path: "/tools",
-      element: <ToolsPage />,
-    },
-    {
-      path: "/blog",
-      element: <BlogPage />,
-    },
-    {
-      path: "/blog/:id",
-      element: <ContentDetailPage />,
-    },
-    {
-      path: "/recipes",
-      element: <RecipePage />,
-    },
-    {
-      path: "/recipes/:id",
-      element: <ContentDetailPage />,
-    },
-    {
-      path: "/blog-generator",
-      element: <BlogGenerator />,
-    },
-    {
-      path: "/recipe-generator",
-      element: <RecipeGenerator />,
-    },
-    {
-      path: "/product-generator",
-      element: (
-        <ProtectedRoute>
-          <ProductGenerator />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/products",
-      element: <ProductsPage />,
-    },
-    {
-      path: "*",
-      element: <NotFound />,
-    },
-  ]);
-
   return (
-    <ThemeProvider defaultTheme="light">
-      <RouterProvider router={router} />
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:id" element={<ContentDetailPage />} />
+        <Route path="/recipes" element={<RecipePage />} />
+        <Route path="/recipes/:id" element={<RecipeDetailPage />} />
+        <Route path="/tools" element={<ToolsPage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Toaster />
     </ThemeProvider>
   );
 }

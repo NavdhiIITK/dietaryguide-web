@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,159 +6,7 @@ import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp } from "lucide-react";
-
-interface Recipe {
-  id: string;
-  title: string;
-  description: string;
-  prepTime: string;
-  category: string;
-  imageUrl: string;
-  difficulty: string;
-  mealType: string;
-  dietPreference: string;
-  isTrending?: boolean;
-}
-
-// Curated high-quality recipes
-const curatedRecipes: Recipe[] = [
-  {
-    id: "1",
-    title: "Mediterranean Quinoa Bowl",
-    description: "A protein-rich quinoa bowl with roasted vegetables, feta cheese, and a light lemon dressing.",
-    prepTime: "25 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Lunch",
-    dietPreference: "Vegetarian",
-    isTrending: true
-  },
-  {
-    id: "2",
-    title: "Wild Salmon with Roasted Vegetables",
-    description: "Omega-3 rich salmon filet with a herb crust, served with seasonal roasted vegetables.",
-    prepTime: "35 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Medium",
-    mealType: "Dinner",
-    dietPreference: "Pescatarian"
-  },
-  {
-    id: "3",
-    title: "Overnight Oats with Berries",
-    description: "Protein-packed overnight oats with mixed berries, chia seeds, and a touch of honey.",
-    prepTime: "10 min + overnight",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1502481851512-e93e25e4a8a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Breakfast",
-    dietPreference: "Vegetarian",
-    isTrending: true
-  },
-  {
-    id: "4",
-    title: "Chickpea and Vegetable Curry",
-    description: "A hearty plant-based curry with chickpeas, spinach, and sweet potatoes in a flavorful coconut sauce.",
-    prepTime: "40 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Medium",
-    mealType: "Dinner",
-    dietPreference: "Vegan"
-  },
-  {
-    id: "5",
-    title: "Protein Power Smoothie Bowl",
-    description: "Nutrient-dense smoothie bowl with Greek yogurt, spinach, and topped with seeds and nuts.",
-    prepTime: "15 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Breakfast",
-    dietPreference: "Vegetarian"
-  },
-  {
-    id: "6",
-    title: "Turkey and Vegetable Lettuce Wraps",
-    description: "Lean ground turkey with colorful vegetables served in crisp lettuce cups for a low-carb option.",
-    prepTime: "25 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1539252554965-80893c9f8744?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Lunch",
-    dietPreference: "Gluten-Free"
-  },
-  {
-    id: "7",
-    title: "Baked Cod with Mediterranean Vegetables",
-    description: "Flaky cod fillets baked with tomatoes, olives, and herbs for a flavorful dinner option.",
-    prepTime: "30 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Medium",
-    mealType: "Dinner",
-    dietPreference: "Pescatarian"
-  },
-  {
-    id: "8",
-    title: "Energizing Blueberry Almond Smoothie",
-    description: "Quick-to-make smoothie that combines antioxidant-rich blueberries with protein from almond butter.",
-    prepTime: "10 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Snack",
-    dietPreference: "Vegetarian",
-    isTrending: true
-  },
-  {
-    id: "9",
-    title: "Black Bean and Sweet Potato Tacos",
-    description: "Plant-based tacos featuring roasted sweet potatoes and spiced black beans with fresh toppings.",
-    prepTime: "35 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Medium",
-    mealType: "Dinner",
-    dietPreference: "Vegan"
-  },
-  {
-    id: "10",
-    title: "Greek Yogurt Parfait with Homemade Granola",
-    description: "Layered Greek yogurt with fresh fruits and crunchy homemade granola for a filling breakfast.",
-    prepTime: "20 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Breakfast",
-    dietPreference: "Vegetarian"
-  },
-  {
-    id: "11",
-    title: "Cauliflower Fried Rice",
-    description: "Low-carb alternative to traditional fried rice using cauliflower with vegetables and eggs.",
-    prepTime: "25 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Medium",
-    mealType: "Dinner",
-    dietPreference: "Gluten-Free"
-  },
-  {
-    id: "12",
-    title: "Avocado and Egg Breakfast Bowl",
-    description: "Nutrient-dense breakfast bowl featuring avocado, poached eggs, and microgreens on whole grains.",
-    prepTime: "20 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Medium",
-    mealType: "Breakfast",
-    dietPreference: "Vegetarian",
-    isTrending: true
-  }
-];
+import { allIndianRecipes, Recipe } from "@/data/recipes";
 
 const RecipePage = () => {
   const [loading, setLoading] = useState(true);
@@ -169,7 +16,7 @@ const RecipePage = () => {
   useEffect(() => {
     // Simulate loading for a more natural feel
     const timer = setTimeout(() => {
-      setFilteredRecipes(curatedRecipes);
+      setFilteredRecipes(allIndianRecipes);
       setLoading(false);
     }, 800);
     
@@ -179,17 +26,17 @@ const RecipePage = () => {
   // Filter recipes when activeFilter changes
   useEffect(() => {
     if (activeFilter === "All Recipes") {
-      setFilteredRecipes(curatedRecipes);
+      setFilteredRecipes(allIndianRecipes);
     } else if (activeFilter === "Trending") {
-      setFilteredRecipes(curatedRecipes.filter(recipe => recipe.isTrending));
-    } else if (["Breakfast", "Lunch", "Dinner", "Snacks"].includes(activeFilter)) {
+      setFilteredRecipes(allIndianRecipes.filter(recipe => recipe.isTrending));
+    } else if (["Breakfast", "Lunch", "Dinner", "Snack"].includes(activeFilter)) {
       // Filter by meal type
-      setFilteredRecipes(curatedRecipes.filter(recipe => 
+      setFilteredRecipes(allIndianRecipes.filter(recipe => 
         recipe.mealType.toLowerCase() === activeFilter.toLowerCase()
       ));
     } else {
       // Filter by dietary preference
-      setFilteredRecipes(curatedRecipes.filter(recipe => 
+      setFilteredRecipes(allIndianRecipes.filter(recipe => 
         recipe.dietPreference.toLowerCase() === activeFilter.toLowerCase()
       ));
     }
@@ -203,10 +50,10 @@ const RecipePage = () => {
       <section className="pt-32 pb-16 bg-muted/30">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Healthy & Delicious Recipes
+            Healthy & Delicious Indian Recipes
           </h1>
           <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-            Discover nutritious, easy-to-prepare meals for every dietary preference and occasion.
+            Discover authentic, nutritious, easy-to-prepare Indian meals for every dietary preference and occasion.
           </p>
         </div>
       </section>
@@ -238,25 +85,11 @@ const RecipePage = () => {
               Breakfast
             </Button>
             <Button 
-              variant={activeFilter === "Lunch" ? "default" : "outline"} 
-              className="text-sm"
-              onClick={() => setActiveFilter("Lunch")}
-            >
-              Lunch
-            </Button>
-            <Button 
               variant={activeFilter === "Dinner" ? "default" : "outline"} 
               className="text-sm"
               onClick={() => setActiveFilter("Dinner")}
             >
               Dinner
-            </Button>
-            <Button 
-              variant={activeFilter === "Snack" ? "default" : "outline"} 
-              className="text-sm"
-              onClick={() => setActiveFilter("Snack")}
-            >
-              Snacks
             </Button>
             <Button 
               variant={activeFilter === "Vegetarian" ? "default" : "outline"} 
@@ -271,13 +104,6 @@ const RecipePage = () => {
               onClick={() => setActiveFilter("Vegan")}
             >
               Vegan
-            </Button>
-            <Button 
-              variant={activeFilter === "Gluten-Free" ? "default" : "outline"} 
-              className="text-sm"
-              onClick={() => setActiveFilter("Gluten-Free")}
-            >
-              Gluten-Free
             </Button>
           </div>
         </div>
@@ -356,41 +182,45 @@ const RecipePage = () => {
       <section className="py-16 bg-primary/10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="bg-muted/50 rounded-xl h-[300px] flex items-center justify-center">
-              <div className="text-2xl text-foreground/60">Cooking Tips Image</div>
+            <div className="rounded-xl overflow-hidden h-[300px]">
+              <img 
+                src="https://images.unsplash.com/photo-1505253838534-0edb241e5313?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80"
+                alt="Indian cooking preparation" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
-              <h2 className="text-3xl font-bold mb-6">Healthy Cooking Tips</h2>
+              <h2 className="text-3xl font-bold mb-6">Healthy Indian Cooking Tips</h2>
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <svg className="w-6 h-6 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Use herbs and spices instead of salt to flavor dishes</span>
+                  <span>Opt for dry roasting spices instead of frying them in oil</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-6 h-6 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Opt for baking, steaming, or grilling instead of frying</span>
+                  <span>Use olive oil or mustard oil instead of refined oils</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-6 h-6 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Include a variety of colorful vegetables in every meal</span>
+                  <span>Replace cream with Greek yogurt or cashew paste for creamy textures</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-6 h-6 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Measure oils and high-calorie ingredients to control portions</span>
+                  <span>Add more vegetables to traditional dishes for extra fiber and nutrients</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-6 h-6 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Meal prep to save time and make healthier choices throughout the week</span>
+                  <span>Incorporate more whole grains like brown rice, millet, and whole wheat</span>
                 </li>
               </ul>
             </div>
@@ -405,7 +235,7 @@ const RecipePage = () => {
             Get Weekly Recipe Inspiration
           </h2>
           <p className="text-lg mb-8 text-foreground/80">
-            Subscribe to receive new recipes, cooking tips, and nutrition advice every week.
+            Subscribe to receive new Indian recipes, cooking tips, and nutrition advice every week.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
             <input 

@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,6 +9,7 @@ import { ArrowDown, ArrowRight, Search, Utensils, Calculator, BookOpen, Heart, U
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { indianRecipes } from "@/data/recipes";
 
 interface ContentItem {
   id: string;
@@ -250,8 +250,8 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Trending Recipes</h2>
-              <p className="text-foreground/70">Healthy, delicious meals for every palate</p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">Trending Indian Recipes</h2>
+              <p className="text-foreground/70">Healthy, authentic flavors from Indian cuisine</p>
             </div>
             <Button asChild variant="outline" className="rounded-full">
               <Link to="/recipes" className="flex items-center">
@@ -262,141 +262,41 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1525351484163-7529414344d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" 
-                  alt="Avocado & Egg Breakfast Bowl" 
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute top-3 right-3">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
-                    <Heart className="h-4 w-4 text-white" />
+            {indianRecipes.slice(0, 4).map((recipe) => (
+              <Card key={recipe.id} className="overflow-hidden border-none shadow-md rounded-xl card-hover">
+                <div className="h-48 relative">
+                  <img 
+                    src={recipe.imageUrl} 
+                    alt={recipe.title} 
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute top-3 right-3">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
+                      <Heart className="h-4 w-4 text-white" />
+                    </Button>
+                  </div>
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="inline-block px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">{recipe.mealType}</span>
+                    <span className="text-xs text-foreground/60 flex items-center">
+                      <Clock className="h-3 w-3 mr-1" />
+                      {recipe.prepTime}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 line-clamp-1">{recipe.title}</h3>
+                  <p className="text-sm text-foreground/70 mb-3 line-clamp-2">
+                    {recipe.description}
+                  </p>
+                  <Button asChild variant="link" className="p-0 text-sm group">
+                    <Link to={`/recipes/${recipe.id}`} className="flex items-center">
+                      View Recipe
+                      <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
+                    </Link>
                   </Button>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="inline-block px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">Breakfast</span>
-                  <span className="text-xs text-foreground/60 flex items-center">
-                    <Clock className="h-3 w-3 mr-1" />
-                    20 min
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold mb-2 line-clamp-1">Avocado & Egg Breakfast Bowl</h3>
-                <p className="text-sm text-foreground/70 mb-3 line-clamp-2">
-                  A protein-packed breakfast bowl with avocado, poached eggs, and whole grains.
-                </p>
-                <Button asChild variant="link" className="p-0 text-sm group">
-                  <Link to="/recipes" className="flex items-center">
-                    View Recipe
-                    <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                  alt="Mediterranean Quinoa Salad" 
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute top-3 right-3">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
-                    <Heart className="h-4 w-4 text-white" />
-                  </Button>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="inline-block px-2 py-1 text-xs font-medium bg-secondary/10 text-secondary rounded-full">Lunch</span>
-                  <span className="text-xs text-foreground/60 flex items-center">
-                    <Clock className="h-3 w-3 mr-1" />
-                    15 min
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold mb-2 line-clamp-1">Mediterranean Quinoa Salad</h3>
-                <p className="text-sm text-foreground/70 mb-3 line-clamp-2">
-                  Fresh vegetables, quinoa, and feta cheese with a light lemon dressing.
-                </p>
-                <Button asChild variant="link" className="p-0 text-sm group">
-                  <Link to="/recipes" className="flex items-center">
-                    View Recipe
-                    <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                  alt="Herb-Crusted Wild Salmon" 
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute top-3 right-3">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
-                    <Heart className="h-4 w-4 text-white" />
-                  </Button>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="inline-block px-2 py-1 text-xs font-medium bg-accent/10 text-accent rounded-full">Dinner</span>
-                  <span className="text-xs text-foreground/60 flex items-center">
-                    <Clock className="h-3 w-3 mr-1" />
-                    35 min
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold mb-2 line-clamp-1">Herb-Crusted Wild Salmon</h3>
-                <p className="text-sm text-foreground/70 mb-3 line-clamp-2">
-                  Wild-caught salmon baked with fresh herbs and served with roasted vegetables.
-                </p>
-                <Button asChild variant="link" className="p-0 text-sm group">
-                  <Link to="/recipes" className="flex items-center">
-                    View Recipe
-                    <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1552950343-c4b534afc067?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                  alt="Energy-Boosting Protein Balls" 
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute top-3 right-3">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
-                    <Heart className="h-4 w-4 text-white" />
-                  </Button>
-                </div>
-              </div>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="inline-block px-2 py-1 text-xs font-medium bg-sunrise/10 text-sunrise rounded-full">Snack</span>
-                  <span className="text-xs text-foreground/60 flex items-center">
-                    <Clock className="h-3 w-3 mr-1" />
-                    10 min
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold mb-2 line-clamp-1">Energy-Boosting Protein Balls</h3>
-                <p className="text-sm text-foreground/70 mb-3 line-clamp-2">
-                  No-bake protein balls made with dates, nuts, and protein powder for a healthy snack.
-                </p>
-                <Button asChild variant="link" className="p-0 text-sm group">
-                  <Link to="/recipes" className="flex items-center">
-                    View Recipe
-                    <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
