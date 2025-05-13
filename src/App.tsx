@@ -1,7 +1,6 @@
 
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
-import { Toaster } from "./components/ui/toaster";
 
 // Pages
 import Index from "./pages/Index";
@@ -28,7 +27,6 @@ function App() {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Toaster />
     </ThemeProvider>
   );
 }
