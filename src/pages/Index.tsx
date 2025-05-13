@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -170,9 +171,11 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 bg-gradient-to-br from-teal-light to-teal-dark flex items-center justify-center">
-                <span className="text-white font-medium">Featured Image</span>
-              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                alt="Healthy food with vegetables and proteins" 
+                className="h-48 w-full object-cover"
+              />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="inline-block px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
@@ -192,9 +195,11 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 bg-gradient-to-br from-secondary to-accent flex items-center justify-center">
-                <span className="text-white font-medium">Featured Image</span>
-              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                alt="Person meditating while eating" 
+                className="h-48 w-full object-cover"
+              />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mental Health</span>
@@ -214,9 +219,11 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 bg-gradient-to-br from-accent to-honey flex items-center justify-center">
-                <span className="text-white font-medium">Featured Image</span>
-              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                alt="Water bottle and glass on blue background" 
+                className="h-48 w-full object-cover"
+              />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="inline-block px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Hydration</span>
@@ -256,8 +263,12 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 bg-gradient-to-r from-teal-light to-leaf flex items-center justify-center relative">
-                <span className="text-white font-medium">Recipe Image</span>
+              <div className="h-48 relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1525351484163-7529414344d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" 
+                  alt="Avocado & Egg Breakfast Bowl" 
+                  className="h-full w-full object-cover"
+                />
                 <div className="absolute top-3 right-3">
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
                     <Heart className="h-4 w-4 text-white" />
@@ -286,8 +297,12 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 bg-gradient-to-r from-teal-dark to-teal-light flex items-center justify-center relative">
-                <span className="text-white font-medium">Recipe Image</span>
+              <div className="h-48 relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                  alt="Mediterranean Quinoa Salad" 
+                  className="h-full w-full object-cover"
+                />
                 <div className="absolute top-3 right-3">
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
                     <Heart className="h-4 w-4 text-white" />
@@ -316,8 +331,12 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 bg-gradient-to-r from-secondary to-primary flex items-center justify-center relative">
-                <span className="text-white font-medium">Recipe Image</span>
+              <div className="h-48 relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                  alt="Herb-Crusted Wild Salmon" 
+                  className="h-full w-full object-cover"
+                />
                 <div className="absolute top-3 right-3">
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
                     <Heart className="h-4 w-4 text-white" />
@@ -346,8 +365,12 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <div className="h-48 bg-gradient-to-r from-honey to-peach flex items-center justify-center relative">
-                <span className="text-white font-medium">Recipe Image</span>
+              <div className="h-48 relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1552950343-c4b534afc067?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                  alt="Energy-Boosting Protein Balls" 
+                  className="h-full w-full object-cover"
+                />
                 <div className="absolute top-3 right-3">
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
                     <Heart className="h-4 w-4 text-white" />
@@ -391,9 +414,11 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="bg-white border-none shadow-md rounded-xl p-6">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4">
-                  <User className="w-6 h-6 text-primary" />
-                </div>
+                <img 
+                  src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" 
+                  alt="Sarah J." 
+                  className="w-12 h-12 rounded-full object-cover mr-4"
+                />
                 <div>
                   <p className="font-bold">Sarah J.</p>
                   <p className="text-sm text-foreground/60">Fitness Enthusiast</p>
@@ -406,9 +431,11 @@ const Home = () => {
             
             <Card className="bg-white border-none shadow-md rounded-xl p-6">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center mr-4">
-                  <User className="w-6 h-6 text-secondary" />
-                </div>
+                <img 
+                  src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                  alt="Michael T." 
+                  className="w-12 h-12 rounded-full object-cover mr-4"
+                />
                 <div>
                   <p className="font-bold">Michael T.</p>
                   <p className="text-sm text-foreground/60">Marathon Runner</p>
@@ -421,9 +448,11 @@ const Home = () => {
             
             <Card className="bg-white border-none shadow-md rounded-xl p-6">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mr-4">
-                  <User className="w-6 h-6 text-accent" />
-                </div>
+                <img 
+                  src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" 
+                  alt="Lisa M." 
+                  className="w-12 h-12 rounded-full object-cover mr-4"
+                />
                 <div>
                   <p className="font-bold">Lisa M.</p>
                   <p className="text-sm text-foreground/60">Busy Parent</p>
@@ -440,24 +469,31 @@ const Home = () => {
       {/* Newsletter */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 md:p-12 max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Join Our Wellness Community</h2>
-              <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-                Get weekly recipes, nutrition tips, and exclusive content delivered straight to your inbox.
+          <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 md:p-12 max-w-5xl mx-auto relative overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+              alt="Healthy lifestyle" 
+              className="absolute top-0 left-0 w-full h-full object-cover opacity-10"
+            />
+            <div className="relative z-10">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Join Our Wellness Community</h2>
+                <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+                  Get weekly recipes, nutrition tips, and exclusive content delivered straight to your inbox.
+                </p>
+              </div>
+              <div className="flex flex-col md:flex-row gap-3 max-w-lg mx-auto">
+                <input 
+                  type="email" 
+                  placeholder="Your email address" 
+                  className="px-4 py-3 flex-1 rounded-full border border-input bg-background focus:ring-2 focus:ring-primary focus-visible:outline-none"
+                />
+                <Button className="px-8 rounded-full">Subscribe</Button>
+              </div>
+              <p className="text-xs text-center mt-4 text-foreground/60">
+                By subscribing, you agree to our Privacy Policy. We'll never share your information.
               </p>
             </div>
-            <div className="flex flex-col md:flex-row gap-3 max-w-lg mx-auto">
-              <input 
-                type="email" 
-                placeholder="Your email address" 
-                className="px-4 py-3 flex-1 rounded-full border border-input bg-background focus:ring-2 focus:ring-primary focus-visible:outline-none"
-              />
-              <Button className="px-8 rounded-full">Subscribe</Button>
-            </div>
-            <p className="text-xs text-center mt-4 text-foreground/60">
-              By subscribing, you agree to our Privacy Policy. We'll never share your information.
-            </p>
           </div>
         </div>
       </section>
