@@ -5,7 +5,11 @@ import { Toaster } from "@/components/ui/toaster";
 import App from './App.tsx'
 import './index.css'
 
-createRoot(document.getElementById("root")!).render(
+// Create the root first
+const root = createRoot(document.getElementById("root")!);
+
+// Then render with proper error boundaries
+root.render(
   <BrowserRouter>
     <App />
     <Toaster />

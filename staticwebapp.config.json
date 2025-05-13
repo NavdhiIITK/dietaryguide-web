@@ -13,6 +13,16 @@
       "route": "/recipes/*",
       "serve": "/index.html",
       "statusCode": 200
+    },
+    {
+      "route": "/tools/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    },
+    {
+      "route": "/products/*",
+      "serve": "/index.html",
+      "statusCode": 200
     }
   ]
 }
