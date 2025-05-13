@@ -33,12 +33,22 @@ const ContentDetailPage = () => {
 
   useEffect(() => {
     const fetchContent = async () => {
-      if (!id) return;
+      if (!id) {
+        setError("No content ID provided");
+        setLoading(false);
+        return;
+      }
+      
+      console.log("Fetching content for ID:", id);
       
       // First, check if the ID matches any of our curated content
-      const curatedContent = curatedBlogs.find(blog => blog.id === id);
+      // Use case-insensitive comparison to be more resilient against URL variations
+      const curatedContent = curatedBlogs.find(
+        blog => blog.id.toLowerCase() === id.toLowerCase()
+      );
       
       if (curatedContent) {
+        console.log("Found curated content:", curatedContent.title);
         // Handle curated content
         setContent({
           id: curatedContent.id,
@@ -59,12 +69,35 @@ const ContentDetailPage = () => {
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
         
         if (!uuidRegex.test(id)) {
-          // Not a valid UUID, so we know it's not in the database
+          console.log("Not a valid UUID, checking for slug match in curated blogs");
+          // Additional check for any slug-based matches in case URL format is different
+          const slugMatch = curatedBlogs.find(blog => {
+            // Create a slug from the title and check if it matches
+            const slug = blog.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            return slug === id.toLowerCase();
+          });
+          
+          if (slugMatch) {
+            setContent({
+              id: slugMatch.id,
+              title: slugMatch.title,
+              content: slugMatch.content || slugMatch.excerpt,
+              date: slugMatch.date,
+              category: slugMatch.category,
+              imageUrl: slugMatch.imageUrl || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+              author: 'DietaryGuide Team'
+            });
+            setLoading(false);
+            return;
+          }
+          
+          // Not found in any format
           setError("Content not found");
           setLoading(false);
           return;
         }
         
+        console.log("Fetching from database with UUID:", id);
         const { data, error } = await supabase
           .from('auto_blogs')
           .select('*')
@@ -78,6 +111,7 @@ const ContentDetailPage = () => {
           return;
         }
         
+        console.log("Database content found:", data.title);
         setContent({
           id: data.id,
           title: data.title,

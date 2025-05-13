@@ -1,1 +1,18 @@
-{"navigationFallback":{"rewrite":"index.html"}}
+
+{
+  "navigationFallback": {
+    "rewrite": "index.html"
+  },
+  "routes": [
+    {
+      "route": "/blog/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    },
+    {
+      "route": "/recipes/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    }
+  ]
+}
