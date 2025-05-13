@@ -18,8 +18,8 @@ interface Blog {
 
 const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
 
-// Curated blog data with high-quality health, diet, and fitness content
-const curatedBlogs: Blog[] = [
+// Export the curatedBlogs array so it can be imported in ContentDetailPage
+export const curatedBlogs: Blog[] = [
   {
     id: "nutritional-equality",
     title: "Nutritional Equality: Making Healthy Food Accessible for All",
@@ -28,117 +28,67 @@ const curatedBlogs: Blog[] = [
     category: "Health",
     imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
     content: `
-      <div class="blog-content">
-        <h1 class="text-3xl font-bold mb-6">Nutritional Equality: Making Healthy Food Accessible for All</h1>
-        
-        <div class="mb-8">
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-               alt="Peaceful landscape representing equality and balance" 
-               class="w-full h-80 object-cover rounded-lg mb-4" />
-          <p class="text-sm text-muted-foreground italic">A balanced ecosystem reflects the harmony we should strive for in our food systems</p>
-        </div>
-        
-        <h2 class="text-2xl font-semibold mb-4">Introduction</h2>
-        <p class="mb-4">In a nation as diverse as India, where cultures, languages, and traditions blend beautifully, access to nutritious food remains uneven. Nutritional equality is not just a moral obligation but a public health priority. Everyone deserves the right to eat healthy—regardless of their socio-economic background.</p>
-        
-        <h2 class="text-2xl font-semibold mb-4 mt-8">The Importance of Nutritional Equality</h2>
-        <p class="mb-4">Food is more than sustenance—it is a foundation for health, learning, productivity, and longevity. When large sections of the population lack access to balanced, nourishing food, the effects ripple across generations. Malnutrition, obesity, lifestyle disorders, and micronutrient deficiencies are often more prevalent in economically disadvantaged communities.</p>
-        
-        <p class="mb-4">Ensuring equal access to nutrition is critical for:</p>
-        <ul class="list-disc pl-6 mb-6">
-          <li class="mb-2"><strong>Public Health:</strong> Preventing diseases and improving overall wellness.</li>
-          <li class="mb-2"><strong>Economic Growth:</strong> A healthier population is more productive and innovative.</li>
-          <li class="mb-2"><strong>Social Justice:</strong> Everyone deserves the dignity of a healthy life, regardless of income or location.</li>
-        </ul>
-        
-        <div class="my-8">
-          <img src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-               alt="Fresh fruits representing healthy food options" 
-               class="w-full h-80 object-cover rounded-lg mb-4" />
-          <p class="text-sm text-muted-foreground italic">Fresh, whole foods should be accessible to everyone, not just a privileged few</p>
-        </div>
-        
-        <h2 class="text-2xl font-semibold mb-4 mt-8">Barriers to Healthy Eating in Marginalized Communities</h2>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">1. Affordability</h3>
-          <p>Nutritious food often seems more expensive or inaccessible than processed alternatives. The cost barrier creates a significant divide in who can access healthy options.</p>
-        </div>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">2. Availability</h3>
-          <p>Rural and urban poor areas may lack stores or vendors offering fresh fruits, vegetables, and whole grains. These "food deserts" force communities to rely on whatever is available locally.</p>
-        </div>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">3. Awareness</h3>
-          <p>Limited nutrition education leads to choices driven by convenience or misinformation. Without proper knowledge, people cannot make informed decisions about their diets.</p>
-        </div>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">4. Cultural Factors</h3>
-          <p>Traditional diets may sometimes get replaced by modern junk foods due to aggressive marketing. This shift away from traditional, often more balanced diets has serious health implications.</p>
-        </div>
-        
-        <div class="my-8">
-          <img src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-               alt="Person holding a light bulb representing awareness and education" 
-               class="w-full h-80 object-cover rounded-lg mb-4" />
-          <p class="text-sm text-muted-foreground italic">Nutritional education and awareness are vital for creating lasting change</p>
-        </div>
-        
-        <h2 class="text-2xl font-semibold mb-4 mt-8">Bridging the Gap: What Can Be Done?</h2>
-        <p class="mb-4">Creating nutritional equality requires collective action. Here's how we can move forward:</p>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">Government Policies</h3>
-          <p>Subsidizing healthy food, fortifying staples, and supporting local agriculture can make nutritious options more affordable and available to everyone.</p>
-        </div>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">Community Initiatives</h3>
-          <p>Urban gardens, nutrition education camps, and local food distribution can uplift health in under-served areas. These grassroots efforts often have the most direct impact.</p>
-        </div>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">Affordable Smart Snacks</h3>
-          <p>Innovating affordable, wholesome snacks tailored to local taste and nutritional needs can provide accessible healthy options between meals.</p>
-        </div>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">Partnerships with NGOs and Schools</h3>
-          <p>Educating children early and ensuring mid-day meals are nutrient-rich is essential for developing lifelong healthy eating habits.</p>
-        </div>
-        
-        <div class="mb-6">
-          <h3 class="text-xl font-medium mb-2">Digital Nutrition Literacy</h3>
-          <p>Use online platforms to spread practical, culturally relevant advice on healthy eating. Digital tools can reach larger audiences and customize information to specific needs.</p>
-        </div>
-        
-        <div class="my-8">
-          <img src="https://images.unsplash.com/photo-1473091534298-04dcbce3278c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
-               alt="Digital device representing online nutrition education" 
-               class="w-full h-80 object-cover rounded-lg mb-4" />
-          <p class="text-sm text-muted-foreground italic">Digital platforms can play a crucial role in spreading nutritional education</p>
-        </div>
-        
-        <h2 class="text-2xl font-semibold mb-4 mt-8">Conclusion</h2>
-        <p class="mb-4">Nutritional equality is not just about food—it's about dignity, opportunity, and a healthier future for all. By supporting affordable and nutritious food initiatives, we invest in a stronger, more resilient society.</p>
-        
-        <p class="mb-4">Let's continue to work together toward a world where healthy food is not a luxury but a right accessible to everyone. Through collaboration between government, communities, businesses, and individuals, we can create a more nutritionally equitable world.</p>
-        
-        <div class="mt-8 p-6 bg-primary/5 rounded-lg">
-          <h3 class="text-xl font-semibold mb-4">Take Action Today</h3>
-          <p class="mb-4">Want to contribute to nutritional equality in your community? Here are some simple steps:</p>
-          <ul class="list-disc pl-6">
-            <li class="mb-2">Support local farmers and food producers</li>
-            <li class="mb-2">Volunteer with food distribution programs</li>
-            <li class="mb-2">Share nutrition knowledge with your community</li>
-            <li class="mb-2">Advocate for healthy food policies in your area</li>
-            <li class="mb-2">Start a community garden in underserved neighborhoods</li>
-          </ul>
-        </div>
-      </div>
+# Nutritional Equality: Making Healthy Food Accessible for All
+
+In a nation as diverse as India, where cultures, languages, and traditions blend beautifully, access to nutritious food remains uneven. Nutritional equality is not just a moral obligation but a public health priority. Everyone deserves the right to eat healthy—regardless of their socio-economic background.
+
+## The Importance of Nutritional Equality
+
+Food is more than sustenance—it is a foundation for health, learning, productivity, and longevity. When large sections of the population lack access to balanced, nourishing food, the effects ripple across generations. Malnutrition, obesity, lifestyle disorders, and micronutrient deficiencies are often more prevalent in economically disadvantaged communities.
+
+Ensuring equal access to nutrition is critical for:
+
+* **Public Health:** Preventing diseases and improving overall wellness.
+* **Economic Growth:** A healthier population is more productive and innovative.
+* **Social Justice:** Everyone deserves the dignity of a healthy life, regardless of income or location.
+
+## Barriers to Healthy Eating in Marginalized Communities
+
+### 1. Affordability
+Nutritious food often seems more expensive or inaccessible than processed alternatives. The cost barrier creates a significant divide in who can access healthy options.
+
+### 2. Availability
+Rural and urban poor areas may lack stores or vendors offering fresh fruits, vegetables, and whole grains. These "food deserts" force communities to rely on whatever is available locally.
+
+### 3. Awareness
+Limited nutrition education leads to choices driven by convenience or misinformation. Without proper knowledge, people cannot make informed decisions about their diets.
+
+### 4. Cultural Factors
+Traditional diets may sometimes get replaced by modern junk foods due to aggressive marketing. This shift away from traditional, often more balanced diets has serious health implications.
+
+## Bridging the Gap: What Can Be Done?
+
+Creating nutritional equality requires collective action. Here's how we can move forward:
+
+### Government Policies
+Subsidizing healthy food, fortifying staples, and supporting local agriculture can make nutritious options more affordable and available to everyone.
+
+### Community Initiatives
+Urban gardens, nutrition education camps, and local food distribution can uplift health in under-served areas. These grassroots efforts often have the most direct impact.
+
+### Affordable Smart Snacks
+Innovating affordable, wholesome snacks tailored to local taste and nutritional needs can provide accessible healthy options between meals.
+
+### Partnerships with NGOs and Schools
+Educating children early and ensuring mid-day meals are nutrient-rich is essential for developing lifelong healthy eating habits.
+
+### Digital Nutrition Literacy
+Use online platforms to spread practical, culturally relevant advice on healthy eating. Digital tools can reach larger audiences and customize information to specific needs.
+
+## Conclusion
+
+Nutritional equality is not just about food—it's about dignity, opportunity, and a healthier future for all. By supporting affordable and nutritious food initiatives, we invest in a stronger, more resilient society.
+
+Let's continue to work together toward a world where healthy food is not a luxury but a right accessible to everyone. Through collaboration between government, communities, businesses, and individuals, we can create a more nutritionally equitable world.
+
+### Take Action Today
+
+Want to contribute to nutritional equality in your community? Here are some simple steps:
+* Support local farmers and food producers
+* Volunteer with food distribution programs
+* Share nutrition knowledge with your community
+* Advocate for healthy food policies in your area
+* Start a community garden in underserved neighborhoods
     `
   },
   {

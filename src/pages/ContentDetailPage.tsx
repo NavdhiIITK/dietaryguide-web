@@ -18,6 +18,10 @@ interface Content {
   author: string;
 }
 
+// Import curated blogs from BlogPage for local content access
+// This allows us to show the blogs that are hardcoded in BlogPage.tsx
+import { curatedBlogs } from "@/pages/BlogPage";
+
 const ContentDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -31,7 +35,36 @@ const ContentDetailPage = () => {
     const fetchContent = async () => {
       if (!id) return;
       
+      // First, check if the ID matches any of our curated content
+      const curatedContent = curatedBlogs.find(blog => blog.id === id);
+      
+      if (curatedContent) {
+        // Handle curated content
+        setContent({
+          id: curatedContent.id,
+          title: curatedContent.title,
+          content: curatedContent.content || curatedContent.excerpt,
+          date: curatedContent.date,
+          category: curatedContent.category,
+          imageUrl: curatedContent.imageUrl || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+          author: 'DietaryGuide Team'
+        });
+        setLoading(false);
+        return;
+      }
+      
+      // If not found in curated content, try to fetch from database
       try {
+        // Check if the ID is a valid UUID format before querying
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        
+        if (!uuidRegex.test(id)) {
+          // Not a valid UUID, so we know it's not in the database
+          setError("Content not found");
+          setLoading(false);
+          return;
+        }
+        
         const { data, error } = await supabase
           .from('auto_blogs')
           .select('*')
