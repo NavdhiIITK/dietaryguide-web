@@ -9,7 +9,7 @@ import { ArrowDown, ArrowRight, Search, Utensils, Calculator, BookOpen, Heart, U
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { indianRecipes } from "@/data/recipes";
+import { allIndianRecipes } from "@/data/recipes";
 
 interface ContentItem {
   id: string;
@@ -262,7 +262,7 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {indianRecipes.slice(0, 4).map((recipe) => (
+            {allIndianRecipes.slice(0, 4).map((recipe) => (
               <Card key={recipe.id} className="overflow-hidden border-none shadow-md rounded-xl card-hover">
                 <div className="h-48 relative">
                   <img 
