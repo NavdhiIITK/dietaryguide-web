@@ -14,6 +14,7 @@ interface Blog {
   category: string;
   imageUrl: string;
   content?: string;
+  author?: string;
 }
 
 const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
@@ -186,6 +187,74 @@ Want to contribute to nutritional equality in your community? Here are some simp
     date: "March 20, 2025",
     category: "Nutrition",
     imageUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  },
+  {
+    id: "science-of-hydration",
+    title: "The Science of Hydration: Why Water Is Essential",
+    excerpt: "Explore how proper hydration affects everything from cognitive function to athletic performance.",
+    content: `
+# The Science of Hydration: Why Water Is Essential
+
+Water is the essence of life. Making up about 60% of our body weight, it's involved in virtually every bodily process. Yet many of us walk around chronically dehydrated without even realizing it.
+
+## How Hydration Affects Your Body
+
+**Brain Function**: Even mild dehydration can impair cognitive performance, concentration, alertness, and short-term memory. Studies show that a fluid loss of just 1-2% can begin to affect cognitive function.
+
+**Physical Performance**: During physical activity, staying properly hydrated helps maintain normal body temperature, reduces cardiovascular strain, and improves performance. Athletes who lose as little as 2% of their body weight through sweating experience a significant drop in blood volume, causing the heart to work harder.
+
+**Digestion and Nutrient Absorption**: Water helps break down food so your body can absorb nutrients. It also softens stool, preventing constipation.
+
+**Detoxification**: The kidneys use water to filter waste from the blood and excrete it in urine. Insufficient water intake can lead to kidney stones and urinary tract infections.
+
+## Signs of Dehydration
+
+* **Thirst** (though by the time you feel thirsty, you're already mildly dehydrated)
+* **Dark urine**
+* **Fatigue**
+* **Headaches**
+* **Dry mouth and lips**
+* **Dizziness**
+* **Reduced urination**
+
+## How Much Should You Drink?
+
+While the "8 glasses a day" rule is a good general guideline, individual needs vary based on:
+
+1. **Body weight and composition**
+2. **Activity level and sweat rate**
+3. **Environment (temperature and humidity)**
+4. **Altitude**
+5. **Overall health**
+
+A better guideline is to drink enough so that your urine is pale yellow or clear most of the time.
+
+## Beyond Water: Other Sources of Hydration
+
+**Hydrating Foods**: Many fruits and vegetables are more than 90% water, including watermelon, strawberries, cucumbers, and lettuce.
+
+**Other Beverages**: Herbal teas, milk, and even coffee and tea contribute to hydration (though caffeinated beverages have a mild diuretic effect).
+
+## Electrolytes: Water's Essential Partners
+
+Water alone isn't enough—your body needs electrolytes like sodium, potassium, and magnesium to properly absorb and use water. These minerals help maintain fluid balance, muscle function, and nerve signaling.
+
+During intense exercise or in hot environments, you lose electrolytes through sweat, which is why sports drinks or electrolyte supplements can be beneficial in these situations.
+
+## Practical Hydration Tips
+
+* **Start your day with water** before your morning coffee or tea
+* **Carry a reusable water bottle** everywhere
+* **Set hydration reminders** on your phone
+* **Eat water-rich fruits and vegetables**
+* **Flavor water naturally** with fruits, vegetables, or herbs if you find plain water boring
+
+Remember, staying hydrated is one of the simplest yet most effective ways to improve your overall health and wellbeing. It costs almost nothing but pays dividends in how you feel and perform every day.
+    `,
+    date: "March 28, 2025",
+    category: "Hydration",
+    imageUrl: "/post-images/hydration-science.png", // Updated image URL
+    author: "Dr. Sarah Watkins"
   }
 ];
 

@@ -1,17 +1,17 @@
-
 export interface Recipe {
   id: string;
   title: string;
   description: string;
   prepTime: string;
-  category: string;
-  imageUrl: string;
+  cookTime?: string;
   difficulty: string;
+  servings: number;
   mealType: string;
   dietPreference: string;
-  isTrending?: boolean;
-  ingredients?: string[];
-  instructions?: string[];
+  imageUrl: string;
+	isTrending?: boolean;
+  ingredients: string[];
+  instructions: string[];
   nutritionFacts?: {
     calories?: string;
     protein?: string;
@@ -22,328 +22,205 @@ export interface Recipe {
   tips?: string[];
 }
 
-export const indianRecipes: Recipe[] = [
+export const allIndianRecipes: Recipe[] = [
   {
-    id: "masala-chana-dal",
-    title: "Masala Chana Dal",
-    description: "A protein-rich lentil dish made with split chickpeas, aromatic spices, and fresh herbs.",
-    prepTime: "45 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1631452180539-96aca7d48617?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    id: "aloo-gobi",
+    title: "Aloo Gobi",
+    description: "A popular Indian dish made with potatoes (aloo) and cauliflower (gobi) in a blend of spices.",
+    prepTime: "20 min",
+    cookTime: "30 min",
     difficulty: "Easy",
+    servings: 4,
     mealType: "Dinner",
-    dietPreference: "Vegetarian",
-    isTrending: true,
+    dietPreference: "Vegan",
+    imageUrl: "https://images.unsplash.com/photo-1617184999745-c9c898941442?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
     ingredients: [
-      "1 cup split Bengal gram (chana dal), soaked for 30 minutes",
+      "2 medium potatoes, cubed",
+      "1 small cauliflower, cut into florets",
       "1 large onion, finely chopped",
       "2 tomatoes, chopped",
-      "2 green chilies, slit",
-      "1 inch ginger, grated",
-      "3 cloves garlic, minced",
-      "1 tsp cumin seeds",
-      "1/2 tsp turmeric powder",
-      "1 tsp red chili powder",
-      "1 tsp coriander powder",
-      "1/2 tsp garam masala",
+      "1 tablespoon ginger-garlic paste",
+      "1 teaspoon cumin seeds",
+      "1/2 teaspoon turmeric powder",
+      "1 teaspoon coriander powder",
+      "1/2 teaspoon garam masala",
+      "1/4 teaspoon red chili powder (optional)",
+      "2 tablespoons oil",
       "Fresh coriander leaves for garnish",
-      "2 tbsp ghee or oil",
       "Salt to taste"
     ],
     instructions: [
-      "Rinse and soak the chana dal for 30 minutes. Drain and set aside.",
-      "Heat ghee in a pressure cooker. Add cumin seeds and let them crackle.",
+      "Heat oil in a pan, add cumin seeds and let them crackle.",
       "Add chopped onions and sauté until golden brown.",
-      "Add ginger, garlic, and green chilies. Sauté for 2 minutes until fragrant.",
-      "Add chopped tomatoes and cook until soft and oil starts to separate.",
-      "Add turmeric powder, red chili powder, coriander powder, and salt. Mix well.",
-      "Add the soaked chana dal and mix with the spices.",
-      "Add 3 cups of water and pressure cook for 3-4 whistles or until the dal is soft.",
-      "Open the cooker when pressure subsides naturally. Mash some dal to create a creamy texture.",
-      "Simmer for 5 minutes, then add garam masala and mix well.",
-      "Garnish with fresh coriander leaves before serving."
+      "Add ginger-garlic paste and sauté for a minute.",
+      "Add chopped tomatoes and cook until soft.",
+      "Add turmeric powder, coriander powder, garam masala, and red chili powder (if using). Sauté for a minute.",
+      "Add potatoes and cauliflower, mix well with the spices.",
+      "Add salt and cook covered on low heat until vegetables are tender.",
+      "Garnish with fresh coriander leaves and serve hot with roti or rice."
     ],
     nutritionFacts: {
-      calories: "220 per serving",
-      protein: "12g",
+      calories: "210 kcal",
+      protein: "7g",
       carbs: "35g",
       fat: "5g",
       fiber: "8g"
     },
     tips: [
-      "Soaking the dal reduces cooking time and makes it more digestible.",
-      "For extra richness, add a tablespoon of cream at the end.",
-      "Serve with brown rice or whole wheat roti for a complete meal."
+      "You can add green peas for extra flavor and nutrition.",
+      "Adjust the amount of red chili powder according to your spice preference.",
+      "For a dry version, cook uncovered for the last few minutes to evaporate excess moisture."
+    ]
+  },
+  {
+    id: "chana-masala",
+    title: "Chana Masala",
+    description: "A flavorful and tangy chickpea curry, popular in North India.",
+    prepTime: "15 min",
+    cookTime: "45 min",
+    difficulty: "Medium",
+    servings: 4,
+    mealType: "Lunch",
+    dietPreference: "Vegan",
+    imageUrl: "https://images.unsplash.com/photo-1677973037499-854714597541?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    ingredients: [
+      "1 cup dried chickpeas, soaked overnight",
+      "1 large onion, finely chopped",
+      "2 tomatoes, chopped",
+      "1 tablespoon ginger-garlic paste",
+      "1 teaspoon cumin seeds",
+      "1/2 teaspoon turmeric powder",
+      "1 teaspoon coriander powder",
+      "1/2 teaspoon garam masala",
+      "1/2 teaspoon amchur (dry mango powder)",
+      "1/4 teaspoon red chili powder (optional)",
+      "2 tablespoons oil",
+      "Fresh coriander leaves for garnish",
+      "Salt to taste"
+    ],
+    instructions: [
+      "Boil the soaked chickpeas with salt until tender. Drain and set aside.",
+      "Heat oil in a pan, add cumin seeds and let them crackle.",
+      "Add chopped onions and sauté until golden brown.",
+      "Add ginger-garlic paste and sauté for a minute.",
+      "Add chopped tomatoes and cook until soft.",
+      "Add turmeric powder, coriander powder, garam masala, amchur, and red chili powder (if using). Sauté for a minute.",
+      "Add boiled chickpeas and mix well with the spices.",
+      "Add salt and simmer for 15-20 minutes, stirring occasionally.",
+      "Garnish with fresh coriander leaves and serve hot with roti or rice."
+    ],
+    nutritionFacts: {
+      calories: "280 kcal",
+      protein: "12g",
+      carbs: "45g",
+      fat: "6g",
+      fiber: "12g"
+    },
+    tips: [
+      "You can add a tea bag while boiling chickpeas for a darker color.",
+      "Crush some of the chickpeas while simmering for a thicker gravy.",
+      "Adjust the amount of amchur according to your sourness preference."
+    ]
+  },
+  {
+    id: "dal-makhani",
+    title: "Dal Makhani",
+    description: "A rich and creamy lentil dish made with black lentils and kidney beans, simmered overnight for a unique flavor.",
+    prepTime: "20 min",
+    cookTime: "Overnight Simmer",
+    difficulty: "Medium",
+    servings: 6,
+    mealType: "Dinner",
+    dietPreference: "Vegetarian",
+    imageUrl: "https://images.unsplash.com/photo-1630441476774-4990c9c9493d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    ingredients: [
+      "1 cup whole black lentils (urad dal)",
+      "1/4 cup kidney beans (rajma)",
+      "2 large onions, finely chopped",
+      "2 tomatoes, chopped",
+      "1 tablespoon ginger-garlic paste",
+      "1 teaspoon cumin seeds",
+      "1/2 teaspoon turmeric powder",
+      "1 teaspoon red chili powder (optional)",
+      "1/2 cup cream or butter",
+      "2 tablespoons oil or ghee",
+      "Salt to taste"
+    ],
+    instructions: [
+      "Soak black lentils and kidney beans overnight.",
+      "Boil the soaked lentils and beans with salt until very tender. This may take several hours.",
+      "Heat oil or ghee in a pan, add cumin seeds and let them crackle.",
+      "Add chopped onions and sauté until golden brown.",
+      "Add ginger-garlic paste and sauté for a minute.",
+      "Add chopped tomatoes and cook until soft.",
+      "Add turmeric powder and red chili powder (if using). Sauté for a minute.",
+      "Add boiled lentils and beans, mix well with the spices.",
+      "Add cream or butter and simmer on low heat overnight or for several hours, stirring occasionally.",
+      "Adjust salt and serve hot with roti or rice."
+    ],
+    nutritionFacts: {
+      calories: "450 kcal",
+      protein: "20g",
+      carbs: "50g",
+      fat: "20g",
+      fiber: "15g"
+    },
+    tips: [
+      "The overnight simmering is crucial for the unique flavor of Dal Makhani.",
+      "You can use a slow cooker for simmering.",
+      "Adjust the amount of cream or butter according to your preference."
     ]
   },
   {
     id: "palak-paneer",
     title: "Palak Paneer",
-    description: "A classic North Indian dish of cottage cheese cubes in a pureed spinach gravy rich in vitamins and calcium.",
+    description: "A classic North Indian dish of cottage cheese cubes in a smooth spinach gravy.",
     prepTime: "40 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1582576163090-09d2897fa5a3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
+    cookTime: "30 min",
     difficulty: "Medium",
+    servings: 4,
     mealType: "Dinner",
     dietPreference: "Vegetarian",
-    isTrending: true,
+    imageUrl: "/post-images/palak-paneer.png", // Updated image URL
+		isTrending: true,
     ingredients: [
-      "2 bunches fresh spinach (palak), washed thoroughly",
-      "250g paneer, cubed",
+      "250g paneer (cottage cheese), cubed",
+      "500g spinach leaves, washed and chopped",
+      "2 tablespoons ghee or oil",
       "1 large onion, finely chopped",
-      "1 inch ginger, grated",
-      "4-5 cloves garlic, minced",
-      "2 green chilies, chopped",
-      "1 medium tomato, chopped",
-      "1 tsp cumin seeds",
-      "1/2 tsp turmeric powder",
-      "1 tsp garam masala",
-      "2 tbsp cream (optional)",
-      "2 tbsp ghee or oil",
-      "Salt to taste"
-    ],
-    instructions: [
-      "Blanch spinach in boiling water for 2-3 minutes, then immerse in cold water.",
-      "Drain the spinach and blend it into a smooth puree. Set aside.",
-      "Heat 1 tbsp oil in a pan and lightly fry paneer cubes until golden. Remove and set aside.",
-      "In the same pan, heat 1 tbsp ghee. Add cumin seeds and let them crackle.",
-      "Add chopped onions and sauté until golden brown.",
-      "Add ginger, garlic, and green chilies. Sauté until fragrant.",
-      "Add chopped tomatoes and cook until soft.",
-      "Add turmeric powder and salt. Mix well and cook for 2 minutes.",
-      "Add the spinach puree and cook for 5-6 minutes on medium heat.",
-      "Add fried paneer cubes and garam masala. Mix gently.",
-      "Simmer for 3-4 minutes to let the flavors blend.",
-      "Add cream if using, and mix well before serving."
-    ],
-    nutritionFacts: {
-      calories: "250 per serving",
-      protein: "14g",
-      carbs: "15g",
-      fat: "16g",
-      fiber: "5g"
-    },
-    tips: [
-      "Add a pinch of kasuri methi (dried fenugreek leaves) for extra flavor.",
-      "For a lighter version, substitute cream with yogurt.",
-      "Serve with brown rice or whole wheat roti for a complete meal."
-    ]
-  },
-  {
-    id: "ragi-dosa",
-    title: "Ragi Dosa",
-    description: "A nutritious South Indian crepe made with finger millet flour, rich in calcium and ideal for breakfast.",
-    prepTime: "30 min + soaking",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Breakfast",
-    dietPreference: "Vegan",
-    isTrending: true,
-    ingredients: [
-      "1 cup ragi flour (finger millet flour)",
-      "1/2 cup rice flour",
-      "1/4 cup urad dal (split black gram), soaked for 2 hours",
-      "1 small onion, finely chopped (optional)",
-      "1 green chili, finely chopped",
-      "1 inch ginger, grated",
-      "A few curry leaves, chopped",
-      "1/4 tsp asafoetida (hing)",
-      "1/2 tsp cumin seeds",
-      "2-3 tbsp chopped coriander leaves",
-      "Salt to taste",
-      "Oil for cooking"
-    ],
-    instructions: [
-      "Drain the soaked urad dal and grind to a smooth paste with minimal water.",
-      "In a large bowl, mix ragi flour, rice flour, and the urad dal paste.",
-      "Add enough water to make a batter of pouring consistency, similar to traditional dosa batter.",
-      "Add salt and let the batter rest for 15-20 minutes.",
-      "Add chopped onions, green chilies, ginger, curry leaves, asafoetida, cumin seeds, and coriander leaves to the batter. Mix well.",
-      "Heat a non-stick or cast iron pan. Sprinkle a few drops of water to check if it's hot enough.",
-      "Pour a ladleful of batter in the center and spread it in a circular motion to form a thin dosa.",
-      "Drizzle a little oil around the edges and in the center.",
-      "Cook on medium heat until the bottom turns golden brown.",
-      "Flip and cook the other side for a minute.",
-      "Serve hot with coconut chutney or sambar."
-    ],
-    nutritionFacts: {
-      calories: "180 per dosa",
-      protein: "6g",
-      carbs: "32g",
-      fat: "3g",
-      fiber: "4g"
-    },
-    tips: [
-      "The batter doesn't need to ferment like traditional dosa batter.",
-      "Use a non-stick pan to use less oil.",
-      "Spread the batter thinly for a crispy dosa."
-    ]
-  },
-  {
-    id: "baingan-bharta",
-    title: "Baingan Bharta",
-    description: "A smoky eggplant dish roasted over direct flame and mashed with spices, tomatoes and herbs.",
-    prepTime: "50 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Medium",
-    mealType: "Dinner",
-    dietPreference: "Vegan",
-    isTrending: true,
-    ingredients: [
-      "1 large eggplant (baingan)",
-      "2 tablespoons oil",
-      "1 teaspoon cumin seeds",
-      "1 large onion, finely chopped",
-      "2 green chilies, finely chopped",
+      "2 tomatoes, chopped",
       "1 tablespoon ginger-garlic paste",
-      "2 medium tomatoes, finely chopped",
+      "2-3 green chilies, chopped",
+      "1 teaspoon cumin seeds",
+      "1 teaspoon garam masala",
       "1/2 teaspoon turmeric powder",
-      "1 teaspoon red chili powder",
       "1 teaspoon coriander powder",
-      "1/2 teaspoon garam masala",
-      "Fresh coriander leaves, chopped",
+      "1/2 cup cream or milk",
       "Salt to taste"
     ],
     instructions: [
-      "Rinse and pat dry the eggplant. Apply a little oil all over it.",
-      "Roast the eggplant directly over the flame, turning occasionally, until the skin is charred and the eggplant is completely soft.",
-      "Once cooled, peel off the charred skin and mash the pulp with a fork. Set aside.",
-      "Heat oil in a pan. Add cumin seeds and let them splutter.",
+      "Blanch the spinach leaves in hot water for 2-3 minutes, then transfer to ice water.",
+      "Blend the blanched spinach into a smooth puree and set aside.",
+      "Heat ghee in a pan, add cumin seeds and let them crackle.",
       "Add chopped onions and sauté until golden brown.",
-      "Add green chilies and ginger-garlic paste. Sauté for 2 minutes until the raw smell disappears.",
-      "Add chopped tomatoes and cook until they turn soft and mushy.",
-      "Add turmeric powder, red chili powder, coriander powder, and salt. Mix well.",
-      "Add the mashed eggplant pulp and mix thoroughly with the spices.",
-      "Cook for 8-10 minutes on medium heat, stirring occasionally.",
-      "Finally, add garam masala and mix well. Garnish with fresh coriander leaves.",
-      "Serve hot with roti or rice."
+      "Add ginger-garlic paste and green chilies, sauté for 1-2 minutes.",
+      "Add chopped tomatoes and cook until soft and mushy.",
+      "Add turmeric, coriander powder, and garam masala. Cook for 1-2 minutes.",
+      "Stir in the spinach puree and cook for 5 minutes on low heat.",
+      "Add paneer cubes and salt, simmer for 5 more minutes.",
+      "Finish with cream or milk, simmer for 2 more minutes and serve hot with roti or rice."
     ],
     nutritionFacts: {
-      calories: "150 per serving",
-      protein: "3g",
-      carbs: "20g",
-      fat: "8g",
-      fiber: "7g"
-    },
-    tips: [
-      "Roasting the eggplant over direct flame gives a unique smoky flavor essential for authentic bharta.",
-      "Choose a large, firm eggplant with glossy skin for the best results.",
-      "You can add a teaspoon of butter or ghee at the end for extra richness."
-    ]
-  }
-];
-
-// Export the full list for the recipes page
-export const allIndianRecipes: Recipe[] = [
-  ...indianRecipes,
-  {
-    id: "khichdi",
-    title: "Moong Dal Khichdi",
-    description: "A comforting one-pot meal made with rice, yellow moong dal, and mild spices - perfect for easy digestion.",
-    prepTime: "35 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1568544787747-60c4ba915cd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Dinner",
-    dietPreference: "Vegetarian",
-    ingredients: [
-      "1/2 cup rice",
-      "1/2 cup yellow moong dal (split yellow lentils)",
-      "1 small onion, finely chopped",
-      "1 tomato, chopped",
-      "1 inch ginger, grated",
-      "1 green chili, slit",
-      "1/2 teaspoon turmeric powder",
-      "1/2 teaspoon cumin seeds",
-      "Pinch of asafoetida (hing)",
-      "2 cloves",
-      "1 small cinnamon stick",
-      "1 bay leaf",
-      "2 tablespoons ghee",
-      "Salt to taste",
-      "3 cups water",
-      "Fresh coriander for garnish"
-    ],
-    instructions: [
-      "Rinse rice and dal together until water runs clear. Soak for 20 minutes, then drain.",
-      "Heat ghee in a pressure cooker. Add cumin seeds, cloves, cinnamon, and bay leaf.",
-      "When the spices splutter, add asafoetida and green chili. Sauté for a few seconds.",
-      "Add chopped onions and sauté until translucent.",
-      "Add ginger and tomatoes. Cook until tomatoes soften.",
-      "Add turmeric powder and salt. Mix well.",
-      "Add drained rice and dal mixture. Sauté for 2 minutes.",
-      "Add 3 cups of water and mix well. Check seasoning.",
-      "Pressure cook for 2-3 whistles, or until rice and dal are fully cooked and soft.",
-      "Let the pressure release naturally. Open the lid and mash the khichdi slightly.",
-      "Garnish with fresh coriander and serve hot with yogurt or pickle."
-    ],
-    nutritionFacts: {
-      calories: "210 per serving",
-      protein: "9g",
-      carbs: "30g",
-      fat: "6g",
+      calories: "320 kcal",
+      protein: "18g",
+      carbs: "14g",
+      fat: "22g",
       fiber: "5g"
     },
     tips: [
-      "For a more digestible meal, add a pinch of asafoetida and some cumin powder.",
-      "The consistency can be adjusted by adding more or less water depending on preference.",
-      "A tadka of ghee, cumin seeds, and red chilies can be added before serving for extra flavor."
+      "For a healthier version, use tofu instead of paneer.",
+      "Add kasuri methi (dried fenugreek leaves) for enhanced flavor.",
+      "Lightly fry paneer cubes before adding to gravy for extra texture."
     ]
   },
-  {
-    id: "vegetable-upma",
-    title: "Vegetable Upma",
-    description: "A savory breakfast dish made from semolina and loaded with vegetables and aromatic spices.",
-    prepTime: "25 min",
-    category: "Recipes",
-    imageUrl: "https://images.unsplash.com/photo-1619057761548-953ada234f38?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80",
-    difficulty: "Easy",
-    mealType: "Breakfast",
-    dietPreference: "Vegetarian",
-    ingredients: [
-      "1 cup semolina (sooji/rava)",
-      "1 medium onion, finely chopped",
-      "1/2 cup mixed vegetables (carrots, peas, beans), finely chopped",
-      "1 green chili, finely chopped",
-      "1 teaspoon mustard seeds",
-      "1 teaspoon urad dal (split black gram)",
-      "1 teaspoon chana dal (split chickpeas)",
-      "10-12 curry leaves",
-      "1/4 teaspoon turmeric powder",
-      "1/4 cup peanuts",
-      "1 inch ginger, grated",
-      "2 tablespoons oil or ghee",
-      "Salt to taste",
-      "2 cups water",
-      "Fresh coriander and lemon juice for garnish"
-    ],
-    instructions: [
-      "Dry roast the semolina in a pan on medium heat until it turns slightly golden and aromatic, about 3-4 minutes. Set aside.",
-      "Heat oil or ghee in a pan. Add mustard seeds and let them crackle.",
-      "Add urad dal, chana dal, and peanuts. Sauté until dals turn golden brown.",
-      "Add curry leaves, green chili, and ginger. Sauté for a minute.",
-      "Add chopped onions and sauté until translucent.",
-      "Add mixed vegetables, turmeric powder, and salt. Mix well.",
-      "Cook the vegetables for 3-4 minutes until slightly tender.",
-      "Add 2 cups of hot water and bring to a boil.",
-      "Once the water is boiling, lower the heat and slowly add the roasted semolina while stirring continuously to avoid lumps.",
-      "Cover and cook on low heat for 2-3 minutes until all water is absorbed.",
-      "Turn off the heat and let it rest for 2 minutes.",
-      "Fluff up the upma with a fork, garnish with fresh coriander and a squeeze of lemon juice before serving."
-    ],
-    nutritionFacts: {
-      calories: "180 per serving",
-      protein: "5g",
-      carbs: "24g",
-      fat: "7g",
-      fiber: "3g"
-    },
-    tips: [
-      "Roasting the semolina before cooking prevents lumps and enhances flavor.",
-      "For extra nutrition, add grated carrots or finely chopped spinach.",
-      "Serve with coconut chutney or pickle for a complete breakfast."
-    ]
-  }
 ];
