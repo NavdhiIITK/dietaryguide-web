@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -6,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Clock, ChefHat, Flame, Bookmark, ArrowLeft, Heart, Share2, Printer } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { allIndianRecipes, Recipe } from "@/data/recipes";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+
 const RecipeDetailPage = () => {
   const {
     id
@@ -14,6 +17,7 @@ const RecipeDetailPage = () => {
   }>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     // Simulate fetch with timeout
     const timer = setTimeout(() => {
@@ -23,6 +27,7 @@ const RecipeDetailPage = () => {
     }, 800);
     return () => clearTimeout(timer);
   }, [id]);
+  
   if (loading) {
     return <div className="min-h-screen flex flex-col">
         <Navbar />
@@ -50,6 +55,7 @@ const RecipeDetailPage = () => {
         <Footer />
       </div>;
   }
+  
   if (!recipe) {
     return <div className="min-h-screen flex flex-col">
         <Navbar />
@@ -63,6 +69,7 @@ const RecipeDetailPage = () => {
         <Footer />
       </div>;
   }
+  
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
@@ -82,9 +89,19 @@ const RecipeDetailPage = () => {
             <h1 className="text-3xl md:text-4xl font-bold mb-2">{recipe.title}</h1>
             <p className="text-lg text-muted-foreground mb-6">{recipe.description}</p>
             
-            {/* Recipe Image */}
+            {/* Recipe Image with AspectRatio */}
             <div className="rounded-xl overflow-hidden mb-8 shadow-md">
-              <img src={recipe.imageUrl} alt={recipe.title} className="w-full h-96 object-cover" />
+              <AspectRatio ratio={16/9} className="bg-muted">
+                <img 
+                  src={recipe.imageUrl} 
+                  alt={recipe.title} 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/placeholder.svg";
+                  }}
+                />
+              </AspectRatio>
             </div>
             
             {/* Recipe Meta Info */}
