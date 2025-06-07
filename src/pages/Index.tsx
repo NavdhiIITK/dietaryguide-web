@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
-
 interface ContentItem {
   id: string;
   title: string;
@@ -19,7 +18,6 @@ interface ContentItem {
   category: string | null;
   date: string | null;
 }
-
 const Home = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollToContent = () => {
@@ -27,9 +25,7 @@ const Home = () => {
       behavior: "smooth"
     });
   };
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       {/* Hero Section */}
@@ -73,9 +69,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Complete Wellness Resource</h2>
-            <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
-              Discover the tools and knowledge you need to take control of your health journey.
-            </p>
+            <p className="text-xl text-foreground/70 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -344,10 +338,8 @@ const Home = () => {
       <LatestContent />
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
@@ -459,5 +451,4 @@ const LatestContent = () => {
       </div>
     </div>;
 };
-
 export default Home;
