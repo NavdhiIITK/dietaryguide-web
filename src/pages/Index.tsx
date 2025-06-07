@@ -381,7 +381,7 @@ const LatestContent = () => {
   
   if (loading) {
     return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
-        <div className="w-full max-w-none mx-auto text-center">
+        <div className="w-full mx-auto text-center">
           <h2 className="text-section-title font-bold text-green-800 dark:text-green-300">Latest Content</h2>
           <p className="text-muted-foreground mt-4">Loading our latest articles and recipes...</p>
         </div>
@@ -391,7 +391,7 @@ const LatestContent = () => {
     return null;
   }
   return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
-      <div className="w-full max-w-none mx-auto space-luxurious px-0">
+      <div className="w-full mx-auto space-luxurious">
         <div className="text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-section-title font-bold text-green-800 dark:text-green-300">Latest Content</h2>
           <p className="text-muted-foreground mt-4">Discover our newest articles and recipes</p>
@@ -457,4 +457,5 @@ const LatestContent = () => {
       </div>
     </div>;
 };
+
 export default Home;
