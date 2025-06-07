@@ -269,7 +269,7 @@ const Home = () => {
       
       {/* Testimonials Section */}
       <section className="section-container bg-gradient-to-b from-muted/30 to-background">
-        <div className="content-wrapper text-center space-luxurious">
+        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8 text-center space-luxurious">
           <div>
             <h2 className="text-section-title font-bold mb-6">What Our Community Says</h2>
             <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">
