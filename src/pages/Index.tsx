@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -144,12 +143,12 @@ const Home = () => {
       </section>
       
       {/* Featured Articles Section */}
-      <section className="section-container bg-muted/30">
+      <section className="py-16 md:py-20 lg:py-24 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12 space-comfortable">
+          <div className="flex justify-between items-center mb-12 md:mb-16 lg:mb-20">
             <div>
-              <h2 className="text-section-title font-bold mb-3">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</h2>
-              <p className="text-foreground/70 text-base-responsive">Fresh perspectives on nutrition and wellness</p>
+              <h2 className="text-section-title font-bold mb-4 md:mb-6">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</h2>
+              <p className="text-lg md:text-xl lg:text-2xl text-foreground/70 max-w-4xl mx-auto leading-relaxed">Fresh perspectives on nutrition and wellness</p>
             </div>
             <Button asChild variant="outline" className="rounded-full text-sm">
               <Link to="/blog" className="flex items-center">
@@ -159,7 +158,7 @@ const Home = () => {
             </Button>
           </div>
           
-          <div className="grid-layout">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
               <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy food with vegetables and proteins" className="h-40 w-full object-cover" />
               <CardContent className="p-5 space-comfortable">
