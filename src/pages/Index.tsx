@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
-
 interface ContentItem {
   id: string;
   title: string;
@@ -19,16 +18,14 @@ interface ContentItem {
   category: string | null;
   date: string | null;
 }
-
 const Home = () => {
   const contentRef = useRef<HTMLDivElement>(null);
-
   const scrollToContent = () => {
-    contentRef.current?.scrollIntoView({ behavior: "smooth" });
+    contentRef.current?.scrollIntoView({
+      behavior: "smooth"
+    });
   };
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       {/* Hero Section */}
@@ -36,13 +33,19 @@ const Home = () => {
         <HeroCanvas />
         <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center pt-8 md:pt-16">
           <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">Nourish Your Body. Elevate Your Life.</span>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in" style={{
+          animationDelay: "0.2s"
+        }}>
             Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
           </h1>
-          <p className="text-xl md:text-2xl mb-10 max-w-2xl text-foreground/80 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+          <p className="text-xl md:text-2xl mb-10 max-w-2xl text-foreground/80 animate-fade-in" style={{
+          animationDelay: "0.4s"
+        }}>
             Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{
+          animationDelay: "0.6s"
+        }}>
             <Button asChild size="lg" className="text-lg px-8 rounded-full bg-gradient-to-r from-teal-light to-secondary hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               <Link to="/tools">Explore Tools</Link>
             </Button>
@@ -51,14 +54,10 @@ const Home = () => {
             </Button>
           </div>
           
-          <div className="mt-16 mb-4 animate-bounce animate-fade-in" style={{ animationDelay: "1s" }}>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50"
-              onClick={scrollToContent}
-              aria-label="Scroll down"
-            >
+          <div className="mt-16 mb-4 animate-bounce animate-fade-in" style={{
+          animationDelay: "1s"
+        }}>
+            <Button variant="ghost" size="icon" className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50" onClick={scrollToContent} aria-label="Scroll down">
               <ArrowDown className="h-5 w-5" />
             </Button>
           </div>
@@ -71,11 +70,7 @@ const Home = () => {
           <div className="bg-white rounded-xl shadow-lg p-4 mx-auto max-w-3xl flex items-center">
             <div className="relative flex-grow">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-              <input 
-                type="text" 
-                placeholder="Search for recipes, nutrition advice, or health tips..." 
-                className="w-full pl-10 pr-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary focus-visible:outline-none"
-              />
+              <input type="text" placeholder="Search for recipes, nutrition advice, or health tips..." className="w-full pl-10 pr-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary focus-visible:outline-none" />
             </div>
             <Button className="ml-2 rounded-lg">Search</Button>
           </div>
@@ -171,11 +166,7 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <img 
-                src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                alt="Healthy food with vegetables and proteins" 
-                className="h-48 w-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy food with vegetables and proteins" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="inline-block px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
@@ -195,11 +186,7 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <img 
-                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                alt="Person meditating while eating" 
-                className="h-48 w-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mental Health</span>
@@ -219,11 +206,7 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <img 
-                src="https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                alt="Water bottle and glass on blue background" 
-                className="h-48 w-full object-cover"
-              />
+              <img src="https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Water bottle and glass on blue background" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="inline-block px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Hydration</span>
@@ -262,14 +245,9 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {allIndianRecipes.slice(0, 4).map((recipe) => (
-              <Card key={recipe.id} className="overflow-hidden border-none shadow-md rounded-xl card-hover">
+            {allIndianRecipes.slice(0, 4).map(recipe => <Card key={recipe.id} className="overflow-hidden border-none shadow-md rounded-xl card-hover">
                 <div className="h-48 relative">
-                  <img 
-                    src={recipe.imageUrl} 
-                    alt={recipe.title} 
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={recipe.imageUrl} alt={recipe.title} className="h-full w-full object-cover" />
                   <div className="absolute top-3 right-3">
                     <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
                       <Heart className="h-4 w-4 text-white" />
@@ -295,8 +273,7 @@ const Home = () => {
                     </Link>
                   </Button>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -312,55 +289,37 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-white border-none shadow-md rounded-xl p-6">
+            <Card className="border-none shadow-md rounded-xl p-6 bg-slate-800">
               <div className="flex items-center mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" 
-                  alt="Sarah J." 
-                  className="w-12 h-12 rounded-full object-cover mr-4"
-                />
+                <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" alt="Sarah J." className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
                   <p className="font-bold">Sarah J.</p>
                   <p className="text-sm text-foreground/60">Fitness Enthusiast</p>
                 </div>
               </div>
-              <p className="text-foreground/80 italic">
-                "The personalized meal plans have revolutionized my approach to nutrition. I've lost 15 pounds and feel more energetic than ever!"
-              </p>
+              <p className="text-foreground/80 italic">The bespoke meal plans have completely transformed how I view nutrition. I’ve lost over a stone and feel more energised, focused, and motivated than ever. DietaryGuide is the perfect tool for anyone serious about fitness and healthy eating.</p>
             </Card>
             
-            <Card className="bg-white border-none shadow-md rounded-xl p-6">
+            <Card className="border-none shadow-md rounded-xl p-6 bg-slate-800">
               <div className="flex items-center mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-                  alt="Michael T." 
-                  className="w-12 h-12 rounded-full object-cover mr-4"
-                />
+                <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Michael T." className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
                   <p className="font-bold">Michael T.</p>
                   <p className="text-sm text-foreground/60">Marathon Runner</p>
                 </div>
               </div>
-              <p className="text-foreground/80 italic">
-                "As an athlete, proper nutrition is crucial. DietaryGuide's tools have helped me optimize my diet for performance and recovery."
-              </p>
+              <p className="text-foreground/80 italic">As an athlete, smart nutrition is key. DietaryGuide helped me fine-tune my diet for peak performance and faster recovery. The app’s insights are spot-on for endurance training and sports nutrition in the UK.</p>
             </Card>
             
-            <Card className="bg-white border-none shadow-md rounded-xl p-6">
+            <Card className="border-none shadow-md rounded-xl p-6 bg-slate-800">
               <div className="flex items-center mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" 
-                  alt="Lisa M." 
-                  className="w-12 h-12 rounded-full object-cover mr-4"
-                />
+                <img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" alt="Lisa M." className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
                   <p className="font-bold">Lisa M.</p>
                   <p className="text-sm text-foreground/60">Busy Parent</p>
                 </div>
               </div>
-              <p className="text-foreground/80 italic">
-                "The quick and healthy recipes have been a game-changer for my family. My kids actually ask for the vegetable dishes now!"
-              </p>
+              <p className="text-foreground/80 italic">The quick, nutritious recipes are a game-changer for busy mums like me. My children now love their veggies, and planning family meals is no longer stressful. It’s ideal for anyone juggling health and parenting.</p>
             </Card>
           </div>
         </div>
@@ -370,11 +329,7 @@ const Home = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 md:p-12 max-w-5xl mx-auto relative overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
-              alt="Healthy lifestyle" 
-              className="absolute top-0 left-0 w-full h-full object-cover opacity-10"
-            />
+            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy lifestyle" className="absolute top-0 left-0 w-full h-full object-cover opacity-10" />
             <div className="relative z-10">
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Join Our Wellness Community</h2>
@@ -383,11 +338,7 @@ const Home = () => {
                 </p>
               </div>
               <div className="flex flex-col md:flex-row gap-3 max-w-lg mx-auto">
-                <input 
-                  type="email" 
-                  placeholder="Your email address" 
-                  className="px-4 py-3 flex-1 rounded-full border border-input bg-background focus:ring-2 focus:ring-primary focus-visible:outline-none"
-                />
+                <input type="email" placeholder="Your email address" className="px-4 py-3 flex-1 rounded-full border border-input bg-background focus:ring-2 focus:ring-primary focus-visible:outline-none" />
                 <Button className="px-8 rounded-full">Subscribe</Button>
               </div>
               <p className="text-xs text-center mt-4 text-foreground/60">
@@ -402,38 +353,29 @@ const Home = () => {
       <LatestContent />
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchLatestContent = async () => {
       try {
-        const { data: blogData, error: blogError } = await supabase
-          .from('auto_blogs')
-          .select('id, title, description, image, category, date')
-          .neq('category', 'Recipes')
-          .eq('is_published', true)
-          .order('date', { ascending: false })
-          .limit(3);
-        
+        const {
+          data: blogData,
+          error: blogError
+        } = await supabase.from('auto_blogs').select('id, title, description, image, category, date').neq('category', 'Recipes').eq('is_published', true).order('date', {
+          ascending: false
+        }).limit(3);
         if (blogError) throw blogError;
-        
-        const { data: recipeData, error: recipeError } = await supabase
-          .from('auto_blogs')
-          .select('id, title, description, image, category, date')
-          .eq('category', 'Recipes')
-          .eq('is_published', true)
-          .order('date', { ascending: false })
-          .limit(3);
-        
+        const {
+          data: recipeData,
+          error: recipeError
+        } = await supabase.from('auto_blogs').select('id, title, description, image, category, date').eq('category', 'Recipes').eq('is_published', true).order('date', {
+          ascending: false
+        }).limit(3);
         if (recipeError) throw recipeError;
-        
         setLatestBlogs(blogData as ContentItem[]);
         setLatestRecipes(recipeData as ContentItem[]);
       } catch (error) {
@@ -442,50 +384,36 @@ const LatestContent = () => {
         setLoading(false);
       }
     };
-    
     fetchLatestContent();
   }, []);
-
   if (loading) {
-    return (
-      <div className="py-8">
+    return <div className="py-8">
         <div className="container mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-green-800 dark:text-green-300">Latest Content</h2>
             <p className="text-muted-foreground mt-2">Loading our latest articles and recipes...</p>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   if (latestBlogs.length === 0 && latestRecipes.length === 0) {
     return null;
   }
-
-  return (
-    <div className="py-16 bg-green-50 dark:bg-green-950/30">
+  return <div className="py-16 bg-green-50 dark:bg-green-950/30">
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-green-800 dark:text-green-300">Latest Content</h2>
           <p className="text-muted-foreground mt-2">Discover our newest articles and recipes</p>
         </div>
         
-        {latestBlogs.length > 0 && (
-          <div className="mb-16">
+        {latestBlogs.length > 0 && <div className="mb-16">
             <h3 className="text-2xl font-semibold mb-6 text-green-700 dark:text-green-400">Latest Articles</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {latestBlogs.map(blog => (
-                <Card key={blog.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
+              {latestBlogs.map(blog => <Card key={blog.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
                   <div className="h-48 overflow-hidden">
-                    <img 
-                      src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} 
-                      alt={blog.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
-                      }}
-                    />
+                    <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={blog.title} className="w-full h-full object-cover" onError={e => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+              }} />
                   </div>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{blog.title}</CardTitle>
@@ -498,32 +426,23 @@ const LatestContent = () => {
                       Read Article →
                     </Link>
                   </CardFooter>
-                </Card>
-              ))}
+                </Card>)}
             </div>
             <div className="text-center mt-8">
               <Link to="/blog" className="inline-block px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
                 View All Articles
               </Link>
             </div>
-          </div>
-        )}
+          </div>}
         
-        {latestRecipes.length > 0 && (
-          <div>
+        {latestRecipes.length > 0 && <div>
             <h3 className="text-2xl font-semibold mb-6 text-green-700 dark:text-green-400">Latest Recipes</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {latestRecipes.map(recipe => (
-                <Card key={recipe.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
+              {latestRecipes.map(recipe => <Card key={recipe.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow">
                   <div className="h-48 overflow-hidden">
-                    <img 
-                      src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} 
-                      alt={recipe.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
-                      }}
-                    />
+                    <img src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} alt={recipe.title} className="w-full h-full object-cover" onError={e => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
+              }} />
                   </div>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{recipe.title}</CardTitle>
@@ -536,19 +455,15 @@ const LatestContent = () => {
                       View Recipe →
                     </Link>
                   </CardFooter>
-                </Card>
-              ))}
+                </Card>)}
             </div>
             <div className="text-center mt-8">
               <Link to="/recipes" className="inline-block px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
                 View All Recipes
               </Link>
             </div>
-          </div>
-        )}
+          </div>}
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
