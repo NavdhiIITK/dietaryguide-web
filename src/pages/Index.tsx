@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
-
 interface ContentItem {
   id: string;
   title: string;
@@ -143,10 +142,10 @@ const Home = () => {
       
       {/* Featured Articles Section */}
       <section className="section-container bg-muted/30">
-        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="content-wrapper">
           <div className="flex justify-between items-center mb-16 space-comfortable">
             <div>
-              <h2 className="text-section-title font-bold mb-4 text-left">Latest Wellness Insights</h2>
+              <h2 className="text-section-title font-bold mb-4 text-left">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</h2>
               <p className="text-foreground/70 text-base text-left">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</p>
             </div>
             <Button asChild variant="outline" className="rounded-full">
