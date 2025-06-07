@@ -154,8 +154,7 @@
   }
 
   .grid-layout {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
-    gap: 2rem md:gap-3rem lg:gap-4rem; /* Progressive spacing */
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-16;
     padding: 1rem 0;
   }
   
