@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
+
 interface ContentItem {
   id: string;
   title: string;
@@ -81,7 +82,7 @@ const Home = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Evidence-Based Articles</h3>
                 <p className="text-foreground/70 mb-6">
-                  Science-backed nutrition and wellness content you can trust, written by experts in the field.
+                  Explore professionally written, peer-reviewed health and diet articles rooted in the latest scientific research. Our expert-created wellness content helps you make informed decisions about weight loss, nutrition, fitness, and disease prevention.
                 </p>
                 <Button asChild variant="outline" className="rounded-full group">
                   <Link to="/blog" className="flex items-center">
