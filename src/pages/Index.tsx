@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
+
 interface ContentItem {
   id: string;
   title: string;
@@ -18,14 +19,18 @@ interface ContentItem {
   category: string | null;
   date: string | null;
 }
+
 const Home = () => {
   const contentRef = useRef<HTMLDivElement>(null);
+
   const scrollToContent = () => {
     contentRef.current?.scrollIntoView({
       behavior: "smooth"
     });
   };
-  return <div className="min-h-screen flex flex-col overflow-x-hidden">
+
+  return (
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       <Navbar />
       
       {/* Hero Section */}
@@ -267,8 +272,8 @@ const Home = () => {
       </section>
       
       {/* Testimonials Section */}
-      <section className="w-full bg-gradient-to-b from-muted/30 to-background py-12 md:py-16 lg:py-20">
-        <div className="w-full max-w-none mx-auto text-center space-luxurious">
+      <section className="section-container">
+        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8 text-center space-luxurious">
           <div>
             <h2 className="text-section-title font-bold mb-6">What Our Community Says</h2>
             <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">
@@ -341,8 +346,10 @@ const Home = () => {
       <LatestContent />
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
@@ -513,4 +520,5 @@ const LatestContent = () => {
       </div>
     </div>;
 };
+
 export default Home;
