@@ -219,7 +219,7 @@ const Home = () => {
       
       {/* Recipe Preview */}
       <section className="section-container">
-        <div className="content-wrapper">
+        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-16 space-comfortable">
             <div>
               <h2 className="text-section-title font-bold mb-4">Trending Indian Recipes</h2>
