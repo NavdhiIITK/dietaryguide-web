@@ -1,9 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import dgLogo from "../../logo/dg.png";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
@@ -32,6 +32,11 @@ const Navbar = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  // Determine which logo to use based on theme
+  const logoSrc = theme === "dark" 
+    ? "https://github.com/qubicle232/dietaryguide/blob/main/DGlogo-Photoroom-modified.png?raw=true"
+    : "https://github.com/qubicle232/dietaryguide/blob/main/DGlogo-Photoroom.png?raw=true";
+
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -45,7 +50,7 @@ const Navbar = () => {
           to="/"
           className="flex items-center space-x-2 text-2xl md:text-3xl font-display font-bold"
         >
-          <img src={dgLogo} alt="Dietary Guide Logo" className="h-8 w-8 object-contain" />
+          <img src={logoSrc} alt="Dietary Guide Logo" className="h-8 w-8 object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
