@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -378,8 +379,8 @@ const LatestContent = () => {
     fetchLatestContent();
   }, []);
   if (loading) {
-    return <div className="section-container">
-        <div className="content-wrapper text-center">
+    return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
+        <div className="w-full max-w-none mx-auto text-center">
           <h2 className="text-section-title font-bold text-green-800 dark:text-green-300">Latest Content</h2>
           <p className="text-muted-foreground mt-4">Loading our latest articles and recipes...</p>
         </div>
@@ -388,8 +389,8 @@ const LatestContent = () => {
   if (latestBlogs.length === 0 && latestRecipes.length === 0) {
     return null;
   }
-  return <div className="section-container bg-green-50 dark:bg-green-950/30">
-      <div className="content-wrapper space-luxurious">
+  return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
+      <div className="w-full max-w-none mx-auto space-luxurious">
         <div className="text-center">
           <h2 className="text-section-title font-bold text-green-800 dark:text-green-300">Latest Content</h2>
           <p className="text-muted-foreground mt-4">Discover our newest articles and recipes</p>
