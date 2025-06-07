@@ -40,15 +40,6 @@
     --font-display: 'Playfair Display', serif;
     --font-serif: 'DM Serif Display', serif;
     --font-sans: 'Montserrat', sans-serif;
-    
-    /* Fluid spacing variables */
-    --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
-    --space-sm: clamp(0.5rem, 1vw, 1rem);
-    --space-md: clamp(1rem, 2vw, 2rem);
-    --space-lg: clamp(1.5rem, 3vw, 3rem);
-    --space-xl: clamp(2rem, 4vw, 4rem);
-    --space-2xl: clamp(3rem, 6vw, 6rem);
-    --space-3xl: clamp(4rem, 8vw, 8rem);
   }
 
   .dark {
@@ -88,7 +79,6 @@
   html {
     overflow-x: hidden;
     scroll-behavior: smooth;
-    font-size: clamp(14px, 1.2vw, 18px); /* Fluid base font size */
   }
 
   body {
@@ -96,14 +86,13 @@
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--muted)) transparent;
-    line-height: clamp(1.5, 1.7, 1.8);
-    letter-spacing: clamp(0.01em, 0.015em, 0.02em);
-    font-size: clamp(0.875rem, 1vw, 1.125rem);
+    line-height: 1.7; /* Increased for better readability */
+    letter-spacing: 0.015em; /* Subtle letter spacing for breathing room */
   }
 
   /* Hide scrollbar for webkit browsers */
   body::-webkit-scrollbar {
-    width: clamp(4px, 0.5vw, 8px);
+    width: 6px;
   }
 
   body::-webkit-scrollbar-track {
@@ -112,7 +101,7 @@
 
   body::-webkit-scrollbar-thumb {
     background: hsl(var(--muted));
-    border-radius: var(--space-xs);
+    border-radius: 3px;
   }
 
   body::-webkit-scrollbar-thumb:hover {
@@ -126,121 +115,103 @@
 
   h1, h2, h3 {
     @apply font-display;
-    line-height: clamp(1.1, 1.3, 1.4);
-    letter-spacing: clamp(-0.02em, 0.01em, 0.02em);
-    margin-bottom: var(--space-md);
+    line-height: 1.3; /* Tighter for headings but still comfortable */
+    letter-spacing: 0.01em;
   }
 
   h4, h5, h6 {
     @apply font-serif;
-    line-height: clamp(1.2, 1.4, 1.5);
-    letter-spacing: clamp(0.005em, 0.01em, 0.015em);
-    margin-bottom: var(--space-sm);
+    line-height: 1.4;
+    letter-spacing: 0.01em;
   }
 
   p {
-    line-height: clamp(1.6, 1.8, 2.0);
-    letter-spacing: clamp(0.01em, 0.02em, 0.03em);
-    margin-bottom: var(--space-md);
-    font-size: clamp(0.875rem, 1vw, 1.125rem);
+    line-height: 1.8; /* Extra generous for paragraphs */
+    letter-spacing: 0.02em;
   }
 }
 
 @layer components {
   .hero-section {
     @apply min-h-screen flex flex-col items-center justify-center relative overflow-hidden;
-    padding: var(--space-lg) var(--space-md);
+    padding: 2rem 1rem; /* More generous padding */
   }
 
   .section-container {
-    @apply max-w-7xl mx-auto;
-    padding: var(--space-2xl) var(--space-md);
-    max-width: clamp(320px, 95vw, 1280px);
+    @apply max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-20 md:py-24 lg:py-32;
+    /* Increased padding for more breathing room */
   }
 
   .content-wrapper {
-    max-width: clamp(300px, 90vw, 75ch);
+    max-width: 65ch; /* Perfect reading width */
     margin: 0 auto;
-    padding: 0 var(--space-md);
+    padding: 0 1.5rem;
   }
 
   .card-hover {
     @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
-    margin: var(--space-lg) 0;
+    margin: 1.5rem 0; /* Generous vertical spacing */
   }
 
   .grid-layout {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
-    gap: var(--space-lg);
-    padding: var(--space-md) 0;
+    gap: 2rem; /* Progressive spacing using CSS custom properties for responsiveness */
+    padding: 1rem 0;
+  }
+
+  /* Responsive grid gaps using media queries */
+  @media (min-width: 768px) {
+    .grid-layout {
+      gap: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-layout {
+      gap: 4rem;
+    }
   }
   
   .glass-card {
     @apply bg-white/80 dark:bg-black/40 backdrop-blur-sm border border-white/20 shadow-lg;
-    padding: var(--space-xl);
-    margin: var(--space-md) 0;
-    border-radius: clamp(0.5rem, 1vw, 1.5rem);
+    padding: 2rem; /* More internal breathing room */
+    margin: 1rem 0;
   }
   
   .btn-primary {
     @apply bg-gradient-to-r from-spring to-forest text-white font-medium rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1;
-    padding: var(--space-md) var(--space-xl);
-    margin: var(--space-sm);
-    letter-spacing: clamp(0.02em, 0.025em, 0.03em);
-    font-size: clamp(0.875rem, 1vw, 1.125rem);
+    padding: 1rem 2rem; /* More generous button padding */
+    margin: 0.75rem 0.5rem; /* Space between buttons */
+    letter-spacing: 0.025em;
   }
   
   .btn-secondary {
     @apply bg-white dark:bg-transparent text-forest dark:text-spring border border-forest dark:border-spring font-medium rounded-full hover:bg-forest hover:text-white dark:hover:bg-spring dark:hover:text-black transition-all duration-300;
-    padding: var(--space-md) var(--space-xl);
-    margin: var(--space-sm);
-    letter-spacing: clamp(0.02em, 0.025em, 0.03em);
-    font-size: clamp(0.875rem, 1vw, 1.125rem);
+    padding: 1rem 2rem; /* Consistent with primary */
+    margin: 0.75rem 0.5rem;
+    letter-spacing: 0.025em;
   }
   
   .tag {
     @apply text-xs font-medium rounded-full;
-    padding: var(--space-sm) var(--space-md);
-    margin: var(--space-xs);
-    font-size: clamp(0.75rem, 0.8vw, 0.875rem);
+    padding: 0.5rem 1rem; /* More breathing room in tags */
+    margin: 0.25rem;
   }
 
-  /* Enhanced fluid typography */
+  /* New flexible text sizes */
   .text-hero {
-    font-size: clamp(2rem, 8vw, 6rem);
-    line-height: clamp(1.1, 1.2, 1.3);
-    letter-spacing: clamp(-0.02em, -0.01em, 0em);
-    margin-bottom: var(--space-lg);
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 1.2;
   }
 
   .text-subtitle {
-    font-size: clamp(1rem, 3vw, 1.75rem);
-    line-height: clamp(1.4, 1.6, 1.7);
-    letter-spacing: clamp(0.01em, 0.02em, 0.03em);
-    margin-bottom: var(--space-md);
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    line-height: 1.6;
   }
 
   .text-section-title {
-    font-size: clamp(1.5rem, 5vw, 3.5rem);
-    line-height: clamp(1.2, 1.3, 1.4);
-    letter-spacing: clamp(-0.01em, 0em, 0.01em);
-    margin-bottom: var(--space-lg);
-  }
-
-  /* Card content spacing */
-  .card-content {
-    padding: var(--space-lg);
-  }
-
-  .card-content h3 {
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
-    margin-bottom: var(--space-md);
-  }
-
-  .card-content p {
-    font-size: clamp(0.875rem, 1.2vw, 1rem);
-    line-height: clamp(1.5, 1.7, 1.8);
-    margin-bottom: var(--space-md);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    line-height: 1.3;
   }
 }
 
@@ -253,54 +224,16 @@
     @apply bg-gradient-to-r from-forest to-spring bg-clip-text text-transparent;
   }
 
-  /* Enhanced spacing utilities with fluid values */
+  /* Spacing utilities for breathing room */
   .space-comfortable > * + * {
-    margin-top: var(--space-lg);
+    margin-top: 1.5rem;
   }
 
   .space-generous > * + * {
-    margin-top: var(--space-xl);
+    margin-top: 2rem;
   }
 
   .space-luxurious > * + * {
-    margin-top: var(--space-2xl);
-  }
-
-  /* Responsive container utilities */
-  .container-fluid {
-    max-width: clamp(320px, 100vw, 1920px);
-    margin: 0 auto;
-    padding: 0 var(--space-md);
-  }
-
-  .container-narrow {
-    max-width: clamp(300px, 90vw, 60ch);
-    margin: 0 auto;
-  }
-
-  .container-wide {
-    max-width: clamp(320px, 95vw, 1400px);
-    margin: 0 auto;
-  }
-
-  /* Fluid text sizes for different contexts */
-  .text-sm-fluid {
-    font-size: clamp(0.75rem, 1vw, 0.875rem);
-  }
-
-  .text-base-fluid {
-    font-size: clamp(0.875rem, 1.2vw, 1rem);
-  }
-
-  .text-lg-fluid {
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-  }
-
-  .text-xl-fluid {
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
-  }
-
-  .text-2xl-fluid {
-    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    margin-top: 3rem;
   }
 }
