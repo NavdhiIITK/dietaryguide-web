@@ -172,7 +172,7 @@ const Home = () => {
               <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mental Health</span>
+                  <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mindful Eating: Transform Your Relationship with Food</span>
                   <span className="text-sm text-foreground/60">April 2, 2025</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3 line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
