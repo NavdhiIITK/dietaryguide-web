@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
-
 interface ContentItem {
   id: string;
   title: string;
@@ -139,7 +138,7 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Latest Wellness Insights</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</h2>
               <p className="text-foreground/70">Fresh perspectives on nutrition and wellness</p>
             </div>
             <Button asChild variant="outline" className="rounded-full">
@@ -158,10 +157,8 @@ const Home = () => {
                   <span className="inline-block px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
                   <span className="text-sm text-foreground/60">April 5, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 line-clamp-2">Mastering Macronutrients: Your Ultimate Nutrition Guide</h3>
-                <p className="text-foreground/70 mb-4 line-clamp-2">
-                  Learn how proteins, fats, and carbohydrates work in your body and how to balance them for optimal health.
-                </p>
+                <h3 className="text-xl font-bold mb-3 line-clamp-2">Understanding Macronutrients: Your Complete Guide</h3>
+                <p className="text-foreground/70 mb-4 line-clamp-2">Understand the vital role of proteins, fats, and carbohydrates in your body. Learn how to balance your macronutrient intake for weight loss, muscle building, and optimal energy levels.</p>
                 <Button asChild variant="link" className="p-0 group">
                   <Link to="/blog" className="flex items-center">
                     Read Article
@@ -175,13 +172,12 @@ const Home = () => {
               <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mental Health</span>
-                  <span className="text-sm text-foreground/60">April 2, 2025</span>
+                  <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mindful Eating: Transform Your Relationship with Food</span>
+                  <span className="text-sm text-foreground/60">earn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3 line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
-                <p className="text-foreground/70 mb-4 line-clamp-2">
-                  Discover techniques to bring awareness to your eating habits and develop a more balanced approach to food.
-                </p>
+                <p className="text-foreground/70 mb-4 line-clamp-2">Learn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.
+              </p>
                 <Button asChild variant="link" className="p-0 group">
                   <Link to="/blog" className="flex items-center">
                     Read Article
