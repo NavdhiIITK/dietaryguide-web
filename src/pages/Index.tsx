@@ -316,8 +316,8 @@ const Home = () => {
       </section>
       
       {/* Newsletter */}
-      <section className="section-container">
-        <div className="content-wrapper">
+      <section className="w-full py-12 md:py-16 lg:py-20">
+        <div className="w-full max-w-none mx-auto">
           <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-12 max-w-5xl mx-auto relative overflow-hidden">
             <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy lifestyle" className="absolute top-0 left-0 w-full h-full object-cover opacity-10" />
             <div className="relative z-10 text-center space-generous">
