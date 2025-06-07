@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -34,10 +35,10 @@ const Home = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="hero-section">
+      <section className="hero-section pt-20">
         <HeroCanvas />
         <div className="w-full max-w-6xl mx-auto flex items-center justify-center relative z-10 px-6 sm:px-8 lg:px-12">
-          <div className="flex flex-col items-center justify-center text-center space-generous max-w-5xl">
+          <div className="flex flex-col items-center justify-center text-center space-comfortable max-w-5xl">
             <span className="inline-block px-6 py-3 text-sm md:text-base font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">
               Nourish Your Body. Elevate Your Life.
             </span>
