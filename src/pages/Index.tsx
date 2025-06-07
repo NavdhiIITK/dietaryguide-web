@@ -30,58 +30,63 @@ const Home = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="hero-section bg-gradient-to-b from-background to-primary/5 pt-16 md:pt-24">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-primary/5 pt-16 md:pt-20 lg:pt-24 pb-8 md:pb-12 lg:pb-16 overflow-hidden">
         <HeroCanvas />
-        <div className="container mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center pt-8 md:pt-16">
-          <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">Nourish Your Body. Elevate Your Life.</span>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-4xl animate-fade-in" style={{
-          animationDelay: "0.2s"
-        }}>
-            Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
-          </h1>
-          <p className="text-xl md:text-2xl mb-10 max-w-2xl text-foreground/80 animate-fade-in" style={{
-          animationDelay: "0.4s"
-        }}>
-            Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{
-          animationDelay: "0.6s"
-        }}>
-            <Button asChild size="lg" className="text-lg px-8 rounded-full bg-gradient-to-r from-teal-light to-secondary hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-              <Link to="/tools">Explore Tools</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="text-lg px-8 rounded-full border-2">
-              <Link to="/recipes">View Recipes</Link>
-            </Button>
-          </div>
-          
-          <div className="mt-16 mb-4 animate-bounce animate-fade-in" style={{
-          animationDelay: "1s"
-        }}>
-            <Button variant="ghost" size="icon" className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50" onClick={scrollToContent} aria-label="Scroll down">
-              <ArrowDown className="h-5 w-5" />
-            </Button>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+          <div className="flex flex-col items-center justify-center text-center space-y-6 md:space-y-8 lg:space-y-10">
+            <span className="inline-block px-4 py-2 text-sm md:text-base font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">
+              Nourish Your Body. Elevate Your Life.
+            </span>
+            
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight max-w-5xl animate-fade-in" style={{animationDelay: "0.2s"}}>
+              Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
+            </h1>
+            
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-2xl max-w-3xl text-foreground/80 leading-relaxed animate-fade-in" style={{animationDelay: "0.4s"}}>
+              Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full max-w-md sm:max-w-none justify-center animate-fade-in" style={{animationDelay: "0.6s"}}>
+              <Button asChild size="lg" className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full bg-gradient-to-r from-teal-light to-secondary hover:shadow-lg transition-all duration-300 hover:-translate-y-1 w-full sm:w-auto">
+                <Link to="/tools">Explore Tools</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full border-2 w-full sm:w-auto">
+                <Link to="/recipes">View Recipes</Link>
+              </Button>
+            </div>
+            
+            <div className="mt-8 md:mt-12 lg:mt-16 animate-bounce animate-fade-in" style={{animationDelay: "1s"}}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 w-12 h-12" 
+                onClick={scrollToContent} 
+                aria-label="Scroll down"
+              >
+                <ArrowDown className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </section>
       
       {/* Features Section */}
-      <section ref={contentRef} className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Complete Wellness Resource</h2>
-            <p className="text-xl text-foreground/70 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
+      <section ref={contentRef} className="py-16 md:py-20 lg:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Your Complete Wellness Resource</h2>
+            <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
               <div className="h-2 bg-primary"></div>
-              <CardContent className="p-8">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                  <BookOpen className="w-7 h-7 text-primary" />
+              <CardContent className="p-6 md:p-8">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 md:mb-6">
+                  <BookOpen className="w-6 h-6 md:w-7 md:h-7 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Evidence-Based Articles</h3>
-                <p className="text-foreground/70 mb-6">
+                <h3 className="text-xl md:text-2xl font-bold mb-3">Evidence-Based Articles</h3>
+                <p className="text-foreground/70 mb-4 md:mb-6">
                   Transform your understanding of health with scientifically-backed insights on nutrition, fitness, and disease prevention. Expert-curated content for evidence-based wellness decisions.
                 </p>
                 <Button asChild variant="outline" className="rounded-full group">
@@ -95,12 +100,12 @@ const Home = () => {
             
             <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
               <div className="h-2 bg-secondary"></div>
-              <CardContent className="p-8">
-                <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6">
-                  <Utensils className="w-7 h-7 text-secondary" />
+              <CardContent className="p-6 md:p-8">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-secondary/10 flex items-center justify-center mb-4 md:mb-6">
+                  <Utensils className="w-6 h-6 md:w-7 md:h-7 text-secondary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Healthy Recipes</h3>
-                <p className="text-foreground/70 mb-6">
+                <h3 className="text-xl md:text-2xl font-bold mb-3">Healthy Recipes</h3>
+                <p className="text-foreground/70 mb-4 md:mb-6">
                   Discover quick, nutritious, and customizable healthy recipes tailored for weight loss, PCOS, diabetes, muscle gain, and holistic living. From Indian vegetarian dishes to keto-friendly meals, we've got every diet covered.
                 </p>
                 <Button asChild variant="outline" className="rounded-full group">
@@ -114,12 +119,12 @@ const Home = () => {
             
             <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
               <div className="h-2 bg-accent"></div>
-              <CardContent className="p-8">
-                <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
-                  <Calculator className="w-7 h-7 text-accent" />
+              <CardContent className="p-6 md:p-8">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-4 md:mb-6">
+                  <Calculator className="w-6 h-6 md:w-7 md:h-7 text-accent" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">AI-Powered Tools</h3>
-                <p className="text-foreground/70 mb-6">
+                <h3 className="text-xl md:text-2xl font-bold mb-3">AI-Powered Tools</h3>
+                <p className="text-foreground/70 mb-4 md:mb-6">
                   Access cutting-edge AI-powered tools like calorie calculators, BMI trackers, personalized Indian diet planners, and health progress dashboards. Engineered for precision, designed for results.
                 </p>
                 <Button asChild variant="outline" className="rounded-full group">
@@ -135,7 +140,7 @@ const Home = () => {
       </section>
       
       {/* Featured Articles Section */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-16 md:py-20 lg:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>
@@ -212,7 +217,7 @@ const Home = () => {
       </section>
       
       {/* Recipe Preview */}
-      <section className="py-20">
+      <section className="py-16 md:py-20 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>
@@ -262,7 +267,7 @@ const Home = () => {
       </section>
       
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
+      <section className="py-16 md:py-20 lg:py-24 bg-gradient-to-b from-muted/30 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Community Says</h2>
@@ -309,7 +314,7 @@ const Home = () => {
       </section>
       
       {/* Newsletter */}
-      <section className="py-20">
+      <section className="py-16 md:py-20 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 md:p-12 max-w-5xl mx-auto relative overflow-hidden">
             <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy lifestyle" className="absolute top-0 left-0 w-full h-full object-cover opacity-10" />
