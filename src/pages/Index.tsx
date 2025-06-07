@@ -82,7 +82,7 @@ const Home = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Evidence-Based Articles</h3>
                 <p className="text-foreground/70 mb-6">
-                  Explore professionally written, peer-reviewed health and diet articles rooted in the latest scientific research. Our expert-created wellness content helps you make informed decisions about weight loss, nutrition, fitness, and disease prevention.
+                  Transform your understanding of health with scientifically-backed insights on nutrition, fitness, and disease prevention. Expert-curated content for evidence-based wellness decisions.
                 </p>
                 <Button asChild variant="outline" className="rounded-full group">
                   <Link to="/blog" className="flex items-center">
@@ -120,7 +120,7 @@ const Home = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">AI-Powered Tools</h3>
                 <p className="text-foreground/70 mb-6">
-                  Personalized nutrition calculators, meal planners, and health tracking tools to optimize your wellness.
+                  Access cutting-edge AI-powered tools like calorie calculators, BMI trackers, personalized Indian diet planners, and health progress dashboards. Engineered for precision, designed for results.
                 </p>
                 <Button asChild variant="outline" className="rounded-full group">
                   <Link to="/tools" className="flex items-center">
