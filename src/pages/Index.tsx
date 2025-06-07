@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
+
 interface ContentItem {
   id: string;
   title: string;
@@ -18,6 +19,7 @@ interface ContentItem {
   category: string | null;
   date: string | null;
 }
+
 const Home = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollToContent = () => {
@@ -25,7 +27,9 @@ const Home = () => {
       behavior: "smooth"
     });
   };
-  return <div className="min-h-screen flex flex-col">
+
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       {/* Hero Section */}
@@ -353,8 +357,10 @@ const Home = () => {
       <LatestContent />
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
@@ -466,4 +472,5 @@ const LatestContent = () => {
       </div>
     </div>;
 };
+
 export default Home;
