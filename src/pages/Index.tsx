@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
+
 interface ContentItem {
   id: string;
   title: string;
@@ -142,7 +143,7 @@ const Home = () => {
       
       {/* Featured Articles Section */}
       <section className="section-container bg-muted/30">
-        <div className="content-wrapper">
+        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-16 space-comfortable">
             <div>
               <h2 className="text-section-title font-bold mb-4 text-left">Latest Wellness Insights</h2>
@@ -398,7 +399,7 @@ const LatestContent = () => {
               {latestBlogs.map(blog => <Card key={blog.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow card-hover">
                   <div className="h-48 overflow-hidden">
                     <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={blog.title} className="w-full h-full object-cover" onError={e => {
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
               }} />
                   </div>
                   <CardHeader className="pb-2">
