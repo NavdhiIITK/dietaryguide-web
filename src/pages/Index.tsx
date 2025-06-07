@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
+
 interface ContentItem {
   id: string;
   title: string;
@@ -196,7 +197,7 @@ const Home = () => {
                 </div>
                 <h3 className="text-xl font-bold mb-3 line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
                 <p className="text-foreground/70 mb-4 line-clamp-2">
-                  Explore how proper hydration affects everything from cognitive function to athletic performance.
+                  Unlock the science behind hydration and discover how drinking enough water improves cognitive function, energy levels, metabolism, and skin health.
                 </p>
                 <Button asChild variant="link" className="p-0 group">
                   <Link to="/blog" className="flex items-center">
