@@ -35,7 +35,7 @@ const Navbar = () => {
   // Determine which logo to use based on theme
   const logoSrc = theme === "dark" 
     ? "/lovable-uploads/0ffc85f3-226e-419d-85af-b8f96d17a9db.png"
-    : "https://github.com/qubicle232/dietaryguide/blob/main/DGlogo-Photoroom.png?raw=true";
+    : "/lovable-uploads/1def17a1-8b2c-4324-aa03-39944f17998d.png";
 
   return (
     <header
