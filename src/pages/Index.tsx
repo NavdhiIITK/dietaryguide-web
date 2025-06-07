@@ -174,7 +174,7 @@ const Home = () => {
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">mental health</span>
-                  <span className="text-sm text-foreground/60">earn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.</span>
+                  <span className="text-sm text-foreground/60">March 14, 2025</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3 line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
                 <p className="text-foreground/70 mb-4 line-clamp-2">Learn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.
