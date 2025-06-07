@@ -1,14 +1,12 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroCanvas from "@/components/HeroCanvas";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowRight, Search, Utensils, Calculator, BookOpen, Heart, User, Clock } from "lucide-react";
-import { useState, useEffect } from "react";
+import { ArrowDown, ArrowRight, Utensils, Calculator, BookOpen, Heart, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
 
 interface ContentItem {
@@ -30,7 +28,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden">
+    <div className="min-h-screen flex flex-col overflow-x-hidden bg-gray-900">
       <Navbar />
       
       {/* Hero Section */}
@@ -77,83 +75,65 @@ const Home = () => {
       </section>
       
       {/* Features Section */}
-      <section ref={contentRef} className="section-container">
-        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8 text-center space-luxurious">
-          <div>
-            <h2 className="text-section-title font-bold mb-6">Your Complete Wellness Resource</h2>
-            <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
+      <section ref={contentRef} className="py-24 bg-gray-900">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Explore Our Features</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
           </div>
           
-          <div className="grid-layout">
-            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
-              <div className="h-2 bg-primary"></div>
-              <CardContent className="p-8 space-comfortable">
-                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-                  <BookOpen className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Evidence-Based Articles</h3>
-                <p className="text-foreground/70 mb-6 leading-relaxed">
-                  Transform your understanding of health with scientifically-backed insights on nutrition, fitness, and disease prevention. Expert-curated content for evidence-based wellness decisions.
-                </p>
-                <Button asChild variant="outline" className="rounded-full group">
-                  <Link to="/blog" className="flex items-center">
-                    Read Articles
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
+              <div className="w-20 h-20 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-8 mx-auto">
+                <Calculator className="w-10 h-10 text-amber-400" />
+              </div>
+              <h3 className="text-2xl font-bold mb-6 text-white">AI-Powered Tools</h3>
+              <p className="text-gray-300 leading-relaxed mb-8">
+                Get personalized recommendations based on your health data and goals.
+              </p>
+              <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
+                <Link to="/tools">Try Our Tools</Link>
+              </Button>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
-              <div className="h-2 bg-secondary"></div>
-              <CardContent className="p-8 space-comfortable">
-                <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6">
-                  <Utensils className="w-8 h-8 text-secondary" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Healthy Recipes</h3>
-                <p className="text-foreground/70 mb-6 leading-relaxed">
-                  Discover quick, nutritious, and customizable healthy recipes tailored for weight loss, PCOS, diabetes, muscle gain, and holistic living. From Indian vegetarian dishes to keto-friendly meals, we've got every diet covered.
-                </p>
-                <Button asChild variant="outline" className="rounded-full group">
-                  <Link to="/recipes" className="flex items-center">
-                    Discover Recipes
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardContent>
+            <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
+              <div className="w-20 h-20 rounded-2xl bg-green-500/10 flex items-center justify-center mb-8 mx-auto">
+                <Utensils className="w-10 h-10 text-green-400" />
+              </div>
+              <h3 className="text-2xl font-bold mb-6 text-white">Healthy Recipes</h3>
+              <p className="text-gray-300 leading-relaxed mb-8">
+                Explore a variety of delicious and nutritious recipes tailored to your dietary needs.
+              </p>
+              <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
+                <Link to="/recipes">Discover Recipes</Link>
+              </Button>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
-              <div className="h-2 bg-accent"></div>
-              <CardContent className="p-8 space-comfortable">
-                <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
-                  <Calculator className="w-8 h-8 text-accent" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4">AI-Powered Tools</h3>
-                <p className="text-foreground/70 mb-6 leading-relaxed">
-                  Access cutting-edge AI-powered tools like calorie calculators, BMI trackers, personalized Indian diet planners, and health progress dashboards. Engineered for precision, designed for results.
-                </p>
-                <Button asChild variant="outline" className="rounded-full group">
-                  <Link to="/tools" className="flex items-center">
-                    Try Our Tools
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </CardContent>
+            <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
+              <div className="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8 mx-auto">
+                <BookOpen className="w-10 h-10 text-blue-400" />
+              </div>
+              <h3 className="text-2xl font-bold mb-6 text-white">Evidence-Based Articles</h3>
+              <p className="text-gray-300 leading-relaxed mb-8">
+                Access a library of articles written by experts, covering a wide range of health topics.
+              </p>
+              <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
+                <Link to="/blog">Read Articles</Link>
+              </Button>
             </Card>
           </div>
         </div>
       </section>
       
       {/* Featured Articles Section */}
-      <section className="section-container bg-muted/30">
-        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-16 space-comfortable">
+      <section className="py-24 bg-gray-800">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-16">
             <div>
-              <h2 className="text-section-title font-bold mb-4 text-left">Latest Wellness Insights</h2>
-              <p className="text-foreground/70 text-base text-left">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</p>
+              <h2 className="text-4xl font-bold mb-4 text-left text-white">Latest Wellness Insights</h2>
+              <p className="text-gray-300 text-base text-left">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</p>
             </div>
-            <Button asChild variant="outline" className="rounded-full">
+            <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
               <Link to="/blog" className="flex items-center">
                 All Articles
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -161,58 +141,58 @@ const Home = () => {
             </Button>
           </div>
           
-          <div className="grid-layout">
-            <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <img src="https://images.unsplash.com/photo-1564121211851-b88716102fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy macronutrients visualization with proteins, carbs, and fats" className="h-48 w-full object-cover" />
-              <CardContent className="p-6 space-comfortable">
+              <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="tag text-primary bg-primary/10">Nutrition</span>
-                  <span className="text-sm text-foreground/60">April 5, 2025</span>
+                  <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
+                  <span className="text-sm text-gray-400">April 5, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 line-clamp-2">Understanding Macronutrients: Your Complete Guide</h3>
-                <p className="text-foreground/70 mb-4 line-clamp-2 leading-relaxed">Understand the vital role of proteins, fats, and carbohydrates in your body. Learn how to balance your macronutrient intake for weight loss, muscle building, and optimal energy levels.</p>
-                <Button asChild variant="link" className="p-0 group">
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Understanding Macronutrients: Your Complete Guide</h3>
+                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Understand the vital role of proteins, fats, and carbohydrates in your body. Learn how to balance your macronutrient intake for weight loss, muscle building, and optimal energy levels.</p>
+                <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80">
                   <Link to="/blog" className="flex items-center">
                     Read Article
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
+            <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
-              <CardContent className="p-6 space-comfortable">
+              <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="tag text-secondary bg-secondary/10">mental health</span>
-                  <span className="text-sm text-foreground/60">March 14, 2025</span>
+                  <span className="px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">mental health</span>
+                  <span className="text-sm text-gray-400">March 14, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
-                <p className="text-foreground/70 mb-4 line-clamp-2 leading-relaxed">Learn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.</p>
-                <Button asChild variant="link" className="p-0 group">
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
+                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Learn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.</p>
+                <Button asChild variant="link" className="p-0 text-secondary hover:text-secondary/80">
                   <Link to="/blog" className="flex items-center">
                     Read Article
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
+            <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <img src="https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Water bottle and glass on blue background" className="h-48 w-full object-cover" />
-              <CardContent className="p-6 space-comfortable">
+              <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="tag text-accent bg-accent/10">Health</span>
-                  <span className="text-sm text-foreground/60">March 28, 2025</span>
+                  <span className="px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Health</span>
+                  <span className="text-sm text-gray-400">March 28, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
-                <p className="text-foreground/70 mb-4 line-clamp-2 leading-relaxed">
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
+                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">
                   Unlock the science behind hydration and discover how drinking enough water improves cognitive function, energy levels, metabolism, and skin health.
                 </p>
-                <Button asChild variant="link" className="p-0 group">
+                <Button asChild variant="link" className="p-0 text-accent hover:text-accent/80">
                   <Link to="/blog" className="flex items-center">
                     Read Article
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </CardContent>
@@ -221,120 +201,113 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Recipe Preview */}
-      <section className="section-container">
-        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-16 space-comfortable">
-            <div>
-              <h2 className="text-section-title font-bold mb-4">Trending Indian Recipes</h2>
-              <p className="text-foreground/70">Healthy, authentic flavors from Indian cuisine</p>
-            </div>
-            <Button asChild variant="outline" className="rounded-full">
+      {/* Featured Recipes Section */}
+      <section className="py-24 bg-gray-900">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Featured Recipes</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Healthy, authentic flavors from Indian cuisine</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {allIndianRecipes.slice(0, 3).map((recipe, index) => {
+              const titles = ["Quick & Easy Salad", "Vegetable Stir-Fry", "Berry Blast Smoothie"];
+              const subtitles = ["Ready in 15 minutes", "Perfect for a weeknight dinner", "Start your day right"];
+              
+              return (
+                <Card key={recipe.id} className="overflow-hidden bg-gray-800 border-gray-700 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                  <div className="h-64 relative overflow-hidden">
+                    <img src={recipe.imageUrl} alt={recipe.title} className="h-full w-full object-cover" />
+                  </div>
+                  <CardContent className="p-8 text-center">
+                    <h3 className="text-2xl font-bold mb-2 text-white">{titles[index]}</h3>
+                    <p className="text-gray-400 mb-6">{subtitles[index]}</p>
+                    <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80 font-medium">
+                      <Link to={`/recipes/${recipe.id}`}>
+                        View Recipe
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+          
+          <div className="text-center mt-16">
+            <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white px-8 py-3">
               <Link to="/recipes" className="flex items-center">
                 All Recipes
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {allIndianRecipes.slice(0, 4).map(recipe => <Card key={recipe.id} className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-                <div className="h-48 relative">
-                  <img src={recipe.imageUrl} alt={recipe.title} className="h-full w-full object-cover" />
-                  <div className="absolute top-3 right-3">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40">
-                      <Heart className="h-4 w-4 text-white" />
-                    </Button>
-                  </div>
-                </div>
-                <CardContent className="p-6 space-comfortable">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="tag bg-primary/10 text-primary">{recipe.mealType}</span>
-                    <span className="text-xs text-foreground/60 flex items-center">
-                      <Clock className="h-3 w-3 mr-1" />
-                      {recipe.prepTime}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-bold mb-2 line-clamp-1">{recipe.title}</h3>
-                  <p className="text-sm text-foreground/70 mb-3 line-clamp-2 leading-relaxed">
-                    {recipe.description}
-                  </p>
-                  <Button asChild variant="link" className="p-0 text-sm group">
-                    <Link to={`/recipes/${recipe.id}`} className="flex items-center">
-                      View Recipe
-                      <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>)}
-          </div>
         </div>
       </section>
       
       {/* Testimonials Section */}
-      <section className="section-container">
-        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8 text-center space-luxurious">
-          <div>
-            <h2 className="text-section-title font-bold mb-6">What Our Community Says</h2>
-            <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">
+      <section className="py-24 bg-gray-800">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-20">
+            <h2 className="text-4xl font-bold mb-6 text-white">What Our Community Says</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Real stories from people who have transformed their relationship with food and health.
             </p>
           </div>
           
-          <div className="grid-layout">
-            <Card className="border-none shadow-md rounded-xl p-8 bg-slate-800 space-comfortable">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
                 <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" alt="Sarah J." className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
-                  <p className="font-bold">Sarah J.</p>
-                  <p className="text-sm text-foreground/60">Fitness Enthusiast</p>
+                  <p className="font-bold text-white">Sarah J.</p>
+                  <p className="text-sm text-gray-400">Fitness Enthusiast</p>
                 </div>
               </div>
-              <p className="text-foreground/80 italic leading-relaxed">The bespoke meal plans have completely transformed how I view nutrition. I've lost over a stone and feel more energised, focused, and motivated than ever. DietaryGuide is the perfect tool for anyone serious about fitness and healthy eating.</p>
+              <p className="text-gray-300 italic leading-relaxed">The bespoke meal plans have completely transformed how I view nutrition. I've lost over a stone and feel more energised, focused, and motivated than ever. DietaryGuide is the perfect tool for anyone serious about fitness and healthy eating.</p>
             </Card>
             
-            <Card className="border-none shadow-md rounded-xl p-8 bg-slate-800 space-comfortable">
+            <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
                 <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Michael T." className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
-                  <p className="font-bold">Michael T.</p>
-                  <p className="text-sm text-foreground/60">Marathon Runner</p>
+                  <p className="font-bold text-white">Michael T.</p>
+                  <p className="text-sm text-gray-400">Marathon Runner</p>
                 </div>
               </div>
-              <p className="text-foreground/80 italic leading-relaxed">As an athlete, smart nutrition is key. DietaryGuide helped me fine-tune my diet for peak performance and faster recovery. The app's insights are spot-on for endurance training and sports nutrition in the UK.</p>
+              <p className="text-gray-300 italic leading-relaxed">As an athlete, smart nutrition is key. DietaryGuide helped me fine-tune my diet for peak performance and faster recovery. The app's insights are spot-on for endurance training and sports nutrition in the UK.</p>
             </Card>
             
-            <Card className="border-none shadow-md rounded-xl p-8 bg-slate-800 space-comfortable">
+            <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
                 <img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" alt="Lisa M." className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
-                  <p className="font-bold">Lisa M.</p>
-                  <p className="text-sm text-foreground/60">Busy Parent</p>
+                  <p className="font-bold text-white">Lisa M.</p>
+                  <p className="text-sm text-gray-400">Busy Parent</p>
                 </div>
               </div>
-              <p className="text-foreground/80 italic leading-relaxed">The quick, nutritious recipes are a game-changer for busy mums like me. My children now love their veggies, and planning family meals is no longer stressful. It's ideal for anyone juggling health and parenting.</p>
+              <p className="text-gray-300 italic leading-relaxed">The quick, nutritious recipes are a game-changer for busy mums like me. My children now love their veggies, and planning family meals is no longer stressful. It's ideal for anyone juggling health and parenting.</p>
             </Card>
           </div>
         </div>
       </section>
       
       {/* Newsletter */}
-      <section className="w-full py-12 md:py-16 lg:py-20">
-        <div className="w-full max-w-none mx-auto">
-          <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-12 max-w-5xl mx-auto relative overflow-hidden">
+      <section className="py-24 bg-gray-900">
+        <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-12 text-center relative overflow-hidden">
             <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy lifestyle" className="absolute top-0 left-0 w-full h-full object-cover opacity-10" />
-            <div className="relative z-10 text-center space-generous">
-              <div>
-                <h2 className="text-section-title font-bold mb-6">Join Our Wellness Community</h2>
-                <p className="text-subtitle text-foreground/70 max-w-2xl mx-auto">
+            <div className="relative z-10">
+              <div className="mb-12">
+                <h2 className="text-4xl font-bold mb-6 text-white">Join Our Wellness Community</h2>
+                <p className="text-xl text-gray-300 max-w-2xl mx-auto">
                   Get weekly recipes, nutrition tips, and exclusive content delivered straight to your inbox.
                 </p>
               </div>
               <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
-                <input type="email" placeholder="Your email address" className="px-6 py-4 flex-1 rounded-full border border-input bg-background focus:ring-2 focus:ring-primary focus-visible:outline-none" />
+                <input type="email" placeholder="Your email address" className="px-6 py-4 flex-1 rounded-full border border-gray-600 bg-gray-800 text-white focus:ring-2 focus:ring-primary focus-visible:outline-none" />
                 <Button className="px-8 py-4 rounded-full">Subscribe</Button>
               </div>
-              <p className="text-xs text-center mt-6 text-foreground/60">
+              <p className="text-xs text-center mt-6 text-gray-400">
                 By subscribing, you agree to our Privacy Policy. We'll never share your information.
               </p>
             </div>
