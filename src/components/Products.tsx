@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
 
 interface Product {
   id: string;
@@ -10,37 +12,101 @@ interface Product {
   imageUrl: string;
   category: string;
   tags: string[];
+  price: number;
+  originalPrice?: number;
+  isOutOfStock: boolean;
   link?: string;
 }
 
-// Initial dummy products
+// Enhanced dummy products for e-commerce experience
 const dummyProducts: Product[] = [
   {
     id: "1",
-    title: "Organic Chia Seeds",
-    description: "Nutrient-rich chia seeds packed with omega-3 fatty acids, fiber, and protein. Perfect for smoothies, puddings, and baked goods.",
-    imageUrl: "/src/assets/products/chia-seeds.jpg",
-    category: "Superfoods",
-    tags: ["organic", "omega-3", "fiber"],
-    link: "https://example.com/products/chia-seeds"
+    title: "Organic Almonds",
+    description: "Premium quality raw almonds, rich in protein and healthy fats",
+    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    category: "Nuts & Seeds",
+    tags: ["organic", "protein", "healthy"],
+    price: 299,
+    originalPrice: 349,
+    isOutOfStock: true
   },
   {
     id: "2",
-    title: "Plant-Based Protein Powder",
-    description: "Complete plant protein blend with 25g protein per serving. No artificial flavors or sweeteners.",
-    imageUrl: "/src/assets/products/protein-powder.jpg",
-    category: "Supplements",
-    tags: ["vegan", "protein", "plant-based"],
-    link: "https://example.com/products/protein-powder"
+    title: "Herbal Green Tea",
+    description: "Antioxidant-rich green tea blend for daily wellness",
+    imageUrl: "https://images.unsplash.com/photo-1582562124811-c09040d0a901",
+    category: "Beverages",
+    tags: ["herbal", "antioxidants", "wellness"],
+    price: 199,
+    originalPrice: 249,
+    isOutOfStock: true
   },
   {
     id: "3",
-    title: "Reusable Glass Water Bottle",
-    description: "BPA-free glass bottle with silicone sleeve and measurement markings to help you track your daily water intake.",
-    imageUrl: "/src/assets/products/water-bottle.jpg",
-    category: "Accessories",
-    tags: ["hydration", "eco-friendly", "BPA-free"],
-    link: "https://example.com/products/water-bottle"
+    title: "Chia Seeds Pack",
+    description: "Nutrient-dense superfood packed with omega-3 and fiber",
+    imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    category: "Superfoods",
+    tags: ["superfood", "omega-3", "fiber"],
+    price: 399,
+    originalPrice: 449,
+    isOutOfStock: true
+  },
+  {
+    id: "4",
+    title: "Raw Honey",
+    description: "Pure, unprocessed honey with natural enzymes and minerals",
+    imageUrl: "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
+    category: "Natural Sweeteners",
+    tags: ["raw", "natural", "enzymes"],
+    price: 599,
+    originalPrice: 699,
+    isOutOfStock: true
+  },
+  {
+    id: "5",
+    title: "Quinoa Grains",
+    description: "Complete protein grain, perfect for healthy meals",
+    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+    category: "Grains",
+    tags: ["protein", "gluten-free", "complete"],
+    price: 349,
+    originalPrice: 399,
+    isOutOfStock: true
+  },
+  {
+    id: "6",
+    title: "Coconut Oil",
+    description: "Extra virgin coconut oil for cooking and wellness",
+    imageUrl: "https://images.unsplash.com/photo-1582562124811-c09040d0a901",
+    category: "Oils",
+    tags: ["virgin", "cooking", "wellness"],
+    price: 499,
+    originalPrice: 599,
+    isOutOfStock: true
+  },
+  {
+    id: "7",
+    title: "Turmeric Powder",
+    description: "Premium quality turmeric with high curcumin content",
+    imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    category: "Spices",
+    tags: ["curcumin", "anti-inflammatory", "premium"],
+    price: 249,
+    originalPrice: 299,
+    isOutOfStock: true
+  },
+  {
+    id: "8",
+    title: "Mixed Berries",
+    description: "Antioxidant-rich frozen berry mix for smoothies and snacks",
+    imageUrl: "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
+    category: "Fruits",
+    tags: ["antioxidants", "frozen", "berries"],
+    price: 399,
+    originalPrice: 449,
+    isOutOfStock: true
   }
 ];
 
@@ -61,55 +127,123 @@ const Products = () => {
   }, []);
 
   return (
-    <section className="pt-28 pb-12 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">Our Products</h2>
+    <section className="pt-28 pb-12 bg-muted/30 relative overflow-hidden">
+      {/* Background decoration elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-spring/5 to-forest/5"></div>
+      <div className="absolute top-20 left-10 w-32 h-32 bg-mint/20 rounded-full blur-2xl"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-emerald/20 rounded-full blur-2xl"></div>
+      
+      {/* Lovable mascot character */}
+      <div className="absolute top-32 right-8 z-20 animate-float">
+        <div className="w-16 h-16 bg-gradient-to-br from-spring to-forest rounded-full flex items-center justify-center shadow-lg">
+          <span className="text-2xl">🥑</span>
+        </div>
+        <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-honey rounded-full flex items-center justify-center text-xs">
+          👋
+        </div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Header section matching website style */}
+        <div className="text-center mb-12">
+          <h2 className="text-section-title font-bold mb-6">Explore Our Products</h2>
+          <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Coming soon to your pantry!</p>
+        </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Products grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product, index) => (
-            <Card key={product.id || index} className="overflow-hidden">
-              <div className="aspect-video relative overflow-hidden">
+            <Card key={product.id || index} className="overflow-hidden card-hover relative">
+              {/* Out of stock overlay */}
+              {product.isOutOfStock && (
+                <div className="absolute inset-0 bg-black/60 z-10 flex items-center justify-center">
+                  <Badge variant="destructive" className="text-lg py-2 px-4 font-bold">
+                    Out of Stock
+                  </Badge>
+                </div>
+              )}
+              
+              <div className="aspect-square relative overflow-hidden">
                 <img 
                   src={product.imageUrl} 
                   alt={product.title}
-                  className="object-cover w-full h-full"
+                  className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "/placeholder.svg"; // Fallback image
+                    target.src = "/placeholder.svg";
                     target.alt = "Image not found";
                   }}
                 />
               </div>
               
-              <CardHeader>
-                <CardTitle>{product.title}</CardTitle>
-                <CardDescription>{product.description}</CardDescription>
+              <CardHeader className="pb-2">
+                <div className="flex justify-between items-start">
+                  <Badge variant="secondary" className="text-xs">{product.category}</Badge>
+                </div>
+                <CardTitle className="text-lg leading-tight">{product.title}</CardTitle>
+                <CardDescription className="text-sm line-clamp-2">{product.description}</CardDescription>
               </CardHeader>
               
-              <CardContent>
-                <div className="space-y-2">
-                  <Badge variant="secondary">{product.category}</Badge>
+              <CardContent className="pt-0">
+                <div className="space-y-3">
+                  {/* Price section */}
+                  <div className="flex items-center space-x-2">
+                    <span className="text-2xl font-bold text-primary">₹{product.price}</span>
+                    {product.originalPrice && (
+                      <span className="text-sm text-muted-foreground line-through">₹{product.originalPrice}</span>
+                    )}
+                    {product.originalPrice && (
+                      <Badge variant="outline" className="text-xs">
+                        {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% off
+                      </Badge>
+                    )}
+                  </div>
                   
-                  <div className="flex flex-wrap gap-2">
-                    {product.tags.map((tag, i) => (
-                      <Badge key={`${tag}-${i}`} variant="outline">{tag}</Badge>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1">
+                    {product.tags.slice(0, 2).map((tag, i) => (
+                      <Badge key={`${tag}-${i}`} variant="outline" className="text-xs">{tag}</Badge>
                     ))}
                   </div>
                   
-                  {product.link && (
+                  {/* Add to cart button */}
+                  <Button 
+                    className="w-full" 
+                    disabled={product.isOutOfStock}
+                    variant={product.isOutOfStock ? "outline" : "default"}
+                  >
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    {product.isOutOfStock ? "Notify When Available" : "Add to Cart"}
+                  </Button>
+                  
+                  {product.link && !product.isOutOfStock && (
                     <a 
                       href={product.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-primary hover:underline block mt-2"
+                      className="text-primary hover:underline block text-center text-sm mt-2"
                     >
-                      Learn More →
+                      View Details →
                     </a>
                   )}
                 </div>
               </CardContent>
             </Card>
           ))}
+        </div>
+        
+        {/* Call to action section */}
+        <div className="text-center mt-16">
+          <div className="glass-card max-w-2xl mx-auto">
+            <h3 className="text-xl font-bold mb-4">Stay Tuned!</h3>
+            <p className="text-foreground/70 mb-6">
+              We're carefully curating the finest products for your healthy lifestyle. 
+              Sign up to be notified when our store launches!
+            </p>
+            <Button className="btn-primary">
+              Notify Me When Available
+            </Button>
+          </div>
         </div>
       </div>
     </section>
