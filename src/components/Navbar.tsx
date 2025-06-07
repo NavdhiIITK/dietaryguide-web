@@ -49,7 +49,7 @@ const Navbar = () => {
           to="/"
           className="flex items-center space-x-2 text-2xl md:text-3xl font-display font-bold"
         >
-          <img src={logoSrc} alt="Dietary Guide Logo" className="h-16 w-16 object-contain" />
+          <img src={logoSrc} alt="Dietary Guide Logo" className="h-20 w-20 object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
