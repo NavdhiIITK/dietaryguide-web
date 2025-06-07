@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -351,6 +350,7 @@ const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     const fetchLatestContent = async () => {
       try {
@@ -378,6 +378,7 @@ const LatestContent = () => {
     };
     fetchLatestContent();
   }, []);
+  
   if (loading) {
     return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
         <div className="w-full max-w-none mx-auto text-center">
@@ -390,13 +391,13 @@ const LatestContent = () => {
     return null;
   }
   return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
-      <div className="w-full max-w-none mx-auto space-luxurious">
-        <div className="text-center">
+      <div className="w-full max-w-none mx-auto space-luxurious px-0">
+        <div className="text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-section-title font-bold text-green-800 dark:text-green-300">Latest Content</h2>
           <p className="text-muted-foreground mt-4">Discover our newest articles and recipes</p>
         </div>
         
-        {latestBlogs.length > 0 && <div>
+        {latestBlogs.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <h3 className="text-2xl font-semibold mb-8 text-green-700 dark:text-green-400">Latest Articles</h3>
             <div className="grid-layout">
               {latestBlogs.map(blog => <Card key={blog.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow card-hover">
@@ -425,7 +426,7 @@ const LatestContent = () => {
             </div>
           </div>}
         
-        {latestRecipes.length > 0 && <div>
+        {latestRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <h3 className="text-2xl font-semibold mb-8 text-green-700 dark:text-green-400">Latest Recipes</h3>
             <div className="grid-layout">
               {latestRecipes.map(recipe => <Card key={recipe.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow card-hover">
