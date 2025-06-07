@@ -50,7 +50,7 @@ const Navbar = () => {
           to="/"
           className="flex items-center space-x-2 text-2xl md:text-3xl font-display font-bold"
         >
-          <img src={logoSrc} alt="Dietary Guide Logo" className="h-8 w-8 object-contain" />
+          <img src={logoSrc} alt="Dietary Guide Logo" className="h-12 w-12 object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
