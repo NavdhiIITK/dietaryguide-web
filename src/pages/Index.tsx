@@ -145,7 +145,7 @@ const Home = () => {
         <div className="content-wrapper">
           <div className="flex justify-between items-center mb-16 space-comfortable">
             <div>
-              <h2 className="text-section-title font-bold mb-4 text-left">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</h2>
+              <h2 className="text-section-title font-bold mb-4 text-left">Latest Wellness Insights</h2>
               <p className="text-foreground/70 text-base text-left">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</p>
             </div>
             <Button asChild variant="outline" className="rounded-full">
