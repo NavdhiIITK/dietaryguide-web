@@ -155,8 +155,21 @@
 
   .grid-layout {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
-    gap: 2rem md:gap-3rem lg:gap-4rem; /* Progressive spacing */
+    gap: 2rem; /* Progressive spacing using CSS custom properties for responsiveness */
     padding: 1rem 0;
+  }
+
+  /* Responsive grid gaps using media queries */
+  @media (min-width: 768px) {
+    .grid-layout {
+      gap: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-layout {
+      gap: 4rem;
+    }
   }
   
   .glass-card {
