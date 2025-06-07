@@ -172,13 +172,12 @@ const Home = () => {
               <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mental Health</span>
-                  <span className="text-sm text-foreground/60">April 2, 2025</span>
+                  <span className="inline-block px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Mindful Eating: Transform Your Relationship with Food</span>
+                  <span className="text-sm text-foreground/60">earn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3 line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
-                <p className="text-foreground/70 mb-4 line-clamp-2">
-                  Discover techniques to bring awareness to your eating habits and develop a more balanced approach to food.
-                </p>
+                <p className="text-foreground/70 mb-4 line-clamp-2">Learn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.
+              </p>
                 <Button asChild variant="link" className="p-0 group">
                   <Link to="/blog" className="flex items-center">
                     Read Article
@@ -192,7 +191,7 @@ const Home = () => {
               <img src="https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Water bottle and glass on blue background" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="inline-block px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Hydration</span>
+                  <span className="inline-block px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Why Staying Hydrated Is Crucial for Your Health</span>
                   <span className="text-sm text-foreground/60">March 28, 2025</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3 line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
