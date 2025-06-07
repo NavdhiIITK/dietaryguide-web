@@ -101,7 +101,7 @@ const Home = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Healthy Recipes</h3>
                 <p className="text-foreground/70 mb-6">
-                  Delicious, nutritious, and easy-to-prepare meals for every dietary preference and lifestyle.
+                  Discover quick, nutritious, and customizable healthy recipes tailored for weight loss, PCOS, diabetes, muscle gain, and holistic living. From Indian vegetarian dishes to keto-friendly meals, we've got every diet covered.
                 </p>
                 <Button asChild variant="outline" className="rounded-full group">
                   <Link to="/recipes" className="flex items-center">
