@@ -68,19 +68,6 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Search Bar Section */}
-      <section className="py-8 bg-background">
-        <div className="container mx-auto px-4 -mt-8 relative z-20">
-          <div className="bg-white rounded-xl shadow-lg p-4 mx-auto max-w-3xl flex items-center">
-            <div className="relative flex-grow">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-              <input type="text" placeholder="Search for recipes, nutrition advice, or health tips..." className="w-full pl-10 pr-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-primary focus-visible:outline-none" />
-            </div>
-            <Button className="ml-2 rounded-lg">Search</Button>
-          </div>
-        </div>
-      </section>
-      
       {/* Features Section */}
       <section ref={contentRef} className="py-20">
         <div className="container mx-auto px-4">
