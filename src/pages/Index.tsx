@@ -268,7 +268,7 @@ const Home = () => {
       </section>
       
       {/* Testimonials Section */}
-      <section className="section-container bg-gradient-to-b from-muted/30 to-background">
+      <section className="w-full bg-gradient-to-b from-muted/30 to-background py-12 md:py-16 lg:py-20">
         <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8 text-center space-luxurious">
           <div>
             <h2 className="text-section-title font-bold mb-6">What Our Community Says</h2>
