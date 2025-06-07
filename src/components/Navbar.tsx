@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -49,7 +50,7 @@ const Navbar = () => {
           to="/"
           className="flex items-center space-x-2 text-2xl md:text-3xl font-display font-bold"
         >
-          <img src={logoSrc} alt="Dietary Guide Logo" className="h-20 w-20 object-contain" />
+          <img src={logoSrc} alt="Dietary Guide Logo" className="h-24 w-24 object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
