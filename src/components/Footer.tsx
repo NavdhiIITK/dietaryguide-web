@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import dgLogo from "../../logo/dg.png";
 
@@ -8,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center space-x-2 text-2xl font-serif font-bold text-primary">
-              <img src={dgLogo} alt="Dietary Guide Logo" className="h-8 w-8 object-contain" />
+              <img src={dgLogo} alt="Dietary Guide Logo" className="h-12 w-12 object-contain" />
             </Link>
             <p className="mt-4 text-foreground/80">
               Empowering you to make healthier choices through nutrition, fitness, and wellness.
