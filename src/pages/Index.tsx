@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
+
 interface ContentItem {
   id: string;
   title: string;
@@ -157,7 +158,7 @@ const Home = () => {
                   <span className="inline-block px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
                   <span className="text-sm text-foreground/60">April 5, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 line-clamp-2">Understanding Macronutrients: Your Complete Guide</h3>
+                <h3 className="text-xl font-bold mb-3 line-clamp-2">Mastering Macronutrients: Your Ultimate Nutrition Guide</h3>
                 <p className="text-foreground/70 mb-4 line-clamp-2">
                   Learn how proteins, fats, and carbohydrates work in your body and how to balance them for optimal health.
                 </p>
