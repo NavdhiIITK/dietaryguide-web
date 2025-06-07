@@ -380,77 +380,125 @@ const LatestContent = () => {
   }, []);
   
   if (loading) {
-    return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
-        <div className="w-full mx-auto text-center">
-          <h2 className="text-section-title font-bold text-green-800 dark:text-green-300">Latest Content</h2>
-          <p className="text-muted-foreground mt-4">Loading our latest articles and recipes...</p>
+    return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%2334d399" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+        <div className="w-full mx-auto text-center relative z-10">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full mb-6 shadow-lg animate-pulse">
+            <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+          </div>
+          <h2 className="text-section-title font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">Latest Content</h2>
+          <p className="text-muted-foreground mt-4 text-lg">Loading our newest articles and recipes...</p>
         </div>
       </div>;
   }
   if (latestBlogs.length === 0 && latestRecipes.length === 0) {
     return null;
   }
-  return <div className="w-full py-12 md:py-16 lg:py-20 bg-green-50 dark:bg-green-950/30">
-      <div className="w-full mx-auto space-luxurious">
+  return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%2334d399" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+      <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-200/30 to-green-300/30 rounded-full blur-xl animate-float"></div>
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{animationDelay: "2s"}}></div>
+      
+      <div className="w-full mx-auto space-luxurious relative z-10">
         <div className="text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-section-title font-bold text-green-800 dark:text-green-300">Latest Content</h2>
-          <p className="text-muted-foreground mt-4">Discover our newest articles and recipes</p>
+          <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-emerald-100 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 rounded-full mb-6">
+            <span className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-emerald-600 dark:text-emerald-400 shadow-sm">
+              Fresh Content
+            </span>
+          </div>
+          <h2 className="text-section-title font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent mb-4">Latest Content</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Discover our newest articles and recipes crafted with care</p>
         </div>
         
         {latestBlogs.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
-            <h3 className="text-2xl font-semibold mb-8 text-green-700 dark:text-green-400">Latest Articles</h3>
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent flex items-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg mr-3 flex items-center justify-center shadow-lg">
+                  <BookOpen className="w-4 h-4 text-white" />
+                </div>
+                Latest Articles
+              </h3>
+              <div className="h-px bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-800 dark:to-green-800 flex-1 ml-6"></div>
+            </div>
             <div className="grid-layout">
-              {latestBlogs.map(blog => <Card key={blog.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow card-hover">
-                  <div className="h-48 overflow-hidden">
-                    <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={blog.title} className="w-full h-full object-cover" onError={e => {
+              {latestBlogs.map(blog => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+                  <div className="h-48 overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+                    <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
                 (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
               }} />
+                    <div className="absolute top-4 right-4 z-20">
+                      <div className="px-3 py-1 bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                        Article
+                      </div>
+                    </div>
                   </div>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{blog.title}</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">{blog.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-2">
                     <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{blog.description}</p>
                   </CardContent>
-                  <CardFooter>
-                    <Link to={`/blog/${blog.id}`} className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium">
-                      Read Article →
+                  <CardFooter className="pt-4">
+                    <Link to={`/blog/${blog.id}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
+                      Read Article 
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                   </CardFooter>
                 </Card>)}
             </div>
             <div className="text-center mt-12">
-              <Link to="/blog" className="inline-block px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
+              <Link to="/blog" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
+                <BookOpen className="w-5 h-5 mr-2" />
                 View All Articles
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </div>
           </div>}
         
         {latestRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
-            <h3 className="text-2xl font-semibold mb-8 text-green-700 dark:text-green-400">Latest Recipes</h3>
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-2xl font-semibold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent flex items-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-lg mr-3 flex items-center justify-center shadow-lg">
+                  <Utensils className="w-4 h-4 text-white" />
+                </div>
+                Latest Recipes
+              </h3>
+              <div className="h-px bg-gradient-to-r from-teal-200 to-emerald-200 dark:from-teal-800 dark:to-emerald-800 flex-1 ml-6"></div>
+            </div>
             <div className="grid-layout">
-              {latestRecipes.map(recipe => <Card key={recipe.id} className="overflow-hidden border-green-100 dark:border-green-900 hover:shadow-md transition-shadow card-hover">
-                  <div className="h-48 overflow-hidden">
-                    <img src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} alt={recipe.title} className="w-full h-full object-cover" onError={e => {
+              {latestRecipes.map(recipe => <Card key={recipe.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+                  <div className="h-48 overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+                    <img src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
                 (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
               }} />
+                    <div className="absolute top-4 right-4 z-20">
+                      <div className="px-3 py-1 bg-teal-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                        Recipe
+                      </div>
+                    </div>
                   </div>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-green-800 dark:text-green-300 line-clamp-2">{recipe.title}</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">{recipe.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-2">
                     <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{recipe.description}</p>
                   </CardContent>
-                  <CardFooter>
-                    <Link to={`/recipes/${recipe.id}`} className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium">
-                      View Recipe →
+                  <CardFooter className="pt-4">
+                    <Link to={`/recipes/${recipe.id}`} className="inline-flex items-center text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
+                      View Recipe 
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                   </CardFooter>
                 </Card>)}
             </div>
             <div className="text-center mt-12">
-              <Link to="/recipes" className="inline-block px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors dark:bg-green-600 dark:hover:bg-green-700">
+              <Link to="/recipes" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
+                <Utensils className="w-5 h-5 mr-2" />
                 View All Recipes
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </div>
           </div>}
