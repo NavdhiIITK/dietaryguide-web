@@ -26,36 +26,36 @@ const Home = () => {
       behavior: "smooth"
     });
   };
-  return <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col overflow-x-hidden">
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-primary/5 pt-16 md:pt-20 lg:pt-24 pb-8 md:pb-12 lg:pb-16 overflow-hidden">
+      <section className="relative min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-background to-primary/5 overflow-hidden">
         <HeroCanvas />
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-          <div className="flex flex-col items-center justify-center text-center space-y-6 md:space-y-8 lg:space-y-10">
+        <div className="w-full h-full flex items-center justify-center relative z-10 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-center text-center space-y-6 md:space-y-8 lg:space-y-10 max-w-6xl mx-auto">
             <span className="inline-block px-4 py-2 text-sm md:text-base font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">
               Nourish Your Body. Elevate Your Life.
             </span>
             
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight max-w-5xl animate-fade-in" style={{animationDelay: "0.2s"}}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight animate-fade-in" style={{animationDelay: "0.2s"}}>
               Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
             </h1>
             
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-2xl max-w-3xl text-foreground/80 leading-relaxed animate-fade-in" style={{animationDelay: "0.4s"}}>
+            <p className="text-lg sm:text-xl md:text-2xl max-w-4xl text-foreground/80 leading-relaxed animate-fade-in px-4" style={{animationDelay: "0.4s"}}>
               Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full max-w-md sm:max-w-none justify-center animate-fade-in" style={{animationDelay: "0.6s"}}>
-              <Button asChild size="lg" className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full bg-gradient-to-r from-teal-light to-secondary hover:shadow-lg transition-all duration-300 hover:-translate-y-1 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center animate-fade-in w-full max-w-lg" style={{animationDelay: "0.6s"}}>
+              <Button asChild size="lg" className="text-base md:text-lg px-8 py-4 rounded-full bg-gradient-to-r from-teal-light to-secondary hover:shadow-lg transition-all duration-300 hover:-translate-y-1 w-full sm:w-auto min-w-[160px]">
                 <Link to="/tools">Explore Tools</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-full border-2 w-full sm:w-auto">
+              <Button asChild size="lg" variant="outline" className="text-base md:text-lg px-8 py-4 rounded-full border-2 w-full sm:w-auto min-w-[160px]">
                 <Link to="/recipes">View Recipes</Link>
               </Button>
             </div>
             
-            <div className="mt-8 md:mt-12 lg:mt-16 animate-bounce animate-fade-in" style={{animationDelay: "1s"}}>
+            <div className="mt-12 lg:mt-16 animate-bounce animate-fade-in" style={{animationDelay: "1s"}}>
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -72,7 +72,7 @@ const Home = () => {
       
       {/* Features Section */}
       <section ref={contentRef} className="py-16 md:py-20 lg:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Your Complete Wellness Resource</h2>
             <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
