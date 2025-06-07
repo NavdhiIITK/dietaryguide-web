@@ -1,3 +1,4 @@
+
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -144,7 +145,7 @@ const Home = () => {
       
       {/* Featured Articles Section */}
       <section className="section-container bg-muted/30">
-        <div className="content-wrapper">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-12 space-comfortable">
             <div>
               <h2 className="text-section-title font-bold mb-3">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</h2>
