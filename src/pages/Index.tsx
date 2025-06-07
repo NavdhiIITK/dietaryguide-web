@@ -192,7 +192,7 @@ const Home = () => {
               <img src="https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Water bottle and glass on blue background" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="inline-block px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">health</span>
+                  <span className="inline-block px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Health</span>
                   <span className="text-sm text-foreground/60">March 28, 2025</span>
                 </div>
                 <h3 className="text-xl font-bold mb-3 line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
