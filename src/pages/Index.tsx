@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -75,25 +74,25 @@ const Home = () => {
       </section>
       
       {/* Features Section */}
-      <section ref={contentRef} className="section-container">
-        <div className="content-wrapper text-center space-luxurious">
-          <div>
-            <h2 className="text-section-title font-bold mb-4">Your Complete Wellness Resource</h2>
-            <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
+      <section ref={contentRef} className="py-16 md:py-20 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 md:mb-16 lg:mb-20">
+            <h2 className="text-section-title font-bold mb-4 md:mb-6">Your Complete Wellness Resource</h2>
+            <p className="text-lg md:text-xl lg:text-2xl text-foreground/70 max-w-4xl mx-auto leading-relaxed">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
           </div>
           
-          <div className="grid-layout">
-            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
+            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover w-full">
               <div className="h-2 bg-primary"></div>
-              <CardContent className="p-6 space-comfortable">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                  <BookOpen className="w-7 h-7 text-primary" />
+              <CardContent className="p-6 md:p-8 space-y-4 md:space-y-6">
+                <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <BookOpen className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-primary" />
                 </div>
-                <h3 className="text-xl-responsive font-bold mb-3">Evidence-Based Articles</h3>
-                <p className="text-foreground/70 mb-4 leading-relaxed text-sm-responsive">
+                <h3 className="text-xl md:text-2xl font-bold leading-tight">Evidence-Based Articles</h3>
+                <p className="text-foreground/70 leading-relaxed text-sm md:text-base">
                   Transform your understanding of health with scientifically-backed insights on nutrition, fitness, and disease prevention. Expert-curated content for evidence-based wellness decisions.
                 </p>
-                <Button asChild variant="outline" className="rounded-full group text-sm">
+                <Button asChild variant="outline" className="rounded-full group text-sm md:text-base">
                   <Link to="/blog" className="flex items-center">
                     Read Articles
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -102,17 +101,17 @@ const Home = () => {
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
+            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover w-full">
               <div className="h-2 bg-secondary"></div>
-              <CardContent className="p-6 space-comfortable">
-                <div className="w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center mb-4">
-                  <Utensils className="w-7 h-7 text-secondary" />
+              <CardContent className="p-6 md:p-8 space-y-4 md:space-y-6">
+                <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-2xl bg-secondary/10 flex items-center justify-center">
+                  <Utensils className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-secondary" />
                 </div>
-                <h3 className="text-xl-responsive font-bold mb-3">Healthy Recipes</h3>
-                <p className="text-foreground/70 mb-4 leading-relaxed text-sm-responsive">
+                <h3 className="text-xl md:text-2xl font-bold leading-tight">Healthy Recipes</h3>
+                <p className="text-foreground/70 leading-relaxed text-sm md:text-base">
                   Discover quick, nutritious, and customizable healthy recipes tailored for weight loss, PCOS, diabetes, muscle gain, and holistic living. From Indian vegetarian dishes to keto-friendly meals, we've got every diet covered.
                 </p>
-                <Button asChild variant="outline" className="rounded-full group text-sm">
+                <Button asChild variant="outline" className="rounded-full group text-sm md:text-base">
                   <Link to="/recipes" className="flex items-center">
                     Discover Recipes
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -121,17 +120,17 @@ const Home = () => {
               </CardContent>
             </Card>
             
-            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover">
+            <Card className="overflow-hidden border-none shadow-lg rounded-2xl card-hover w-full">
               <div className="h-2 bg-accent"></div>
-              <CardContent className="p-6 space-comfortable">
-                <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-4">
-                  <Calculator className="w-7 h-7 text-accent" />
+              <CardContent className="p-6 md:p-8 space-y-4 md:space-y-6">
+                <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-2xl bg-accent/10 flex items-center justify-center">
+                  <Calculator className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-accent" />
                 </div>
-                <h3 className="text-xl-responsive font-bold mb-3">AI-Powered Tools</h3>
-                <p className="text-foreground/70 mb-4 leading-relaxed text-sm-responsive">
+                <h3 className="text-xl md:text-2xl font-bold leading-tight">AI-Powered Tools</h3>
+                <p className="text-foreground/70 leading-relaxed text-sm md:text-base">
                   Access cutting-edge AI-powered tools like calorie calculators, BMI trackers, personalized Indian diet planners, and health progress dashboards. Engineered for precision, designed for results.
                 </p>
-                <Button asChild variant="outline" className="rounded-full group text-sm">
+                <Button asChild variant="outline" className="rounded-full group text-sm md:text-base">
                   <Link to="/tools" className="flex items-center">
                     Try Our Tools
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -425,7 +424,7 @@ const LatestContent = () => {
                       alt={blog.title} 
                       className="w-full h-full object-cover" 
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
                       }} 
                     />
                   </div>

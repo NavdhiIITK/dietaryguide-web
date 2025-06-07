@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -161,6 +160,16 @@
     padding: 0.5rem 0;
   }
   
+  /* Responsive grid that stacks on smaller screens */
+  @media (max-width: 900px) {
+    .grid-layout {
+      @apply grid-cols-1;
+      gap: 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+  
   .glass-card {
     @apply bg-white/80 dark:bg-black/40 backdrop-blur-sm border border-white/20 shadow-lg;
     padding: 1.5rem;
@@ -223,6 +232,21 @@
 
   .space-luxurious > * + * {
     margin-top: 2.5rem;
+  }
+  
+  /* Enhanced responsive spacing for mobile */
+  @media (max-width: 768px) {
+    .space-comfortable > * + * {
+      margin-top: 1rem;
+    }
+
+    .space-generous > * + * {
+      margin-top: 1.5rem;
+    }
+
+    .space-luxurious > * + * {
+      margin-top: 2rem;
+    }
   }
 }
 
