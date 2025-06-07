@@ -354,6 +354,7 @@ const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     const fetchLatestContent = async () => {
       try {
@@ -381,6 +382,7 @@ const LatestContent = () => {
     };
     fetchLatestContent();
   }, []);
+  
   if (loading) {
     return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
         <div className="absolute inset-0" style={{
@@ -401,9 +403,11 @@ const LatestContent = () => {
         </div>
       </div>;
   }
+  
   if (latestBlogs.length === 0 && latestRecipes.length === 0) {
     return null;
   }
+  
   return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0" style={{
@@ -474,7 +478,7 @@ const LatestContent = () => {
         
         {latestRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-semibold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent flex items-center">
+              <h3 className="text-2xl font-semibold text-white flex items-center">
                 <div className="w-8 h-8 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-lg mr-3 flex items-center justify-center shadow-lg">
                   <Utensils className="w-4 h-4 text-white" />
                 </div>
