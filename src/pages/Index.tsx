@@ -419,25 +419,17 @@ const LatestContent = () => {
       animationDelay: "2s"
     }}></div>
       
-      <div className="w-full mx-auto space-luxurious relative z-10">
+      <div className="w-full max-w-none mx-auto space-luxurious relative z-10">
         <div className="text-center px-4 sm:px-6 lg:px-8">
-          <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-emerald-100 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 rounded-full mb-6">
-            <span className="bg-white dark:bg-gray-800 rounded-full text-emerald-600 dark:text-emerald-400 shadow-sm py-[11px] px-[7px] text-lg font-normal text-left">
-              Fresh Content
-            </span>
+          <div>
+            <h2 className="text-section-title font-bold mb-6">Latest Content</h2>
+            <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Discover our newest articles and recipes crafted with care</p>
           </div>
-          <h2 className="text-section-title font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent mb-4">Latest Content</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Discover our newest articles and recipes crafted with care</p>
         </div>
         
         {latestBlogs.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent flex items-center">
-                <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg mr-3 flex items-center justify-center shadow-lg">
-                  <BookOpen className="w-4 h-4 text-white" />
-                </div>
-                Latest Articles
-              </h3>
+              <h3 className="text-2xl font-bold mb-4 text-left">Latest Articles</h3>
               <div className="h-px bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-800 dark:to-green-800 flex-1 ml-6"></div>
             </div>
             <div className="grid-layout">
@@ -478,12 +470,7 @@ const LatestContent = () => {
         
         {latestRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-semibold text-white flex items-center">
-                <div className="w-8 h-8 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-lg mr-3 flex items-center justify-center shadow-lg">
-                  <Utensils className="w-4 h-4 text-white" />
-                </div>
-                Latest Recipes
-              </h3>
+              <h3 className="text-2xl font-bold mb-4 text-left">Latest Recipes</h3>
               <div className="h-px bg-gradient-to-r from-teal-200 to-emerald-200 dark:from-teal-800 dark:to-emerald-800 flex-1 ml-6"></div>
             </div>
             <div className="grid-layout">
