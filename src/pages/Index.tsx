@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { allIndianRecipes } from "@/data/recipes";
-
 interface ContentItem {
   id: string;
   title: string;
@@ -19,7 +18,6 @@ interface ContentItem {
   category: string | null;
   date: string | null;
 }
-
 const Home = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollToContent = () => {
@@ -345,12 +343,10 @@ const Home = () => {
       <Footer />
     </div>;
 };
-
 const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
-  
   useEffect(() => {
     const fetchLatestContent = async () => {
       try {
@@ -378,16 +374,16 @@ const LatestContent = () => {
     };
     fetchLatestContent();
   }, []);
-  
   if (loading) {
-    return (
-      <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
+    return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          opacity: 0.4
-        }}></div>
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        opacity: 0.4
+      }}></div>
         <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-200/30 to-green-300/30 rounded-full blur-xl animate-float"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{animationDelay: "2s"}}></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{
+        animationDelay: "2s"
+      }}></div>
         
         <div className="w-full mx-auto text-center relative z-10">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full mb-6 shadow-lg animate-pulse">
@@ -396,28 +392,26 @@ const LatestContent = () => {
           <h2 className="text-section-title font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">Latest Content</h2>
           <p className="text-muted-foreground mt-4 text-lg">Loading our newest articles and recipes...</p>
         </div>
-      </div>
-    );
+      </div>;
   }
-  
   if (latestBlogs.length === 0 && latestRecipes.length === 0) {
     return null;
   }
-  
-  return (
-    <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
+  return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        opacity: 0.4
-      }}></div>
+      backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+      opacity: 0.4
+    }}></div>
       <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-200/30 to-green-300/30 rounded-full blur-xl animate-float"></div>
-      <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{animationDelay: "2s"}}></div>
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{
+      animationDelay: "2s"
+    }}></div>
       
       <div className="w-full mx-auto space-luxurious relative z-10">
         <div className="text-center px-4 sm:px-6 lg:px-8">
           <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-emerald-100 to-green-100 dark:from-emerald-900/30 dark:to-green-900/30 rounded-full mb-6">
-            <span className="px-4 py-2 bg-white dark:bg-gray-800 rounded-full text-sm font-medium text-emerald-600 dark:text-emerald-400 shadow-sm">
+            <span className="bg-white dark:bg-gray-800 rounded-full text-emerald-600 dark:text-emerald-400 shadow-sm py-[11px] px-[7px] text-lg font-normal text-left">
               Fresh Content
             </span>
           </div>
@@ -425,8 +419,7 @@ const LatestContent = () => {
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Discover our newest articles and recipes crafted with care</p>
         </div>
         
-        {latestBlogs.length > 0 && (
-          <div className="px-4 sm:px-6 lg:px-8">
+        {latestBlogs.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent flex items-center">
                 <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg mr-3 flex items-center justify-center shadow-lg">
@@ -437,18 +430,12 @@ const LatestContent = () => {
               <div className="h-px bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-800 dark:to-green-800 flex-1 ml-6"></div>
             </div>
             <div className="grid-layout">
-              {latestBlogs.map(blog => (
-                <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+              {latestBlogs.map(blog => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
                   <div className="h-48 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img 
-                      src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} 
-                      alt={blog.title} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
-                      }} 
-                    />
+                    <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
+              }} />
                     <div className="absolute top-4 right-4 z-20">
                       <div className="px-3 py-1 bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
                         Article
@@ -467,8 +454,7 @@ const LatestContent = () => {
                       <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                   </CardFooter>
-                </Card>
-              ))}
+                </Card>)}
             </div>
             <div className="text-center mt-12">
               <Link to="/blog" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
@@ -477,11 +463,9 @@ const LatestContent = () => {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </div>
-          </div>
-        )}
+          </div>}
         
-        {latestRecipes.length > 0 && (
-          <div className="px-4 sm:px-6 lg:px-8">
+        {latestRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <h3 className="text-2xl font-semibold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent flex items-center">
                 <div className="w-8 h-8 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-lg mr-3 flex items-center justify-center shadow-lg">
@@ -492,18 +476,12 @@ const LatestContent = () => {
               <div className="h-px bg-gradient-to-r from-teal-200 to-emerald-200 dark:from-teal-800 dark:to-emerald-800 flex-1 ml-6"></div>
             </div>
             <div className="grid-layout">
-              {latestRecipes.map(recipe => (
-                <Card key={recipe.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+              {latestRecipes.map(recipe => <Card key={recipe.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
                   <div className="h-48 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img 
-                      src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} 
-                      alt={recipe.title} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
-                      }} 
-                    />
+                    <img src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
+              }} />
                     <div className="absolute top-4 right-4 z-20">
                       <div className="px-3 py-1 bg-teal-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
                         Recipe
@@ -522,8 +500,7 @@ const LatestContent = () => {
                       <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                   </CardFooter>
-                </Card>
-              ))}
+                </Card>)}
             </div>
             <div className="text-center mt-12">
               <Link to="/recipes" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
@@ -532,11 +509,8 @@ const LatestContent = () => {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </div>
-          </div>
-        )}
+          </div>}
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
