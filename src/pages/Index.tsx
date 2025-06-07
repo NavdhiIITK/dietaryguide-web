@@ -74,7 +74,7 @@ const Home = () => {
       
       {/* Features Section */}
       <section ref={contentRef} className="section-container">
-        <div className="content-wrapper text-center space-luxurious">
+        <div className="w-full max-w-none mx-auto px-4 sm:px-6 lg:px-8 text-center space-luxurious">
           <div>
             <h2 className="text-section-title font-bold mb-6">Your Complete Wellness Resource</h2>
             <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
