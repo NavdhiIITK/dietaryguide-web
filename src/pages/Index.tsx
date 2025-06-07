@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -35,7 +34,7 @@ const Home = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="hero-section pt-20">
+      <section className="hero-section pt-16">
         <HeroCanvas />
         <div className="w-full max-w-6xl mx-auto flex items-center justify-center relative z-10 px-6 sm:px-8 lg:px-12">
           <div className="flex flex-col items-center justify-center text-center space-comfortable max-w-5xl">
@@ -164,7 +163,7 @@ const Home = () => {
           
           <div className="grid-layout">
             <Card className="overflow-hidden border-none shadow-md rounded-xl card-hover">
-              <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy food with vegetables and proteins" className="h-48 w-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1564121211851-b88716102fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy macronutrients visualization with proteins, carbs, and fats" className="h-48 w-full object-cover" />
               <CardContent className="p-6 space-comfortable">
                 <div className="flex justify-between items-center mb-3">
                   <span className="tag text-primary bg-primary/10">Nutrition</span>
