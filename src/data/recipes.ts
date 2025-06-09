@@ -124,7 +124,7 @@ export const allIndianRecipes: Recipe[] = [
     servings: 2,
     mealType: "Breakfast",
     dietPreference: "Vegetarian",
-    imageUrl: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Besan_Cheela_with_Sp.png?raw=true",
     ingredients: [
       "1/2 cup besan (gram flour)",
       "1 cup fresh spinach leaves, finely chopped",
