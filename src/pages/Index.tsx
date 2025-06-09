@@ -384,13 +384,13 @@ const LatestContent = () => {
   // Define different article titles and descriptions for the cards
   const articleTitles = [
     "Women, Prioritize Your Health Every Day - Not Just During Summer Break",
-    "Mediterranean Diet Secrets: Heart-Healthy Eating Made Simple", 
+    "Nutritional Equality: Making Healthy Food Accessible for All", 
     "Intermittent Fasting: Science-Based Benefits and Best Practices"
   ];
   
   const articleDescriptions = [
     "Essential health tips and strategies specifically designed for women to maintain wellness throughout the year, not just during vacation periods.",
-    "Learn the authentic principles of Mediterranean eating that have kept populations healthy for centuries, with practical tips and easy recipes.",
+    "Explore how we can break down barriers to healthy eating and ensure nutritious food is available and affordable for everyone, regardless of income or location.",
     "Explore the proven benefits of intermittent fasting, including weight management, improved metabolism, and enhanced mental clarity."
   ];
   
