@@ -5,7 +5,7 @@ import HeroCanvas from "@/components/HeroCanvas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowRight, Utensils, Calculator, BookOpen, Heart, Clock, TrendingUp, ChefHat } from "lucide-react";
+import { ArrowDown, ArrowRight, Utensils, Calculator, BookOpen, Heart, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { allIndianRecipes } from "@/data/recipes";
 
@@ -237,89 +237,6 @@ const Home = () => {
             <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white px-8 py-3">
               <Link to="/recipes" className="flex items-center">
                 All Recipes
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-      
-      {/* Most Popular Recipes Section */}
-      <section className="py-24 bg-gray-700">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Most Popular Recipes</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Discover our community's favorite healthy recipes that everyone is talking about</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {allIndianRecipes.filter(recipe => recipe.isTrending).slice(0, 3).map((recipe) => (
-              <Card key={recipe.id} className="overflow-hidden bg-gray-800 border-gray-700 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative">
-                <div className="absolute top-4 right-4 z-10">
-                  <div className="px-3 py-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-medium rounded-full flex items-center gap-1">
-                    <TrendingUp className="h-3 w-3" /> 
-                    Trending
-                  </div>
-                </div>
-                
-                <div className="h-64 relative overflow-hidden">
-                  <img src={recipe.imageUrl} alt={recipe.title} className="h-full w-full object-cover transition-transform hover:scale-105" />
-                </div>
-                
-                <CardContent className="p-8">
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">
-                      {recipe.mealType}
-                    </span>
-                    <div className="flex items-center text-xs text-gray-400">
-                      <Clock className="h-3 w-3 mr-1" />
-                      <span className="mr-2">{recipe.prepTime}</span>
-                      <ChefHat className="h-3 w-3 mr-1" />
-                      <span>{recipe.difficulty}</span>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold mb-3 text-white line-clamp-2">{recipe.title}</h3>
-                  <p className="text-gray-300 mb-6 line-clamp-2 leading-relaxed">{recipe.description}</p>
-                  
-                  {recipe.nutritionFacts && (
-                    <div className="grid grid-cols-3 gap-2 text-xs mb-6">
-                      {recipe.nutritionFacts.protein && (
-                        <div className="text-center">
-                          <div className="font-medium text-primary">{recipe.nutritionFacts.protein}</div>
-                          <div className="text-gray-400">Protein</div>
-                        </div>
-                      )}
-                      {recipe.nutritionFacts.calories && (
-                        <div className="text-center">
-                          <div className="font-medium text-primary">{recipe.nutritionFacts.calories}</div>
-                          <div className="text-gray-400">Calories</div>
-                        </div>
-                      )}
-                      {recipe.nutritionFacts.carbs && (
-                        <div className="text-center">
-                          <div className="font-medium text-primary">{recipe.nutritionFacts.carbs}</div>
-                          <div className="text-gray-400">Carbs</div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  <Button asChild variant="outline" className="w-full rounded-full border-gray-600 hover:bg-gray-700 text-white">
-                    <Link to={`/recipes/${recipe.id}`} className="flex items-center justify-center">
-                      View Recipe
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          
-          <div className="text-center mt-16">
-            <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white px-8 py-3">
-              <Link to="/recipes" className="flex items-center">
-                View All Recipes
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
