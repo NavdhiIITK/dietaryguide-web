@@ -143,13 +143,13 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://images.unsplash.com/photo-1564121211851-b88716102fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy macronutrients visualization with proteins, carbs, and fats" className="h-48 w-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1607013251379-e6eecfffe234?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Nutritional Equality: Making Healthy Food Accessible for All" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
                   <span className="text-sm text-gray-400">April 5, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Understanding Macronutrients: Your Complete Guide</h3>
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Nutritional Equality: Making Healthy Food Accessible for All</h3>
                 <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Understand the vital role of proteins, fats, and carbohydrates in your body. Learn how to balance your macronutrient intake for weight loss, muscle building, and optimal energy levels.</p>
                 <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80">
                   <Link to="/blog" className="flex items-center">
