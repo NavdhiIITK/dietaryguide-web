@@ -27,7 +27,7 @@ function App() {
         <Route path="/recipes/:id" element={<RecipeDetailPage />} />
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/products" element={<ProductsPage />} />
-        <Route path="/app-promotion" element={<AppPromotionPage />} />
+        <Route path="/app" element={<AppPromotionPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>
