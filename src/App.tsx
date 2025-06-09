@@ -10,6 +10,7 @@ import RecipePage from "./pages/RecipePage";
 import RecipeDetailPage from "./pages/RecipeDetailPage";
 import ToolsPage from "./pages/ToolsPage";
 import ProductsPage from "./pages/ProductsPage";
+import AppPage from "./pages/AppPage";
 import NotFound from "./pages/NotFound";
 
 import "./App.css";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/recipes/:id" element={<RecipeDetailPage />} />
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/app" element={<AppPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>

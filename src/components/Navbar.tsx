@@ -15,7 +15,8 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Blog", href: "/blog" },
     { name: "Recipes", href: "/recipes" },
-    { name: "Products", href: "/products" }, // Added Products link
+    { name: "Products", href: "/products" },
+    { name: "App", href: "/app" },
     { name: "Health Tools", href: "/tools" },
   ];
 
