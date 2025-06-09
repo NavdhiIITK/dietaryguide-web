@@ -33,7 +33,7 @@ const AppPromotionPage = () => {
     {
       id: 2,
       title: "Welcome to IRA's Home!",
-      description: "Meet your AI nutrition buddy with personality and smart meal tracking",
+      description: "Meet IRA, your AI nutrition buddy with personality and smart meal tracking",
       features: ["Emoji-based AI Avatar", "Mood-responsive Interface", "Smart Meal Logging", "Photo Recognition"]
     }
   ];
@@ -57,7 +57,7 @@ const AppPromotionPage = () => {
                 <br />is Waiting For You
               </h1>
               <p className="text-xl text-muted-foreground max-w-xl">
-                Meet IRA - your emoji-based AI nutrition companion that understands your lifestyle, 
+                Meet the Dietary Guide App featuring IRA - your emoji-based AI nutrition companion that understands your lifestyle, 
                 plans your meals, and helps you achieve your health goals with personality.
               </p>
               
@@ -130,9 +130,9 @@ const AppPromotionPage = () => {
 
           {/* What is IRA Section */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">🌟 What is IRA?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">🌟 What is the Dietary Guide App?</h2>
             <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              IRA is your own smart, emoji-based nutrition buddy. It talks to you, helps you plan what to eat, 
+              The Dietary Guide App features IRA, your smart, emoji-based nutrition buddy. IRA talks to you, helps you plan what to eat, 
               tracks your meals, and even gives you reminders to stay on track. Think of it like a health coach 
               that lives in your phone, understands your lifestyle, and actually cares.
             </p>
@@ -182,7 +182,7 @@ const AppPromotionPage = () => {
                 <Camera className="h-6 w-6 text-white" />
               </div>
               <h3 className="font-semibold mb-2">🍽️ Smart Meal Logging</h3>
-              <p className="text-sm text-muted-foreground">Take photos or type what you eat. AI recognizes and tracks everything.</p>
+              <p className="text-sm text-muted-foreground">Take photos or type what you eat. IRA's AI recognizes and tracks everything.</p>
             </Card>
 
             <Card className="text-center p-6">
@@ -198,7 +198,7 @@ const AppPromotionPage = () => {
                 <MessageCircle className="h-6 w-6 text-white" />
               </div>
               <h3 className="font-semibold mb-2">💬 Chat with IRA</h3>
-              <p className="text-sm text-muted-foreground">Ask anything about nutrition, get instant expert advice.</p>
+              <p className="text-sm text-muted-foreground">Ask IRA anything about nutrition, get instant expert advice.</p>
             </Card>
 
             <Card className="text-center p-6">
@@ -216,7 +216,7 @@ const AppPromotionPage = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { icon: "H", title: "Home", desc: "Main dashboard with meal logging and IRA" },
-                { icon: <MessageCircle className="h-6 w-6" />, title: "Chat", desc: "Full conversation with your AI buddy" },
+                { icon: <MessageCircle className="h-6 w-6" />, title: "Chat", desc: "Full conversation with your AI buddy IRA" },
                 { icon: <TrendingUp className="h-6 w-6" />, title: "Stats", desc: "Health progress and achievements" },
                 { icon: <User className="h-6 w-6" />, title: "Profile", desc: "Update your preferences anytime" }
               ].map((tab, index) => (
@@ -237,13 +237,13 @@ const AppPromotionPage = () => {
 
           {/* Benefits Section */}
           <div className="bg-muted rounded-lg p-8 mb-20">
-            <h2 className="text-3xl font-bold text-center mb-8">✅ What You Can Expect with IRA</h2>
+            <h2 className="text-3xl font-bold text-center mb-8">✅ What You Can Expect with the Dietary Guide App</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {[
                 "No more confusion about what to eat",
                 "No more missed meals or inconsistent dieting",
                 "No boring calorie counting",
-                "A real-time, living, friendly AI helping you become your best self"
+                "A real-time, living, friendly AI assistant (IRA) helping you become your best self"
               ].map((benefit, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <CheckCircle className="h-5 w-5 text-forest" />
@@ -275,7 +275,7 @@ const AppPromotionPage = () => {
           <div className="text-center bg-gradient-to-r from-forest to-spring rounded-lg p-12 text-white">
             <h2 className="text-3xl font-bold mb-4">Ready to Meet IRA?</h2>
             <p className="text-xl mb-8 opacity-90">
-              Start your journey to better health with your personal AI nutrition buddy
+              Download the Dietary Guide App and start your journey to better health with your personal AI nutrition buddy
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" variant="secondary" className="rounded-full px-8">
