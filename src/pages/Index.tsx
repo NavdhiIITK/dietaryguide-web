@@ -396,7 +396,7 @@ const LatestContent = () => {
   
   // Define custom images for the articles
   const articleImages = [
-    'https://images.unsplash.com/photo-1607013251379-e6eecfffe234?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    '/lovable-uploads/3747d582-8764-4b6c-a467-104d8fee29f0.png',
     '/lovable-uploads/1748a82d-c7ef-4bc1-b27d-bb5e27f723bb.png',
     'https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
   ];
