@@ -419,7 +419,7 @@ const LatestContent = () => {
                     </div>
                   </div>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">Nutritional Equality: Making Healthy Food Accessible for All</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">Women, Prioritize Your Health Every Day - Not Just During Summer Break</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-2">
                     <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{blog.description}</p>
