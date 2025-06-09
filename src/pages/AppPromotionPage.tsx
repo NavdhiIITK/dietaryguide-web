@@ -124,7 +124,7 @@ const AppPromotionPage = () => {
       <Navbar />
       
       <main className="pt-32 pb-20">
-        <div className="container mx-auto px-4 md:px-8 lg:px-12">
+        <div className="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20">
           {/* Hero Section */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
             <div className="space-y-6">
