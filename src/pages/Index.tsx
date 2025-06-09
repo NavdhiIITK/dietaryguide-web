@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -384,13 +383,13 @@ const LatestContent = () => {
   
   // Define different article titles and descriptions for the cards
   const articleTitles = [
-    "Plant-Based Nutrition: Complete Guide to Healthy Living",
+    "Women, Prioritize Your Health Every Day - Not Just During Summer Break",
     "Mediterranean Diet Secrets: Heart-Healthy Eating Made Simple", 
     "Intermittent Fasting: Science-Based Benefits and Best Practices"
   ];
   
   const articleDescriptions = [
-    "Discover how plant-based nutrition can transform your health with complete proteins, essential nutrients, and delicious meal ideas for every lifestyle.",
+    "Essential health tips and strategies specifically designed for women to maintain wellness throughout the year, not just during vacation periods.",
     "Learn the authentic principles of Mediterranean eating that have kept populations healthy for centuries, with practical tips and easy recipes.",
     "Explore the proven benefits of intermittent fasting, including weight management, improved metabolism, and enhanced mental clarity."
   ];
