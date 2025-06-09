@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -144,7 +143,7 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://images.unsplash.com/photo-1607013251379-e6eecfffe234?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Nutritional Equality: Making Healthy Food Accessible for All" className="h-48 w-full object-cover" />
+              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Nutritional_Equality%20(2).png?raw=true" alt="Nutritional Equality: Making Healthy Food Accessible for All" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
@@ -425,8 +424,8 @@ const LatestContent = () => {
               {latestBlogs.map((blog, index) => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
                   <div className="h-48 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img src={articleImages[index] || blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
+                    <img src={articleImages[index] || blog.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
               }} />
                     <div className="absolute top-4 right-4 z-20">
                       <div className="px-3 py-1 bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
