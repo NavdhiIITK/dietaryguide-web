@@ -1,4 +1,3 @@
-
 export interface Recipe {
   id: string;
   title: string;
@@ -255,7 +254,7 @@ export const allIndianRecipes: Recipe[] = [
     servings: 1,
     mealType: "Breakfast",
     dietPreference: "Vegetarian",
-    imageUrl: "https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Ragi_Porridge_.png?raw=true",
     ingredients: [
       "3 tablespoons ragi flour (finger millet flour)",
       "1 cup water or low-fat milk",
