@@ -1,3 +1,4 @@
+
 import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -325,8 +326,10 @@ const Home = () => {
 
 const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
-  const [latestRecipes, setLatestRecipes] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Get most popular recipes (trending ones)
+  const popularRecipes = allIndianRecipes.filter(recipe => recipe.isTrending).slice(0, 3);
   
   useEffect(() => {
     const fetchLatestContent = async () => {
@@ -338,15 +341,8 @@ const LatestContent = () => {
           ascending: false
         }).limit(3);
         if (blogError) throw blogError;
-        const {
-          data: recipeData,
-          error: recipeError
-        } = await supabase.from('auto_blogs').select('id, title, description, image, category, date').eq('category', 'Recipes').eq('is_published', true).order('date', {
-          ascending: false
-        }).limit(3);
-        if (recipeError) throw recipeError;
+        
         setLatestBlogs(blogData as ContentItem[]);
-        setLatestRecipes(recipeData as ContentItem[]);
       } catch (error) {
         console.error("Error fetching latest content:", error);
       } finally {
@@ -377,7 +373,7 @@ const LatestContent = () => {
       </div>;
   }
   
-  if (latestBlogs.length === 0 && latestRecipes.length === 0) {
+  if (latestBlogs.length === 0 && popularRecipes.length === 0) {
     return null;
   }
   
@@ -416,7 +412,7 @@ const LatestContent = () => {
         <div className="text-center px-4 sm:px-6 lg:px-8">
           <div>
             <h2 className="text-section-title font-bold mb-6">Latest Content</h2>
-            <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Discover our newest articles and recipes crafted with care</p>
+            <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Discover our newest articles and most popular recipes</p>
           </div>
         </div>
         
@@ -461,21 +457,22 @@ const LatestContent = () => {
             </div>
           </div>}
         
-        {latestRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
+        {popularRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold mb-4 text-left">Latest Recipes</h3>
+              <h3 className="text-2xl font-bold mb-4 text-left">Most Popular Recipes</h3>
               <div className="h-px bg-gradient-to-r from-teal-200 to-emerald-200 dark:from-teal-800 dark:to-emerald-800 flex-1 ml-6"></div>
             </div>
             <div className="grid-layout">
-              {latestRecipes.map(recipe => <Card key={recipe.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+              {popularRecipes.map(recipe => <Card key={recipe.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
                   <div className="h-48 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img src={recipe.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352'} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                    <img src={recipe.imageUrl} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
                 (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
               }} />
                     <div className="absolute top-4 right-4 z-20">
                       <div className="px-3 py-1 bg-teal-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-                        Recipe
+                        <Heart className="w-3 h-3 inline mr-1" />
+                        Popular
                       </div>
                     </div>
                   </div>
@@ -483,7 +480,16 @@ const LatestContent = () => {
                     <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">{recipe.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-2">
-                    <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{recipe.description}</p>
+                    <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">{recipe.description}</p>
+                    <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
+                      <span className="flex items-center">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {recipe.prepTime}
+                      </span>
+                      {recipe.nutritionFacts?.calories && (
+                        <span>{recipe.nutritionFacts.calories}</span>
+                      )}
+                    </div>
                   </CardContent>
                   <CardFooter className="pt-4">
                     <Link to={`/recipes/${recipe.id}`} className="inline-flex items-center text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
