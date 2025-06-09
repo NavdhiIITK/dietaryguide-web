@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,19 @@ const AppleStoreLogo = () => (
 
 const AppPromotionPage = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX - window.innerWidth / 2) * 0.05,
+        y: (e.clientY - window.innerHeight / 2) * 0.05
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const steps = [
     {
@@ -149,7 +162,12 @@ const AppPromotionPage = () => {
             <div className="relative flex justify-center items-center">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-forest/20 to-spring/20 blur-3xl rounded-full"></div>
-                <div className="relative bg-card border rounded-3xl p-6 max-w-sm mx-auto shadow-2xl">
+                <div 
+                  className="relative bg-card border rounded-3xl p-6 max-w-sm mx-auto shadow-2xl transition-transform duration-300 ease-out"
+                  style={{
+                    transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`
+                  }}
+                >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h3 className="font-semibold">Dietary Guide</h3>
