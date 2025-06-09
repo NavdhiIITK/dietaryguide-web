@@ -1,3 +1,4 @@
+
 import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -381,6 +382,19 @@ const LatestContent = () => {
     return null;
   }
   
+  // Define different article titles and descriptions for the cards
+  const articleTitles = [
+    "Plant-Based Nutrition: Complete Guide to Healthy Living",
+    "Mediterranean Diet Secrets: Heart-Healthy Eating Made Simple", 
+    "Intermittent Fasting: Science-Based Benefits and Best Practices"
+  ];
+  
+  const articleDescriptions = [
+    "Discover how plant-based nutrition can transform your health with complete proteins, essential nutrients, and delicious meal ideas for every lifestyle.",
+    "Learn the authentic principles of Mediterranean eating that have kept populations healthy for centuries, with practical tips and easy recipes.",
+    "Explore the proven benefits of intermittent fasting, including weight management, improved metabolism, and enhanced mental clarity."
+  ];
+  
   return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0" style={{
@@ -406,10 +420,10 @@ const LatestContent = () => {
               <div className="h-px bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-800 dark:to-green-800 flex-1 ml-6"></div>
             </div>
             <div className="grid-layout">
-              {latestBlogs.map(blog => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+              {latestBlogs.map((blog, index) => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
                   <div className="h-48 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                    <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
                 (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
               }} />
                     <div className="absolute top-4 right-4 z-20">
@@ -419,10 +433,10 @@ const LatestContent = () => {
                     </div>
                   </div>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">Women, Prioritize Your Health Every Day - Not Just During Summer Break</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">{articleTitles[index] || blog.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pb-2">
-                    <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{blog.description}</p>
+                    <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{articleDescriptions[index] || blog.description}</p>
                   </CardContent>
                   <CardFooter className="pt-4">
                     <Link to={`/blog/${blog.id}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
