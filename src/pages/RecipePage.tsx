@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -5,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrendingUp, Clock, ChefHat } from "lucide-react";
 import { allIndianRecipes, Recipe } from "@/data/recipes";
 
 const RecipePage = () => {
@@ -50,10 +52,10 @@ const RecipePage = () => {
       <section className="pt-32 pb-16 bg-muted/30">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Healthy & Delicious Indian Recipes
+            Healthy Indian Breakfast Recipes for Weight Loss
           </h1>
           <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-            Discover authentic, nutritious, easy-to-prepare Indian meals for every dietary preference and occasion.
+            Discover 10 nutritious, protein-rich Indian breakfast recipes designed to support your weight loss journey.
           </p>
         </div>
       </section>
@@ -85,13 +87,6 @@ const RecipePage = () => {
               Breakfast
             </Button>
             <Button 
-              variant={activeFilter === "Dinner" ? "default" : "outline"} 
-              className="text-sm"
-              onClick={() => setActiveFilter("Dinner")}
-            >
-              Dinner
-            </Button>
-            <Button 
               variant={activeFilter === "Vegetarian" ? "default" : "outline"} 
               className="text-sm"
               onClick={() => setActiveFilter("Vegetarian")}
@@ -109,32 +104,31 @@ const RecipePage = () => {
         </div>
       </section>
       
-      {/* Recipe Grid */}
+      {/* Recipe Cards */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                <div key={item} className="bg-background rounded-xl overflow-hidden shadow-md">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                <Card key={item} className="overflow-hidden">
                   <Skeleton className="h-48 w-full" />
-                  <div className="p-4 space-y-3">
-                    <div className="flex justify-between items-center">
-                      <Skeleton className="h-6 w-[30%] rounded-full" />
-                      <Skeleton className="h-4 w-[40%]" />
-                    </div>
-                    <Skeleton className="h-6 w-[80%]" />
+                  <CardHeader>
+                    <Skeleton className="h-6 w-3/4" />
                     <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-[70%]" />
-                  </div>
-                </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Skeleton className="h-4 w-1/2 mb-2" />
+                    <Skeleton className="h-4 w-1/3" />
+                  </CardContent>
+                </Card>
               ))}
             </div>
           ) : filteredRecipes.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredRecipes.map((recipe) => (
-                <div 
+                <Card 
                   key={recipe.id} 
-                  className={`bg-background rounded-xl overflow-hidden shadow-md card-hover ${recipe.isTrending ? 'ring-2 ring-orange-400' : ''}`}
+                  className={`overflow-hidden hover:shadow-lg transition-shadow duration-300 ${recipe.isTrending ? 'ring-2 ring-orange-400' : ''}`}
                 >
                   <div className="h-48 bg-muted overflow-hidden relative">
                     <img 
@@ -150,23 +144,65 @@ const RecipePage = () => {
                       </div>
                     )}
                   </div>
-                  <div className="p-4">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">{recipe.mealType}</span>
-                      <div className="flex items-center text-xs text-foreground/60">
+                  
+                  <CardHeader className="pb-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <Badge variant="secondary" className="text-xs">
+                        {recipe.mealType}
+                      </Badge>
+                      <div className="flex items-center text-xs text-muted-foreground">
+                        <Clock className="h-3 w-3 mr-1" />
                         <span className="mr-2">{recipe.prepTime}</span>
-                        <span className="px-2 py-0.5 bg-muted rounded">{recipe.difficulty}</span>
+                        <ChefHat className="h-3 w-3 mr-1" />
+                        <span>{recipe.difficulty}</span>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2">{recipe.title}</h3>
-                    <p className="text-sm text-foreground/70 mb-3 line-clamp-2">
+                    <CardTitle className="text-lg">{recipe.title}</CardTitle>
+                    <CardDescription className="line-clamp-2">
                       {recipe.description}
-                    </p>
-                    <Button asChild variant="link" className="p-0" size="sm">
-                      <Link to={`/recipes/${recipe.id}`}>View Recipe →</Link>
+                    </CardDescription>
+                  </CardHeader>
+                  
+                  <CardContent className="pt-0">
+                    <div className="flex justify-between items-center mb-3">
+                      <Badge variant="outline" className="text-xs">
+                        {recipe.dietPreference}
+                      </Badge>
+                      {recipe.nutritionFacts?.calories && (
+                        <span className="text-xs text-muted-foreground">
+                          {recipe.nutritionFacts.calories}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {recipe.nutritionFacts && (
+                      <div className="grid grid-cols-3 gap-2 text-xs mb-4">
+                        {recipe.nutritionFacts.protein && (
+                          <div className="text-center">
+                            <div className="font-medium text-primary">{recipe.nutritionFacts.protein}</div>
+                            <div className="text-muted-foreground">Protein</div>
+                          </div>
+                        )}
+                        {recipe.nutritionFacts.carbs && (
+                          <div className="text-center">
+                            <div className="font-medium text-primary">{recipe.nutritionFacts.carbs}</div>
+                            <div className="text-muted-foreground">Carbs</div>
+                          </div>
+                        )}
+                        {recipe.nutritionFacts.fat && (
+                          <div className="text-center">
+                            <div className="font-medium text-primary">{recipe.nutritionFacts.fat}</div>
+                            <div className="text-muted-foreground">Fat</div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    <Button asChild variant="outline" className="w-full" size="sm">
+                      <Link to={`/recipes/${recipe.id}`}>View Full Recipe</Link>
                     </Button>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           ) : (
