@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +24,7 @@ const dummyProducts: Product[] = [
     id: "1",
     title: "Organic Almonds",
     description: "Premium quality raw almonds, rich in protein and healthy fats",
-    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj8MKP068QSzL18OyYRp-4Wrvy_ZVAgD5xSzawmtmq6YHqKik_f2_mdy4TDeJ3oYo5hR6g5dAEqPWkGbBEo0mSXw",
     category: "Nuts & Seeds",
     tags: ["organic", "protein", "healthy"],
     price: 299,
