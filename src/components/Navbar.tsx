@@ -17,6 +17,7 @@ const Navbar = () => {
     { name: "Recipes", href: "/recipes" },
     { name: "Products", href: "/products" },
     { name: "App", href: "/app" },
+    { name: "IRA App", href: "/app-promotion" },
     { name: "Health Tools", href: "/tools" },
   ];
 

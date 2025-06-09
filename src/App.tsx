@@ -11,6 +11,7 @@ import RecipeDetailPage from "./pages/RecipeDetailPage";
 import ToolsPage from "./pages/ToolsPage";
 import ProductsPage from "./pages/ProductsPage";
 import AppPage from "./pages/AppPage";
+import AppPromotionPage from "./pages/AppPromotionPage";
 import NotFound from "./pages/NotFound";
 
 import "./App.css";
@@ -27,6 +28,7 @@ function App() {
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/app" element={<AppPage />} />
+        <Route path="/app-promotion" element={<AppPromotionPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>
