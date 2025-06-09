@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
   Smartphone, 
   Download, 
@@ -14,7 +15,9 @@ import {
   Shield,
   Brain,
   CheckCircle,
-  Star
+  Star,
+  Check,
+  X
 } from "lucide-react";
 
 const GooglePlayLogo = () => (
@@ -50,6 +53,57 @@ const AppPromotionPage = () => {
   const stats = [
     { number: "2000+", label: "Happy Users" },
     { number: "500+", label: "Health Goals Achieved" }
+  ];
+
+  const comparisonFeatures = [
+    {
+      feature: "AI Nutrition Buddy (IRA)",
+      dietaryGuide: true,
+      competitors: false,
+      description: "Personalized AI companion with emoji-based personality"
+    },
+    {
+      feature: "Photo Meal Recognition",
+      dietaryGuide: true,
+      competitors: "Limited",
+      description: "Advanced AI recognizes food from photos instantly"
+    },
+    {
+      feature: "Expert Consultations",
+      dietaryGuide: true,
+      competitors: "Paid Separately",
+      description: "Built-in access to nutrition experts"
+    },
+    {
+      feature: "Local Indian Recipes",
+      dietaryGuide: true,
+      competitors: false,
+      description: "Extensive database of authentic Indian recipes"
+    },
+    {
+      feature: "Google Calendar Sync",
+      dietaryGuide: true,
+      competitors: false,
+      description: "Automatic meal and workout scheduling"
+    },
+    {
+      feature: "Personalized Diet Plans",
+      dietaryGuide: true,
+      competitors: "Basic",
+      description: "Tailored plans based on lifestyle and goals"
+    },
+    {
+      feature: "Chat-based Interface",
+      dietaryGuide: true,
+      competitors: false,
+      description: "Natural conversation with your AI buddy"
+    },
+    {
+      feature: "Mood-responsive Design",
+      dietaryGuide: true,
+      competitors: false,
+      description: "Interface adapts to your mood and preferences"
+    }
   ];
 
   return (
@@ -145,6 +199,65 @@ const AppPromotionPage = () => {
               tracks your meals, and even gives you reminders to stay on track. Think of it like a health coach 
               that lives in your phone, understands your lifestyle, and actually cares.
             </p>
+          </div>
+
+          {/* Comparison Table Section */}
+          <div className="mb-20">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+              📊 Why Choose Dietary Guide Over Other Apps?
+            </h2>
+            <div className="bg-card rounded-lg shadow-lg overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-muted">
+                    <TableHead className="font-bold text-lg">Feature</TableHead>
+                    <TableHead className="font-bold text-lg text-center">
+                      <span className="text-gradient">Dietary Guide</span>
+                    </TableHead>
+                    <TableHead className="font-bold text-lg text-center">Other Diet Apps</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {comparisonFeatures.map((item, index) => (
+                    <TableRow key={index} className="hover:bg-muted/50">
+                      <TableCell className="font-medium">
+                        <div>
+                          <div className="font-semibold">{item.feature}</div>
+                          <div className="text-sm text-muted-foreground">{item.description}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.dietaryGuide === true ? (
+                          <div className="flex items-center justify-center">
+                            <Check className="h-6 w-6 text-forest" />
+                          </div>
+                        ) : (
+                          <span className="text-forest font-semibold">{item.dietaryGuide}</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.competitors === false ? (
+                          <div className="flex items-center justify-center">
+                            <X className="h-6 w-6 text-destructive" />
+                          </div>
+                        ) : item.competitors === true ? (
+                          <div className="flex items-center justify-center">
+                            <Check className="h-6 w-6 text-forest" />
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground">{item.competitors}</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="text-center mt-8">
+              <p className="text-lg text-muted-foreground">
+                ✨ <span className="font-semibold text-gradient">Dietary Guide</span> offers features that other apps simply don't have!
+              </p>
+            </div>
           </div>
 
           {/* How It Works Section */}
