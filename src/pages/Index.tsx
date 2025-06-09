@@ -143,17 +143,15 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_The_Science_of_Hydra.png?raw=true" alt="The Science of Hydration: Why Water Is Essential" className="h-48 w-full object-cover" />
+              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Nutritional_Equality%20(2).png?raw=true" alt="Nutritional Equality: Making Healthy Food Accessible for All" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Health</span>
-                  <span className="text-sm text-gray-400">March 28, 2025</span>
+                  <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
+                  <span className="text-sm text-gray-400">April 5, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
-                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">
-                  Unlock the science behind hydration and discover how drinking enough water improves cognitive function, energy levels, metabolism, and skin health.
-                </p>
-                <Button asChild variant="link" className="p-0 text-accent hover:text-accent/80">
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Nutritional Equality: Making Healthy Food Accessible for All</h3>
+                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Understand the vital role of proteins, fats, and carbohydrates in your body. Learn how to balance your macronutrient intake for weight loss, muscle building, and optimal energy levels.</p>
+                <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80">
                   <Link to="/blog" className="flex items-center">
                     Read Article
                     <ArrowRight className="ml-2 h-4 w-4" />
