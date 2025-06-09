@@ -394,6 +394,13 @@ const LatestContent = () => {
     "Explore the proven benefits of intermittent fasting, including weight management, improved metabolism, and enhanced mental clarity."
   ];
   
+  // Define custom images for the articles
+  const articleImages = [
+    'https://images.unsplash.com/photo-1607013251379-e6eecfffe234?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+    '/lovable-uploads/1748a82d-c7ef-4bc1-b27d-bb5e27f723bb.png',
+    'https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
+  ];
+  
   return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0" style={{
@@ -422,7 +429,7 @@ const LatestContent = () => {
               {latestBlogs.map((blog, index) => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
                   <div className="h-48 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img src={blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                    <img src={articleImages[index] || blog.image || 'https://images.unsplash.com/photo-1505935428862-770b6f24f629'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
                 (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
               }} />
                     <div className="absolute top-4 right-4 z-20">
