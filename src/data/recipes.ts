@@ -1,4 +1,3 @@
-
 export interface Recipe {
   id: string;
   title: string;
@@ -78,7 +77,7 @@ export const allIndianRecipes: Recipe[] = [
     servings: 2,
     mealType: "Breakfast",
     dietPreference: "Vegetarian",
-    imageUrl: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Vegetable_Oats_Upma.png?raw=true",
     ingredients: [
       "1/2 cup rolled oats",
       "1/4 cup carrots, finely chopped",
