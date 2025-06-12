@@ -9,6 +9,7 @@ const SEODashboardPage = () => {
         title="SEO Monitoring Dashboard"
         description="Backend SEO monitoring and keyword analysis for DietaryGuide.in - Track trending keywords, identify content gaps, and generate high-impact blog and social media suggestions."
         keywords="SEO monitoring, keyword analysis, content strategy, trending keywords, blog topics, Instagram ideas"
+        url="/seo-dashboard"
         schemaType="Tool"
         schemaData={{
           name: "SEO Monitoring Dashboard",
