@@ -1,8 +1,11 @@
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 2
 
 User-agent: Twitterbot
 Allow: /
@@ -12,3 +15,14 @@ Allow: /
 
 User-agent: *
 Allow: /
+Crawl-delay: 5
+
+# Sitemap
+Sitemap: https://dietaryguide.in/sitemap.xml
+
+# Block unnecessary crawling
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: *.json$
+Disallow: /search?
