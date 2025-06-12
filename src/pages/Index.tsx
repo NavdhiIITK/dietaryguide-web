@@ -1,8 +1,8 @@
+
 import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroCanvas from "@/components/HeroCanvas";
-import SEOOptimizer from "@/components/SEOOptimizer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -30,14 +30,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-gray-900">
-      <SEOOptimizer 
-        title="Dietary Guide – AI Indian Diet Plans, Recipes & BMI Tools"
-        description="Explore AI-powered Indian diet plans based on ICMR guidelines, healthy Indian recipes, vegan recipes, personalized meal tracking, calorie tools, BMI calculator & Google-integrated nutrition coaching for a better lifestyle."
-        keywords="AI Indian diet plans, ICMR nutrition guidelines, healthy Indian recipes, vegan Indian recipes, BMI calculator, personalized nutrition tools, AI meal planning, Indian diet tracker, Google integrated nutrition"
-        type="website"
-        schemaType="WebSite"
-      />
-      
       <Navbar />
       
       {/* Hero Section */}
@@ -46,36 +38,36 @@ const Home = () => {
         <div className="w-full max-w-6xl mx-auto flex items-center justify-center relative z-10 px-6 sm:px-8 lg:px-12">
           <div className="flex flex-col items-center justify-center text-center space-comfortable max-w-5xl">
             <span className="inline-block px-6 py-3 text-sm md:text-base font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">
-              AI-Powered Indian Nutrition & ICMR Guidelines
+              Nourish Your Body. Elevate Your Life.
             </span>
             
             <h1 className="text-hero font-bold leading-tight animate-fade-in max-w-4xl" style={{
             animationDelay: "0.2s"
           }}>
-              Your <span className="text-green-300">AI Indian Diet</span> & Nutrition Assistant
+              Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
             </h1>
             
             <p className="text-subtitle max-w-3xl text-foreground/80 leading-relaxed animate-fade-in px-4" style={{
             animationDelay: "0.4s"
           }}>
-              Personalized Indian diet plans, healthy vegan recipes, BMI calculator, and AI-powered meal tracking based on ICMR nutrition guidelines for optimal health.
+              Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in w-full max-w-lg mt-8" style={{
             animationDelay: "0.6s"
           }}>
               <Button asChild size="lg" className="btn-primary w-full sm:w-auto min-w-[180px]">
-                <Link to="/tools">Try AI Tools</Link>
+                <Link to="/tools">Explore Tools</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="btn-secondary w-full sm:w-auto min-w-[180px]">
-                <Link to="/recipes">Indian Recipes</Link>
+                <Link to="/recipes">View Recipes</Link>
               </Button>
             </div>
             
             <div className="mt-16 animate-bounce animate-fade-in" style={{
             animationDelay: "1s"
           }}>
-              <Button variant="ghost" size="icon" className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 w-14 h-14" onClick={scrollToContent} aria-label="Explore AI Indian diet features">
+              <Button variant="ghost" size="icon" className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 w-14 h-14" onClick={scrollToContent} aria-label="Scroll down">
                 <ArrowDown className="h-6 w-6" />
               </Button>
             </div>
@@ -87,8 +79,8 @@ const Home = () => {
       <section ref={contentRef} className="py-24 bg-gray-900">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">AI-Powered Indian Nutrition Tools</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">ICMR-compliant diet planning, healthy Indian recipes, and personalized nutrition coaching.</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Explore Our Features</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -96,12 +88,12 @@ const Home = () => {
               <div className="w-20 h-20 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-8 mx-auto">
                 <Calculator className="w-10 h-10 text-amber-400" />
               </div>
-              <h3 className="text-2xl font-bold mb-6 text-white">BMI Calculator & AI Tools</h3>
+              <h3 className="text-2xl font-bold mb-6 text-white">AI-Powered Tools</h3>
               <p className="text-gray-300 leading-relaxed mb-8">
-                Calculate BMI, get personalized Indian diet recommendations, and track nutrition with AI-powered tools.
+                Get personalized recommendations based on your health data and goals.
               </p>
               <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
-                <Link to="/tools">Try BMI Calculator</Link>
+                <Link to="/tools">Try Our Tools</Link>
               </Button>
             </Card>
             
@@ -109,12 +101,12 @@ const Home = () => {
               <div className="w-20 h-20 rounded-2xl bg-green-500/10 flex items-center justify-center mb-8 mx-auto">
                 <Utensils className="w-10 h-10 text-green-400" />
               </div>
-              <h3 className="text-2xl font-bold mb-6 text-white">Healthy Indian Recipes</h3>
+              <h3 className="text-2xl font-bold mb-6 text-white">Healthy Recipes</h3>
               <p className="text-gray-300 leading-relaxed mb-8">
-                Discover vegan Indian recipes, traditional healthy meals, and ICMR-approved nutrition plans.
+                Explore a variety of delicious and nutritious recipes tailored to your dietary needs.
               </p>
               <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
-                <Link to="/recipes">Explore Vegan Recipes</Link>
+                <Link to="/recipes">Discover Recipes</Link>
               </Button>
             </Card>
             
@@ -122,12 +114,12 @@ const Home = () => {
               <div className="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8 mx-auto">
                 <BookOpen className="w-10 h-10 text-blue-400" />
               </div>
-              <h3 className="text-2xl font-bold mb-6 text-white">AI Diet Planning</h3>
+              <h3 className="text-2xl font-bold mb-6 text-white">Evidence-Based Articles</h3>
               <p className="text-gray-300 leading-relaxed mb-8">
-                Get personalized Indian diet plans with Google integration, meal tracking, and ICMR guidelines.
+                Access a library of articles written by experts, covering a wide range of health topics.
               </p>
               <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
-                <Link to="/blog">Learn More</Link>
+                <Link to="/blog">Read Articles</Link>
               </Button>
             </Card>
           </div>
@@ -139,8 +131,8 @@ const Home = () => {
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-16">
             <div>
-              <h2 className="text-4xl font-bold mb-4 text-left text-white">Latest Indian Nutrition Insights</h2>
-              <p className="text-gray-300 text-base text-left">ICMR guidelines, healthy Indian recipes, and AI-powered nutrition strategies for optimal wellness.</p>
+              <h2 className="text-4xl font-bold mb-4 text-left text-white">Latest Wellness Insights</h2>
+              <p className="text-gray-300 text-base text-left">Expert tips, science-backed nutrition guidance, and transformative health strategies—curated to empower your wellness journey.</p>
             </div>
             <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
               <Link to="/blog" className="flex items-center">
@@ -152,14 +144,14 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Nutritional_Equality%20(2).png?raw=true" alt="AI-powered Indian nutrition planning for healthy lifestyle" className="h-48 w-full object-cover" />
+              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Nutritional_Equality%20(2).png?raw=true" alt="Nutritional Equality: Making Healthy Food Accessible for All" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Indian Nutrition</span>
+                  <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
                   <span className="text-sm text-gray-400">April 5, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">AI Indian Diet Planning: ICMR Guidelines Made Simple</h3>
-                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Learn how AI-powered tools can help you follow ICMR nutrition guidelines for optimal health with personalized Indian diet plans.</p>
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Nutritional Equality: Making Healthy Food Accessible for All</h3>
+                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Understand the vital role of proteins, fats, and carbohydrates in your body. Learn how to balance your macronutrient intake for weight loss, muscle building, and optimal energy levels.</p>
                 <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80">
                   <Link to="/blog" className="flex items-center">
                     Read Article
@@ -170,14 +162,14 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthy vegan Indian recipes for weight management" className="h-48 w-full object-cover" />
+              <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">Vegan Recipes</span>
+                  <span className="px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">mental health</span>
                   <span className="text-sm text-gray-400">March 14, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Best Vegan Indian Recipes for Weight Loss</h3>
-                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Discover protein-rich vegan Indian meals that support healthy weight management while following traditional flavors.</p>
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
+                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Learn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.</p>
                 <Button asChild variant="link" className="p-0 text-secondary hover:text-secondary/80">
                   <Link to="/blog" className="flex items-center">
                     Read Article
@@ -188,15 +180,15 @@ const Home = () => {
             </Card>
             
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_The_Science_of_Hydra.png?raw=true" alt="BMI calculator and personalized nutrition tools for Indians" className="h-48 w-full object-cover" />
+              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_The_Science_of_Hydra.png?raw=true" alt="The Science of Hydration: Why Water Is Essential" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">BMI Tools</span>
+                  <span className="px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Health</span>
                   <span className="text-sm text-gray-400">March 28, 2025</span>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">BMI Calculator: Personalized Health for Indians</h3>
+                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
                 <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">
-                  Use our AI-powered BMI calculator designed for Indian body types with personalized nutrition recommendations.
+                  Unlock the science behind hydration and discover how drinking enough water improves cognitive function, energy levels, metabolism, and skin health.
                 </p>
                 <Button asChild variant="link" className="p-0 text-accent hover:text-accent/80">
                   <Link to="/blog" className="flex items-center">
