@@ -167,7 +167,7 @@ export const allIndianRecipes: Recipe[] = [
     servings: 2,
     mealType: "Breakfast",
     dietPreference: "Vegetarian",
-    imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.19.22%20PM.jpeg?raw=true",
     ingredients: [
       "1/2 cup dalia (cracked wheat)",
       "1/4 cup mixed vegetables (carrot, beans, peas)",
