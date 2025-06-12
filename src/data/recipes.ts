@@ -254,7 +254,7 @@ export const allIndianRecipes: Recipe[] = [
     servings: 1,
     mealType: "Breakfast",
     dietPreference: "Vegetarian",
-    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Ragi_Porridge_.png?raw=true",
+    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.17.28%20PM.jpeg?raw=true",
     ingredients: [
       "3 tablespoons ragi flour (finger millet flour)",
       "1 cup water or low-fat milk",
