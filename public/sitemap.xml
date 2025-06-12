@@ -1,40 +1,169 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Homepage - highest priority -->
   <url>
     <loc>https://dietaryguide.in/</loc>
     <lastmod>2025-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  
+  <!-- Main section pages -->
   <url>
     <loc>https://dietaryguide.in/blog</loc>
     <lastmod>2025-06-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
+  
   <url>
     <loc>https://dietaryguide.in/recipes</loc>
     <lastmod>2025-06-12</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
+  
   <url>
     <loc>https://dietaryguide.in/tools</loc>
     <lastmod>2025-06-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
+  
   <url>
     <loc>https://dietaryguide.in/products</loc>
     <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
+  
   <url>
     <loc>https://dietaryguide.in/app</loc>
     <lastmod>2025-06-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  
+  <!-- Individual Recipe Pages with Images -->
+  <url>
+    <loc>https://dietaryguide.in/recipes/moong-dal-chilla</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Moong_Dal_Chilla.png?raw=true</image:loc>
+      <image:title>Moong Dal Chilla Recipe</image:title>
+      <image:caption>Protein-rich savory pancake made from split yellow moong dal, perfect for weight loss breakfast</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/vegetable-oats-upma</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Vegetable_Oats_Upma.png?raw=true</image:loc>
+      <image:title>Vegetable Oats Upma Recipe</image:title>
+      <image:caption>Healthy breakfast made with rolled oats and colorful vegetables, rich in fiber</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/besan-cheela-spinach</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Besan_Cheela_with_Sp.png?raw=true</image:loc>
+      <image:title>Besan Cheela with Spinach Recipe</image:title>
+      <image:caption>Nutritious gram flour pancake loaded with iron-rich spinach</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/vegetable-dalia</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.19.22%20PM.jpeg?raw=true</image:loc>
+      <image:title>Vegetable Dalia (Cracked Wheat) Recipe</image:title>
+      <image:caption>Wholesome breakfast made with nutrient-dense cracked wheat and colorful vegetables</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/sprouted-moong-salad</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.18.10%20PM.jpeg?raw=true</image:loc>
+      <image:title>Sprouted Moong Salad Recipe</image:title>
+      <image:caption>Refreshing protein-packed raw salad made with nutritious sprouted mung beans</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/ragi-porridge</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.17.28%20PM.jpeg?raw=true</image:loc>
+      <image:title>Ragi Porridge Recipe</image:title>
+      <image:caption>Calcium-rich gluten-free porridge made from finger millet flour</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/millet-idli-coconut-chutney</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.19.58%20PM.jpeg?raw=true</image:loc>
+      <image:title>Millet Idli with Coconut Chutney Recipe</image:title>
+      <image:caption>Healthy steamed fermented cakes made from nutritious millet and lentils</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/poha-vegetables</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Poha_with_Vegetables.png?raw=true</image:loc>
+      <image:title>Poha with Vegetables Recipe</image:title>
+      <image:caption>Light and flavorful breakfast made with flattened rice and colorful vegetables</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/tofu-bhurji</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Tofu_Bhurji.png?raw=true</image:loc>
+      <image:title>Tofu Bhurji Recipe</image:title>
+      <image:caption>Protein-rich plant-based scrambled tofu dish with traditional Indian flavors</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/recipes/spinach-banana-flaxseed-smoothie</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1610970881699-44a5587cabec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80</image:loc>
+      <image:title>Spinach-Banana-Flaxseed Smoothie Recipe</image:title>
+      <image:caption>Nutrient-dense green smoothie packed with vitamins, minerals, and omega-3 fatty acids</image:caption>
+    </image:image>
   </url>
 </urlset>
