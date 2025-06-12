@@ -131,7 +131,7 @@ const RecipePage = () => {
                 >
                   <div className="h-48 bg-muted overflow-hidden relative">
                     <img 
-                      src={recipe.imageUrl} 
+                      src="https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.17.28%20PM.jpeg?raw=true"
                       alt={recipe.title} 
                       className="w-full h-full object-cover transition-transform hover:scale-105"
                     />
