@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -14,12 +13,6 @@ const SEOHomepage = () => {
         description="India's #1 AI-powered nutrition app with smart meal planning, BMI calculator, healthy Indian recipes, and Google Calendar integration. Get personalized diet plans for Indian cuisine."
         keywords="AI meal planner India, Indian nutrition app, BMI calculator India, healthy Indian recipes, vegan Indian meal tracker, AI nutrition assistant, Google integrated meal planner, AI health coach app, best diet planning app India"
         type="website"
-        schemaType="WebPage"
-        schemaData={{
-          title: "AI Meal Planner India | Best Indian Nutrition App 2025",
-          description: "India's leading AI-powered nutrition platform with smart meal planning, healthy Indian recipes, and personalized diet coaching",
-          features: ["AI Meal Planning", "BMI Calculator", "Indian Recipe Database", "Google Calendar Integration", "Nutrition Tracking"]
-        }}
       />
       
       <SEOAnalytics
