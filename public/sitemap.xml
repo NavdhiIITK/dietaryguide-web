@@ -12,12 +12,34 @@
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://dietaryguide.in/logo/dg.png</image:loc>
-      <image:title>DietaryGuide - Your Trusted Health and Nutrition Companion</image:title>
-      <image:caption>Leading platform for healthy Indian recipes, AI health tools, and nutrition guidance</image:caption>
+      <image:title>AI Meal Planner India - Best Indian Nutrition App 2025</image:title>
+      <image:caption>India's leading AI-powered nutrition platform with smart meal planning, BMI calculator, and healthy Indian recipes</image:caption>
     </image:image>
   </url>
   
-  <!-- Blog section - high priority for content marketing -->
+  <!-- Primary Tool Pages - High SEO Value -->
+  <url>
+    <loc>https://dietaryguide.in/tools</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/tools/ai-diet-planner</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/tools/ai-meal-analyzer</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog section - Content marketing hub -->
   <url>
     <loc>https://dietaryguide.in/blog</loc>
     <lastmod>2025-06-12</lastmod>
@@ -25,36 +47,37 @@
     <priority>0.9</priority>
   </url>
   
-  <!-- Recipes section - core content for food-related keywords -->
+  <!-- SEO-Optimized Blog Posts -->
+  <url>
+    <loc>https://dietaryguide.in/blog/top-ai-diet-apps-india-2025</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://dietaryguide.in/post-images/ai-diet-apps-india.png</image:loc>
+      <image:title>Top 10 AI Diet Apps in India 2025</image:title>
+      <image:caption>Comprehensive guide to the best AI-powered nutrition apps in India including meal planners and health trackers</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/blog/google-tasks-meal-planning-guide</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://dietaryguide.in/post-images/google-tasks-meal-planning.png</image:loc>
+      <image:title>Google Tasks Meal Planning Integration Guide</image:title>
+      <image:caption>Complete guide to using Google Tasks with AI meal planning for automated nutrition management</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Recipes section - Core content for food keywords -->
   <url>
     <loc>https://dietaryguide.in/recipes</loc>
     <lastmod>2025-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-  </url>
-  
-  <!-- Tools section - AI health tools, BMI calculator keywords -->
-  <url>
-    <loc>https://dietaryguide.in/tools</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Products section -->
-  <url>
-    <loc>https://dietaryguide.in/products</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- App promotion page -->
-  <url>
-    <loc>https://dietaryguide.in/app</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
   </url>
   
   <!-- Individual Recipe Pages with Enhanced SEO -->
@@ -82,135 +105,48 @@
     </image:image>
   </url>
   
+  <!-- App promotion pages -->
   <url>
-    <loc>https://dietaryguide.in/recipes/besan-cheela-spinach</loc>
+    <loc>https://dietaryguide.in/app</loc>
     <lastmod>2025-06-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Besan_Cheela_with_Sp.png?raw=true</image:loc>
-      <image:title>Iron-Rich Besan Cheela with Spinach Recipe</image:title>
-      <image:caption>Protein-packed gram flour pancake loaded with iron-rich spinach - healthy Indian breakfast for weight loss</image:caption>
-    </image:image>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Additional important pages -->
+  <url>
+    <loc>https://dietaryguide.in/products</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Voice Search Optimized Pages -->
+  <url>
+    <loc>https://dietaryguide.in/tools/bmi-calculator-india</loc>
+    <lastmod>2025-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   
   <url>
-    <loc>https://dietaryguide.in/recipes/vegetable-dalia</loc>
+    <loc>https://dietaryguide.in/healthy-indian-breakfast-recipes</loc>
     <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.19.22%20PM.jpeg?raw=true</image:loc>
-      <image:title>Healthy Vegetable Dalia (Cracked Wheat) Breakfast Recipe</image:title>
-      <image:caption>Fiber-rich wholesome breakfast made with nutrient-dense cracked wheat and colorful vegetables for sustained energy</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/recipes/sprouted-moong-salad</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.18.10%20PM.jpeg?raw=true</image:loc>
-      <image:title>Protein-Rich Sprouted Moong Bean Salad Recipe</image:title>
-      <image:caption>Fresh, raw sprouted mung bean salad packed with plant protein - perfect healthy breakfast for weight loss</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/recipes/ragi-porridge</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.17.28%20PM.jpeg?raw=true</image:loc>
-      <image:title>Calcium-Rich Ragi Porridge Recipe - Gluten-Free Breakfast</image:title>
-      <image:caption>Nutritious finger millet porridge high in calcium and iron - healthy gluten-free Indian breakfast option</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/recipes/millet-idli-coconut-chutney</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.19.58%20PM.jpeg?raw=true</image:loc>
-      <image:title>Healthy Millet Idli with Fresh Coconut Chutney Recipe</image:title>
-      <image:caption>Fermented steamed millet and lentil cakes with coconut chutney - traditional healthy South Indian breakfast</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/recipes/poha-vegetables</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Poha_with_Vegetables.png?raw=true</image:loc>
-      <image:title>Light and Healthy Vegetable Poha Recipe</image:title>
-      <image:caption>Traditional flattened rice breakfast with colorful vegetables - light, flavorful, and nutritious Indian meal</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/recipes/tofu-bhurji</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Tofu_Bhurji.png?raw=true</image:loc>
-      <image:title>High-Protein Vegan Tofu Bhurji Recipe</image:title>
-      <image:caption>Plant-based scrambled tofu with Indian spices - protein-rich vegan breakfast alternative to eggs</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/recipes/spinach-banana-flaxseed-smoothie</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://images.unsplash.com/photo-1610970881699-44a5587cabec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80</image:loc>
-      <image:title>Nutrient-Dense Green Smoothie with Spinach, Banana & Flaxseeds</image:title>
-      <image:caption>Omega-3 rich green smoothie packed with vitamins, minerals and healthy fats - perfect on-the-go breakfast</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- Additional SEO-targeted pages for key terms -->
-  <url>
-    <loc>https://dietaryguide.in/tools/bmi-calculator</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://dietaryguide.in/tools/ai-diet-planner</loc>
+    <loc>https://dietaryguide.in/vegan-indian-meal-tracker</loc>
     <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://dietaryguide.in/tools/ai-meal-analyzer</loc>
+    <loc>https://dietaryguide.in/ai-nutrition-assistant-indian-food</loc>
     <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/tools/ai-recipe-generator</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://dietaryguide.in/tools/ai-workout-planner</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   

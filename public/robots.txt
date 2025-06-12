@@ -17,12 +17,26 @@ User-agent: *
 Allow: /
 Crawl-delay: 5
 
-# Sitemap
-Sitemap: https://dietaryguide.in/sitemap.xml
-
-# Block unnecessary crawling
+# Block unnecessary crawling for better crawl budget
 Disallow: /api/
 Disallow: /_next/
 Disallow: /admin/
 Disallow: *.json$
 Disallow: /search?
+Disallow: /private/
+Disallow: /temp/
+
+# Allow important SEO pages
+Allow: /tools/
+Allow: /blog/
+Allow: /recipes/
+Allow: /app/
+Allow: /products/
+
+# Sitemap location
+Sitemap: https://dietaryguide.in/sitemap.xml
+
+# Additional sitemaps for better organization
+Sitemap: https://dietaryguide.in/blog-sitemap.xml
+Sitemap: https://dietaryguide.in/recipes-sitemap.xml
+Sitemap: https://dietaryguide.in/tools-sitemap.xml
