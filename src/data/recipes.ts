@@ -211,7 +211,7 @@ export const allIndianRecipes: Recipe[] = [
     servings: 1,
     mealType: "Breakfast",
     dietPreference: "Vegan",
-    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/imagen-4.0-generate-preview-05-20_Sprouted_Moong_Salad%20(1).png?raw=true",
+    imageUrl: "https://github.com/qubicle232/dietaryguide/blob/main/WhatsApp%20Image%202025-06-11%20at%206.18.10%20PM.jpeg?raw=true",
     ingredients: [
       "1 cup sprouted moong beans (fresh)",
       "1 small onion, finely chopped",
