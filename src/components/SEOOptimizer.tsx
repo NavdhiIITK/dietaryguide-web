@@ -48,21 +48,21 @@ const SEOOptimizer = ({
     "prepTime": recipe.prepTime,
     "cookTime": recipe.cookTime || "0M",
     "totalTime": recipe.totalTime || recipe.prepTime,
-    "recipeYield": recipe.servings?.toString() || "4",
+    "recipeYield": recipe.servings.toString(),
     "recipeCategory": recipe.mealType,
     "recipeCuisine": "Indian",
-    "recipeIngredient": recipe.ingredients || [],
-    "recipeInstructions": recipe.instructions?.map((instruction: string, index: number) => ({
+    "recipeIngredient": recipe.ingredients,
+    "recipeInstructions": recipe.instructions.map((instruction: string, index: number) => ({
       "@type": "HowToStep",
       "text": instruction,
       "position": index + 1
-    })) || [],
+    })),
     "nutrition": recipe.nutritionFacts ? {
       "@type": "NutritionInformation",
-      "calories": `${recipe.nutritionFacts.calories} calories`,
-      "proteinContent": `${recipe.nutritionFacts.protein}g`,
-      "carbohydrateContent": `${recipe.nutritionFacts.carbs}g`,
-      "fatContent": `${recipe.nutritionFacts.fat}g`
+      "calories": recipe.nutritionFacts.calories,
+      "proteinContent": recipe.nutritionFacts.protein,
+      "carbohydrateContent": recipe.nutritionFacts.carbs,
+      "fatContent": recipe.nutritionFacts.fat
     } : undefined,
     "keywords": `${recipe.title}, healthy Indian recipes, ${recipe.dietPreference}, ${recipe.mealType}`,
     "suitableForDiet": recipe.dietPreference === "Vegan" ? "https://schema.org/VeganDiet" : "https://schema.org/VegetarianDiet"
@@ -139,17 +139,13 @@ const SEOOptimizer = ({
         <meta property="article:author" content={author} />
       )}
 
-      {/* Structured Data - Organization Schema */}
+      {/* Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(structuredDataSchemas.organization)}
       </script>
-
-      {/* Structured Data - Website Schema */}
       <script type="application/ld+json">
         {JSON.stringify(structuredDataSchemas.website)}
       </script>
-
-      {/* Custom Schema Data */}
       {getStructuredData() && (
         <script type="application/ld+json">
           {JSON.stringify(getStructuredData())}
