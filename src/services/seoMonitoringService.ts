@@ -150,10 +150,21 @@ export class SEOMonitoringService {
         }
       };
 
-      // Save to Supabase (acting as Firestore alternative)
+      // Adapt data to fit auto_blogs table structure
+      const adaptedData = {
+        title: `SEO Analysis - ${seoSuggestion.date}`,
+        description: `Weekly SEO analysis with ${missingKeywords.length} opportunities and ${blogSuggestions.length} content suggestions`,
+        content: JSON.stringify(seoSuggestion),
+        category: "seo-analysis",
+        author: "SEO Bot",
+        date: seoSuggestion.date,
+        is_published: false
+      };
+
+      // Save to Supabase auto_blogs table
       const { data, error } = await supabase
-        .from('seo_trend_suggestions')
-        .insert([seoSuggestion]);
+        .from('auto_blogs')
+        .insert([adaptedData]);
 
       if (error) {
         console.error("Error saving SEO suggestions:", error);
@@ -171,8 +182,9 @@ export class SEOMonitoringService {
 
   async getLatestSuggestions(limit: number = 5): Promise<any[]> {
     const { data, error } = await supabase
-      .from('seo_trend_suggestions')
+      .from('auto_blogs')
       .select('*')
+      .eq('category', 'seo-analysis')
       .order('date', { ascending: false })
       .limit(limit);
 
@@ -181,7 +193,15 @@ export class SEOMonitoringService {
       return [];
     }
 
-    return data || [];
+    // Parse the JSON content back to objects
+    return (data || []).map(item => {
+      try {
+        return JSON.parse(item.content);
+      } catch (e) {
+        console.error("Error parsing SEO suggestion:", e);
+        return null;
+      }
+    }).filter(Boolean);
   }
 }
 
