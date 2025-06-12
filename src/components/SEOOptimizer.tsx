@@ -65,7 +65,6 @@ const SEOOptimizer = ({
       "fatContent": recipe.nutritionFacts.fat
     } : undefined,
     "keywords": `${recipe.title}, healthy Indian recipes, ${recipe.dietPreference}, ${recipe.mealType}`,
-    "recipeCategory": "Healthy",
     "suitableForDiet": recipe.dietPreference === "Vegan" ? "https://schema.org/VeganDiet" : "https://schema.org/VegetarianDiet"
   });
 

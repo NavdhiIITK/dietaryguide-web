@@ -12,7 +12,7 @@ const SEOAnalytics = ({ pageName, keywords, contentType }: SEOAnalyticsProps) =>
     // Track page view with SEO context
     const trackPageView = () => {
       if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('config', 'GA_MEASUREMENT_ID', {
+        window.gtag('config', 'G-LQB1MPTV63', {
           page_title: pageName,
           page_location: window.location.href,
           content_group1: contentType,
