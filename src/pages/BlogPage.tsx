@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Blog {
@@ -11,67 +10,44 @@ interface Blog {
   title: string;
   excerpt: string;
   date: string;
-  category: string;
+  category?: string;
   imageUrl: string;
   content?: string;
   author?: string;
 }
+
+const blogs: Blog[] = [
+  {
+    id: "b3b8a1e2-8c2d-4e2a-9c1a-2b3c4d5e6f7a",
+    title: "Why Protein Alone Isn't Enough",
+    excerpt: "Eat Smart Not Just for the Hype! ...",
+    date: "2024-06-07",
+    imageUrl: "https://github.com/amishardev/navdhiweb/blob/main/WhatsApp%20Image%202025-07-04%20at%2011.50.29%20AM.jpeg?raw=true",
+    content: "Eat Smart Not Just for the Hype! ...",
+    author: "Team DietaryGuide",
+  },
+  {
+    id: "7e9f1c3a-2b4d-4e6f-8a1b-9c2d3e4f5a6b",
+    title: "Nutritional Equality: Making Healthy Food Accessible for All",
+    excerpt: "Explore how we can bridge the nutrition gap ... ",
+    date: "2025-05-13",
+    imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+    content: "Explore how we can bridge the nutrition gap ... ",
+    author: "Team DietaryGuide",
+  },
+];
 
 const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
 
 const BlogPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [filteredBlogs, setFilteredBlogs] = useState<Blog[]>([]);
-  const [visibleBlogs, setVisibleBlogs] = useState<Blog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
 
-  useEffect(() => {
-    async function fetchBlogs() {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('auto_blogs')
-        .select('*')
-        .eq('is_published', true)
-        .order('date', { ascending: false });
-      if (error) {
-        setFilteredBlogs([]);
-      } else {
-        // Map Supabase fields to Blog interface
-        const mappedBlogs = (data || []).map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          excerpt: item.description || '',
-          date: item.date || '',
-          category: item.category || 'General',
-          imageUrl: item.image || placeholderImage,
-          content: item.content || '',
-          author: item.author || '',
-        }));
-        setFilteredBlogs(mappedBlogs);
-      }
-      setLoading(false);
-    }
-    fetchBlogs();
-  }, []);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [activeFilter]);
-
-  useEffect(() => {
-    let blogsToShow = filteredBlogs;
-    if (activeFilter !== "All") {
-      blogsToShow = filteredBlogs.filter(blog => blog.category === activeFilter);
-    }
-    const startIndex = (currentPage - 1) * blogsPerPage;
-    const endIndex = startIndex + blogsPerPage;
-    setVisibleBlogs(blogsToShow.slice(startIndex, endIndex));
-  }, [currentPage, filteredBlogs, activeFilter, blogsPerPage]);
-
-  const categories = ["All", "Nutrition", "Diet", "Fitness", "Wellness", "Health"];
+  const filteredBlogs = blogs; // No filtering by category in CSV, but can add if needed
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+  const visibleBlogs = filteredBlogs.slice((currentPage - 1) * blogsPerPage, currentPage * blogsPerPage);
 
   const handleLoadMore = () => {
     if (currentPage < totalPages) {
@@ -103,7 +79,7 @@ const BlogPage = () => {
               <h2 className="text-2xl md:text-3xl font-bold">Latest Articles</h2>
             </div>
             <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
-              {categories.map(category => (
+              {["All", "Nutrition", "Diet", "Fitness", "Wellness", "Health"].map(category => (
                 <Button 
                   key={category}
                   variant={activeFilter === category ? "default" : "outline"} 
@@ -168,7 +144,7 @@ const BlogPage = () => {
             </div>
           )}
           
-          {currentPage < totalPages && filteredBlogs.length > blogsPerPage && (
+          {currentPage < totalPages && (
             <div className="mt-12 flex justify-center">
               <Button variant="outline" onClick={handleLoadMore}>Load More</Button>
             </div>
