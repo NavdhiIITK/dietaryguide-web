@@ -7,7 +7,7 @@
   color: #e5e7eb !important;
   line-height: 1.85 !important;
   box-sizing: border-box;
-  font-size: 1.35rem !important;
+  font-size: 1.7rem !important;
 }
 
 .blog-article {
@@ -25,21 +25,24 @@
   background: #20293a !important;
   border-radius: 1.2rem !important;
   padding: 2rem 1.5rem !important;
+  margin-top: 2.5rem !important;
   margin-bottom: 2.5rem !important;
   box-shadow: 0 2px 12px 0 rgba(30,41,59,0.10) !important;
+  padding-top: 2.5rem !important;
+  padding-bottom: 2.5rem !important;
 }
 
 .blog-article h1, .blog-article .prose h1 {
-  font-size: 3.2rem !important;
+  font-size: 4rem !important;
   color: #22c55e !important;
   font-weight: 900 !important;
-  margin-top: 2.5rem !important;
-  margin-bottom: 2rem !important;
+  margin-top: 3.5rem !important;
+  margin-bottom: 2.5rem !important;
   line-height: 1.08 !important;
   letter-spacing: -0.01em;
 }
 .blog-article h2, .blog-article .prose h2 {
-  font-size: 2.5rem !important;
+  font-size: 3rem !important;
   color: #4ade80 !important;
   font-weight: 900 !important;
   margin-top: 3rem !important;
@@ -50,20 +53,20 @@
   padding-top: 40px !important;
 }
 .blog-article h3, .blog-article .prose h3 {
-  font-size: 2.1rem !important;
+  font-size: 2.3rem !important;
   color: #22d3ee !important;
   font-weight: 800 !important;
   margin-top: 2.5rem !important;
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 1.7rem !important;
   line-height: 1.18 !important;
   padding-top: 32px !important;
 }
 .blog-article h4, .blog-article .prose h4 {
-  font-size: 1.7rem !important;
+  font-size: 2rem !important;
   color: #16a34a !important;
   font-weight: 700 !important;
   margin-top: 2rem !important;
-  margin-bottom: 1.2rem !important;
+  margin-bottom: 1.3rem !important;
   padding-top: 24px !important;
 }
 
@@ -122,7 +125,7 @@
   width: 100% !important;
   border-collapse: collapse !important;
   margin: 2.2rem 0 !important;
-  font-size: 1.25rem !important;
+  font-size: 1.5rem !important;
   background: #111827 !important;
   border-radius: 0.7rem !important;
   overflow: hidden;
