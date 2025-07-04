@@ -22,6 +22,52 @@ const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6b
 // Export the curatedBlogs array so it can be imported in ContentDetailPage
 export const curatedBlogs: Blog[] = [
   {
+    id: "why-protein-alone-isnt-enough",
+    title: "Why Protein Alone Isn't Enough",
+    excerpt: "Protein is essential, but your body needs more than just protein to thrive. Learn why a balanced diet is smarter than just following the protein hype!",
+    date: "June 7, 2024",
+    category: "Nutrition",
+    imageUrl: "https://github.com/amishardev/navdhiweb/blob/main/WhatsApp%20Image%202025-07-04%20at%2011.50.29%20AM.jpeg?raw=true",
+    content: `
+Eat Smart, Not Just for the Hype!
+In today's world, "protein" is everywhere. From flashy ads to influencer posts, it seems like everyone is obsessed with getting more protein. But is protein the magic bullet for health and fitness? Not quite! While protein is absolutely essential, your body needs more than just protein to truly thrive. Let's break down why eating smart means looking beyond the hype—and how you can make healthy, sustainable, and affordable choices.
+
+# Why Protein Is Important
+Protein is a building block for your muscles, skin, hair, and even your immune system. It helps repair tissues and is vital for growth and development. Yes, you need protein—but that's just part of the story.
+
+# The Missing Piece: Nutrients for Absorption and Synthesis
+Here's a fact that often gets ignored in marketing: your body can't use protein efficiently without other nutrients. For protein to be absorbed and used for building and repairing, you need:
+
+* **Vitamins (like B6, B12, C, and D):** Help in protein metabolism and absorption.
+* **Minerals (like iron, zinc, magnesium):** Essential for enzyme function and muscle health.
+* **Healthy Fats:** Aid in hormone production and help absorb fat-soluble vitamins.
+* **Carbohydrates:** Provide energy so your body doesn't use protein as fuel.
+
+So, if you're just chugging protein shakes or eating protein bars without a balanced diet, you're missing out on the full benefits!
+
+# Don't Fall for the Marketing Trap
+Protein supplements and "high-protein" products are big business. But more isn't always better. Many of these products are expensive, processed, and may not offer much more than what you'd get from real, whole foods. Don't let marketing fool you—your body (and wallet) will thank you for smarter choices.
+
+# Eat Smart: Sustainable, Affordable, and Healthy Ways to Get Protein
+You don't need fancy powders or imported superfoods. Here's how you can eat smart:
+
+1. **Choose Whole Foods**
+   - Plant-based: Lentils, beans, chickpeas, tofu, nuts, seeds.
+   - Animal-based: Eggs, dairy, fish, chicken (if you eat animal products).
+2. **Balance Your Plate**
+   - Pair protein with whole grains, vegetables, and healthy fats for a complete meal.
+3. **Go Local and Seasonal**
+   - Local foods are often fresher, more affordable, and eco-friendly.
+4. **Watch Portion Sizes**
+   - More protein doesn't mean better health. Aim for variety and balance.
+
+# Final Thoughts
+Protein is essential, but it's not the only nutrient your body needs. Don't get swept up by marketing gimmicks. Eat a variety of whole, local, and affordable foods. Focus on balance, not just protein, and you'll be fueling your body the smart way—sustainably and healthily!
+
+Eat smart, stay healthy, and don't be fooled by the hype!
+    `
+  },
+  {
     id: "nutritional-equality",
     title: "Nutritional Equality: Making Healthy Food Accessible for All",
     excerpt: "Explore how we can bridge the nutrition gap in society and ensure everyone has access to healthy food regardless of socioeconomic status.",
