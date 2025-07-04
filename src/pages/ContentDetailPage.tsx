@@ -71,13 +71,21 @@ const ContentDetailPage = () => {
               {content.category && <span className="flex items-center gap-2"><Tag className="w-4 h-4" /> {content.category}</span>}
             </div>
             <div
-              className="prose prose-lg max-w-none text-foreground/90 blog-article"
+              className="blog-article max-w-none text-foreground/90"
               dangerouslySetInnerHTML={{ __html: content.content || "" }}
             />
           </div>
         </div>
       </div>
       <Footer />
+      <style>{`
+      .blog-article, .blog-article *, .blog-article *:before, .blog-article *:after {
+        text-align: left !important;
+        color: #e5e7eb !important;
+        line-height: 1.85 !important;
+        box-sizing: border-box;
+      }
+      `}</style>
     </div>
   );
 };
