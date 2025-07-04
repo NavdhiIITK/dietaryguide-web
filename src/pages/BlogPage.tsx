@@ -301,6 +301,57 @@ Remember, staying hydrated is one of the simplest yet most effective ways to imp
     category: "Hydration",
     imageUrl: "/post-images/hydration-science.png", // Updated image URL
     author: "Dr. Sarah Watkins"
+  },
+  {
+    id: "ultimate-dietary-guide-2025",
+    title: "The Ultimate Dietary Guide: What to Eat, What to Avoid, and How to Stay Healthy in 2025",
+    excerpt: "A comprehensive guide to nutrition in 2025: what to eat, what to avoid, and how to personalize your diet for optimal health.",
+    date: "June 7, 2024",
+    category: "Nutrition",
+    imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1470&q=80",
+    content: `
+<article>
+  <h1>The Ultimate Dietary Guide: What to Eat, What to Avoid, and How to Stay Healthy in 2025</h1>
+  <section>
+    <h2>Introduction: Navigating the 2025 Nutrition Landscape</h2>
+    <p>
+      The world of <strong>nutrition</strong> and <strong>healthy eating</strong> is evolving rapidly as we progress through 2025. With mounting research on <strong>personalized nutrition</strong>, emerging <strong>superfoods</strong>, and the critical importance of <strong>macronutrients and micronutrients</strong>, understanding how to optimize your <strong>diet</strong> has never been more crucial.
+    </p>
+  </section>
+  <section>
+    <h2>What is a Dietary Guide?</h2>
+    <p>
+      A <em>dietary guide</em> serves as a roadmap for making informed food choices that support optimal health, energy, and longevity. Unlike generic diet plans, modern dietary guides emphasize <strong>personalized nutrition</strong> approaches that consider genetics, lifestyle, health conditions, and cultural preferences.
+    </p>
+    <ul>
+      <li>Balanced macronutrient distribution (carbs, proteins, fats)</li>
+      <li>Adequate micronutrient intake (vitamins & minerals)</li>
+      <li>Portion control & meal timing</li>
+      <li>Cultural & personal preference considerations</li>
+      <li>Sustainable, long-term eating patterns</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Download Your Free Personalized Nutrition Checklist</h2>
+    <p>
+      Ready to transform your health with personalized nutrition? Our comprehensive <strong>Personalized Nutrition Success Checklist</strong> includes:
+    </p>
+    <ul>
+      <li>Daily macro and micronutrient targets based on your profile</li>
+      <li>Indian superfood shopping list with protein-rich options</li>
+      <li>Weekly meal planning template with portion guides</li>
+      <li>AI app comparison chart</li>
+      <li>Foods to avoid checklist with healthy substitutions</li>
+      <li>Progress tracking sheets</li>
+    </ul>
+    <p>
+      Our Dietary Guide company website and app:<br>
+      We're live at <a href="https://dietaryguide.in">dietaryguide.in</a> and in the Apple App Store & Google Play.<br>
+      Features include AI-driven meal plans, real-time tracking, an Indian recipe database, emoji avatars, and seamless wearable integration to help you hit your health goals.
+    </p>
+  </section>
+</article>
+    `
   }
 ];
 
