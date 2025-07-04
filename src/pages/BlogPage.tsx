@@ -31,13 +31,25 @@ const BlogPage = () => {
     async function fetchBlogs() {
       setLoading(true);
       const { data, error } = await supabase
-        .from('articles')
+        .from('auto_blogs')
         .select('*')
+        .eq('is_published', true)
         .order('date', { ascending: false });
       if (error) {
         setFilteredBlogs([]);
       } else {
-        setFilteredBlogs(data || []);
+        // Map Supabase fields to Blog interface
+        const mappedBlogs = (data || []).map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          excerpt: item.description || '',
+          date: item.date || '',
+          category: item.category || 'General',
+          imageUrl: item.image || placeholderImage,
+          content: item.content || '',
+          author: item.author || '',
+        }));
+        setFilteredBlogs(mappedBlogs);
       }
       setLoading(false);
     }
