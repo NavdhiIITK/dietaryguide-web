@@ -3,7 +3,18 @@
 .blog-article .prose,
 .blog-article .prose * {
   text-align: left !important;
+  color: #e5e7eb !important;
+  line-height: 1.8 !important;
 }
+
+.blog-article {
+  background: #181f2a;
+  border-radius: 1.2rem;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.12);
+  margin-bottom: 2rem;
+}
+
 .blog-article h1,
 .blog-article .prose h1 {
   font-size: 2.5rem !important;
@@ -18,16 +29,19 @@
   font-size: 2rem !important;
   color: #16a34a !important;
   font-weight: 700 !important;
-  margin-top: 2rem !important;
-  margin-bottom: 1.2rem !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1.5rem !important;
   line-height: 1.15 !important;
+  letter-spacing: -0.01em;
+  border-bottom: 1px solid #26313f;
+  padding-bottom: 0.3em;
 }
 .blog-article h3,
 .blog-article .prose h3 {
-  font-size: 1.5rem !important;
-  color: #16a34a !important;
+  font-size: 1.4rem !important;
+  color: #22d3ee !important;
   font-weight: 600 !important;
-  margin-top: 1.5rem !important;
+  margin-top: 2rem !important;
   margin-bottom: 1rem !important;
   line-height: 1.2 !important;
 }
@@ -39,43 +53,84 @@
   margin-top: 1.2rem !important;
   margin-bottom: 0.8rem !important;
 }
+
 .blog-article p, .blog-article ul, .blog-article ol, .blog-article .prose p, .blog-article .prose ul, .blog-article .prose ol {
-  font-size: 1.1rem !important;
-  margin-bottom: 1rem !important;
+  font-size: 1.13rem !important;
+  margin-bottom: 1.2rem !important;
   text-align: left !important;
+  color: #e5e7eb !important;
 }
+
+.blog-article ul, .blog-article .prose ul {
+  list-style: none !important;
+  padding-left: 1.5rem !important;
+}
+.blog-article ul li, .blog-article .prose ul li {
+  position: relative;
+  margin-bottom: 0.7em;
+  padding-left: 1.3em;
+}
+.blog-article ul li:before, .blog-article .prose ul li:before {
+  content: "\2714";
+  color: #22c55e;
+  font-size: 1.1em;
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+}
+
+.blog-article ol, .blog-article .prose ol {
+  list-style: decimal inside !important;
+  padding-left: 1.5rem !important;
+}
+
 .blog-article .highlight, .blog-article .highlight-box {
-  background: #f0f9f0 !important;
+  background: #1e293b !important;
   border-left: 4px solid #4caf50 !important;
-  padding: 1rem !important;
-  margin: 1.5rem 0 !important;
-  border-radius: 0.5rem !important;
+  padding: 1.2rem 1.5rem !important;
+  margin: 2rem 0 !important;
+  border-radius: 0.7rem !important;
+  color: #bef264 !important;
+  font-size: 1.1rem !important;
 }
+
 .blog-article table, .blog-article .prose table {
   width: 100% !important;
   border-collapse: collapse !important;
-  margin: 1.5rem 0 !important;
-  font-size: 1.05rem !important;
+  margin: 2rem 0 !important;
+  font-size: 1.08rem !important;
+  background: #111827 !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden;
 }
 .blog-article th, .blog-article td, .blog-article .prose th, .blog-article .prose td {
-  border: 1px solid #cbd5e1 !important;
-  padding: 10px 14px !important;
+  border: 1px solid #26313f !important;
+  padding: 12px 16px !important;
   text-align: left !important;
 }
 .blog-article th, .blog-article .prose th {
-  background: #e0f2f1 !important;
-  color: #166534 !important;
+  background: #26313f !important;
+  color: #bef264 !important;
+  font-weight: 700 !important;
 }
 .blog-article tr:nth-child(even) td, .blog-article .prose tr:nth-child(even) td {
-  background: #f8fafc !important;
+  background: #1e293b !important;
 }
-.blog-article ul, .blog-article ol, .blog-article .prose ul, .blog-article .prose ol {
-  padding-left: 1.5rem !important;
-}
+
 .blog-article .day-plan, .blog-article .prose .day-plan {
-  background: #f9f9f9 !important;
-  border-radius: 8px !important;
-  padding: 1rem !important;
-  margin-bottom: 1.2rem !important;
-  border: 1px solid #e5e7eb !important;
+  background: #232e3c !important;
+  border-radius: 10px !important;
+  padding: 1.2rem 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  border: 1px solid #26313f !important;
+  color: #e0f2fe !important;
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.08);
+}
+
+.blog-article section, .blog-article .section {
+  margin-bottom: 2.5rem !important;
+  padding: 1.5rem 1rem !important;
+  background: #181f2a !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.06);
 } 
