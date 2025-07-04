@@ -1,79 +1,90 @@
-/* Blog Article Custom Styles */
+/* Blog Article Aggressive Modern Styles */
 .blog-article,
 .blog-article .prose,
 .blog-article .prose * {
   text-align: left !important;
   color: #e5e7eb !important;
-  line-height: 1.8 !important;
+  line-height: 1.85 !important;
+  box-sizing: border-box;
 }
 
 .blog-article {
-  background: #181f2a;
-  border-radius: 1.2rem;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.12);
-  margin-bottom: 2rem;
+  background: #181f2a !important;
+  border-radius: 1.5rem !important;
+  padding: 2.5rem 2rem !important;
+  box-shadow: 0 6px 32px 0 rgba(0,0,0,0.18) !important;
+  margin-bottom: 2.5rem !important;
+  max-width: 900px;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
-.blog-article h1,
-.blog-article .prose h1 {
-  font-size: 2.5rem !important;
+.blog-article section, .blog-article .section {
+  background: #20293a !important;
+  border-radius: 1.2rem !important;
+  padding: 2rem 1.5rem !important;
+  margin-bottom: 2.5rem !important;
+  box-shadow: 0 2px 12px 0 rgba(30,41,59,0.10) !important;
+}
+
+.blog-article h1, .blog-article .prose h1 {
+  font-size: 2.8rem !important;
   color: #22c55e !important;
+  font-weight: 900 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 2rem !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.01em;
+}
+.blog-article h2, .blog-article .prose h2 {
+  font-size: 2.2rem !important;
+  color: #4ade80 !important;
   font-weight: 800 !important;
   margin-top: 2.5rem !important;
-  margin-bottom: 1.5rem !important;
-  line-height: 1.1 !important;
+  margin-bottom: 1.7rem !important;
+  line-height: 1.12 !important;
+  border-bottom: 2px solid #26313f !important;
+  padding-bottom: 0.4em !important;
 }
-.blog-article h2,
-.blog-article .prose h2 {
-  font-size: 2rem !important;
+.blog-article h3, .blog-article .prose h3 {
+  font-size: 1.7rem !important;
+  color: #22d3ee !important;
+  font-weight: 700 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1.2rem !important;
+  line-height: 1.18 !important;
+}
+.blog-article h4, .blog-article .prose h4 {
+  font-size: 1.2rem !important;
   color: #16a34a !important;
   font-weight: 700 !important;
-  margin-top: 2.5rem !important;
-  margin-bottom: 1.5rem !important;
-  line-height: 1.15 !important;
-  letter-spacing: -0.01em;
-  border-bottom: 1px solid #26313f;
-  padding-bottom: 0.3em;
-}
-.blog-article h3,
-.blog-article .prose h3 {
-  font-size: 1.4rem !important;
-  color: #22d3ee !important;
-  font-weight: 600 !important;
-  margin-top: 2rem !important;
+  margin-top: 1.5rem !important;
   margin-bottom: 1rem !important;
-  line-height: 1.2 !important;
-}
-.blog-article h4,
-.blog-article .prose h4 {
-  font-size: 1.15rem !important;
-  color: #16a34a !important;
-  font-weight: 600 !important;
-  margin-top: 1.2rem !important;
-  margin-bottom: 0.8rem !important;
 }
 
 .blog-article p, .blog-article ul, .blog-article ol, .blog-article .prose p, .blog-article .prose ul, .blog-article .prose ol {
-  font-size: 1.13rem !important;
-  margin-bottom: 1.2rem !important;
+  font-size: 1.18rem !important;
+  margin-bottom: 1.3rem !important;
   text-align: left !important;
   color: #e5e7eb !important;
+  line-height: 1.85 !important;
 }
 
 .blog-article ul, .blog-article .prose ul {
   list-style: none !important;
-  padding-left: 1.5rem !important;
+  padding-left: 1.7rem !important;
+  margin-bottom: 1.3rem !important;
 }
 .blog-article ul li, .blog-article .prose ul li {
   position: relative;
-  margin-bottom: 0.7em;
-  padding-left: 1.3em;
+  margin-bottom: 0.9em !important;
+  padding-left: 1.5em !important;
+  font-size: 1.15rem !important;
 }
 .blog-article ul li:before, .blog-article .prose ul li:before {
   content: "\2714";
-  color: #22c55e;
-  font-size: 1.1em;
+  color: #4ade80;
+  font-size: 1.2em;
   position: absolute;
   left: 0;
   top: 0.1em;
@@ -81,37 +92,45 @@
 
 .blog-article ol, .blog-article .prose ol {
   list-style: decimal inside !important;
-  padding-left: 1.5rem !important;
+  padding-left: 1.7rem !important;
+  margin-bottom: 1.3rem !important;
+}
+.blog-article ol li, .blog-article .prose ol li {
+  font-size: 1.15rem !important;
+  margin-bottom: 0.9em !important;
 }
 
 .blog-article .highlight, .blog-article .highlight-box {
   background: #1e293b !important;
-  border-left: 4px solid #4caf50 !important;
-  padding: 1.2rem 1.5rem !important;
-  margin: 2rem 0 !important;
-  border-radius: 0.7rem !important;
+  border-left: 5px solid #4ade80 !important;
+  padding: 1.4rem 1.7rem !important;
+  margin: 2.2rem 0 !important;
+  border-radius: 0.9rem !important;
   color: #bef264 !important;
-  font-size: 1.1rem !important;
+  font-size: 1.15rem !important;
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.10) !important;
 }
 
 .blog-article table, .blog-article .prose table {
   width: 100% !important;
   border-collapse: collapse !important;
-  margin: 2rem 0 !important;
-  font-size: 1.08rem !important;
+  margin: 2.2rem 0 !important;
+  font-size: 1.13rem !important;
   background: #111827 !important;
-  border-radius: 0.5rem !important;
+  border-radius: 0.7rem !important;
   overflow: hidden;
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.10) !important;
 }
 .blog-article th, .blog-article td, .blog-article .prose th, .blog-article .prose td {
-  border: 1px solid #26313f !important;
-  padding: 12px 16px !important;
+  border: 1.5px solid #26313f !important;
+  padding: 14px 18px !important;
   text-align: left !important;
 }
 .blog-article th, .blog-article .prose th {
   background: #26313f !important;
   color: #bef264 !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
+  font-size: 1.15rem !important;
 }
 .blog-article tr:nth-child(even) td, .blog-article .prose tr:nth-child(even) td {
   background: #1e293b !important;
@@ -119,18 +138,10 @@
 
 .blog-article .day-plan, .blog-article .prose .day-plan {
   background: #232e3c !important;
-  border-radius: 10px !important;
-  padding: 1.2rem 1.5rem !important;
-  margin-bottom: 1.5rem !important;
-  border: 1px solid #26313f !important;
+  border-radius: 12px !important;
+  padding: 1.4rem 1.7rem !important;
+  margin-bottom: 1.7rem !important;
+  border: 1.5px solid #26313f !important;
   color: #e0f2fe !important;
-  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.08);
-}
-
-.blog-article section, .blog-article .section {
-  margin-bottom: 2.5rem !important;
-  padding: 1.5rem 1rem !important;
-  background: #181f2a !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.06);
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.10) !important;
 } 
