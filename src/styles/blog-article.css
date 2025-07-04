@@ -1,7 +1,8 @@
-/* Blog Article Aggressive Modern Styles */
-.blog-article,
-.blog-article .prose,
-.blog-article .prose * {
+/* Blog Article Professional Modern Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+.blog-article, .blog-article * {
+  font-family: 'Inter', 'Lato', Arial, sans-serif !important;
   text-align: left !important;
   color: #e5e7eb !important;
   line-height: 1.85 !important;
@@ -45,6 +46,7 @@
   line-height: 1.12 !important;
   border-bottom: 2px solid #26313f !important;
   padding-bottom: 0.4em !important;
+  padding-top: 32px !important;
 }
 .blog-article h3, .blog-article .prose h3 {
   font-size: 1.7rem !important;
@@ -53,6 +55,7 @@
   margin-top: 2rem !important;
   margin-bottom: 1.2rem !important;
   line-height: 1.18 !important;
+  padding-top: 24px !important;
 }
 .blog-article h4, .blog-article .prose h4 {
   font-size: 1.2rem !important;
@@ -60,11 +63,12 @@
   font-weight: 700 !important;
   margin-top: 1.5rem !important;
   margin-bottom: 1rem !important;
+  padding-top: 18px !important;
 }
 
 .blog-article p, .blog-article ul, .blog-article ol, .blog-article .prose p, .blog-article .prose ul, .blog-article .prose ol {
   font-size: 1.18rem !important;
-  margin-bottom: 1.3rem !important;
+  margin-bottom: 1.7rem !important;
   text-align: left !important;
   color: #e5e7eb !important;
   line-height: 1.85 !important;
@@ -73,31 +77,33 @@
 .blog-article ul, .blog-article .prose ul {
   list-style: none !important;
   padding-left: 1.7rem !important;
-  margin-bottom: 1.3rem !important;
+  margin-bottom: 1.7rem !important;
 }
 .blog-article ul li, .blog-article .prose ul li {
   position: relative;
-  margin-bottom: 0.9em !important;
-  padding-left: 1.5em !important;
+  margin-bottom: 1.1em !important;
+  padding-left: 1.7em !important;
   font-size: 1.15rem !important;
+  display: flex;
+  align-items: flex-start;
 }
 .blog-article ul li:before, .blog-article .prose ul li:before {
   content: "\2714";
   color: #4ade80;
   font-size: 1.2em;
-  position: absolute;
-  left: 0;
-  top: 0.1em;
+  margin-right: 0.7em;
+  margin-top: 0.1em;
+  flex-shrink: 0;
 }
 
 .blog-article ol, .blog-article .prose ol {
   list-style: decimal inside !important;
   padding-left: 1.7rem !important;
-  margin-bottom: 1.3rem !important;
+  margin-bottom: 1.7rem !important;
 }
 .blog-article ol li, .blog-article .prose ol li {
   font-size: 1.15rem !important;
-  margin-bottom: 0.9em !important;
+  margin-bottom: 1.1em !important;
 }
 
 .blog-article .highlight, .blog-article .highlight-box {
@@ -123,7 +129,7 @@
 }
 .blog-article th, .blog-article td, .blog-article .prose th, .blog-article .prose td {
   border: 1.5px solid #26313f !important;
-  padding: 14px 18px !important;
+  padding: 16px 20px !important;
   text-align: left !important;
 }
 .blog-article th, .blog-article .prose th {
@@ -140,8 +146,43 @@
   background: #232e3c !important;
   border-radius: 12px !important;
   padding: 1.4rem 1.7rem !important;
-  margin-bottom: 1.7rem !important;
+  margin-bottom: 2rem !important;
   border: 1.5px solid #26313f !important;
   color: #e0f2fe !important;
   box-shadow: 0 2px 8px 0 rgba(30,41,59,0.10) !important;
+}
+
+.blog-article .section-divider {
+  border-top: 1.5px solid #26313f !important;
+  margin: 2.5rem 0 !important;
+  opacity: 0.7;
+}
+
+@media (max-width: 700px) {
+  .blog-article {
+    padding: 1.2rem 0.5rem !important;
+    border-radius: 0.7rem !important;
+  }
+  .blog-article h1, .blog-article .prose h1 {
+    font-size: 2rem !important;
+  }
+  .blog-article h2, .blog-article .prose h2 {
+    font-size: 1.3rem !important;
+    padding-top: 18px !important;
+  }
+  .blog-article h3, .blog-article .prose h3 {
+    font-size: 1.1rem !important;
+    padding-top: 12px !important;
+  }
+  .blog-article section, .blog-article .section {
+    padding: 1rem 0.5rem !important;
+    border-radius: 0.5rem !important;
+  }
+  .blog-article .day-plan, .blog-article .prose .day-plan {
+    padding: 1rem 0.7rem !important;
+    border-radius: 0.5rem !important;
+  }
+  .blog-article table, .blog-article .prose table {
+    font-size: 0.95rem !important;
+  }
 } 
