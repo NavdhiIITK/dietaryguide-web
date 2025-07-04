@@ -19,383 +19,48 @@ interface Blog {
 
 const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
 
-// Export the curatedBlogs array so it can be imported in ContentDetailPage
-export const curatedBlogs: Blog[] = [
-  {
-    id: "why-protein-alone-isnt-enough",
-    title: "Why Protein Alone Isn't Enough",
-    excerpt: "Protein is essential, but your body needs more than just protein to thrive. Learn why a balanced diet is smarter than just following the protein hype!",
-    date: "June 7, 2024",
-    category: "Nutrition",
-    imageUrl: "https://github.com/amishardev/navdhiweb/blob/main/WhatsApp%20Image%202025-07-04%20at%2011.50.29%20AM.jpeg?raw=true",
-    content: `
-Eat Smart, Not Just for the Hype!
-In today's world, "protein" is everywhere. From flashy ads to influencer posts, it seems like everyone is obsessed with getting more protein. But is protein the magic bullet for health and fitness? Not quite! While protein is absolutely essential, your body needs more than just protein to truly thrive. Let's break down why eating smart means looking beyond the hype—and how you can make healthy, sustainable, and affordable choices.
-
-# Why Protein Is Important
-Protein is a building block for your muscles, skin, hair, and even your immune system. It helps repair tissues and is vital for growth and development. Yes, you need protein—but that's just part of the story.
-
-# The Missing Piece: Nutrients for Absorption and Synthesis
-Here's a fact that often gets ignored in marketing: your body can't use protein efficiently without other nutrients. For protein to be absorbed and used for building and repairing, you need:
-
-* **Vitamins (like B6, B12, C, and D):** Help in protein metabolism and absorption.
-* **Minerals (like iron, zinc, magnesium):** Essential for enzyme function and muscle health.
-* **Healthy Fats:** Aid in hormone production and help absorb fat-soluble vitamins.
-* **Carbohydrates:** Provide energy so your body doesn't use protein as fuel.
-
-So, if you're just chugging protein shakes or eating protein bars without a balanced diet, you're missing out on the full benefits!
-
-# Don't Fall for the Marketing Trap
-Protein supplements and "high-protein" products are big business. But more isn't always better. Many of these products are expensive, processed, and may not offer much more than what you'd get from real, whole foods. Don't let marketing fool you—your body (and wallet) will thank you for smarter choices.
-
-# Eat Smart: Sustainable, Affordable, and Healthy Ways to Get Protein
-You don't need fancy powders or imported superfoods. Here's how you can eat smart:
-
-1. **Choose Whole Foods**
-   - Plant-based: Lentils, beans, chickpeas, tofu, nuts, seeds.
-   - Animal-based: Eggs, dairy, fish, chicken (if you eat animal products).
-2. **Balance Your Plate**
-   - Pair protein with whole grains, vegetables, and healthy fats for a complete meal.
-3. **Go Local and Seasonal**
-   - Local foods are often fresher, more affordable, and eco-friendly.
-4. **Watch Portion Sizes**
-   - More protein doesn't mean better health. Aim for variety and balance.
-
-# Final Thoughts
-Protein is essential, but it's not the only nutrient your body needs. Don't get swept up by marketing gimmicks. Eat a variety of whole, local, and affordable foods. Focus on balance, not just protein, and you'll be fueling your body the smart way—sustainably and healthily!
-
-Eat smart, stay healthy, and don't be fooled by the hype!
-    `
-  },
-  {
-    id: "nutritional-equality",
-    title: "Nutritional Equality: Making Healthy Food Accessible for All",
-    excerpt: "Explore how we can bridge the nutrition gap in society and ensure everyone has access to healthy food regardless of socioeconomic status.",
-    date: "May 13, 2025",
-    category: "Health",
-    imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    content: `
-# Nutritional Equality: Making Healthy Food Accessible for All
-
-In a nation as diverse as India, where cultures, languages, and traditions blend beautifully, access to nutritious food remains uneven. Nutritional equality is not just a moral obligation but a public health priority. Everyone deserves the right to eat healthy—regardless of their socio-economic background.
-
-## The Importance of Nutritional Equality
-
-Food is more than sustenance—it is a foundation for health, learning, productivity, and longevity. When large sections of the population lack access to balanced, nourishing food, the effects ripple across generations. Malnutrition, obesity, lifestyle disorders, and micronutrient deficiencies are often more prevalent in economically disadvantaged communities.
-
-Ensuring equal access to nutrition is critical for:
-
-* **Public Health:** Preventing diseases and improving overall wellness.
-* **Economic Growth:** A healthier population is more productive and innovative.
-* **Social Justice:** Everyone deserves the dignity of a healthy life, regardless of income or location.
-
-## Barriers to Healthy Eating in Marginalized Communities
-
-### 1. Affordability
-Nutritious food often seems more expensive or inaccessible than processed alternatives. The cost barrier creates a significant divide in who can access healthy options.
-
-### 2. Availability
-Rural and urban poor areas may lack stores or vendors offering fresh fruits, vegetables, and whole grains. These "food deserts" force communities to rely on whatever is available locally.
-
-### 3. Awareness
-Limited nutrition education leads to choices driven by convenience or misinformation. Without proper knowledge, people cannot make informed decisions about their diets.
-
-### 4. Cultural Factors
-Traditional diets may sometimes get replaced by modern junk foods due to aggressive marketing. This shift away from traditional, often more balanced diets has serious health implications.
-
-## Bridging the Gap: What Can Be Done?
-
-Creating nutritional equality requires collective action. Here's how we can move forward:
-
-### Government Policies
-Subsidizing healthy food, fortifying staples, and supporting local agriculture can make nutritious options more affordable and available to everyone.
-
-### Community Initiatives
-Urban gardens, nutrition education camps, and local food distribution can uplift health in under-served areas. These grassroots efforts often have the most direct impact.
-
-### Affordable Smart Snacks
-Innovating affordable, wholesome snacks tailored to local taste and nutritional needs can provide accessible healthy options between meals.
-
-### Partnerships with NGOs and Schools
-Educating children early and ensuring mid-day meals are nutrient-rich is essential for developing lifelong healthy eating habits.
-
-### Digital Nutrition Literacy
-Use online platforms to spread practical, culturally relevant advice on healthy eating. Digital tools can reach larger audiences and customize information to specific needs.
-
-## Conclusion
-
-Nutritional equality is not just about food—it's about dignity, opportunity, and a healthier future for all. By supporting affordable and nutritious food initiatives, we invest in a stronger, more resilient society.
-
-Let's continue to work together toward a world where healthy food is not a luxury but a right accessible to everyone. Through collaboration between government, communities, businesses, and individuals, we can create a more nutritionally equitable world.
-
-### Take Action Today
-
-Want to contribute to nutritional equality in your community? Here are some simple steps:
-* Support local farmers and food producers
-* Volunteer with food distribution programs
-* Share nutrition knowledge with your community
-* Advocate for healthy food policies in your area
-* Start a community garden in underserved neighborhoods
-    `
-  },
-  {
-    id: "1",
-    title: "The Science Behind Intermittent Fasting",
-    excerpt: "Explore how intermittent fasting affects your metabolism, blood sugar levels, and overall health based on recent scientific studies.",
-    date: "May 1, 2025",
-    category: "Diet",
-    imageUrl: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "2",
-    title: "Strength Training Fundamentals for Beginners",
-    excerpt: "A comprehensive guide to building a solid foundation in strength training with proper form and sustainable progression.",
-    date: "April 28, 2025",
-    category: "Fitness",
-    imageUrl: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "3",
-    title: "Mediterranean Diet: Benefits Beyond Weight Loss",
-    excerpt: "Discover how the Mediterranean diet can improve heart health, cognitive function, and longevity according to recent research.",
-    date: "April 24, 2025",
-    category: "Nutrition",
-    imageUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "4",
-    title: "Sleep Optimization for Better Recovery",
-    excerpt: "Learn how quality sleep directly impacts your fitness results, hormone balance, and overall wellness.",
-    date: "April 20, 2025",
-    category: "Wellness",
-    imageUrl: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "5",
-    title: "The Role of Protein in Muscle Development",
-    excerpt: "A detailed analysis of how protein intake affects muscle protein synthesis and optimal timing for performance athletes.",
-    date: "April 16, 2025",
-    category: "Nutrition",
-    imageUrl: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "6",
-    title: "HIIT vs. Steady-State Cardio: What's Right for You?",
-    excerpt: "Compare the benefits and limitations of high-intensity interval training and traditional cardio for different fitness goals.",
-    date: "April 12, 2025",
-    category: "Fitness",
-    imageUrl: "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "7",
-    title: "Understanding Micronutrients and Their Impact on Health",
-    excerpt: "An in-depth look at essential vitamins and minerals that play critical roles in energy production, immune function, and more.",
-    date: "April 8, 2025",
-    category: "Nutrition",
-    imageUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "8",
-    title: "Mindfulness Practices for Stress Reduction",
-    excerpt: "Evidence-based mindfulness techniques that can lower cortisol levels and improve your body's response to stress.",
-    date: "April 4, 2025",
-    category: "Wellness",
-    imageUrl: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "9",
-    title: "Progressive Overload: The Key to Continuous Improvement",
-    excerpt: "How to implement progressive overload principles in your training routine for sustained strength and muscle gains.",
-    date: "April 1, 2025",
-    category: "Fitness",
-    imageUrl: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "10",
-    title: "Gut Health and Its Connection to Overall Wellness",
-    excerpt: "Exploring the gut-brain axis and how a healthy microbiome influences everything from mood to immunity.",
-    date: "March 28, 2025",
-    category: "Health",
-    imageUrl: "https://images.unsplash.com/photo-1612016668498-4e05e106bb66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "11",
-    title: "Hydration Strategies for Optimal Performance",
-    excerpt: "Beyond the 8 glasses a day: Learn how proper hydration timing and electrolyte balance can enhance your workouts.",
-    date: "March 24, 2025",
-    category: "Health",
-    imageUrl: "https://images.unsplash.com/photo-1529236183275-4fdcf2bc987e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "12",
-    title: "Plant-Based Nutrition: Building a Balanced Diet",
-    excerpt: "How to ensure adequate protein, iron, and B-vitamin intake while following a plant-based or vegan diet.",
-    date: "March 20, 2025",
-    category: "Nutrition",
-    imageUrl: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-  },
-  {
-    id: "science-of-hydration",
-    title: "The Science of Hydration: Why Water Is Essential",
-    excerpt: "Explore how proper hydration affects everything from cognitive function to athletic performance.",
-    content: `
-# The Science of Hydration: Why Water Is Essential
-
-Water is the essence of life. Making up about 60% of our body weight, it's involved in virtually every bodily process. Yet many of us walk around chronically dehydrated without even realizing it.
-
-## How Hydration Affects Your Body
-
-**Brain Function**: Even mild dehydration can impair cognitive performance, concentration, alertness, and short-term memory. Studies show that a fluid loss of just 1-2% can begin to affect cognitive function.
-
-**Physical Performance**: During physical activity, staying properly hydrated helps maintain normal body temperature, reduces cardiovascular strain, and improves performance. Athletes who lose as little as 2% of their body weight through sweating experience a significant drop in blood volume, causing the heart to work harder.
-
-**Digestion and Nutrient Absorption**: Water helps break down food so your body can absorb nutrients. It also softens stool, preventing constipation.
-
-**Detoxification**: The kidneys use water to filter waste from the blood and excrete it in urine. Insufficient water intake can lead to kidney stones and urinary tract infections.
-
-## Signs of Dehydration
-
-* **Thirst** (though by the time you feel thirsty, you're already mildly dehydrated)
-* **Dark urine**
-* **Fatigue**
-* **Headaches**
-* **Dry mouth and lips**
-* **Dizziness**
-* **Reduced urination**
-
-## How Much Should You Drink?
-
-While the "8 glasses a day" rule is a good general guideline, individual needs vary based on:
-
-1. **Body weight and composition**
-2. **Activity level and sweat rate**
-3. **Environment (temperature and humidity)**
-4. **Altitude**
-5. **Overall health**
-
-A better guideline is to drink enough so that your urine is pale yellow or clear most of the time.
-
-## Beyond Water: Other Sources of Hydration
-
-**Hydrating Foods**: Many fruits and vegetables are more than 90% water, including watermelon, strawberries, cucumbers, and lettuce.
-
-**Other Beverages**: Herbal teas, milk, and even coffee and tea contribute to hydration (though caffeinated beverages have a mild diuretic effect).
-
-## Electrolytes: Water's Essential Partners
-
-Water alone isn't enough—your body needs electrolytes like sodium, potassium, and magnesium to properly absorb and use water. These minerals help maintain fluid balance, muscle function, and nerve signaling.
-
-During intense exercise or in hot environments, you lose electrolytes through sweat, which is why sports drinks or electrolyte supplements can be beneficial in these situations.
-
-## Practical Hydration Tips
-
-* **Start your day with water** before your morning coffee or tea
-* **Carry a reusable water bottle** everywhere
-* **Set hydration reminders** on your phone
-* **Eat water-rich fruits and vegetables**
-* **Flavor water naturally** with fruits, vegetables, or herbs if you find plain water boring
-
-Remember, staying hydrated is one of the simplest yet most effective ways to improve your overall health and wellbeing. It costs almost nothing but pays dividends in how you feel and perform every day.
-    `,
-    date: "March 28, 2025",
-    category: "Hydration",
-    imageUrl: "/post-images/hydration-science.png", // Updated image URL
-    author: "Dr. Sarah Watkins"
-  },
-  {
-    id: "ultimate-dietary-guide-2025",
-    title: "The Ultimate Dietary Guide: What to Eat, What to Avoid, and How to Stay Healthy in 2025",
-    excerpt: "A comprehensive guide to nutrition in 2025: what to eat, what to avoid, and how to personalize your diet for optimal health.",
-    date: "June 7, 2024",
-    category: "Nutrition",
-    imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1470&q=80",
-    content: `
-<article>
-  <h1>The Ultimate Dietary Guide: What to Eat, What to Avoid, and How to Stay Healthy in 2025</h1>
-  <section>
-    <h2>Introduction: Navigating the 2025 Nutrition Landscape</h2>
-    <p>
-      The world of <strong>nutrition</strong> and <strong>healthy eating</strong> is evolving rapidly as we progress through 2025. With mounting research on <strong>personalized nutrition</strong>, emerging <strong>superfoods</strong>, and the critical importance of <strong>macronutrients and micronutrients</strong>, understanding how to optimize your <strong>diet</strong> has never been more crucial.
-    </p>
-  </section>
-  <section>
-    <h2>What is a Dietary Guide?</h2>
-    <p>
-      A <em>dietary guide</em> serves as a roadmap for making informed food choices that support optimal health, energy, and longevity. Unlike generic diet plans, modern dietary guides emphasize <strong>personalized nutrition</strong> approaches that consider genetics, lifestyle, health conditions, and cultural preferences.
-    </p>
-    <ul>
-      <li>Balanced macronutrient distribution (carbs, proteins, fats)</li>
-      <li>Adequate micronutrient intake (vitamins & minerals)</li>
-      <li>Portion control & meal timing</li>
-      <li>Cultural & personal preference considerations</li>
-      <li>Sustainable, long-term eating patterns</li>
-    </ul>
-  </section>
-  <section>
-    <h2>Download Your Free Personalized Nutrition Checklist</h2>
-    <p>
-      Ready to transform your health with personalized nutrition? Our comprehensive <strong>Personalized Nutrition Success Checklist</strong> includes:
-    </p>
-    <ul>
-      <li>Daily macro and micronutrient targets based on your profile</li>
-      <li>Indian superfood shopping list with protein-rich options</li>
-      <li>Weekly meal planning template with portion guides</li>
-      <li>AI app comparison chart</li>
-      <li>Foods to avoid checklist with healthy substitutions</li>
-      <li>Progress tracking sheets</li>
-    </ul>
-    <p>
-      Our Dietary Guide company website and app:<br>
-      We're live at <a href="https://dietaryguide.in">dietaryguide.in</a> and in the Apple App Store & Google Play.<br>
-      Features include AI-driven meal plans, real-time tracking, an Indian recipe database, emoji avatars, and seamless wearable integration to help you hit your health goals.
-    </p>
-  </section>
-</article>
-    `
-  }
-];
-
 const BlogPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
   const [filteredBlogs, setFilteredBlogs] = useState<Blog[]>([]);
   const [visibleBlogs, setVisibleBlogs] = useState<Blog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const blogsPerPage = 6; // Limit blogs per page
+  const blogsPerPage = 6;
 
   useEffect(() => {
-    // Simulate loading for a more natural feel
-    const timer = setTimeout(() => {
-      setFilteredBlogs(curatedBlogs);
+    async function fetchBlogs() {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('articles')
+        .select('*')
+        .order('date', { ascending: false });
+      if (error) {
+        setFilteredBlogs([]);
+      } else {
+        setFilteredBlogs(data || []);
+      }
       setLoading(false);
-    }, 800);
-    
-    return () => clearTimeout(timer);
-  }, []);
-  
-  // Filter blogs when activeFilter changes
-  useEffect(() => {
-    if (activeFilter === "All") {
-      setFilteredBlogs(curatedBlogs);
-    } else {
-      setFilteredBlogs(curatedBlogs.filter(blog => blog.category === activeFilter));
     }
-    
-    // Reset to first page when filter changes
+    fetchBlogs();
+  }, []);
+
+  useEffect(() => {
     setCurrentPage(1);
   }, [activeFilter]);
-  
-  // Update visible blogs when page or filtered blogs change
+
   useEffect(() => {
+    let blogsToShow = filteredBlogs;
+    if (activeFilter !== "All") {
+      blogsToShow = filteredBlogs.filter(blog => blog.category === activeFilter);
+    }
     const startIndex = (currentPage - 1) * blogsPerPage;
     const endIndex = startIndex + blogsPerPage;
-    setVisibleBlogs(filteredBlogs.slice(startIndex, endIndex));
-  }, [currentPage, filteredBlogs, blogsPerPage]);
-  
+    setVisibleBlogs(blogsToShow.slice(startIndex, endIndex));
+  }, [currentPage, filteredBlogs, activeFilter, blogsPerPage]);
+
   const categories = ["All", "Nutrition", "Diet", "Fitness", "Wellness", "Health"];
-  
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
-  
+
   const handleLoadMore = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
