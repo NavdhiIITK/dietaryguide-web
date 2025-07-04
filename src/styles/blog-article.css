@@ -7,7 +7,7 @@
   color: #e5e7eb !important;
   line-height: 1.85 !important;
   box-sizing: border-box;
-  font-size: 1.7rem !important;
+  font-size: 1.2rem !important;
 }
 
 .blog-article {
@@ -33,40 +33,40 @@
 }
 
 .blog-article h1, .blog-article .prose h1 {
-  font-size: 4rem !important;
+  font-size: 3rem !important;
   color: #22c55e !important;
   font-weight: 900 !important;
-  margin-top: 3.5rem !important;
-  margin-bottom: 2.5rem !important;
+  margin-top: 3rem !important;
+  margin-bottom: 2rem !important;
   line-height: 1.08 !important;
   letter-spacing: -0.01em;
 }
 .blog-article h2, .blog-article .prose h2 {
-  font-size: 3rem !important;
+  font-size: 2.2rem !important;
   color: #4ade80 !important;
-  font-weight: 900 !important;
-  margin-top: 3rem !important;
-  margin-bottom: 2rem !important;
+  font-weight: 800 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1.5rem !important;
   line-height: 1.12 !important;
   border-bottom: 2px solid #26313f !important;
   padding-bottom: 0.5em !important;
   padding-top: 40px !important;
 }
 .blog-article h3, .blog-article .prose h3 {
-  font-size: 2.3rem !important;
+  font-size: 1.7rem !important;
   color: #22d3ee !important;
-  font-weight: 800 !important;
-  margin-top: 2.5rem !important;
-  margin-bottom: 1.7rem !important;
+  font-weight: 700 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1.2rem !important;
   line-height: 1.18 !important;
   padding-top: 32px !important;
 }
 .blog-article h4, .blog-article .prose h4 {
-  font-size: 2rem !important;
+  font-size: 1.3rem !important;
   color: #16a34a !important;
   font-weight: 700 !important;
-  margin-top: 2rem !important;
-  margin-bottom: 1.3rem !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 1rem !important;
   padding-top: 24px !important;
 }
 
@@ -135,6 +135,7 @@
   border: 1.5px solid #26313f !important;
   padding: 16px 20px !important;
   text-align: left !important;
+  font-size: 1.2rem !important;
 }
 .blog-article th, .blog-article .prose th {
   background: #26313f !important;
