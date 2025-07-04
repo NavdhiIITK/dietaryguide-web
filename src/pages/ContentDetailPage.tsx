@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { blogs } from "@/data/blogs";
 
 interface Content {
   id: string;
@@ -20,43 +20,11 @@ interface Content {
 const ContentDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [content, setContent] = useState<Content | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  
   const isRecipe = window.location.pathname.includes('/recipes/');
 
-  useEffect(() => {
-    async function fetchContent() {
-      if (!id) {
-        setError("No content ID provided");
-        setLoading(false);
-        return;
-      }
-      const { data, error } = await supabase
-        .from('articles')
-        .select('*')
-        .eq('id', id)
-        .single();
-      if (error || !data) {
-        setError("Content not found");
-        setLoading(false);
-        return;
-      }
-      setContent({
-        id: data.id,
-        title: data.title,
-        content: data.content,
-        date: data.date,
-        category: data.category,
-        imageUrl: data.cover_image || '',
-        author: data.author || ''
-      });
-      setLoading(false);
-    }
-    fetchContent();
-  }, [id]);
-  
+  // Find the article by ID from the static array
+  const content = blogs.find(article => article.id === id) || null;
+
   const goBack = () => {
     if (isRecipe) {
       navigate('/recipes');
@@ -65,119 +33,7 @@ const ContentDetailPage = () => {
     }
   };
 
-  const formatContent = (content: string) => {
-    if (!content) return null;
-    
-    // Split the content by paragraphs or sections
-    const parts = content.split('\n\n').map(part => part.trim());
-    
-    return parts.map((paragraph, index) => {
-      // Handle bold text with ** markers
-      const processBoldText = (text: string) => {
-        if (!text.includes('**')) return text;
-        
-        return <span dangerouslySetInnerHTML={{ 
-          __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
-        }} />;
-      };
-      
-      // Handle numbered lists with format "1. Text" or "1. **Bold** Text"
-      if (/^\d+\.\s/.test(paragraph)) {
-        const number = paragraph.match(/^\d+\./)?.[0] || '';
-        const content = paragraph.substring(number.length + 1).trim();
-        return (
-          <div key={index} className="flex gap-2 mb-4">
-            <span className="font-bold min-w-[24px]">{number}</span>
-            <div className="flex-1">
-              {processBoldText(content)}
-              
-              {/* Handle sub-bullets that might follow a numbered item */}
-              {paragraph.includes('\n* ') && (
-                <ul className="ml-2 mt-2 list-disc">
-                  {paragraph.split('\n* ').slice(1).map((item, i) => (
-                    <li key={i} className="ml-4 mb-1">{processBoldText(item)}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        );
-      }
-      
-      // Handle headings - we need to check for this before bullet points
-      if (paragraph.startsWith('# ')) {
-        return <h2 key={index} className="text-2xl font-bold mt-8 mb-4 text-green-800 dark:text-green-300">{processBoldText(paragraph.substring(2))}</h2>;
-      } 
-      
-      if (paragraph.startsWith('## ')) {
-        return <h3 key={index} className="text-xl font-bold mt-6 mb-3 text-green-700 dark:text-green-400">{processBoldText(paragraph.substring(3))}</h3>;
-      }
-      
-      if (paragraph.startsWith('### ')) {
-        return <h4 key={index} className="text-lg font-bold mt-5 mb-2 text-green-600 dark:text-green-500">{processBoldText(paragraph.substring(4))}</h4>;
-      }
-      
-      // Handle bullet lists (might include nested items)
-      if (paragraph.startsWith('* ')) {
-        const items = paragraph.split('\n* ');
-        return (
-          <ul key={index} className="ml-6 mb-4 list-disc">
-            {items.filter(item => item.trim()).map((item, i) => {
-              // For the first item, remove the initial "* "
-              const itemText = i === 0 ? item.substring(2) : item;
-              return <li key={i} className="mb-2">{processBoldText(itemText)}</li>;
-            })}
-          </ul>
-        );
-      }
-      
-      // Handle bullet points with dashes
-      if (paragraph.startsWith('- ')) {
-        const items = paragraph.split('\n- ');
-        return (
-          <ul key={index} className="ml-6 mb-4 list-disc">
-            {items.filter(item => item.trim()).map((item, i) => {
-              // For the first item, remove the initial "- "
-              const itemText = i === 0 ? item.substring(2) : item;
-              return <li key={i} className="mb-2">{processBoldText(itemText)}</li>;
-            })}
-          </ul>
-        );
-      }
-      
-      // Handle multi-level sections that might have * bullets inside them
-      if (paragraph.includes('\n* ')) {
-        const parts = paragraph.split('\n* ');
-        const mainText = parts[0];
-        const bulletItems = parts.slice(1);
-        
-        return (
-          <div key={index} className="mb-4">
-            <p className="mb-2">{processBoldText(mainText)}</p>
-            <ul className="ml-6 list-disc">
-              {bulletItems.map((item, i) => (
-                <li key={i} className="mb-1">{processBoldText(item)}</li>
-              ))}
-            </ul>
-          </div>
-        );
-      }
-      
-      // Skip empty paragraphs
-      if (paragraph.trim() === '') {
-        return null;
-      }
-      
-      // Regular paragraphs
-      return (
-        <p key={index} className="mb-4 leading-relaxed">
-          {processBoldText(paragraph)}
-        </p>
-      );
-    });
-  };
-
-  if (loading) {
+  if (!content) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
@@ -185,53 +41,10 @@ const ContentDetailPage = () => {
           <Button variant="ghost" className="mb-8" onClick={goBack}>
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to {isRecipe ? "Recipes" : "Blog"}
           </Button>
-          
-          <div className="max-w-4xl mx-auto">
-            <Skeleton className="h-10 w-3/4 mb-4" />
-            <div className="flex items-center space-x-6 mb-8">
-              <div className="flex items-center">
-                <Skeleton className="h-4 w-32" />
-              </div>
-              <div className="flex items-center">
-                <Skeleton className="h-4 w-32" />
-              </div>
-              <div className="flex items-center">
-                <Skeleton className="h-4 w-32" />
-              </div>
-            </div>
-            
-            <Skeleton className="h-[400px] w-full mb-8" />
-            
-            <div className="space-y-4">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-5/6" />
-              <Skeleton className="h-4 w-full" />
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (error || !content) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <div className="container mx-auto px-4 py-16 flex-1">
-          <Button variant="ghost" className="mb-8" onClick={goBack}>
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to {isRecipe ? "Recipes" : "Blog"}
-          </Button>
-          
-          <div className="max-w-4xl mx-auto text-center py-16">
-            <h2 className="text-2xl font-bold mb-4 text-green-700 dark:text-green-400">Content Not Found</h2>
-            <p className="text-foreground/70 mb-8 dark:text-gray-300">
-              We couldn't find the content you're looking for. It may have been removed or you might have followed a broken link.
-            </p>
-            <Button onClick={goBack} className="bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700">
-              Return to {isRecipe ? "Recipes" : "Blog"}
-            </Button>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-green-400 mb-4">Content Not Found</h2>
+            <p className="mb-8 text-lg text-foreground/70">We couldn't find the content you're looking for. It may have been removed or you might have followed a broken link.</p>
+            <Button onClick={goBack} className="px-8 py-3 rounded-lg">Return to Blog</Button>
           </div>
         </div>
         <Footer />
@@ -242,65 +55,27 @@ const ContentDetailPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
       <div className="container mx-auto px-4 py-16 flex-1">
-        <Button variant="ghost" className="mb-8 text-green-700 hover:text-green-800 hover:bg-green-50 dark:text-green-400 dark:hover:text-green-300 dark:hover:bg-green-900/20" onClick={goBack}>
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to {isRecipe ? "Recipes" : "Blog"}
+        <Button variant="ghost" className="mb-8" onClick={goBack}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blog
         </Button>
-        
-        <article className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-          <div className="mb-6 h-[300px] sm:h-[400px] overflow-hidden">
-            <img 
-              src={content?.imageUrl} 
-              alt={content?.title} 
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                // Fallback image if the original fails to load
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1505935428862-770b6f24f629?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
-              }}
-            />
+        <div className="max-w-4xl mx-auto bg-background rounded-2xl shadow-lg overflow-hidden">
+          <div className="h-72 w-full overflow-hidden">
+            <img src={content.imageUrl} alt={content.title} className="w-full h-full object-cover" />
           </div>
-          
-          <div className="px-6 sm:px-10 py-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-green-800 dark:text-green-300">{content?.title}</h1>
-            
-            <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-8 text-sm text-foreground/70 dark:text-gray-300 border-b border-green-100 dark:border-green-900/30 pb-4">
-              <div className="flex items-center">
-                <Calendar className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content?.date}
-              </div>
-              <div className="flex items-center">
-                <User className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content?.author}
-              </div>
-              <div className="flex items-center">
-                <Tag className="mr-2 h-4 w-4 text-green-600 dark:text-green-400" /> {content?.category}
-              </div>
+          <div className="p-8">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-green-400">{content.title}</h1>
+            <div className="flex flex-wrap items-center gap-4 text-foreground/70 mb-6">
+              <span className="flex items-center gap-2"><Calendar className="w-4 h-4" /> {content.date}</span>
+              {content.author && <span className="flex items-center gap-2"><User className="w-4 h-4" /> {content.author}</span>}
+              {content.category && <span className="flex items-center gap-2"><Tag className="w-4 h-4" /> {content.category}</span>}
             </div>
-            
-            <div className="prose max-w-none text-foreground/80 dark:text-gray-200 leading-relaxed">
-              {content && formatContent(content.content)}
+            <div className="prose prose-lg max-w-none text-foreground/90">
+              {content.content}
             </div>
-          </div>
-        </article>
-        
-        <div className="max-w-4xl mx-auto mt-12 pt-8 border-t border-green-100 dark:border-green-900/30">
-          <h3 className="text-xl font-bold mb-4 text-green-800 dark:text-green-300">Share this {isRecipe ? "recipe" : "article"}</h3>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" className="border-green-200 dark:border-green-800 hover:bg-green-50 dark:hover:bg-green-900/30">
-              Facebook
-            </Button>
-            <Button variant="outline" size="sm" className="border-green-200 dark:border-green-800 hover:bg-green-50 dark:hover:bg-green-900/30">
-              Twitter
-            </Button>
-            <Button variant="outline" size="sm" className="border-green-200 dark:border-green-800 hover:bg-green-50 dark:hover:bg-green-900/30">
-              Pinterest
-            </Button>
-            <Button variant="outline" size="sm" className="border-green-200 dark:border-green-800 hover:bg-green-50 dark:hover:bg-green-900/30">
-              Email
-            </Button>
           </div>
         </div>
       </div>
-      
       <Footer />
     </div>
   );
