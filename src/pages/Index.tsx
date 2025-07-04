@@ -274,7 +274,7 @@ const Home = () => {
                   <p className="text-sm text-gray-400">Cooperate employee</p>
                 </div>
               </div>
-              <p className="text-gray-300 italic leading-relaxed">As an employee, smart nutrition is key. DietaryGuide helped me fine-tune my diet for peak performance and faster recovery. The app's insights are spot-on for endurance training and sports nutrition in the UK.</p>
+              <p className="text-gray-300 italic leading-relaxed">As a corporate employee, smart nutrition is non-negotiable for staying on top of my game. DietaryGuide has been a game-changer, helping me fine-tune my diet to maintain peak energy and focus through demanding workdays.</p>
             </Card>
             
             <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
