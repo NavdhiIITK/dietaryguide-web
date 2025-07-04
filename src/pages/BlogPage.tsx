@@ -40,7 +40,6 @@ const blogs: Blog[] = [
 const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
 
 const BlogPage = () => {
-  const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
@@ -92,25 +91,7 @@ const BlogPage = () => {
             </div>
           </div>
           
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <div key={item} className="bg-background rounded-xl overflow-hidden shadow-md">
-                  <Skeleton className="h-56 w-full" />
-                  <div className="p-6 space-y-4">
-                    <div className="flex justify-between items-center">
-                      <Skeleton className="h-4 w-[30%]" />
-                      <Skeleton className="h-6 w-[20%] rounded-full" />
-                    </div>
-                    <Skeleton className="h-6 w-[80%]" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-[60%]" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : visibleBlogs.length > 0 ? (
+          {visibleBlogs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {visibleBlogs.map((blog) => (
                 <div key={blog.id} className="bg-background rounded-xl overflow-hidden shadow-md card-hover">
