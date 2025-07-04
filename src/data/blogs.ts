@@ -89,7 +89,7 @@ Eat smart, stay healthy, and don't be fooled by the hype!`,
 </ul>
 
 <h2>🧠 Health Benefits of a Plant-Based Diet</h2>
-<div style="background:#f0f9f0;padding:1rem;border-left:4px solid #4caf50;margin:1rem 0;">
+<div class="highlight">
   <p><strong>✅ Weight Management:</strong> High in fiber and low in calories, plant-based diets help you feel full longer and reduce overall intake.</p>
   <p><strong>❤️ Heart Health:</strong> Lower cholesterol and saturated fats improve cardiovascular health.</p>
   <p><strong>💉 Diabetes Prevention:</strong> Low-GI foods like millets, legumes, and vegetables regulate blood sugar levels.</p>

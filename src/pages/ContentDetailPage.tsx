@@ -70,7 +70,8 @@ const ContentDetailPage = () => {
               {content.author && <span className="flex items-center gap-2"><User className="w-4 h-4" /> {content.author}</span>}
               {content.category && <span className="flex items-center gap-2"><Tag className="w-4 h-4" /> {content.category}</span>}
             </div>
-            <div className="prose prose-lg max-w-none text-foreground/90"
+            <div
+              className="prose prose-lg max-w-none text-foreground/90 blog-article"
               dangerouslySetInnerHTML={{ __html: content.content || "" }}
             />
           </div>

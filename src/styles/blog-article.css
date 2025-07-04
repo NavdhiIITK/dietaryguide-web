@@ -1,0 +1,53 @@
+/* Blog Article Custom Styles */
+.blog-article {
+  text-align: left;
+}
+.blog-article h1, .blog-article h2, .blog-article h3, .blog-article h4 {
+  color: #22c55e;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.blog-article h1 { font-size: 2.25rem; }
+.blog-article h2 { font-size: 1.75rem; }
+.blog-article h3 { font-size: 1.25rem; }
+.blog-article h4 { font-size: 1.1rem; }
+.blog-article p, .blog-article ul, .blog-article ol {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.blog-article .highlight, .blog-article .highlight-box {
+  background: #f0f9f0;
+  border-left: 4px solid #4caf50;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+}
+.blog-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 1.05rem;
+}
+.blog-article th, .blog-article td {
+  border: 1px solid #cbd5e1;
+  padding: 10px 14px;
+  text-align: left;
+}
+.blog-article th {
+  background: #e0f2f1;
+  color: #166534;
+}
+.blog-article tr:nth-child(even) td {
+  background: #f8fafc;
+}
+.blog-article ul, .blog-article ol {
+  padding-left: 1.5rem;
+}
+.blog-article .day-plan {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #e5e7eb;
+} 
