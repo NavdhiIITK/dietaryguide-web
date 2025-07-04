@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -269,13 +268,13 @@ const Home = () => {
             
             <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
-                <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Michael T." className="w-12 h-12 rounded-full object-cover mr-4" />
+                <img src="https://github.com/amishardev/navdhiweb/blob/main/nishant_jindal.png?raw=true" alt="Nishant Jindal" className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
-                  <p className="font-bold text-white">Michael T.</p>
-                  <p className="text-sm text-gray-400">Marathon Runner</p>
+                  <p className="font-bold text-white">Nishant Jindal</p>
+                  <p className="text-sm text-gray-400">Cooperate employee</p>
                 </div>
               </div>
-              <p className="text-gray-300 italic leading-relaxed">As an athlete, smart nutrition is key. DietaryGuide helped me fine-tune my diet for peak performance and faster recovery. The app's insights are spot-on for endurance training and sports nutrition in the UK.</p>
+              <p className="text-gray-300 italic leading-relaxed">As an employee, smart nutrition is key. DietaryGuide helped me fine-tune my diet for peak performance and faster recovery. The app's insights are spot-on for endurance training and sports nutrition in the UK.</p>
             </Card>
             
             <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
