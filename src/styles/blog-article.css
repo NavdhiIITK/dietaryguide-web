@@ -7,6 +7,7 @@
   color: #e5e7eb !important;
   line-height: 1.85 !important;
   box-sizing: border-box;
+  font-size: 1.35rem !important;
 }
 
 .blog-article {
@@ -29,7 +30,7 @@
 }
 
 .blog-article h1, .blog-article .prose h1 {
-  font-size: 2.8rem !important;
+  font-size: 3.2rem !important;
   color: #22c55e !important;
   font-weight: 900 !important;
   margin-top: 2.5rem !important;
@@ -38,7 +39,7 @@
   letter-spacing: -0.01em;
 }
 .blog-article h2, .blog-article .prose h2 {
-  font-size: 2.7rem !important;
+  font-size: 2.5rem !important;
   color: #4ade80 !important;
   font-weight: 900 !important;
   margin-top: 3rem !important;
@@ -58,7 +59,7 @@
   padding-top: 32px !important;
 }
 .blog-article h4, .blog-article .prose h4 {
-  font-size: 1.5rem !important;
+  font-size: 1.7rem !important;
   color: #16a34a !important;
   font-weight: 700 !important;
   margin-top: 2rem !important;
@@ -121,7 +122,7 @@
   width: 100% !important;
   border-collapse: collapse !important;
   margin: 2.2rem 0 !important;
-  font-size: 1.13rem !important;
+  font-size: 1.25rem !important;
   background: #111827 !important;
   border-radius: 0.7rem !important;
   overflow: hidden;
