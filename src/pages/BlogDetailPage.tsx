@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, User, Tag, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, User, Tag, Clock, ChevronLeft, UserCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { blogs } from "@/data/blogs";
 import { supabase } from "@/integrations/supabase/client";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from '@/components/ui/badge';
+import { format } from 'date-fns';
+import type { BlogPost } from '@/types';
+import { getBlogPostBySlug } from '@/lib/blog-data';
 
 interface Blog {
   id: string;
@@ -23,73 +27,36 @@ interface Blog {
 }
 
 const BlogDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [blog, setBlog] = useState<Blog | null>(null);
+  const { slug } = useParams<{ slug: string }>();
+  const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchBlog = async () => {
-      if (!id) {
+    const fetchPost = async () => {
+      if (!slug) {
+        setError('No slug provided');
         setLoading(false);
         return;
       }
 
-      // First, try to find the article in the static blogs array
-      const staticBlog = blogs.find(article => article.id === id);
-
-      if (staticBlog) {
-        setBlog({
-          id: staticBlog.id,
-          title: staticBlog.title,
-          excerpt: staticBlog.excerpt,
-          date: staticBlog.date,
-          category: staticBlog.category,
-          imageUrl: staticBlog.imageUrl,
-          content: staticBlog.content,
-          author: staticBlog.author,
-          readingTime: staticBlog.readingTime
-        });
-        setLoading(false);
-        return;
-      }
-
-      // If not found in static blogs, try to fetch from Supabase
       try {
-        const { data, error } = await supabase
-          .from('auto_blogs')
-          .select('*')
-          .eq('id', id)
-          .eq('is_published', true)
-          .single();
-
-        if (error) {
-          console.error("Error fetching blog from Supabase:", error);
-          setBlog(null);
-        } else if (data) {
-          setBlog({
-            id: data.id,
-            title: data.title,
-            excerpt: data.description,
-            date: data.date || new Date().toISOString(),
-            category: data.category,
-            imageUrl: data.image || "/images/default-blog.jpg",
-            author: data.author,
-            content: data.content
-          });
+        const postData = await getBlogPostBySlug(slug);
+        if (!postData) {
+          setError('Post not found');
         } else {
-          setBlog(null);
+          setPost(postData);
         }
-      } catch (error) {
-        console.error("Error fetching blog:", error);
-        setBlog(null);
+      } catch (err) {
+        setError('Error loading post');
+        console.error('Error fetching post:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBlog();
-  }, [id]);
+    fetchPost();
+  }, [slug]);
 
   const renderWithBold = (text: string) => {
     if (!text.includes('**')) {
@@ -104,19 +71,19 @@ const BlogDetailPage = () => {
     // First try the old format with [FAQ] tags
     const contentParts = content.split('[FAQ]');
     if (contentParts.length > 1) {
-      const mainContent = contentParts[0];
+    const mainContent = contentParts[0];
       const faqContent = contentParts[1].replace('[/FAQ]', '').trim();
 
-      const faqItems = faqContent
-        ? faqContent.split('--').map((qa) => {
-            const parts = qa.trim().split('\n');
-            const question = parts[0]?.replace('Q: ', '').trim() || '';
-            const answer = parts.slice(1).join('\n').replace('A: ', '').trim() || '';
-            return { question, answer };
-          }).filter(item => item.question && item.answer)
-        : [];
+    const faqItems = faqContent
+      ? faqContent.split('--').map((qa) => {
+          const parts = qa.trim().split('\n');
+          const question = parts[0]?.replace('Q: ', '').trim() || '';
+          const answer = parts.slice(1).join('\n').replace('A: ', '').trim() || '';
+          return { question, answer };
+        }).filter(item => item.question && item.answer)
+      : [];
 
-      return { mainContent, faqItems };
+    return { mainContent, faqItems };
     }
 
     // Try to extract FAQ from HTML content with faq-section class
@@ -172,15 +139,17 @@ const BlogDetailPage = () => {
     );
   }
 
-  if (!blog) {
+  if (error || !post) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <div className="container mx-auto px-4 py-16 flex-1">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-green-400 mb-4">Blog Post Not Found</h2>
-            <p className="mb-8 text-lg text-foreground/70">We couldn't find the blog post you're looking for. It may have been removed or you might have followed a broken link.</p>
-            <Button onClick={() => navigate('/blog')} className="px-8 py-3 rounded-lg">Return to Blog</Button>
+            <h2 className="text-3xl font-bold text-green-400 mb-4">Post Not Found</h2>
+            <p className="mb-8 text-lg text-foreground/70">{error || 'The requested post could not be found.'}</p>
+            <Link to="/blog" className="text-primary hover:underline">
+              Back to Blog
+            </Link>
           </div>
         </div>
         <Footer />
@@ -188,7 +157,7 @@ const BlogDetailPage = () => {
     );
   }
 
-  const { mainContent, faqItems } = blog.content ? extractFAQ(blog.content) : { mainContent: '', faqItems: [] };
+  const { mainContent, faqItems } = post.content ? extractFAQ(post.content) : { mainContent: '', faqItems: [] };
   const cleanedContent = cleanBlogHtml(mainContent);
 
   return (
@@ -198,33 +167,29 @@ const BlogDetailPage = () => {
         <article className="max-w-4xl mx-auto">
           {/* Back to Blog Link */}
           <div className="mb-8">
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/blog')} 
-              className="inline-flex items-center gap-2 text-primary hover:underline font-medium p-0 h-auto"
-            >
-              <ArrowLeft className="w-4 h-4" />
+            <Link to="/blog" className="inline-flex items-center gap-2 text-primary hover:underline font-medium">
+              <ChevronLeft className="w-4 h-4" />
               Back to all posts
-            </Button>
+            </Link>
           </div>
 
           {/* Enhanced Header */}
           <header className="mb-8">
             <div className="flex flex-wrap gap-2 mb-6">
-              {blog.category && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
-                  {blog.category}
-                </span>
-              )}
+              {post.tags.map((tag) => (
+                <Badge key={tag} variant="secondary" className="border-transparent">
+                  {tag}
+                </Badge>
+              ))}
             </div>
             
             <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-              {blog.title}
+              {post.title}
             </h1>
             
-            {blog.excerpt && (
+            {post.subtitle && (
               <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl">
-                {blog.excerpt}
+                {post.subtitle}
               </p>
             )}
             
@@ -232,13 +197,13 @@ const BlogDetailPage = () => {
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4 py-6 border-t border-b border-border/50">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10 ring-2 ring-primary/20">
-                  <AvatarImage src="/images/avatar-placeholder.jpg" alt={blog.author || "Author"} />
+                  <AvatarImage src={post.author.avatarUrl} alt={post.author.name} />
                   <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                    {blog.author ? blog.author.split(' ').map(n => n[0]).join('') : 'TD'}
+                    {post.author.name ? post.author.name.split(' ').map(n => n[0]).join('') : 'TD'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <span className="font-semibold text-foreground">{blog.author || "Team DietaryGuide"}</span>
+                  <span className="font-semibold text-foreground">{post.author.name || "Team DietaryGuide"}</span>
                   <span className="text-sm text-muted-foreground">Nutrition Expert</span>
                 </div>
               </div>
@@ -246,20 +211,14 @@ const BlogDetailPage = () => {
               <div className="flex items-center gap-6 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
-                  <time dateTime={blog.date}>
-                    {new Date(blog.date).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
-                    })}
+                  <time dateTime={post.created_at}>
+                    {format(new Date(post.created_at), 'MMMM d, yyyy')}
                   </time>
                 </div>
-                {blog.readingTime && (
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4" />
-                    <span>{blog.readingTime}</span>
-                  </div>
-                )}
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>{post.reading_time} min read</span>
+                </div>
               </div>
             </div>
           </header>
@@ -267,8 +226,8 @@ const BlogDetailPage = () => {
           {/* Featured Image */}
           <div className="relative w-full aspect-video rounded-xl overflow-hidden my-8 md:my-12 shadow-2xl">
             <img
-              src={blog.imageUrl}
-              alt={blog.title}
+              src={post.image}
+              alt={post.title}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
@@ -281,7 +240,7 @@ const BlogDetailPage = () => {
               dangerouslySetInnerHTML={{ __html: cleanedContent }} 
             />
           </div>
-          
+
           {/* Key Takeaways Box */}
           <div className="mt-12 p-6 bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl border border-primary/20">
             <h3 className="font-headline text-xl font-bold mb-4 text-primary flex items-center gap-2">
@@ -316,7 +275,7 @@ const BlogDetailPage = () => {
               </h2>
               <div className="bg-muted/30 rounded-xl p-6">
                 <Accordion type="single" collapsible className="w-full">
-                  {faqItems.map((item, index) => (
+                {faqItems.map((item, index) => (
                     <AccordionItem value={`item-${index}`} key={index} className="border-b border-border/50 last:border-b-0">
                       <AccordionTrigger className="text-left font-semibold text-lg hover:text-primary transition-colors py-4">
                         {item.question}
@@ -325,7 +284,7 @@ const BlogDetailPage = () => {
                         {item.answer}
                       </AccordionContent>
                     </AccordionItem>
-                  ))}
+                ))}
                 </Accordion>
               </div>
             </div>

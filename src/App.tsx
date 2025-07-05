@@ -1,11 +1,11 @@
-
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 // Pages
 import Index from "./pages/Index";
-import BlogPage from "./pages/BlogPage";
+import BlogListPage from "./pages/BlogListPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
+import AdminPage from "./pages/AdminPage";
 import ContentDetailPage from "./pages/ContentDetailPage";
 import BlogDebugPage from "./pages/BlogDebugPage";
 import RecipePage from "./pages/RecipePage";
@@ -24,8 +24,9 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:id" element={<BlogDetailPage />} />
+        <Route path="/blog" element={<BlogListPage />} />
+        <Route path="/blog/:slug" element={<BlogDetailPage />} />
+        <Route path="/admin_blog_maker_editor" element={<AdminPage />} />
         <Route path="/blog-debug" element={<BlogDebugPage />} />
         <Route path="/recipes" element={<RecipePage />} />
         <Route path="/recipes/:id" element={<RecipeDetailPage />} />
