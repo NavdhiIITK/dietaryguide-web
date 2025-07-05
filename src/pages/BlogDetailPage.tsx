@@ -117,6 +117,12 @@ const BlogDetailPage = () => {
     return { mainContent, faqItems };
   };
 
+  // Utility to remove AI image prompt block from HTML content
+  function removeImagePrompt(html: string): string {
+    // Remove <h2>📸 Image Prompt</h2> and the next <p> or <div> (the prompt)
+    return html.replace(/<h2[^>]*>[^<]*📸 Image Prompt[^<]*<\/h2>\s*(<p[^>]*>.*?<\/p>|<div[^>]*>.*?<\/div>)/is, '');
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -155,6 +161,7 @@ const BlogDetailPage = () => {
   }
 
   const { mainContent, faqItems } = blog.content ? extractFAQ(blog.content) : { mainContent: '', faqItems: [] };
+  const cleanedContent = removeImagePrompt(mainContent);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -169,10 +176,10 @@ const BlogDetailPage = () => {
                 </span>
               )}
             </div>
-            <h1 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
+            <h1 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-left">
               {blog.title}
             </h1>
-            {blog.excerpt && <p className="text-lg md:text-xl text-muted-foreground mt-2">{blog.excerpt}</p>}
+            {blog.excerpt && <p className="text-lg md:text-xl text-muted-foreground mt-2 text-left">{blog.excerpt}</p>}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
@@ -206,21 +213,26 @@ const BlogDetailPage = () => {
             />
           </div>
 
-          <div className="blog-content" dangerouslySetInnerHTML={{ __html: mainContent }} />
+          {/* Render cleaned HTML content, left-aligned */}
+          <div className="blog-content text-left" dangerouslySetInnerHTML={{ __html: cleanedContent }} />
           
           {faqItems.length > 0 && (
-            <div className="mt-8">
-              <h2 className="font-headline text-2xl md:text-3xl font-bold mt-10 mb-6">Frequently Asked Questions</h2>
-              <Accordion type="single" collapsible className="w-full">
+            <div className="mt-8 text-left">
+              <h2 className="font-headline text-2xl md:text-3xl font-bold mt-10 mb-6 text-left">Frequently Asked Questions</h2>
+              <div className="space-y-6">
                 {faqItems.map((item, index) => (
-                  <AccordionItem value={`item-${index}`} key={index}>
-                    <AccordionTrigger className="text-left font-semibold">{item.question}</AccordionTrigger>
-                    <AccordionContent className="text-base text-muted-foreground leading-relaxed">
-                      {item.answer}
-                    </AccordionContent>
-                  </AccordionItem>
+                  <div key={index} className="mb-6">
+                    <div className="flex items-start mb-2">
+                      <span className="mr-2 text-xl">❓</span>
+                      <span className="font-semibold text-lg md:text-xl leading-snug">{item.question}</span>
+                    </div>
+                    <div className="flex items-start ml-7">
+                      <span className="mr-2 text-lg">✅</span>
+                      <span className="text-base leading-relaxed">{item.answer}</span>
+                    </div>
+                  </div>
                 ))}
-              </Accordion>
+              </div>
             </div>
           )}
         </article>
