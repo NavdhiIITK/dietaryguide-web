@@ -117,10 +117,13 @@ const BlogDetailPage = () => {
     return { mainContent, faqItems };
   };
 
-  // Utility to remove AI image prompt block from HTML content
-  function removeImagePrompt(html: string): string {
+  // Utility to remove AI image prompt and Final Takeaway blocks from HTML content
+  function cleanBlogHtml(html: string): string {
     // Remove <h2>📸 Image Prompt</h2> and the next <p> or <div> (the prompt)
-    return html.replace(/<h2[^>]*>[^<]*📸 Image Prompt[^<]*<\/h2>\s*(<p[^>]*>.*?<\/p>|<div[^>]*>.*?<\/div>)/is, '');
+    let cleaned = html.replace(/<h2[^>]*>[^<]*📸 Image Prompt[^<]*<\/h2>\s*(<p[^>]*>.*?<\/p>|<div[^>]*>.*?<\/div>)/is, '');
+    // Remove <h2>🧘 Final Takeaway</h2> (or similar) and the following <p> or <div> (the SEO block)
+    cleaned = cleaned.replace(/<h2[^>]*>[^<]*Final Takeaway[^<]*<\/h2>\s*(<p[^>]*>.*?<\/p>|<div[^>]*>.*?<\/div>)/is, '');
+    return cleaned;
   }
 
   if (loading) {
@@ -161,7 +164,7 @@ const BlogDetailPage = () => {
   }
 
   const { mainContent, faqItems } = blog.content ? extractFAQ(blog.content) : { mainContent: '', faqItems: [] };
-  const cleanedContent = removeImagePrompt(mainContent);
+  const cleanedContent = cleanBlogHtml(mainContent);
 
   return (
     <div className="min-h-screen flex flex-col">
