@@ -199,18 +199,27 @@ const ContentDetailPage = () => {
               {content.category && <span className="flex items-center gap-2"><Tag className="w-4 h-4" /> {content.category}</span>}
               {content.readingTime && <span className="flex items-center gap-2">📖 {content.readingTime}</span>}
             </div>
-            {content.content ? (
-              <div
-                className="blog-article max-w-none text-foreground/90"
-                dangerouslySetInnerHTML={{ __html: content.content }}
-              />
-            ) : (
-              <div className="blog-article max-w-none text-foreground/90">
-                <p className="text-red-400">No content available for this article.</p>
-                <p className="text-gray-400 mt-2">Content ID: {content.id}</p>
-                <p className="text-gray-400">Title: {content.title}</p>
-              </div>
-            )}
+            {/* Test with simple text first */}
+            <div className="blog-article max-w-none text-foreground/90">
+              <h2 className="text-2xl font-bold text-green-400 mb-4">Content Test</h2>
+              <p className="text-white mb-4">This is a test paragraph to ensure styling works.</p>
+
+              {content.content ? (
+                <>
+                  <h3 className="text-xl font-semibold text-green-300 mb-2">Raw HTML Content:</h3>
+                  <div
+                    className="blog-content"
+                    dangerouslySetInnerHTML={{ __html: content.content }}
+                  />
+                </>
+              ) : (
+                <div>
+                  <p className="text-red-400">No content available for this article.</p>
+                  <p className="text-gray-400 mt-2">Content ID: {content.id}</p>
+                  <p className="text-gray-400">Title: {content.title}</p>
+                </div>
+              )}
+            </div>
 
             {/* Debug info - always show for now */}
             <div className="mt-4 p-4 bg-gray-800 text-white text-sm rounded">
@@ -305,6 +314,23 @@ const ContentDetailPage = () => {
           color: #fbbf24 !important;
         }
         .blog-article div {
+          color: #e5e7eb !important;
+        }
+        .blog-content {
+          color: #e5e7eb !important;
+          font-size: 16px !important;
+          line-height: 1.7 !important;
+        }
+        .blog-content * {
+          color: #e5e7eb !important;
+        }
+        .blog-content h2 {
+          color: #22c55e !important;
+          font-size: 1.5rem !important;
+          margin: 2rem 0 1rem 0 !important;
+        }
+        .blog-content p {
+          margin-bottom: 1rem !important;
           color: #e5e7eb !important;
         }
       `}</style>

@@ -16,9 +16,12 @@ interface Blog {
   imageUrl: string;
   content?: string;
   author?: string;
+  readingTime?: string;
 }
 
 const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
+
+const filterTags = ['All', 'Nutrition', 'Diet', 'Fitness', 'Wellness', 'Health'];
 
 const BlogPage = () => {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -51,7 +54,8 @@ const BlogPage = () => {
           category: blog.category,
           imageUrl: blog.imageUrl,
           content: blog.content,
-          author: blog.author
+          author: blog.author,
+          readingTime: blog.readingTime
         }));
 
         // Convert dynamic blogs to the same format
@@ -106,92 +110,96 @@ const BlogPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 bg-muted/30">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Nutrition & Wellness Blog
-          </h1>
-          <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-            Evidence-based articles on health, nutrition, fitness, and wellness to help you make informed decisions.
-          </p>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-12 md:mb-16 space-y-4">
+            <h1 className="text-4xl md:text-6xl font-bold font-headline">
+              Nutrition & Wellness Blog
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Evidence-based articles on health, nutrition, fitness, and wellness to help you make informed decisions.
+            </p>
+          </div>
         </div>
       </section>
       
       {/* Blog List */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-12">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold">Latest Articles</h2>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
-              {["All", "Nutrition", "Diet", "Fitness", "Wellness", "Health"].map(category => (
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8 md:mb-12 flex flex-col md:flex-row items-center justify-between gap-4">
+            <h2 className="text-3xl font-bold font-headline">Latest Articles</h2>
+            <div className="flex flex-wrap justify-center gap-2">
+              {filterTags.map(tag => (
                 <Button
-                  key={category}
-                  variant={activeFilter === category ? "default" : "outline"}
-                  className="text-sm"
-                  onClick={() => handleFilterChange(category)}
+                  key={tag}
+                  variant={activeFilter === tag ? 'default' : 'outline'}
+                  onClick={() => handleFilterChange(tag)}
+                  className={`rounded-full px-5 transition-colors ${
+                    activeFilter === tag 
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                      : 'bg-transparent border-foreground/30 hover:bg-foreground/10'
+                  }`}
                   disabled={loading}
                 >
-                  {category}
+                  {tag}
                 </Button>
               ))}
             </div>
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="bg-background rounded-xl overflow-hidden shadow-md">
-                  <Skeleton className="h-56 w-full" />
-                  <div className="p-6">
-                    <div className="flex justify-between items-center mb-2">
+                <div key={index} className="flex flex-col gap-4">
+                  <Skeleton className="h-56 w-full rounded-lg" />
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
                       <Skeleton className="h-4 w-20" />
-                      <Skeleton className="h-4 w-16" />
+                      <Skeleton className="h-6 w-16" />
                     </div>
-                    <Skeleton className="h-6 w-3/4 mb-3" />
-                    <Skeleton className="h-4 w-full mb-2" />
-                    <Skeleton className="h-4 w-full mb-2" />
-                    <Skeleton className="h-4 w-2/3 mb-4" />
-                    <Skeleton className="h-4 w-20" />
+                    <Skeleton className="h-6 w-3/4" />
                   </div>
                 </div>
               ))}
             </div>
           ) : visibleBlogs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
               {visibleBlogs.map((blog) => (
-                <div key={blog.id} className="bg-background rounded-xl overflow-hidden shadow-md card-hover">
-                  <div className="h-56 bg-muted overflow-hidden">
-                    <img
-                      src={blog.imageUrl}
-                      alt={blog.title}
-                      className="w-full h-full object-cover transition-transform hover:scale-105"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = placeholderImage;
-                      }}
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-foreground/60">{new Date(blog.date).toLocaleDateString()}</span>
-                      <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">{blog.category}</span>
+                <Link key={blog.id} to={`/blog/${blog.id}`} className="group block">
+                  <div className="flex flex-col gap-4">
+                    <div className="relative h-56 w-full overflow-hidden rounded-lg">
+                      <img
+                        src={blog.imageUrl}
+                        alt={blog.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = placeholderImage;
+                        }}
+                      />
                     </div>
-                    <h3 className="text-xl font-semibold mb-3">{blog.title}</h3>
-                    <p className="text-foreground/70 mb-4 line-clamp-3">
-                      {blog.excerpt}
-                    </p>
-                    <Button asChild variant="link" className="p-0">
-                      <Link to={`/blog/${blog.id}`}>Read More →</Link>
-                    </Button>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                        <time dateTime={blog.date}>
+                          {new Date(blog.date).toLocaleDateString('en-GB')}
+                        </time>
+                        {blog.category && (
+                          <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full border border-primary/50 font-medium">
+                            {blog.category}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="font-headline text-xl leading-snug group-hover:text-primary transition-colors">
+                        {blog.title}
+                      </h3>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <h3 className="text-xl font-medium text-foreground/70">No articles found in this category</h3>
-              <p className="mt-2 text-foreground/60">Try selecting a different category or check back later.</p>
+            <div className="text-center py-16">
+              <h2 className="text-2xl font-headline mb-2">No Posts Found</h2>
+              <p className="text-muted-foreground">Try adjusting your filters.</p>
             </div>
           )}
           

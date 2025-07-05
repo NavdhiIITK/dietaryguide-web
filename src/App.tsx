@@ -5,6 +5,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 // Pages
 import Index from "./pages/Index";
 import BlogPage from "./pages/BlogPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
 import ContentDetailPage from "./pages/ContentDetailPage";
 import BlogDebugPage from "./pages/BlogDebugPage";
 import RecipePage from "./pages/RecipePage";
@@ -24,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:id" element={<ContentDetailPage />} />
+        <Route path="/blog/:id" element={<BlogDetailPage />} />
         <Route path="/blog-debug" element={<BlogDebugPage />} />
         <Route path="/recipes" element={<RecipePage />} />
         <Route path="/recipes/:id" element={<RecipeDetailPage />} />
