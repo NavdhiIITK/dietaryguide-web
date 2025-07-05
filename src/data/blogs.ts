@@ -159,7 +159,25 @@ Eat smart, stay healthy, and don't be fooled by the hype!`,
     excerpt: "Explore how we can bridge the nutrition gap ... ",
     date: "2025-05-13",
     imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-    content: "Explore how we can bridge the nutrition gap ... ",
+    content: `
+      <h2>Nutritional Equality: Making Healthy Food Accessible for All</h2>
+      <p>India faces a significant nutrition gap. In this article, we explore the reasons behind nutritional inequality and discuss actionable solutions to make healthy food accessible for all.</p>
+      <h3>Why Does Nutrition Inequality Exist?</h3>
+      <ul>
+        <li>Socio-economic disparities</li>
+        <li>Lack of nutrition education</li>
+        <li>Food deserts in rural and urban areas</li>
+        <li>Policy and distribution challenges</li>
+      </ul>
+      <h3>How Can We Bridge the Gap?</h3>
+      <ul>
+        <li>Community nutrition programs</li>
+        <li>Government and NGO initiatives</li>
+        <li>Affordable healthy food options</li>
+        <li>Nutrition education in schools</li>
+      </ul>
+      <p>Together, we can work towards a healthier, more equitable India. Stay tuned for more insights and stories on this important topic!</p>
+    `,
     author: "Team DietaryGuide",
   },
   {
