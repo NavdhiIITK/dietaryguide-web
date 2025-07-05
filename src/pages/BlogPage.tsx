@@ -23,6 +23,41 @@ const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6b
 
 const filterTags = ['All', 'Nutrition', 'Diet', 'Fitness', 'Wellness', 'Health'];
 
+// BlogCard component for modularity
+function BlogCard({ blog }) {
+  return (
+    <a
+      href={`/blog/${blog.id}`}
+      className="bg-background rounded-2xl shadow-lg hover:shadow-2xl transition-shadow flex flex-col overflow-hidden group cursor-pointer"
+    >
+      <div className="relative h-48 w-full overflow-hidden">
+        <img
+          src={blog.imageUrl}
+          alt={blog.title}
+          className="w-full h-full object-cover"
+        />
+        {blog.category && (
+          <span className="absolute top-4 left-4 bg-green-600/90 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+            {blog.category}
+          </span>
+        )}
+      </div>
+      <div className="p-6 flex flex-col flex-1">
+        <div className="flex items-center text-xs text-muted-foreground mb-2 gap-2">
+          <span>{blog.author || 'Team DietaryGuide'}</span>
+          <span className="mx-1">·</span>
+          <span>{new Date(blog.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+        </div>
+        <h3 className="font-headline text-xl font-bold mb-1 group-hover:text-primary transition-colors leading-tight">
+          {blog.title}
+        </h3>
+        <p className="text-base text-foreground/80 mb-4 line-clamp-2">{blog.excerpt}</p>
+        <span className="mt-auto text-primary font-semibold hover:underline">Read More →</span>
+      </div>
+    </a>
+  );
+}
+
 const BlogPage = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -122,7 +157,7 @@ const BlogPage = () => {
         </div>
       </section>
       
-      {/* Blog List */}
+      {/* Blog Grid Section */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8 md:mb-12 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -145,55 +180,16 @@ const BlogPage = () => {
               ))}
             </div>
           </div>
-
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: 6 }).map((_, index) => (
-                <div key={index} className="flex flex-col gap-4">
-                  <Skeleton className="h-56 w-full rounded-lg" />
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between">
-                      <Skeleton className="h-4 w-20" />
-                      <Skeleton className="h-6 w-16" />
-                    </div>
-                    <Skeleton className="h-6 w-3/4" />
-                  </div>
-                </div>
+                <div key={index} className="bg-background rounded-2xl shadow-lg h-80 animate-pulse" />
               ))}
             </div>
           ) : visibleBlogs.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {visibleBlogs.map((blog) => (
-                <Link key={blog.id} to={`/blog/${blog.id}`} className="group block">
-                  <div className="flex flex-col gap-4">
-                    <div className="relative h-56 w-full overflow-hidden rounded-lg">
-                      <img
-                        src={blog.imageUrl}
-                        alt={blog.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = placeholderImage;
-                        }}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <time dateTime={blog.date}>
-                          {new Date(blog.date).toLocaleDateString('en-GB')}
-                        </time>
-                        {blog.category && (
-                          <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full border border-primary/50 font-medium">
-                            {blog.category}
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="font-headline text-xl leading-snug group-hover:text-primary transition-colors">
-                        {blog.title}
-                      </h3>
-                    </div>
-                  </div>
-                </Link>
+                <BlogCard key={blog.id} blog={blog} />
               ))}
             </div>
           ) : (
