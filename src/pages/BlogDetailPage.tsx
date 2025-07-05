@@ -122,9 +122,6 @@ const BlogDetailPage = () => {
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <div className="container mx-auto px-4 py-16 flex-1">
-          <Button variant="ghost" className="mb-8">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blog
-          </Button>
           <div className="max-w-4xl mx-auto">
             <Skeleton className="h-72 w-full mb-8 rounded-2xl" />
             <div className="p-8">
@@ -146,9 +143,6 @@ const BlogDetailPage = () => {
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <div className="container mx-auto px-4 py-16 flex-1">
-          <Button variant="ghost" className="mb-8" onClick={() => navigate('/blog')}>
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blog
-          </Button>
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-green-400 mb-4">Blog Post Not Found</h2>
             <p className="mb-8 text-lg text-foreground/70">We couldn't find the blog post you're looking for. It may have been removed or you might have followed a broken link.</p>
@@ -166,10 +160,6 @@ const BlogDetailPage = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="container mx-auto px-4 py-16 flex-1">
-        <Button variant="ghost" className="mb-8" onClick={() => navigate('/blog')}>
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blog
-        </Button>
-        
         <article className="max-w-4xl mx-auto">
           <header className="mb-8">
             <div className="flex flex-wrap gap-2 mb-4">
@@ -216,20 +206,7 @@ const BlogDetailPage = () => {
             />
           </div>
 
-          <div className="blog-content">
-            {mainContent.split('\n\n').map((paragraph, index) => {
-              const trimmedParagraph = paragraph.trim();
-              if (!trimmedParagraph) return null;
-
-              if (trimmedParagraph.startsWith('## ')) {
-                return <h2 key={index}>{trimmedParagraph.substring(3)}</h2>
-              }
-              if (trimmedParagraph.startsWith('### ')) {
-                return <h3 key={index}>{trimmedParagraph.substring(4)}</h3>
-              }
-              return <p key={index}>{renderWithBold(trimmedParagraph)}</p>
-            })}
-          </div>
+          <div className="blog-content" dangerouslySetInnerHTML={{ __html: mainContent }} />
           
           {faqItems.length > 0 && (
             <div className="mt-8">
