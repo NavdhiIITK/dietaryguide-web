@@ -109,28 +109,32 @@ const BlogPage = () => {
         }
 
         // Convert static blogs to the same format
-        const staticBlogs: Blog[] = blogs.map(blog => ({
-          id: blog.id,
-          title: blog.title,
-          excerpt: blog.excerpt,
-          date: blog.date,
-          category: blog.category,
-          imageUrl: blog.imageUrl,
-          content: blog.content,
-          author: blog.author,
-          readingTime: blog.readingTime
-        }));
+        const staticBlogs: Blog[] = blogs
+          .filter(blog => blog.author !== 'AI Assistant')
+          .map(blog => ({
+            id: blog.id,
+            title: blog.title,
+            excerpt: blog.excerpt,
+            date: blog.date,
+            category: blog.category,
+            imageUrl: blog.imageUrl,
+            content: blog.content,
+            author: blog.author,
+            readingTime: blog.readingTime
+          }));
 
         // Convert dynamic blogs to the same format
-        const formattedDynamicBlogs: Blog[] = (dynamicBlogs || []).map(blog => ({
-          id: blog.id,
-          title: blog.title,
-          excerpt: blog.description,
-          date: blog.date || new Date().toISOString(),
-          category: blog.category,
-          imageUrl: blog.image || placeholderImage,
-          author: blog.author
-        }));
+        const formattedDynamicBlogs: Blog[] = (dynamicBlogs || [])
+          .filter(blog => blog.author !== 'AI Assistant')
+          .map(blog => ({
+            id: blog.id,
+            title: blog.title,
+            excerpt: blog.description,
+            date: blog.date || new Date().toISOString(),
+            category: blog.category,
+            imageUrl: blog.image || placeholderImage,
+            author: blog.author
+          }));
 
         // Combine and sort all blogs by date
         const combinedBlogs = [...staticBlogs, ...formattedDynamicBlogs]
