@@ -71,4 +71,28 @@ Yes it is!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## Blog System
+
+This project includes a hybrid blog system that supports both:
+
+1. **Static blogs** - Defined in `src/data/blogs.ts` for SEO-optimized content
+2. **Dynamic blogs** - Stored in Supabase for user-generated content
+
+### Blog Routing Fix
+
+The blog detail pages (`/blog/:id`) have been fixed to handle both static and dynamic content sources. The system now:
+
+- First checks for static blogs in the local data file
+- Falls back to Supabase for dynamic blogs
+- Includes proper GitHub Pages SPA routing support
+- Handles 404 redirects correctly for client-side routing
+
+### GitHub Pages Deployment
+
+The project includes:
+- `public/404.html` for SPA routing on GitHub Pages
+- GitHub Actions workflow for automated deployment
+- Proper base path configuration in Vite
+
 # Deployment trigger update

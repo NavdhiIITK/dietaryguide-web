@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { blogs } from "@/data/blogs";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Blog {
   id: string;
@@ -22,9 +23,69 @@ const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6b
 const BlogPage = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const [allBlogs, setAllBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
   const blogsPerPage = 6;
 
-  const filteredBlogs = [...blogs].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  useEffect(() => {
+    const fetchAllBlogs = async () => {
+      try {
+        // Fetch dynamic blogs from Supabase
+        const { data: dynamicBlogs, error } = await supabase
+          .from('auto_blogs')
+          .select('id, title, description, date, category, image, author')
+          .neq('category', 'Recipes')
+          .eq('is_published', true)
+          .order('date', { ascending: false });
+
+        if (error) {
+          console.error("Error fetching dynamic blogs:", error);
+        }
+
+        // Convert static blogs to the same format
+        const staticBlogs: Blog[] = blogs.map(blog => ({
+          id: blog.id,
+          title: blog.title,
+          excerpt: blog.excerpt,
+          date: blog.date,
+          category: blog.category,
+          imageUrl: blog.imageUrl,
+          content: blog.content,
+          author: blog.author
+        }));
+
+        // Convert dynamic blogs to the same format
+        const formattedDynamicBlogs: Blog[] = (dynamicBlogs || []).map(blog => ({
+          id: blog.id,
+          title: blog.title,
+          excerpt: blog.description,
+          date: blog.date || new Date().toISOString(),
+          category: blog.category,
+          imageUrl: blog.image || placeholderImage,
+          author: blog.author
+        }));
+
+        // Combine and sort all blogs by date
+        const combinedBlogs = [...staticBlogs, ...formattedDynamicBlogs]
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+        setAllBlogs(combinedBlogs);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        // Fallback to static blogs only
+        setAllBlogs(blogs);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllBlogs();
+  }, []);
+
+  const filteredBlogs = activeFilter === "All"
+    ? allBlogs
+    : allBlogs.filter(blog => blog.category === activeFilter);
+
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
   const visibleBlogs = filteredBlogs.slice((currentPage - 1) * blogsPerPage, currentPage * blogsPerPage);
 
@@ -32,6 +93,11 @@ const BlogPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
+  };
+
+  const handleFilterChange = (category: string) => {
+    setActiveFilter(category);
+    setCurrentPage(1); // Reset to first page when filter changes
   };
 
   return (
@@ -59,32 +125,56 @@ const BlogPage = () => {
             </div>
             <div className="flex flex-wrap gap-2 mt-4 md:mt-0">
               {["All", "Nutrition", "Diet", "Fitness", "Wellness", "Health"].map(category => (
-                <Button 
+                <Button
                   key={category}
-                  variant={activeFilter === category ? "default" : "outline"} 
+                  variant={activeFilter === category ? "default" : "outline"}
                   className="text-sm"
-                  onClick={() => setActiveFilter(category)}
+                  onClick={() => handleFilterChange(category)}
+                  disabled={loading}
                 >
                   {category}
                 </Button>
               ))}
             </div>
           </div>
-          
-          {visibleBlogs.length > 0 ? (
+
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="bg-background rounded-xl overflow-hidden shadow-md">
+                  <Skeleton className="h-56 w-full" />
+                  <div className="p-6">
+                    <div className="flex justify-between items-center mb-2">
+                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-4 w-16" />
+                    </div>
+                    <Skeleton className="h-6 w-3/4 mb-3" />
+                    <Skeleton className="h-4 w-full mb-2" />
+                    <Skeleton className="h-4 w-full mb-2" />
+                    <Skeleton className="h-4 w-2/3 mb-4" />
+                    <Skeleton className="h-4 w-20" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : visibleBlogs.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {visibleBlogs.map((blog) => (
                 <div key={blog.id} className="bg-background rounded-xl overflow-hidden shadow-md card-hover">
                   <div className="h-56 bg-muted overflow-hidden">
-                    <img 
-                      src={blog.imageUrl} 
-                      alt={blog.title} 
+                    <img
+                      src={blog.imageUrl}
+                      alt={blog.title}
                       className="w-full h-full object-cover transition-transform hover:scale-105"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = placeholderImage;
+                      }}
                     />
                   </div>
                   <div className="p-6">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-foreground/60">{blog.date}</span>
+                      <span className="text-sm text-foreground/60">{new Date(blog.date).toLocaleDateString()}</span>
                       <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">{blog.category}</span>
                     </div>
                     <h3 className="text-xl font-semibold mb-3">{blog.title}</h3>
