@@ -6,6 +6,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import Index from "./pages/Index";
 import BlogPage from "./pages/BlogPage";
 import ContentDetailPage from "./pages/ContentDetailPage";
+import BlogDebugPage from "./pages/BlogDebugPage";
 import RecipePage from "./pages/RecipePage";
 import RecipeDetailPage from "./pages/RecipeDetailPage";
 import ToolsPage from "./pages/ToolsPage";
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:id" element={<ContentDetailPage />} />
+        <Route path="/blog-debug" element={<BlogDebugPage />} />
         <Route path="/recipes" element={<RecipePage />} />
         <Route path="/recipes/:id" element={<RecipeDetailPage />} />
         <Route path="/tools" element={<ToolsPage />} />
