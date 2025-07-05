@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { blogs } from "@/data/blogs";
+import FAQInteraction from "@/components/FAQInteraction";
+import SEOOptimizer from "@/components/SEOOptimizer";
 
 interface Content {
   id: string;
@@ -54,6 +56,35 @@ const ContentDetailPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOOptimizer
+        title={content.title}
+        description={content.excerpt}
+        keywords="Daily protein intake India, ICMR protein guidelines, best Indian protein foods, vegetarian protein sources India, high protein Indian meals, protein combining, protein deficiency, protein FAQs India"
+        image={content.imageUrl}
+        url={`/blog/${content.id}`}
+        type="article"
+        publishedTime={content.date}
+        author={content.author}
+        schemaType="Article"
+        schemaData={{
+          headline: content.title,
+          description: content.excerpt,
+          image: content.imageUrl,
+          author: content.author,
+          datePublished: content.date,
+          dateModified: content.date,
+          publisher: "DietaryGuide",
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": `${window.location.origin}/blog/${content.id}`
+          }
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Blog", url: "/blog" },
+          { name: content.title, url: `/blog/${content.id}` }
+        ]}
+      />
       <Navbar />
       <div className="container mx-auto px-4 py-16 flex-1">
         <Button variant="ghost" className="mb-8" onClick={goBack}>
@@ -69,11 +100,13 @@ const ContentDetailPage = () => {
               <span className="flex items-center gap-2"><Calendar className="w-4 h-4" /> {content.date}</span>
               {content.author && <span className="flex items-center gap-2"><User className="w-4 h-4" /> {content.author}</span>}
               {content.category && <span className="flex items-center gap-2"><Tag className="w-4 h-4" /> {content.category}</span>}
+              {content.readingTime && <span className="flex items-center gap-2">📖 {content.readingTime}</span>}
             </div>
             <div
               className="blog-article max-w-none text-foreground/90"
               dangerouslySetInnerHTML={{ __html: content.content || "" }}
             />
+            <FAQInteraction />
           </div>
         </div>
       </div>

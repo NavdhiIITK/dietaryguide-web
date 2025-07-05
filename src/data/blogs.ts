@@ -7,9 +7,101 @@ export interface Blog {
   imageUrl: string;
   content?: string;
   author?: string;
+  readingTime?: string;
 }
 
 export const blogs: Blog[] = [
+  {
+    id: "protein-power",
+    title: "Protein Power: Meet Your Daily Protein Needs with Indian Foods",
+    excerpt: "Learn about the importance of protein, ICMR dietary recommendations, and the best vegetarian and non‑vegetarian Indian protein sources. Discover complete protein combinations, high‑protein Indian meals, and FAQs on protein intake.",
+    date: "2025-01-15",
+    category: "Nutrition",
+    imageUrl: "/images/protein-power-hero.jpg",
+    content: `
+<h2>💪 Why Protein Is Essential for Indian Diets</h2>
+<p>Protein plays a vital role in muscle repair, hormone production, immunity, and overall cellular health. Since the <strong>body doesn't store protein</strong> long-term, daily intake is crucial. In India, where diets often rely heavily on carbohydrates, <em>protein deficiency</em> is widespread—urban adults typically consume only ~47 g/day, below ICMR norms of 55–60 g/day.</p>
+
+<h2>🔬 ICMR Protein Recommendations (2020)</h2>
+<ul>
+  <li><strong>Adult sedentary male:</strong> 60 g/day (~0.8–1 g/kg body weight)</li>
+  <li><strong>Adult sedentary female:</strong> 55 g/day</li>
+  <li>Higher needs for athletes, pregnant/lactating women, teens, elderly</li>
+</ul>
+
+<div class="highlight">
+  <p>Studies show protein intake in India contributes only ~6–8% of daily calories, far below the recommended 29%—leading to protein-energy malnutrition risks among children and adults.</p>
+</div>
+
+<h2>🍽️ Top Vegetarian & Non-Vegetarian Protein Sources in India</h2>
+
+<table>
+  <thead><tr><th>Food</th><th>Protein per 100 g</th></tr></thead>
+  <tbody>
+    <tr><td>Tofu</td><td>10 g</td></tr>
+    <tr><td>Paneer (low-fat)</td><td>18 g</td></tr>
+    <tr><td>Cooked dal (moong, masoor, etc.)</td><td>7 g</td></tr>
+    <tr><td>Chickpeas (boiled)</td><td>9 g</td></tr>
+    <tr><td>Soy chunks (dry)</td><td>52 g</td></tr>
+    <tr><td>Sprouted moong</td><td>13 g</td></tr>
+    <tr><td>Paneer/tofu-stuffed roti</td><td>up to 18 g</td></tr>
+    <tr><td>Egg (large)</td><td>6 g</td></tr>
+    <tr><td>Chicken breast (cooked)</td><td>27 g</td></tr>
+    <tr><td>Fish (rohu/tuna)</td><td>20–25 g</td></tr>
+  </tbody>
+</table>
+
+<h2>🌾 Complete Protein Combinations & Protein Quality</h2>
+<p>Plant‑based proteins often lack certain essential amino acids. Combining foods creates complete proteins:</p>
+<ul>
+  <li><strong>Dal + Rice, Rajma + Roti, Chole + Quinoa</strong>—traditional Indian combos achieve 9 essential AAs.</li>
+  <li><strong>Besan or soy flour in chapatis</strong> boosts protein by ~20–52 g/100 g.</li>
+</ul>
+
+<h2>🍛 High‑Protein Indian Meal Ideas</h2>
+<ul>
+  <li><strong>Breakfast:</strong> Besan cheela + peanut chutney + almond milk</li>
+  <li><strong>Lunch:</strong> Soya chunk pulao or chole with bajra roti</li>
+  <li><strong>Dinner:</strong> Grilled chicken/fish curry + millet/quinoa + sprouts salad</li>
+  <li><strong>Snack:</strong> Sprouted moong chaat or boiled egg or roasted peanuts</li>
+</ul>
+
+<h2>📥 Protein Checklist (Printable PDF)</h2>
+<a href="/downloads/protein-checklist.pdf" class="checklist-link" download>📄 Download High‑Protein Checklist</a>
+
+<h2>❓ Frequently Asked Questions (FAQs)</h2>
+<div class="faq-section">
+  <div class="faq-item">
+    <div class="faq-question">1. How much protein do I need daily?</div>
+    <div class="faq-answer">ICMR recommends 0.8–1 g per kg of body weight—so a 60 kg person needs 48–60 g/day.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">2. Is plant protein inferior to animal protein?</div>
+    <div class="faq-answer">No—plant proteins can be complete when combined properly (e.g. dal + rice, rajma + roti).</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">3. Can high protein harm my kidneys?</div>
+    <div class="faq-answer">For healthy adults, moderate high-protein diets (≤1 g/kg) are safe; excess intake may strain kidneys, especially with dehydration or existing kidney issues.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">4. When should I consume protein?</div>
+    <div class="faq-answer">Aim for 20–30 g per meal across the day—spreading intake supports muscle maintenance and satiety.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">5. Do I need protein supplements?</div>
+    <div class="faq-answer">Most Indians can meet requirements through whole foods (dal, soya chunks, eggs, chicken). Supplements are only needed for athletes, illness recovery, or as advised.</div>
+  </div>
+</div>
+
+<h2>🧘 Final Takeaway</h2>
+<p>By using SEO keywords like "Daily protein intake India", "best Indian protein foods", and "high protein Indian meals", this article is optimized for top search ranking. Remember: combine grains and pulses, include eggs/chicken/fish if non‑veg, and distribute protein evenly. Consistency wins over perfection!</p>
+
+<h2>📸 Image Prompt</h2>
+<p><strong>Prompt:</strong> "Assorted protein-rich Indian foods: paneer, dal, eggs, chicken, tofu, and sprouts arranged on a rustic kitchen counter, top-down angle, natural lighting, food photography aesthetic."</p>
+`,
+    author: "Team DietaryGuide",
+    readingTime: "8 min read"
+  },
   {
     id: "b3b8a1e2-8c2d-4e2a-9c1a-2b3c4d5e6f7a",
     title: "Why Protein Alone Isn't Enough",
@@ -161,4 +253,92 @@ Eat smart, stay healthy, and don't be fooled by the hype!`,
 `,
     author: "Team DietaryGuide",
   },
+  {
+    id: "fiber-first-india-2025",
+    title: "Fiber First: Boost Your Gut Health with Indian Foods",
+    excerpt: "Discover the importance of dietary fiber, ICMR recommendations, and the best Indian sources of soluble and insoluble fiber. Learn about gut health benefits, high-fiber Indian meals, and get answers to common fiber FAQs.",
+    date: "2025-07-05",
+    imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+    content: `
+<h2>🌱 Why Fiber Matters for Indian Diets</h2>
+<p>Dietary fiber is crucial for digestive health, blood sugar control, and heart health. Yet, <strong>most Indians consume only 15–20 g/day</strong>, far below the ICMR's recommended 30–40 g/day. Low fiber intake is linked to constipation, diabetes, and rising gut health issues in urban India.</p>
+
+<h2>📊 ICMR Fiber Recommendations (2020)</h2>
+<ul>
+  <li><strong>Adult male:</strong> 40 g/day</li>
+  <li><strong>Adult female:</strong> 30 g/day</li>
+  <li>Higher needs for those with diabetes, heart disease, or digestive issues</li>
+</ul>
+
+<div class="highlight">
+  <p>Studies show that <strong>refined grains</strong> and processed foods dominate Indian diets, reducing fiber intake and increasing risk of chronic diseases. Whole grains, pulses, fruits, and vegetables are the best way to meet fiber needs.</p>
+</div>
+
+<h2>🥗 Top Indian High-Fiber Foods</h2>
+<table>
+  <thead><tr><th>Food</th><th>Fiber per 100 g</th></tr></thead>
+  <tbody>
+    <tr><td>Whole wheat flour (atta)</td><td>12 g</td></tr>
+    <tr><td>Oats</td><td>10 g</td></tr>
+    <tr><td>Chana dal (split chickpeas)</td><td>17 g</td></tr>
+    <tr><td>Rajma (kidney beans, boiled)</td><td>6 g</td></tr>
+    <tr><td>Guava</td><td>5 g</td></tr>
+    <tr><td>Carrot</td><td>3 g</td></tr>
+    <tr><td>Apple (with skin)</td><td>2.5 g</td></tr>
+    <tr><td>Drumstick (moringa)</td><td>4 g</td></tr>
+    <tr><td>Brown rice (cooked)</td><td>2 g</td></tr>
+    <tr><td>Flaxseeds</td><td>27 g</td></tr>
+  </tbody>
+</table>
+
+<h2>🔬 Soluble vs Insoluble Fiber: What's the Difference?</h2>
+<p>
+  <strong>Soluble fiber</strong> (oats, fruits, dal) helps lower cholesterol and control blood sugar. <strong>Insoluble fiber</strong> (whole wheat, vegetables, bran) adds bulk to stool and prevents constipation. A mix of both is ideal for gut health.
+</p>
+<ul>
+  <li><strong>Soluble:</strong> Oats, apples, citrus, dal, psyllium husk (isabgol)</li>
+  <li><strong>Insoluble:</strong> Wheat bran, brown rice, carrots, beans, cauliflower</li>
+</ul>
+
+<h2>🍛 High-Fiber Indian Meal Ideas</h2>
+<ul>
+  <li><strong>Breakfast:</strong> Oats upma with veggies + guava slices</li>
+  <li><strong>Lunch:</strong> Brown rice + rajma + carrot salad</li>
+  <li><strong>Dinner:</strong> Whole wheat roti + chana dal + stir-fried moringa</li>
+  <li><strong>Snack:</strong> Roasted chana or flaxseed laddoo</li>
+</ul>
+
+<h2>📥 Fiber Checklist (Printable PDF)</h2>
+<a href="your-fiber-checklist.pdf" class="checklist-link" download>📄 Download High-Fiber Checklist</a>
+
+<h2>❓ Frequently Asked Questions (FAQs)</h2>
+<div class="faq">
+  <div class="faq-question">1. How much fiber do I need daily?</div>
+  <div class="faq-answer">ICMR recommends 30–40 g per day for adults, depending on gender and health status.</div>
+</div>
+<div class="faq">
+  <div class="faq-question">2. Can too much fiber cause problems?</div>
+  <div class="faq-answer">Sudden high fiber intake may cause bloating or gas. Increase gradually and drink plenty of water.</div>
+</div>
+<div class="faq">
+  <div class="faq-question">3. What are the best sources of fiber for vegetarians?</div>
+  <div class="faq-answer">Whole grains, pulses, fruits (guava, apple), vegetables (carrot, drumstick), and seeds (flaxseed, chia).</div>
+</div>
+<div class="faq">
+  <div class="faq-question">4. Does fiber help with weight loss?</div>
+  <div class="faq-answer">Yes, fiber increases satiety, helps control appetite, and supports healthy weight management.</div>
+</div>
+<div class="faq">
+  <div class="faq-question">5. Is fiber important for children?</div>
+  <div class="faq-answer">Absolutely! Children need fiber for healthy digestion and growth. Offer fruits, veggies, and whole grains daily.</div>
+</div>
+
+<h2>🧘 Final Takeaway</h2>
+<p>By using SEO keywords like "Daily fiber intake India", "best Indian fiber foods", and "high fiber Indian meals", this article is optimized for search ranking. Remember: choose whole grains, add pulses and veggies, and hydrate well for a happy gut!</p>
+
+<h2>📸 Image Prompt</h2>
+<p><strong>Prompt:</strong> "A vibrant spread of Indian high-fiber foods: whole wheat rotis, dal, brown rice, guava, carrots, and flaxseeds on a wooden table, top-down view, natural daylight, healthy food photography."</p>
+`,
+    author: "Team DietaryGuide"
+  }
 ]; 

@@ -24,7 +24,7 @@ const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
 
-  const filteredBlogs = blogs; // No filtering by category in CSV, but can add if needed
+  const filteredBlogs = [...blogs].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
   const visibleBlogs = filteredBlogs.slice((currentPage - 1) * blogsPerPage, currentPage * blogsPerPage);
 

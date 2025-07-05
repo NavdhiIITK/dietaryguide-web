@@ -156,6 +156,78 @@
   box-shadow: 0 2px 8px 0 rgba(30,41,59,0.10) !important;
 }
 
+.blog-article .faq-section, .blog-article .prose .faq-section {
+  margin: 2.5rem 0 !important;
+}
+
+.blog-article .faq-item, .blog-article .prose .faq-item {
+  background: #1e293b !important;
+  border: 1.5px solid #26313f !important;
+  border-radius: 12px !important;
+  margin-bottom: 1rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px 0 rgba(30,41,59,0.10) !important;
+}
+
+.blog-article .faq-question, .blog-article .prose .faq-question {
+  background: #26313f !important;
+  color: #4ade80 !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  padding: 1.2rem 1.5rem !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+}
+
+.blog-article .faq-question::after, .blog-article .prose .faq-question::after {
+  content: '▼' !important;
+  position: absolute !important;
+  right: 1.5rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-size: 0.8rem !important;
+  transition: transform 0.2s ease !important;
+}
+
+.blog-article .faq-question.expanded::after, .blog-article .prose .faq-question.expanded::after {
+  transform: translateY(-50%) rotate(180deg) !important;
+}
+
+.blog-article .faq-question:hover, .blog-article .prose .faq-question:hover {
+  background: #2d3748 !important;
+}
+
+.blog-article .faq-answer, .blog-article .prose .faq-answer {
+  color: #e5e7eb !important;
+  font-size: 1.05rem !important;
+  padding: 1.2rem 1.5rem !important;
+  margin: 0 !important;
+  line-height: 1.7 !important;
+  border-top: 1px solid #26313f !important;
+}
+
+.blog-article .checklist-link, .blog-article .prose .checklist-link {
+  display: inline-block !important;
+  background: #4ade80 !important;
+  color: #064e3b !important;
+  text-decoration: none !important;
+  padding: 12px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 1.05rem !important;
+  margin: 1rem 0 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 8px 0 rgba(74, 222, 128, 0.2) !important;
+}
+
+.blog-article .checklist-link:hover, .blog-article .prose .checklist-link:hover {
+  background: #22c55e !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px 0 rgba(74, 222, 128, 0.3) !important;
+}
+
 .blog-article .section-divider {
   border-top: 1.5px solid #26313f !important;
   margin: 2.5rem 0 !important;
@@ -188,5 +260,17 @@
   }
   .blog-article table, .blog-article .prose table {
     font-size: 0.95rem !important;
+  }
+  .blog-article .faq-question, .blog-article .prose .faq-question {
+    font-size: 1rem !important;
+    padding: 1rem 1.2rem !important;
+  }
+  .blog-article .faq-answer, .blog-article .prose .faq-answer {
+    font-size: 0.95rem !important;
+    padding: 1rem 1.2rem !important;
+  }
+  .blog-article .checklist-link, .blog-article .prose .checklist-link {
+    font-size: 0.95rem !important;
+    padding: 10px 16px !important;
   }
 } 
