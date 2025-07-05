@@ -1,5 +1,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { BlogPost, CreateBlogPost, UpdateBlogPost } from '@/types/blog';
+import { blogs } from '@/data/blogs';
 
 // Helper function to generate slug from title
 export function generateSlug(title: string): string {
@@ -28,33 +29,111 @@ export function generateSnippet(content: string, maxLength: number = 160): strin
 
 // Fetch all published blog posts
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('published', true)
-    .order('created_at', { ascending: false });
+  try {
+    // First try to get posts from the new posts table
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('published', true)
+      .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Error fetching blog posts:', error);
-    throw error;
+    if (error) {
+      console.warn('Error fetching from posts table, falling back to legacy data:', error);
+    }
+
+    // Convert new posts format
+    const newPosts = (data || []).map(post => ({
+      id: post.id,
+      title: post.title,
+      slug: post.slug,
+      subtitle: post.subtitle,
+      author: {
+        name: post.author_name,
+        avatarUrl: post.author_avatar
+      },
+      image: post.image,
+      created_at: post.created_at,
+      tags: post.tags || [],
+      snippet: post.snippet,
+      reading_time: post.reading_time,
+      content: post.content
+    }));
+
+    // Fallback to existing blog data if no new posts
+    if (newPosts.length === 0) {
+      console.log('No posts in new table, using legacy blog data');
+
+      // Try to get from auto_blogs table (existing system)
+      const { data: autoBlogsData, error: autoBlogsError } = await supabase
+        .from('auto_blogs')
+        .select('*')
+        .eq('is_published', true)
+        .order('created_at', { ascending: false });
+
+      const autoBlogs = (autoBlogsData || []).map(post => ({
+        id: post.id,
+        title: post.title,
+        slug: post.id, // Use ID as slug for auto blogs
+        subtitle: post.description,
+        author: {
+          name: post.author || 'Team DietaryGuide',
+          avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+        },
+        image: post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+        created_at: post.created_at || post.date,
+        tags: post.category ? [post.category] : [],
+        snippet: post.description,
+        reading_time: 5,
+        content: post.content || post.description
+      }));
+
+      // Also include static blogs
+      const staticBlogs = blogs.map(blog => ({
+        id: blog.id,
+        title: blog.title,
+        slug: blog.id,
+        subtitle: blog.excerpt,
+        author: {
+          name: blog.author || 'Team DietaryGuide',
+          avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+        },
+        image: blog.imageUrl,
+        created_at: blog.date,
+        tags: blog.category ? [blog.category] : [],
+        snippet: blog.excerpt,
+        reading_time: calculateReadingTime(blog.content || blog.excerpt),
+        content: blog.content || blog.excerpt
+      }));
+
+      // Combine and sort all legacy blogs
+      const allLegacyBlogs = [...autoBlogs, ...staticBlogs]
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+      return allLegacyBlogs;
+    }
+
+    return newPosts;
+  } catch (error) {
+    console.error('Error fetching blog posts, falling back to static blogs:', error);
+
+    // Final fallback to static blogs only
+    return blogs.map(blog => ({
+      id: blog.id,
+      title: blog.title,
+      slug: blog.id,
+      subtitle: blog.excerpt,
+      author: {
+        name: blog.author || 'Team DietaryGuide',
+        avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+      },
+      image: blog.imageUrl,
+      created_at: blog.date,
+      tags: blog.category ? [blog.category] : [],
+      snippet: blog.excerpt,
+      reading_time: calculateReadingTime(blog.content || blog.excerpt),
+      content: blog.content || blog.excerpt
+    }));
   }
-
-  return data.map(post => ({
-    id: post.id,
-    title: post.title,
-    slug: post.slug,
-    subtitle: post.subtitle,
-    author: {
-      name: post.author_name,
-      avatarUrl: post.author_avatar
-    },
-    image: post.image,
-    created_at: post.created_at,
-    tags: post.tags || [],
-    snippet: post.snippet,
-    reading_time: post.reading_time,
-    content: post.content
-  }));
 }
 
 // Fetch a single blog post by slug

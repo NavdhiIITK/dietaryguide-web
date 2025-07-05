@@ -1,29 +1,26 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  User, 
-  signInWithPopup, 
-  signOut, 
-  onAuthStateChanged,
-  GoogleAuthProvider 
+import {
+  User,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
 } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
+import { useToast } from '@/hooks/use-toast';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
   signOutUser: () => Promise<void>;
-  isAuthorized: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Authorized email for admin access
-const AUTHORIZED_EMAIL = 'admin@dietaryguide.in';
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -34,39 +31,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const signInWithGoogle = async () => {
+  const signIn = async (email: string, password: string) => {
+    setLoading(true);
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      
-      // Check if the user's email is authorized
-      if (user.email !== AUTHORIZED_EMAIL) {
-        await signOut(auth);
-        throw new Error('Unauthorized email. Only admin@dietaryguide.in is allowed.');
-      }
-    } catch (error) {
-      console.error('Error signing in with Google:', error);
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      console.error('Error signing in:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Authentication Error',
+        description: error.code === 'auth/invalid-credential' ? 'Invalid email or password.' : error.message,
+      });
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const signOutUser = async () => {
     try {
       await signOut(auth);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error signing out:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Sign Out Error',
+        description: error.message,
+      });
       throw error;
     }
   };
 
-  const isAuthorized = user?.email === AUTHORIZED_EMAIL;
-
   const value = {
     user,
     loading,
-    signInWithGoogle,
-    signOutUser,
-    isAuthorized
+    signIn,
+    signOutUser
   };
 
   return (

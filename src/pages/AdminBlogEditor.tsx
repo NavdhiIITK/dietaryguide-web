@@ -21,7 +21,7 @@ import { useToast } from '@/hooks/use-toast';
 const AdminBlogEditor = () => {
   const { slug } = useParams<{ slug?: string }>();
   const navigate = useNavigate();
-  const { user, isAuthorized, signOutUser } = useAuth();
+  const { user, signOutUser } = useAuth();
   const { toast } = useToast();
 
   const [post, setPost] = useState<BlogPost | null>(null);
@@ -40,7 +40,7 @@ const AdminBlogEditor = () => {
   const isEditing = !!slug;
 
   useEffect(() => {
-    if (!user || !isAuthorized) {
+    if (!user) {
       navigate('/admin_blog_maker_editor/login');
       return;
     }
@@ -48,7 +48,7 @@ const AdminBlogEditor = () => {
     if (isEditing && slug) {
       fetchPost();
     }
-  }, [user, isAuthorized, slug, isEditing, navigate]);
+  }, [user, slug, isEditing, navigate]);
 
   const fetchPost = async () => {
     if (!slug) return;
@@ -195,7 +195,7 @@ const AdminBlogEditor = () => {
     }
   };
 
-  if (!user || !isAuthorized) {
+  if (!user) {
     return null;
   }
 

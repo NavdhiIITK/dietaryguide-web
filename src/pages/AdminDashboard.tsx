@@ -20,20 +20,20 @@ import { useToast } from '@/hooks/use-toast';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { user, isAuthorized, signOutUser } = useAuth();
+  const { user, signOutUser } = useAuth();
   const { toast } = useToast();
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user || !isAuthorized) {
+    if (!user) {
       navigate('/admin_blog_maker_editor/login');
       return;
     }
 
     fetchPosts();
-  }, [user, isAuthorized, navigate]);
+  }, [user, navigate]);
 
   const fetchPosts = async () => {
     try {
@@ -63,7 +63,7 @@ const AdminDashboard = () => {
     window.open(`/blog/${slug}`, '_blank');
   };
 
-  if (!user || !isAuthorized) {
+  if (!user) {
     return null;
   }
 
