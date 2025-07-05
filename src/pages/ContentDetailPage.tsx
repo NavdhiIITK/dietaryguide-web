@@ -32,14 +32,22 @@ const ContentDetailPage = () => {
   useEffect(() => {
     const fetchContent = async () => {
       if (!id) {
+        console.log("No ID provided");
         setLoading(false);
         return;
       }
+
+      console.log("Looking for blog with ID:", id);
+      console.log("Available static blog IDs:", blogs.map(b => b.id));
 
       // First, try to find the article in the static blogs array
       const staticBlog = blogs.find(article => article.id === id);
 
       if (staticBlog) {
+        console.log("Found static blog:", staticBlog.title);
+        console.log("Content length:", staticBlog.content?.length || 0);
+        console.log("Content preview:", staticBlog.content?.substring(0, 100));
+
         setContent({
           id: staticBlog.id,
           title: staticBlog.title,
@@ -191,10 +199,29 @@ const ContentDetailPage = () => {
               {content.category && <span className="flex items-center gap-2"><Tag className="w-4 h-4" /> {content.category}</span>}
               {content.readingTime && <span className="flex items-center gap-2">📖 {content.readingTime}</span>}
             </div>
-            <div
-              className="blog-article max-w-none text-foreground/90"
-              dangerouslySetInnerHTML={{ __html: content.content || "" }}
-            />
+            {content.content ? (
+              <div
+                className="blog-article max-w-none text-foreground/90"
+                dangerouslySetInnerHTML={{ __html: content.content }}
+              />
+            ) : (
+              <div className="blog-article max-w-none text-foreground/90">
+                <p className="text-red-400">No content available for this article.</p>
+                <p className="text-gray-400 mt-2">Content ID: {content.id}</p>
+                <p className="text-gray-400">Title: {content.title}</p>
+              </div>
+            )}
+
+            {/* Debug info - always show for now */}
+            <div className="mt-4 p-4 bg-gray-800 text-white text-sm rounded">
+              <p><strong>Debug Info:</strong></p>
+              <p>Content length: {content.content?.length || 0}</p>
+              <p>Has content: {!!content.content}</p>
+              <p>Content type: {typeof content.content}</p>
+              {content.content && (
+                <p>Content preview: {content.content.substring(0, 200)}...</p>
+              )}
+            </div>
             <FAQInteraction />
           </div>
         </div>
@@ -202,71 +229,83 @@ const ContentDetailPage = () => {
       <Footer />
       <style>{`
         .blog-article {
-          text-align: left;
-          line-height: 1.7;
-          color: inherit;
+          text-align: left !important;
+          line-height: 1.7 !important;
+          color: #e5e7eb !important;
+          font-size: 16px !important;
+        }
+        .blog-article * {
+          color: #e5e7eb !important;
         }
         .blog-article h1, .blog-article h2, .blog-article h3, .blog-article h4, .blog-article h5, .blog-article h6 {
-          margin-top: 2rem;
-          margin-bottom: 1rem;
-          font-weight: 600;
-          color: inherit;
+          margin-top: 2rem !important;
+          margin-bottom: 1rem !important;
+          font-weight: 600 !important;
+          color: #f3f4f6 !important;
         }
         .blog-article h2 {
-          font-size: 1.5rem;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          padding-bottom: 0.5rem;
+          font-size: 1.5rem !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          padding-bottom: 0.5rem !important;
+          color: #22c55e !important;
         }
         .blog-article h3 {
-          font-size: 1.25rem;
+          font-size: 1.25rem !important;
+          color: #22c55e !important;
         }
         .blog-article p {
-          margin-bottom: 1rem;
-          color: inherit;
+          margin-bottom: 1rem !important;
+          color: #e5e7eb !important;
+          line-height: 1.7 !important;
         }
         .blog-article ul, .blog-article ol {
-          margin-bottom: 1rem;
-          padding-left: 1.5rem;
+          margin-bottom: 1rem !important;
+          padding-left: 1.5rem !important;
         }
         .blog-article li {
-          margin-bottom: 0.5rem;
-          color: inherit;
+          margin-bottom: 0.5rem !important;
+          color: #e5e7eb !important;
         }
         .blog-article table {
-          width: 100%;
-          border-collapse: collapse;
-          margin: 1rem 0;
+          width: 100% !important;
+          border-collapse: collapse !important;
+          margin: 1rem 0 !important;
         }
         .blog-article th, .blog-article td {
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          padding: 0.75rem;
-          text-align: left;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          padding: 0.75rem !important;
+          text-align: left !important;
+          color: #e5e7eb !important;
         }
         .blog-article th {
-          background-color: rgba(255, 255, 255, 0.1);
-          font-weight: 600;
+          background-color: rgba(255, 255, 255, 0.1) !important;
+          font-weight: 600 !important;
+          color: #f3f4f6 !important;
         }
         .blog-article .highlight {
-          background-color: rgba(34, 197, 94, 0.1);
-          border-left: 4px solid #22c55e;
-          padding: 1rem;
-          margin: 1rem 0;
-          border-radius: 0.5rem;
+          background-color: rgba(34, 197, 94, 0.1) !important;
+          border-left: 4px solid #22c55e !important;
+          padding: 1rem !important;
+          margin: 1rem 0 !important;
+          border-radius: 0.5rem !important;
         }
         .blog-article .day-plan {
-          background-color: rgba(255, 255, 255, 0.05);
-          padding: 1rem;
-          margin: 0.5rem 0;
-          border-radius: 0.5rem;
-          border-left: 3px solid #22c55e;
+          background-color: rgba(255, 255, 255, 0.05) !important;
+          padding: 1rem !important;
+          margin: 0.5rem 0 !important;
+          border-radius: 0.5rem !important;
+          border-left: 3px solid #22c55e !important;
         }
         .blog-article strong {
-          font-weight: 600;
-          color: #22c55e;
+          font-weight: 600 !important;
+          color: #22c55e !important;
         }
         .blog-article em {
-          font-style: italic;
-          color: #fbbf24;
+          font-style: italic !important;
+          color: #fbbf24 !important;
+        }
+        .blog-article div {
+          color: #e5e7eb !important;
         }
       `}</style>
     </div>
