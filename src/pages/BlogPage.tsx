@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Clock } from "lucide-react";
 import { blogs } from "@/data/blogs";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -23,36 +24,63 @@ const placeholderImage = "https://images.unsplash.com/photo-1490645935967-10de6b
 
 const filterTags = ['All', 'Nutrition', 'Diet', 'Fitness', 'Wellness', 'Health'];
 
-// BlogCard component for modularity
+// Enhanced BlogCard component for modularity
 function BlogCard({ blog }) {
   return (
     <a
       href={`/blog/${blog.id}`}
-      className="bg-background rounded-2xl shadow-lg hover:shadow-2xl transition-shadow flex flex-col overflow-hidden group cursor-pointer"
+      className="group block bg-background rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-border/50 hover:border-primary/30"
     >
-      <div className="relative h-48 w-full overflow-hidden">
-        <img
-          src={blog.imageUrl}
-          alt={blog.title}
-          className="w-full h-full object-cover"
-        />
-        {blog.category && (
-          <span className="absolute top-4 left-4 bg-green-600/90 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-            {blog.category}
-          </span>
-        )}
-      </div>
-      <div className="p-6 flex flex-col flex-1">
-        <div className="flex items-center text-xs text-muted-foreground mb-2 gap-2">
-          <span>{blog.author || 'Team DietaryGuide'}</span>
-          <span className="mx-1">·</span>
-          <span>{new Date(blog.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+      <div className="flex flex-col gap-4">
+        <div className="relative h-56 w-full overflow-hidden">
+          <img
+            src={blog.imageUrl}
+            alt={blog.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          {blog.category && (
+            <span className="absolute top-4 left-4 bg-primary/90 text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm">
+              {blog.category}
+            </span>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
-        <h3 className="font-headline text-xl font-bold mb-1 group-hover:text-primary transition-colors leading-tight">
-          {blog.title}
-        </h3>
-        <p className="text-base text-foreground/80 mb-4 line-clamp-2">{blog.excerpt}</p>
-        <span className="mt-auto text-primary font-semibold hover:underline">Read More →</span>
+        
+        <div className="p-6 flex flex-col gap-3">
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-foreground/80">{blog.author || 'Team DietaryGuide'}</span>
+            </div>
+            <time dateTime={blog.date} className="text-xs">
+              {new Date(blog.date).toLocaleDateString("en-US", { 
+                month: "short", 
+                day: "numeric", 
+                year: "numeric" 
+              })}
+            </time>
+          </div>
+          
+          <h3 className="font-headline text-xl leading-snug group-hover:text-primary transition-colors font-bold">
+            {blog.title}
+          </h3>
+          
+          <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+            {blog.excerpt}
+          </p>
+          
+          {blog.readingTime && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2">
+              <Clock className="h-3 w-3" />
+              <span>{blog.readingTime}</span>
+            </div>
+          )}
+          
+          <div className="mt-4 pt-4 border-t border-border/30">
+            <span className="text-primary font-semibold text-sm group-hover:underline transition-colors">
+              Read More →
+            </span>
+          </div>
+        </div>
       </div>
     </a>
   );

@@ -101,20 +101,45 @@ const BlogDetailPage = () => {
   };
 
   const extractFAQ = (content: string) => {
+    // First try the old format with [FAQ] tags
     const contentParts = content.split('[FAQ]');
-    const mainContent = contentParts[0];
-    const faqContent = contentParts.length > 1 ? contentParts[1].replace('[/FAQ]', '').trim() : null;
+    if (contentParts.length > 1) {
+      const mainContent = contentParts[0];
+      const faqContent = contentParts[1].replace('[/FAQ]', '').trim();
 
-    const faqItems = faqContent
-      ? faqContent.split('--').map((qa) => {
-          const parts = qa.trim().split('\n');
-          const question = parts[0]?.replace('Q: ', '').trim() || '';
-          const answer = parts.slice(1).join('\n').replace('A: ', '').trim() || '';
-          return { question, answer };
-        }).filter(item => item.question && item.answer)
-      : [];
+      const faqItems = faqContent
+        ? faqContent.split('--').map((qa) => {
+            const parts = qa.trim().split('\n');
+            const question = parts[0]?.replace('Q: ', '').trim() || '';
+            const answer = parts.slice(1).join('\n').replace('A: ', '').trim() || '';
+            return { question, answer };
+          }).filter(item => item.question && item.answer)
+        : [];
 
-    return { mainContent, faqItems };
+      return { mainContent, faqItems };
+    }
+
+    // Try to extract FAQ from HTML content with faq-section class
+    const faqSectionMatch = content.match(/<section class="faq-section">([\s\S]*?)<\/section>/i);
+    if (faqSectionMatch) {
+      const faqSection = faqSectionMatch[1];
+      const mainContent = content.replace(/<section class="faq-section">[\s\S]*?<\/section>/i, '');
+      
+      // Extract FAQ items from the HTML structure
+      const faqItemMatches = faqSection.match(/<div class="faq-q">([^<]+)<\/div>\s*<div class="faq-a">([^<]+)<\/div>/gi);
+      const faqItems = faqItemMatches ? faqItemMatches.map(match => {
+        const questionMatch = match.match(/<div class="faq-q">([^<]+)<\/div>/i);
+        const answerMatch = match.match(/<div class="faq-a">([^<]+)<\/div>/i);
+        return {
+          question: questionMatch ? questionMatch[1].trim() : '',
+          answer: answerMatch ? answerMatch[1].trim() : ''
+        };
+      }).filter(item => item.question && item.answer) : [];
+
+      return { mainContent, faqItems };
+    }
+
+    return { mainContent: content, faqItems: [] };
   };
 
   // Utility to remove AI image prompt and Final Takeaway blocks from HTML content
@@ -169,75 +194,157 @@ const BlogDetailPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="container mx-auto px-4 py-16 flex-1">
+      <div className="container mx-auto px-4 py-8 md:py-12 flex-1">
         <article className="max-w-4xl mx-auto">
+          {/* Back to Blog Link */}
+          <div className="mb-8">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/blog')} 
+              className="inline-flex items-center gap-2 text-primary hover:underline font-medium p-0 h-auto"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to all posts
+            </Button>
+          </div>
+
+          {/* Enhanced Header */}
           <header className="mb-8">
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-6">
               {blog.category && (
-                <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full border border-primary/50 font-medium">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
                   {blog.category}
                 </span>
               )}
             </div>
-            <h1 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-left">
+            
+            <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
               {blog.title}
             </h1>
-            {blog.excerpt && <p className="text-lg md:text-xl text-muted-foreground mt-2 text-left">{blog.excerpt}</p>}
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8">
+            
+            {blog.excerpt && (
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-3xl">
+                {blog.excerpt}
+              </p>
+            )}
+            
+            {/* Enhanced Author and Metadata */}
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 py-6 border-t border-b border-border/50">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10 ring-2 ring-primary/20">
                   <AvatarImage src="/images/avatar-placeholder.jpg" alt={blog.author || "Author"} />
-                  <AvatarFallback><User /></AvatarFallback>
+                  <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                    {blog.author ? blog.author.split(' ').map(n => n[0]).join('') : 'TD'}
+                  </AvatarFallback>
                 </Avatar>
-                <span className="font-medium text-foreground">{blog.author || "Team DietaryGuide"}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Calendar className="h-4 w-4" />
-                <time dateTime={blog.date}>{new Date(blog.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}</time>
-              </div>
-              {blog.readingTime && (
-                <div className="flex items-center gap-1.5">
-                  <Clock className="h-4 w-4" />
-                  <span>{blog.readingTime}</span>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-foreground">{blog.author || "Team DietaryGuide"}</span>
+                  <span className="text-sm text-muted-foreground">Nutrition Expert</span>
                 </div>
-              )}
+              </div>
+              
+              <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  <time dateTime={blog.date}>
+                    {new Date(blog.date).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </time>
+                </div>
+                {blog.readingTime && (
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    <span>{blog.readingTime}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </header>
 
-          <div className="relative w-full aspect-video rounded-lg overflow-hidden my-8 md:my-12 shadow-lg">
+          {/* Featured Image */}
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden my-8 md:my-12 shadow-2xl">
             <img
               src={blog.imageUrl}
               alt={blog.title}
               className="w-full h-full object-cover"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           </div>
 
-          {/* Render cleaned HTML content, left-aligned */}
-          <div className="blog-content text-left" dangerouslySetInnerHTML={{ __html: cleanedContent }} />
+          {/* Enhanced Content Rendering */}
+          <div className="prose prose-lg max-w-none">
+            <div 
+              className="blog-content text-left leading-relaxed" 
+              dangerouslySetInnerHTML={{ __html: cleanedContent }} 
+            />
+          </div>
           
+          {/* Key Takeaways Box */}
+          <div className="mt-12 p-6 bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl border border-primary/20">
+            <h3 className="font-headline text-xl font-bold mb-4 text-primary flex items-center gap-2">
+              <span className="text-2xl">💡</span>
+              Key Takeaways
+            </h3>
+            <ul className="space-y-2 text-foreground/90">
+              <li className="flex items-start gap-2">
+                <span className="text-primary font-bold mt-1">•</span>
+                <span>The 30-30-30 rule combines morning protein intake with gentle exercise for sustainable weight loss</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary font-bold mt-1">•</span>
+                <span>Perfect for busy Indians who want effective health strategies without complex routines</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary font-bold mt-1">•</span>
+                <span>Focuses on habit formation rather than restrictive dieting for long-term success</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary font-bold mt-1">•</span>
+                <span>Adaptable to Indian lifestyle, climate, and cultural eating patterns</span>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Enhanced FAQ Section */}
           {faqItems.length > 0 && (
-            <div className="mt-8 text-left">
-              <h2 className="font-headline text-2xl md:text-3xl font-bold mt-10 mb-6 text-left">Frequently Asked Questions</h2>
-              <div className="space-y-6">
-                {faqItems.map((item, index) => (
-                  <div key={index} className="mb-6">
-                    <div className="flex items-start mb-2">
-                      <span className="mr-2 text-xl">❓</span>
-                      <span className="font-semibold text-lg md:text-xl leading-snug">{item.question}</span>
-                    </div>
-                    <div className="flex items-start ml-7">
-                      <span className="mr-2 text-lg">✅</span>
-                      <span className="text-base leading-relaxed">{item.answer}</span>
-                    </div>
-                  </div>
-                ))}
+            <div className="mt-12">
+              <h2 className="font-headline text-2xl md:text-3xl font-bold mb-8 text-center">
+                Frequently Asked Questions
+              </h2>
+              <div className="bg-muted/30 rounded-xl p-6">
+                <Accordion type="single" collapsible className="w-full">
+                  {faqItems.map((item, index) => (
+                    <AccordionItem value={`item-${index}`} key={index} className="border-b border-border/50 last:border-b-0">
+                      <AccordionTrigger className="text-left font-semibold text-lg hover:text-primary transition-colors py-4">
+                        {item.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-4">
+                        {item.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </div>
             </div>
           )}
+
+          {/* Related Articles Section */}
+          <div className="mt-16 pt-8 border-t border-border/50">
+            <h3 className="font-headline text-2xl font-bold mb-6">Related Articles</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                <h4 className="font-semibold mb-2">Protein Power: Meet Your Daily Protein Needs</h4>
+                <p className="text-sm text-muted-foreground">Discover the best Indian protein sources for optimal health...</p>
+              </div>
+              <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                <h4 className="font-semibold mb-2">Mindful Eating in Indian Culture</h4>
+                <p className="text-sm text-muted-foreground">Transform your relationship with food through mindfulness...</p>
+              </div>
+            </div>
+          </div>
         </article>
       </div>
       <Footer />
