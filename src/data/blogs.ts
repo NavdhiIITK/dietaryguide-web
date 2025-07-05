@@ -15,7 +15,7 @@ export const blogs: Blog[] = [
     id: "protein-power",
     title: "Protein Power: Meet Your Daily Protein Needs with Indian Foods",
     excerpt: "Learn about the importance of protein, ICMR dietary recommendations, and the best vegetarian and non‑vegetarian Indian protein sources. Discover complete protein combinations, high‑protein Indian meals, and FAQs on protein intake.",
-    date: "2025-01-15",
+    date: "2025-08-01",
     category: "Nutrition",
     imageUrl: "/images/protein-power-hero.jpg",
     content: `
