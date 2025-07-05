@@ -17,7 +17,7 @@ export const blogs: Blog[] = [
     excerpt: "Learn about the importance of protein, ICMR dietary recommendations, and the best vegetarian and non‑vegetarian Indian protein sources. Discover complete protein combinations, high‑protein Indian meals, and FAQs on protein intake.",
     date: "2025-08-01",
     category: "Nutrition",
-    imageUrl: "/images/protein-power-hero.jpg",
+    imageUrl: "https://github.com/amishardev/navdhiweb/blob/main/ChatGPT%20Image%20Jul%205,%202025,%2005_08_25%20PM.png?raw=true",
     content: `
 <h2>💪 Why Protein Is Essential for Indian Diets</h2>
 <p>Protein plays a vital role in muscle repair, hormone production, immunity, and overall cellular health. Since the <strong>body doesn't store protein</strong> long-term, daily intake is crucial. In India, where diets often rely heavily on carbohydrates, <em>protein deficiency</em> is widespread—urban adults typically consume only ~47 g/day, below ICMR norms of 55–60 g/day.</p>
