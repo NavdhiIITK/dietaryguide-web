@@ -22,13 +22,25 @@ const HeroCanvas = () => {
       mountRef.current.appendChild(renderer.domElement);
     }
     
+    // Validate Three.js objects before proceeding
+    if (!scene || !camera || !renderer) {
+      console.error('Failed to initialize Three.js objects');
+      return;
+    }
+    
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
+    if (scene && ambientLight) {
+      scene.add(ambientLight);
+    }
     
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
+    if (directionalLight) {
+      directionalLight.position.set(5, 5, 5);
+    }
+    if (scene && directionalLight) {
+      scene.add(directionalLight);
+    }
     
     // Create natural organic elements
     const elements: THREE.Mesh[] = [];
@@ -61,20 +73,28 @@ const HeroCanvas = () => {
     ];
     
     for (let i = 0; i < 7; i++) {
-      const leafMaterial = leafMaterials[i % leafMaterials.length];
-      const leaf = new THREE.Mesh(leafDetail, leafMaterial);
-      
-      leaf.scale.set(0.25, 0.25, 0.25);
-      leaf.rotation.x = Math.random() * Math.PI;
-      leaf.rotation.y = Math.random() * Math.PI;
-      leaf.rotation.z = Math.random() * Math.PI;
-      
-      leaf.position.x = (Math.random() - 0.5) * 10;
-      leaf.position.y = (Math.random() - 0.5) * 6;
-      leaf.position.z = (Math.random() - 0.5) * 10 - 5;
-      
-      scene.add(leaf);
-      elements.push(leaf);
+      try {
+        const leafMaterial = leafMaterials[i % leafMaterials.length];
+        const leaf = new THREE.Mesh(leafDetail, leafMaterial);
+        
+        if (leaf) {
+          leaf.scale.set(0.25, 0.25, 0.25);
+          leaf.rotation.x = Math.random() * Math.PI;
+          leaf.rotation.y = Math.random() * Math.PI;
+          leaf.rotation.z = Math.random() * Math.PI;
+          
+          leaf.position.x = (Math.random() - 0.5) * 10;
+          leaf.position.y = (Math.random() - 0.5) * 6;
+          leaf.position.z = (Math.random() - 0.5) * 10 - 5;
+          
+          if (scene) {
+            scene.add(leaf);
+            elements.push(leaf);
+          }
+        }
+      } catch (error) {
+        console.error('Error creating leaf:', error);
+      }
     }
     
     // Create water droplet (sphere with refractive material)
@@ -128,33 +148,45 @@ const HeroCanvas = () => {
     ];
     
     for (let i = 0; i < 3; i++) {
-      const flowerGroup = new THREE.Group();
-      
-      // Create petals
-      const petalMaterial = new THREE.MeshPhongMaterial({ color: flowerColors[i % flowerColors.length] });
-      for (let j = 0; j < 6; j++) {
-        const petal = new THREE.Mesh(petalDetail, petalMaterial);
-        petal.rotation.z = (j / 6) * Math.PI * 2;
-        petal.scale.set(0.2, 0.2, 0.2);
-        flowerGroup.add(petal);
+      try {
+        const flowerGroup = new THREE.Group();
+        
+        if (flowerGroup) {
+          // Create petals
+          const petalMaterial = new THREE.MeshPhongMaterial({ color: flowerColors[i % flowerColors.length] });
+          for (let j = 0; j < 6; j++) {
+            const petal = new THREE.Mesh(petalDetail, petalMaterial);
+            if (petal) {
+              petal.rotation.z = (j / 6) * Math.PI * 2;
+              petal.scale.set(0.2, 0.2, 0.2);
+              flowerGroup.add(petal);
+            }
+          }
+          
+          // Add center
+          const center = new THREE.Mesh(centerGeometry, centerMaterial);
+          if (center) {
+            center.scale.set(0.2, 0.2, 0.2);
+            flowerGroup.add(center);
+          }
+          
+          // Position the flower
+          flowerGroup.position.x = (Math.random() - 0.5) * 10;
+          flowerGroup.position.y = (Math.random() - 0.5) * 6;
+          flowerGroup.position.z = (Math.random() - 0.5) * 5 - 4;
+          
+          // Random rotation
+          flowerGroup.rotation.x = Math.random() * Math.PI;
+          flowerGroup.rotation.y = Math.random() * Math.PI;
+          
+          if (scene) {
+            scene.add(flowerGroup);
+            elements.push(flowerGroup);
+          }
+        }
+      } catch (error) {
+        console.error('Error creating flower:', error);
       }
-      
-      // Add center
-      const center = new THREE.Mesh(centerGeometry, centerMaterial);
-      center.scale.set(0.2, 0.2, 0.2);
-      flowerGroup.add(center);
-      
-      // Position the flower
-      flowerGroup.position.x = (Math.random() - 0.5) * 10;
-      flowerGroup.position.y = (Math.random() - 0.5) * 6;
-      flowerGroup.position.z = (Math.random() - 0.5) * 5 - 4;
-      
-      // Random rotation
-      flowerGroup.rotation.x = Math.random() * Math.PI;
-      flowerGroup.rotation.y = Math.random() * Math.PI;
-      
-      scene.add(flowerGroup);
-      elements.push(flowerGroup);
     }
     
     // Position camera
