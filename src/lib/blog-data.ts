@@ -37,9 +37,6 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
       reading_time: post.reading_time || Math.ceil((post.content || '').split(' ').length / 200),
       created_at: post.created_at || new Date().toISOString(),
       updated_at: post.updated_at || new Date().toISOString(),
-      published: post.published !== undefined ? post.published : true,
-      meta_title: post.meta_title || '',
-      meta_description: post.meta_description || '',
       author: {
         name: post.author_name || "Dietary Guide",
         avatarUrl: post.author_avatar_url || "https://placehold.co/40x40.png"
@@ -114,34 +111,53 @@ export const getAllTags = async (): Promise<string[]> => {
 
 // Create a new blog post
 export async function createBlogPost(postData) {
+  // Only include fields that exist in the table schema
+  const postToInsert = {
+    title: postData.title,
+    subtitle: postData.subtitle || '',
+    slug: postData.slug || postData.title.toLowerCase().replace(/\s+/g, '-'),
+    content: postData.content,
+    image: postData.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+    tags: Array.isArray(postData.tags) ? postData.tags : [],
+    author_name: postData.author_name || "Dr. Anya Sharma",
+    author_avatar_url: postData.author_avatar_url || "https://placehold.co/40x40.png",
+    snippet: postData.content?.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
+    reading_time: Math.ceil((postData.content || '').split(' ').length / 200),
+  };
+
   const { data, error } = await supabase
     .from('posts')
-    .insert([{
-      ...postData,
-      slug: postData.slug || postData.title.toLowerCase().replace(/\s+/g, '-'),
-      author_name: postData.author_name || "Dr. Anya Sharma",
-      author_avatar_url: postData.author_avatar_url || "https://placehold.co/40x40.png",
-      snippet: postData.content?.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
-      reading_time: Math.ceil((postData.content || '').split(' ').length / 200),
-    }])
+    .insert([postToInsert])
     .select()
     .single();
+    
   if (error) throw error;
   return data;
 }
 
 // Update an existing blog post
 export async function updateBlogPost(id, postData) {
+  // Only include fields that exist in the table schema
+  const postToUpdate = {
+    title: postData.title,
+    subtitle: postData.subtitle || '',
+    slug: postData.slug,
+    content: postData.content,
+    image: postData.image,
+    tags: Array.isArray(postData.tags) ? postData.tags : [],
+    author_name: postData.author_name,
+    author_avatar_url: postData.author_avatar_url,
+    snippet: postData.content?.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
+    reading_time: Math.ceil((postData.content || '').split(' ').length / 200),
+  };
+
   const { data, error } = await supabase
     .from('posts')
-    .update({
-      ...postData,
-      snippet: postData.content?.substring(0, 150).replace(/<[^>]*>/g, '') + '...',
-      reading_time: Math.ceil((postData.content || '').split(' ').length / 200),
-    })
+    .update(postToUpdate)
     .eq('id', id)
     .select()
     .single();
+    
   if (error) throw error;
   return data;
 }

@@ -262,8 +262,8 @@ const AdminDashboard = () => {
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
-                          {new Date(post.created_at).toLocaleDateString()}
-                        </span>
+                            {new Date(post.created_at).toLocaleDateString()}
+                          </span>
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />
                           {post.reading_time} min read
@@ -279,13 +279,13 @@ const AdminDashboard = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       {post.published && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handlePreview(post.slug)}
-                        >
-                          <Eye className="w-4 h-4" />
-                        </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePreview(post.slug)}
+                      >
+                        <Eye className="w-4 h-4" />
+                      </Button>
                       )}
                       <Button
                         variant="outline"

@@ -14,9 +14,8 @@ export interface BlogPost {
   snippet: string;
   reading_time: number;
   content: string;
-  published: boolean;
-  meta_title?: string;
-  meta_description?: string;
+  author_name?: string;
+  author_avatar_url?: string;
 }
 
 export interface CreateBlogPost {
@@ -25,11 +24,8 @@ export interface CreateBlogPost {
   content: string;
   tags: string[];
   image: string;
-  author_name: string;
-  author_avatar: string;
-  published?: boolean;
-  meta_title?: string;
-  meta_description?: string;
+  author_name?: string;
+  author_avatar_url?: string;
 }
 
 export interface UpdateBlogPost extends Partial<CreateBlogPost> {

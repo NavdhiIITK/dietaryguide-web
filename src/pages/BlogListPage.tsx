@@ -10,7 +10,7 @@ const BlogListPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
+    const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -31,10 +31,10 @@ const BlogListPage = () => {
     } catch (err: any) {
       console.error('❌ BlogListPage error:', err);
       setError(err.message || 'Failed to load blog posts. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
+      } finally {
+        setLoading(false);
+      }
+    };
 
   useEffect(() => {
     fetchData();
