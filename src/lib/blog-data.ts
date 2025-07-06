@@ -2,23 +2,56 @@ import { supabase } from '@/integrations/supabase/client';
 import { BlogPost } from '@/types/blog';
 
 export const getBlogPosts = async (): Promise<BlogPost[]> => {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
-    .order('created_at', { ascending: false });
+  try {
+    console.log('🔍 Fetching blog posts from Supabase...');
+    
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Error fetching posts:', error);
-    return [];
-  }
+    if (error) {
+      console.error('❌ Supabase error fetching posts:', error);
+      throw new Error(`Failed to fetch posts: ${error.message}`);
+    }
 
-  return data.map((post: any) => ({
-    ...post,
-    author: {
+    if (!data) {
+      console.log('📦 No data returned from Supabase');
+      return [];
+    }
+
+    console.log(`📦 Fetched ${data.length} posts from Supabase`);
+
+    // Map and validate the data with proper fallbacks
+    const validatedPosts = data.map((post: any) => ({
+      id: post.id,
+      title: post.title || 'Untitled Post',
+      subtitle: post.subtitle || '',
+      slug: post.slug || '',
+      content: post.content || '',
+      image: post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+      tags: Array.isArray(post.tags) ? post.tags : [],
+      author_name: post.author_name || 'Dietary Guide',
+      author_avatar_url: post.author_avatar_url || 'https://placehold.co/40x40.png',
+      snippet: post.snippet || (post.content ? post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...' : ''),
+      reading_time: post.reading_time || Math.ceil((post.content || '').split(' ').length / 200),
+      created_at: post.created_at || new Date().toISOString(),
+      updated_at: post.updated_at || new Date().toISOString(),
+      published: post.published !== undefined ? post.published : true,
+      meta_title: post.meta_title || '',
+      meta_description: post.meta_description || '',
+      author: {
         name: post.author_name || "Dietary Guide",
         avatarUrl: post.author_avatar_url || "https://placehold.co/40x40.png"
-    }
-  }));
+      }
+    })) as BlogPost[];
+
+    console.log('✅ Successfully processed blog posts:', validatedPosts.length);
+    return validatedPosts;
+  } catch (error) {
+    console.error('❌ Error in getBlogPosts:', error);
+    throw error;
+  }
 };
 
 export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefined> => {
@@ -45,17 +78,38 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefi
 };
 
 export const getAllTags = async (): Promise<string[]> => {
-    const { data, error } = await supabase
-        .from('posts')
-        .select('tags');
+    try {
+        console.log('🔍 Fetching tags from Supabase...');
+        
+        const { data, error } = await supabase
+            .from('posts')
+            .select('tags');
 
-    if (error) {
-        console.error('Error fetching tags:', error);
-        return [];
+        if (error) {
+            console.error('❌ Supabase error fetching tags:', error);
+            throw new Error(`Failed to fetch tags: ${error.message}`);
+        }
+
+        if (!data) {
+            console.log('📦 No data returned for tags');
+            return [];
+        }
+
+        console.log(`📦 Fetched tags from ${data.length} posts`);
+
+        // Safely extract tags with validation
+        const allTags = data
+            .filter(post => post && Array.isArray(post.tags))
+            .flatMap(post => post.tags)
+            .filter(tag => tag && typeof tag === 'string');
+
+        const uniqueTags = [...new Set(allTags)].sort();
+        console.log('✅ Successfully processed tags:', uniqueTags.length);
+        return uniqueTags;
+    } catch (error) {
+        console.error('❌ Error in getAllTags:', error);
+        throw error;
     }
-
-    const allTags = data.flatMap(post => post.tags);
-    return [...new Set(allTags)].sort();
 };
 
 // Create a new blog post

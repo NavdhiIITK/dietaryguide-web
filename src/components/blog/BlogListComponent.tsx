@@ -16,19 +16,28 @@ export function BlogListComponent({ posts, tags }: BlogListComponentProps) {
 
   const filteredPosts = useMemo(() => {
     if (activeTag === 'All') return posts;
-    return posts.filter(post => post.tags.includes(activeTag));
+    return posts.filter(post => {
+      // Safe check for tags array
+      const postTags = Array.isArray(post.tags) ? post.tags : [];
+      return postTags.includes(activeTag);
+    });
   }, [posts, activeTag]);
 
   // Combine predefined tags with dynamic tags from database
   const allTags = useMemo(() => {
     const combinedTags = [...filterTags];
-    tags.forEach(tag => {
+    const validTags = Array.isArray(tags) ? tags : [];
+    validTags.forEach(tag => {
       if (!combinedTags.includes(tag)) {
         combinedTags.push(tag);
       }
     });
     return combinedTags;
   }, [tags]);
+
+  // Safe check for posts array
+  const validPosts = Array.isArray(posts) ? posts : [];
+  const validFilteredPosts = Array.isArray(filteredPosts) ? filteredPosts : [];
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -62,9 +71,9 @@ export function BlogListComponent({ posts, tags }: BlogListComponentProps) {
         </div>
       </div>
       
-      {filteredPosts.length > 0 ? (
+      {validFilteredPosts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-          {filteredPosts.map(post => (
+          {validFilteredPosts.map(post => (
             <BlogCardComponent key={post.id} post={post} />
           ))}
         </div>
