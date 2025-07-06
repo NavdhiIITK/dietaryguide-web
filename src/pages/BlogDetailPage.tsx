@@ -161,7 +161,7 @@ const BlogDetailPage = () => {
             {/* Tags */}
             {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-4">
-                {post.tags.map((tag: string) => (
+                {post.tags.filter(tag => tag && typeof tag === 'string').map((tag: string) => (
                   <Badge key={tag} variant="secondary" className="border-transparent">
                     {tag}
                   </Badge>

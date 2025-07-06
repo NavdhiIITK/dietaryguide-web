@@ -23,25 +23,32 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
     console.log(`📦 Fetched ${data.length} posts from Supabase`);
 
     // Map and validate the data with proper fallbacks
-    const validatedPosts = data.map((post: any) => ({
-      id: post.id,
-      title: post.title || 'Untitled Post',
-      subtitle: post.subtitle || '',
-      slug: post.slug || '',
-      content: post.content || '',
-      image: post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
-      tags: Array.isArray(post.tags) ? post.tags : [],
-      author_name: post.author_name || 'Dietary Guide',
-      author_avatar_url: post.author_avatar_url || 'https://placehold.co/40x40.png',
-      snippet: post.snippet || (post.content ? post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...' : ''),
-      reading_time: post.reading_time || Math.ceil((post.content || '').split(' ').length / 200),
-      created_at: post.created_at || new Date().toISOString(),
-      updated_at: post.updated_at || new Date().toISOString(),
-      author: {
-        name: post.author_name || "Dietary Guide",
-        avatarUrl: post.author_avatar_url || "https://placehold.co/40x40.png"
+    const validatedPosts = data.map((post: any) => {
+      try {
+        return {
+          id: post.id || '',
+          title: post.title || 'Untitled Post',
+          subtitle: post.subtitle || '',
+          slug: post.slug || '',
+          content: post.content || '',
+          image: post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+          tags: Array.isArray(post.tags) ? (post.tags as string[]).filter(tag => tag && typeof tag === 'string') : [],
+          author_name: post.author_name || 'Dietary Guide',
+          author_avatar_url: post.author_avatar_url || 'https://placehold.co/40x40.png',
+          snippet: post.snippet || (post.content ? post.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...' : ''),
+          reading_time: post.reading_time || Math.ceil((post.content || '').split(' ').length / 200),
+          created_at: post.created_at || new Date().toISOString(),
+          updated_at: post.updated_at || new Date().toISOString(),
+          author: {
+            name: post.author_name || "Dietary Guide",
+            avatarUrl: post.author_avatar_url || "https://placehold.co/40x40.png"
+          }
+        } as BlogPost;
+      } catch (postError) {
+        console.error('❌ Error processing post:', postError, post);
+        return null;
       }
-    })) as BlogPost[];
+    }).filter(Boolean) as BlogPost[];
 
     console.log('✅ Successfully processed blog posts:', validatedPosts.length);
     return validatedPosts;
