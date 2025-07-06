@@ -9,6 +9,7 @@ import BlogDetailPage from "./pages/BlogDetailPage";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminBlogEditor from "./pages/AdminBlogEditor";
+import AdminDatabaseCleanup from "./pages/AdminDatabaseCleanup";
 import AdminPage from "./pages/AdminPage";
 import ContentDetailPage from "./pages/ContentDetailPage";
 import BlogDebugPage from "./pages/BlogDebugPage";
@@ -37,6 +38,7 @@ function App() {
           <Route path="/admin_blog_maker_editor" element={<AdminDashboard />} />
           <Route path="/admin_blog_maker_editor/new" element={<AdminBlogEditor />} />
           <Route path="/admin_blog_maker_editor/edit/:slug" element={<AdminBlogEditor />} />
+          <Route path="/admin_blog_maker_editor/cleanup" element={<AdminDatabaseCleanup />} />
 
           {/* Legacy routes */}
           <Route path="/blog-debug" element={<BlogDebugPage />} />

@@ -6,15 +6,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { getBlogPosts } from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
-import { 
-  Plus, 
-  Edit, 
-  Eye, 
-  Calendar, 
-  Clock, 
+import {
+  Plus,
+  Edit,
+  Eye,
+  Calendar,
+  Clock,
   Tag,
   LogOut,
-  Loader2 
+  Loader2,
+  Trash2,
+  Database
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -83,6 +85,14 @@ const AdminDashboard = () => {
             <Button onClick={handleCreateNew}>
               <Plus className="w-4 h-4 mr-2" />
               New Post
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => navigate('/admin_blog_maker_editor/cleanup')}
+              className="text-orange-600 border-orange-200 hover:bg-orange-50"
+            >
+              <Database className="w-4 h-4 mr-2" />
+              Database Cleanup
             </Button>
             <Button variant="outline" onClick={signOutUser}>
               <LogOut className="w-4 h-4 mr-2" />
