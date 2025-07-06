@@ -64,13 +64,13 @@ export function BlogCardComponent({ post }: BlogCardComponentProps) {
           </div>
 
           {/* Title */}
-          <h3 className="font-headline text-xl leading-snug group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="font-headline text-xl leading-snug group-hover:text-primary transition-colors overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
             {post.title || 'Untitled Post'}
           </h3>
 
           {/* Subtitle/Snippet */}
           {post.subtitle && (
-            <p className="text-muted-foreground text-sm line-clamp-2">
+            <p className="text-muted-foreground text-sm overflow-hidden" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
               {post.subtitle}
             </p>
           )}
