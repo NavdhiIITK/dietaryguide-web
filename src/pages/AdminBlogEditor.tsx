@@ -8,7 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { TipTapEditor } from '@/components/editor/TipTapEditor';
-import { getBlogPostBySlug } from '@/lib/blog-data';
+import {
+  createBlogPost,
+  updateBlogPost,
+  getBlogPostBySlug,
+  deleteBlogPost
+} from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
 import { Loader2, Upload, Save, Trash2, Eye, LogOut } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -112,7 +117,7 @@ const AdminBlogEditor = () => {
 
     setUploading(true);
     try {
-      // Remove the line that calls uploadBlogImage, since you will use image URLs directly
+      // Removed uploadBlogImage usage. Use image URL directly.
       setImage(file.name);
       toast({
         title: 'Success',
@@ -155,8 +160,7 @@ const AdminBlogEditor = () => {
     try {
       // Auto-fill SEO fields if empty
       const finalMetaTitle = metaTitle.trim() || title.trim();
-      const finalMetaDescription = metaDescription.trim() ||
-        (subtitle.trim() || content.replace(/<[^>]*>/g, '').substring(0, 150) + '...');
+      const finalMetaDescription = metaDescription.trim() || (subtitle.trim() || content.replace(/<[^>]*>/g, '').substring(0, 150) + '...');
 
       const postData = {
         title: title.trim(),
@@ -165,17 +169,35 @@ const AdminBlogEditor = () => {
         tags,
         image,
         author_name: user?.displayName || user?.email?.split('@')[0] || 'Team DietaryGuide',
-        author_avatar: user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
+        author_avatar_url: user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
         meta_title: finalMetaTitle,
         meta_description: finalMetaDescription,
         published
       };
 
+      let savedPost;
+      if (isEditing && post) {
+        savedPost = await updateBlogPost(post.id, postData);
+      } else {
+        try {
+          savedPost = await createBlogPost(postData);
+        } catch (err) {
+          if (err.code === '23505' || (err.message && err.message.includes('duplicate key value'))) {
+            toast({
+              variant: 'destructive',
+              title: 'Duplicate Slug',
+              description: 'A post with this slug already exists. Please change the title.',
+            });
+            return;
+          }
+          throw err;
+        }
+      }
       toast({
         title: 'Success',
-        description: 'Blog post saved (stub logic).',
+        description: 'Blog post saved successfully.',
       });
-      navigate(`/admin_blog_maker_editor/edit/new-post`);
+      navigate(`/admin_blog_maker_editor/edit/${savedPost.slug}`);
     } catch (error) {
       console.error('Error saving post:', error);
       toast({
@@ -190,12 +212,12 @@ const AdminBlogEditor = () => {
 
   const handleDelete = async () => {
     if (!post || !window.confirm('Are you sure you want to delete this post?')) return;
-
     setSaving(true);
     try {
+      await deleteBlogPost(post.id);
       toast({
         title: 'Success',
-        description: 'Blog post deleted (stub logic).',
+        description: 'Blog post deleted successfully.',
       });
       navigate('/admin_blog_maker_editor');
     } catch (error) {
