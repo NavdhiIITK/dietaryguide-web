@@ -30,17 +30,13 @@ const BlogDetailPage = () => {
       setError(null);
       setNotFound(false);
       
-      console.log(`BlogDetailPage: Fetching post with slug: ${slug}`);
       const postData = await getBlogPostBySlug(slug);
+      // Debug log for Supabase fetch
+      console.log('Supabase post fetch result:', postData);
       
       if (postData && postData.published) {
-        console.log(`BlogDetailPage: Found published post: ${postData.title}`);
         setPost(postData);
-      } else if (postData && !postData.published) {
-        console.log(`BlogDetailPage: Post found but not published: ${postData.title}`);
-        setNotFound(true);
       } else {
-        console.log(`BlogDetailPage: Post not found: ${slug}`);
         setNotFound(true);
       }
     } catch (error) {
@@ -111,19 +107,24 @@ const BlogDetailPage = () => {
     );
   }
 
+  // Fallback UI if post is not found or not published
   if (notFound || !post) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-            <p className="text-muted-foreground mb-8">
-              The blog post you're looking for doesn't exist or has been removed.
-            </p>
+          <div className="text-center max-w-md mx-auto px-4">
+            <Alert variant="default" className="mb-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>Blog post not found or not published.</AlertDescription>
+            </Alert>
+            <Button onClick={handleRetry} className="gap-2">
+              <RefreshCw className="w-4 h-4" />
+              Retry
+            </Button>
             <a 
               href="/blog" 
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-4"
             >
               Back to Blog
             </a>

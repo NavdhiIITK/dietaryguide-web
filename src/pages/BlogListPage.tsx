@@ -10,7 +10,7 @@ import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const BlogListPage = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPost[] | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,26 +20,17 @@ const BlogListPage = () => {
       setLoading(true);
       setError(null);
       
-      console.log('BlogListPage: Starting to fetch blog data...');
       const [postsData, tagsData] = await Promise.all([
         getBlogPosts(),
         getAllTags()
       ]);
 
-      console.log('BlogListPage: Fetched posts:', postsData.length);
-      console.log('BlogListPage: Fetched tags:', tagsData);
+      // Debug log for Supabase fetch
+      console.log('Supabase posts fetch result:', postsData);
+      console.log('Supabase tags fetch result:', tagsData);
 
-      // Only set posts that are actually published and have valid data
-      const validPosts = postsData.filter(post => 
-        post && 
-        post.published && 
-        post.title && 
-        post.slug && 
-        post.content
-      );
-
-      console.log('BlogListPage: Valid posts:', validPosts.length);
-      
+      // Only show published posts
+      const validPosts = (postsData || []).filter(post => post && post.published);
       setPosts(validPosts);
       setTags(tagsData);
     } catch (error) {
@@ -86,6 +77,28 @@ const BlogListPage = () => {
             <Button onClick={handleRetry} className="gap-2">
               <RefreshCw className="w-4 h-4" />
               Try Again
+            </Button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Fallback UI if no posts
+  if (!posts || posts.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center max-w-md mx-auto px-4">
+            <Alert variant="default" className="mb-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>No blog posts found.</AlertDescription>
+            </Alert>
+            <Button onClick={handleRetry} className="gap-2">
+              <RefreshCw className="w-4 h-4" />
+              Retry
             </Button>
           </div>
         </main>

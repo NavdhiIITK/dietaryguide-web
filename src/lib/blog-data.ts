@@ -31,41 +31,46 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     const { data, error } = await supabase
       .from('posts')
       .select('*')
+      .eq('status', 'Published')
       .order('created_at', { ascending: false });
+
+    // Debug logs for immediate diagnosis
+    console.log('📦 Supabase blog posts loaded:', data);
+    console.log('❌ Supabase error:', error);
 
     if (error) {
       console.error('❌ Error fetching posts from Supabase:', error);
-      return [];
+      throw new Error(`Supabase query failed: ${error.message}`);
     }
 
     if (!data || data.length === 0) {
-      console.log('ℹ️ No posts found in Supabase posts table');
+      console.log('ℹ️ No published posts found in Supabase posts table');
       return [];
     }
 
-    // Map Supabase data to BlogPost type
+    // Map Supabase data to BlogPost type using correct field names
     const posts = data.map((post: any) => ({
       id: post.id,
       title: post.title,
       slug: post.slug,
-      subtitle: post.subtitle,
+      subtitle: post.excerpt, // Using excerpt as subtitle
       author: {
-        name: post.author_name || 'Team DietaryGuide',
-        avatarUrl: post.author_avatar_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+        name: post.author || 'Team DietaryGuide',
+        avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
       },
-      image: post.image,
+      image: post.feature_image_url || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
       created_at: post.created_at,
-      updated_at: post.updated_at || post.created_at,
+      updated_at: post.created_at,
       tags: post.tags || [],
-      snippet: post.snippet,
-      reading_time: post.reading_time || 5,
+      snippet: post.excerpt || generateSnippet(post.content || ''),
+      reading_time: calculateReadingTime(post.content || ''),
       content: post.content,
-      published: post.published !== false, // Default to true if not specified
-      meta_title: post.meta_title || post.title,
-      meta_description: post.meta_description || post.snippet
+      published: post.status === 'Published',
+      meta_title: post.title,
+      meta_description: post.excerpt || generateSnippet(post.content || '')
     }));
 
-    console.log(`✅ Found ${posts.length} posts in Supabase`);
+    console.log(`✅ Found ${posts.length} published posts in Supabase`);
     return posts;
   } catch (error) {
     console.error('❌ Unexpected error fetching posts:', error);
@@ -82,6 +87,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       .from('posts')
       .select('*')
       .eq('slug', slug)
+      .eq('status', 'Published')
       .single();
 
     if (error) {
@@ -98,26 +104,26 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       return null;
     }
 
-    // Map Supabase data to BlogPost type
+    // Map Supabase data to BlogPost type using correct field names
     const post: BlogPost = {
       id: data.id,
       title: data.title,
       slug: data.slug,
-      subtitle: data.subtitle,
+      subtitle: data.excerpt,
       author: {
-        name: data.author_name || 'Team DietaryGuide',
-        avatarUrl: data.author_avatar_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+        name: data.author || 'Team DietaryGuide',
+        avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
       },
-      image: data.image,
+      image: data.feature_image_url || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
       created_at: data.created_at,
-      updated_at: data.updated_at || data.created_at,
+      updated_at: data.created_at,
       tags: data.tags || [],
-      snippet: data.snippet,
-      reading_time: data.reading_time || 5,
+      snippet: data.excerpt || generateSnippet(data.content || ''),
+      reading_time: calculateReadingTime(data.content || ''),
       content: data.content,
-      published: data.published !== false,
-      meta_title: data.meta_title || data.title,
-      meta_description: data.meta_description || data.snippet
+      published: data.status === 'Published',
+      meta_title: data.title,
+      meta_description: data.excerpt || generateSnippet(data.content || '')
     };
 
     console.log(`✅ Found post: ${post.title}`);
