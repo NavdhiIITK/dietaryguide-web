@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BlogListComponent } from '@/components/blog/BlogListComponent';
-import { supabase } from '../lib/supabase-client';
-import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { getBlogPosts, getAllTags } from '../lib/blog-data';
+import { Loader2 } from 'lucide-react';
 import SEOOptimizer from "@/components/SEOOptimizer";
 
 const BlogListPage = () => {
@@ -15,38 +13,22 @@ const BlogListPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const { data, error } = await supabase
-          .from('posts')
-          .select('*')
-          .order('created_at', { ascending: false });
-        if (error) throw error;
-        const mapped = (data || []).map((post: any) => ({
-          ...post,
-          author: {
-            name: post.author_name || 'Dietary Guide',
-            avatarUrl: post.author_avatar_url || 'https://placehold.co/40x40.png',
-          },
-          tags: Array.isArray(post.tags) ? post.tags : [],
-          image: post.image || 'https://placehold.co/600x400.png',
-          snippet: post.snippet || '',
-          reading_time: post.reading_time || 1,
-          content: post.content || '',
-        }));
-        setPosts(mapped);
-        const allTags = (data || []).flatMap((post: any) => post.tags || []);
-        setTags([...new Set(allTags)].filter(Boolean).map(String).sort());
+        const postsData = await getBlogPosts();
+        const tagsData = await getAllTags();
+        setPosts(postsData);
+        setTags(tagsData);
       } catch (err: any) {
         setError(err.message || 'Failed to load blog posts.');
-        console.error('BlogListPage Supabase error:', err);
+        console.error('BlogListPage error:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchPosts();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -70,14 +52,8 @@ const BlogListPage = () => {
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md mx-auto px-4">
-            <Alert variant="destructive" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-            <Button onClick={() => window.location.reload()} className="gap-2">
-              <RefreshCw className="w-4 h-4" />
-              Try Again
-            </Button>
+            <p className="text-red-500 mb-4">{error}</p>
+            <button onClick={() => window.location.reload()} className="bg-primary text-primary-foreground px-4 py-2 rounded">Try Again</button>
           </div>
         </main>
         <Footer />
@@ -91,14 +67,8 @@ const BlogListPage = () => {
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center max-w-md mx-auto px-4">
-            <Alert variant="default" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>No blog posts found.</AlertDescription>
-            </Alert>
-            <Button onClick={() => window.location.reload()} className="gap-2">
-              <RefreshCw className="w-4 h-4" />
-              Retry
-            </Button>
+            <p className="text-muted-foreground mb-4">No blog posts found.</p>
+            <button onClick={() => window.location.reload()} className="bg-primary text-primary-foreground px-4 py-2 rounded">Retry</button>
           </div>
         </main>
         <Footer />
