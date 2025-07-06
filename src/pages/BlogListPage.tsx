@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { BlogListComponent } from '@/components/blog/BlogListComponent';
 import { getBlogPosts, getAllTags } from '@/lib/blog-data';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
-import SEOOptimizer from "@/components/SEOOptimizer";
 
 const BlogListPage = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -108,18 +106,64 @@ const BlogListPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <SEOOptimizer
-        title="Nutrition & Wellness Blog - DietaryGuide"
-        description="Evidence-based articles on health, nutrition, fitness, and wellness to help you make informed decisions about your diet and lifestyle."
-        keywords="nutrition blog, diet tips, fitness advice, wellness articles, healthy eating, dietary guidance, indian diet, meal planning"
-        url="/blog"
-        type="website"
-      />
-
       <Navbar />
 
       <main className="flex-1">
-        <BlogListComponent posts={posts} tags={tags} />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="mb-12 md:mb-16 space-y-4 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold">
+              Nutrition & Wellness Blog
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Evidence-based articles on health, nutrition, fitness, and wellness to help you make informed decisions.
+            </p>
+          </div>
+
+          <div className="mb-8 md:mb-12">
+            <h2 className="text-3xl font-bold mb-8">Latest Articles</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+              {posts.map(post => (
+                <div key={post.id} className="border rounded-lg p-4">
+                  <div className="mb-4">
+                    <img
+                      src={post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'}
+                      alt={post.title || 'Blog post'}
+                      className="w-full h-48 object-cover rounded"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-semibold">
+                      {post.title || 'Untitled Post'}
+                    </h3>
+                    
+                    {post.subtitle && (
+                      <p className="text-muted-foreground">
+                        {post.subtitle}
+                      </p>
+                    )}
+                    
+                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <span>{post.author?.name || 'Dietary Guide'}</span>
+                      <span>{post.reading_time || 5} min read</span>
+                    </div>
+                    
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {post.tags.slice(0, 3).map((tag: string, index: number) => (
+                          <span key={index} className="bg-primary/10 text-primary px-2 py-1 rounded text-xs">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </main>
 
       <Footer />
