@@ -49,7 +49,7 @@ export async function analyzeBlogPosts(): Promise<BlogAnalysis[]> {
   console.log('Starting blog post analysis...');
   
   const { data: posts, error } = await supabase
-    .from('auto_blogs')
+    .from('posts')
     .select('id, title, category, author, description, content')
     .eq('is_published', true);
 
@@ -175,7 +175,7 @@ export async function deleteIrrelevantPosts(dryRun: boolean = true): Promise<{
     
     try {
       const { error } = await supabase
-        .from('auto_blogs')
+        .from('posts')
         .delete()
         .in('id', batchIds);
       

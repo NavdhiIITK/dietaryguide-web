@@ -66,7 +66,7 @@ const ContentDetailPage = () => {
       // If not found in static blogs, try to fetch from Supabase
       try {
         const { data, error } = await supabase
-          .from('auto_blogs')
+          .from('posts')
           .select('*')
           .eq('id', id)
           .eq('is_published', true)

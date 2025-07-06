@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BlogListComponent } from '@/components/blog/BlogListComponent';
-import { getBlogPosts, getAllTags } from '../lib/blog-data';
+import { getBlogPosts, getAllTags } from '@/lib/blog-data';
 import { Loader2 } from 'lucide-react';
 import SEOOptimizer from "@/components/SEOOptimizer";
 
@@ -17,13 +17,19 @@ const BlogListPage = () => {
       setLoading(true);
       setError(null);
       try {
+        console.log('🔍 BlogListPage: Starting to fetch blog data...');
         const postsData = await getBlogPosts();
         const tagsData = await getAllTags();
-        setPosts(postsData);
-        setTags(tagsData);
+
+        console.log('📦 BlogListPage: Posts received:', postsData);
+        console.log('📦 BlogListPage: Posts count:', postsData?.length || 0);
+        console.log('📦 BlogListPage: Tags received:', tagsData);
+
+        setPosts(postsData || []);
+        setTags(tagsData || []);
       } catch (err: any) {
+        console.error('❌ BlogListPage error:', err);
         setError(err.message || 'Failed to load blog posts.');
-        console.error('BlogListPage error:', err);
       } finally {
         setLoading(false);
       }

@@ -336,9 +336,7 @@ const LatestContent = () => {
         const {
           data: blogData,
           error: blogError
-        } = await supabase.from('auto_blogs').select('id, title, description, image, category, date').neq('category', 'Recipes').eq('is_published', true).order('date', {
-          ascending: false
-        }).limit(3);
+        } = await supabase.from('posts').select('id, title, snippet as description, image, tags as category, created_at as date').order('created_at', { ascending: false }).limit(3);
         if (blogError) throw blogError;
         
         setLatestBlogs(blogData as ContentItem[]);

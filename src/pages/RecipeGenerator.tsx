@@ -104,7 +104,7 @@ const RecipeGenerator = () => {
       const description = generatedRecipe.substring(0, 200) + '...';
       
       const { data, error } = await supabase
-        .from('auto_blogs')
+        .from('posts')
         .insert({
           title: recipeTitle,
           description: description,

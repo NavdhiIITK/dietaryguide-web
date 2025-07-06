@@ -1,112 +1,66 @@
 import { supabase } from '@/integrations/supabase/client';
-import { BlogPost, CreateBlogPost, UpdateBlogPost } from '@/types/blog';
+import { BlogPost } from '@/types/blog';
 
-// Helper functions for blog operations
-function slugify(text: string): string {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w-]+/g, '')
-    .replace(/--+/g, '-');
-}
+// Working blog data functions copied from Firebase Studio (download 1)
 
-function calculateReadingTime(content: string): number {
-  const wordsPerMinute = 200;
-  const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
-  return Math.ceil(words / wordsPerMinute);
-}
+export const getBlogPosts = async (): Promise<BlogPost[]> => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false });
 
-function generateSnippet(content: string): string {
-  const plainText = content.replace(/<[^>]*>/g, '');
-  return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
-}
-
-// Fetch all blog posts from Supabase (same logic as admin panel)
-export async function getBlogPosts(): Promise<BlogPost[]> {
-  console.log('🔍 getBlogPosts: Starting fetch from Supabase posts table...');
-
-  try {
-    // Simple query without filters first (same as admin panel)
-    console.log('🔍 getBlogPosts: Executing Supabase query...');
-    const { data, error } = await supabase
-      .from('posts')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    console.log('📦 getBlogPosts: Supabase raw posts result:', data);
-    console.log('📦 getBlogPosts: Data type:', typeof data);
-    console.log('📦 getBlogPosts: Data length:', data?.length);
-    console.log('❌ getBlogPosts: Supabase error:', error);
-
-    if (error) {
-      console.error('❌ Supabase error details:', error.message, error.details, error.hint);
-      throw new Error(`Supabase query failed: ${error.message}`);
-    }
-
-    if (!data || data.length === 0) {
-      console.log('ℹ️ No posts found in Supabase posts table');
-      return [];
-    }
-
-    // Map Supabase data to BlogPost type (using correct field names)
-    const posts = data.map((post: any) => {
-      console.log('🔍 Processing post:', post.title, 'Fields:', Object.keys(post));
-
-      return {
-        id: post.id,
-        title: post.title || 'Untitled',
-        slug: post.slug || post.id,
-        subtitle: post.subtitle || '',
-        author: {
-          name: post.author_name || 'Team DietaryGuide',
-          avatarUrl: post.author_avatar_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
-        },
-        image: post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
-        created_at: post.created_at,
-        updated_at: post.updated_at || post.created_at,
-        tags: Array.isArray(post.tags) ? post.tags : [],
-        snippet: post.snippet || generateSnippet(post.content || ''),
-        reading_time: post.reading_time || calculateReadingTime(post.content || ''),
-        content: post.content || '',
-        published: post.published !== false, // Default to true if not specified
-        meta_title: post.meta_title || post.title,
-        meta_description: post.meta_description || post.snippet || generateSnippet(post.content || '')
-      };
-    });
-
-    console.log(`✅ Found ${posts.length} posts in Supabase`);
-    return posts;
-  } catch (error) {
-    console.error('❌ Unexpected error fetching posts:', error);
+  if (error) {
+    console.error('Error fetching posts:', error);
     return [];
   }
-}
 
-// Fetch a single blog post by slug from Supabase ONLY
-export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  console.log(`🔍 Fetching blog post with slug: ${slug} from Supabase`);
+  // The data from supabase needs to be mapped to our BlogPost type.
+  // This is a simple example, you might need more complex mapping.
+  return data.map((post: any) => ({
+    ...post,
+    author: {
+        name: post.author_name || "Dietary Guide",
+        avatarUrl: post.author_avatar_url || "https://placehold.co/40x40.png"
+    }
+  }));
+};
 
-  try {
+export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefined> => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+
+  if (error) {
+    console.error('Error fetching post by slug:', error);
+    return undefined;
+  }
+
+  if (!data) return undefined;
+
+  return {
+    ...data,
+     author: {
+        name: data.author_name || "Dietary Guide",
+        avatarUrl: data.author_avatar_url || "https://placehold.co/40x40.png"
+    }
+  } as BlogPost;
+};
+
+export const getAllTags = async (): Promise<string[]> => {
     const { data, error } = await supabase
-      .from('posts')
-      .select('*')
-      .eq('slug', slug)
-      .single();
+        .from('posts')
+        .select('tags');
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        console.log(`ℹ️ Post with slug ${slug} not found in Supabase`);
-        return null; // Post not found
-      }
-      console.error('❌ Error fetching blog post from Supabase:', error);
-      return null;
+        console.error('Error fetching tags:', error);
+        return [];
     }
 
-    if (!data) {
-      console.log(`ℹ️ No data returned for slug: ${slug}`);
-      return null;
+    const allTags = data.flatMap(post => post.tags);
+    return [...new Set(allTags)].sort();
+};
     }
 
     // Map Supabase data to BlogPost type using correct field names

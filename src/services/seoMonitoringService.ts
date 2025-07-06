@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
 export class SEOMonitoringService {
@@ -163,7 +162,7 @@ export class SEOMonitoringService {
 
       // Save to Supabase auto_blogs table
       const { data, error } = await supabase
-        .from('auto_blogs')
+        .from('posts')
         .insert([adaptedData]);
 
       if (error) {
@@ -182,7 +181,7 @@ export class SEOMonitoringService {
 
   async getLatestSuggestions(limit: number = 5): Promise<any[]> {
     const { data, error } = await supabase
-      .from('auto_blogs')
+      .from('posts')
       .select('*')
       .eq('category', 'seo-analysis')
       .order('date', { ascending: false })

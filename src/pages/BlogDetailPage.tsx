@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { BlogDetail } from "@/components/blog/BlogDetail";
-import { supabase } from '../lib/supabase-client';
+import { getBlogPostBySlug } from '@/lib/blog-data';
 import { Skeleton } from "@/components/ui/skeleton";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -28,31 +28,19 @@ const BlogDetailPage = () => {
       setError(null);
       setNotFound(false);
       try {
-        const { data, error } = await supabase
-          .from('posts')
-          .select('*')
-          .eq('slug', slug)
-          .single();
-        if (error) throw error;
-        if (data && data.published !== false) {
-          setPost({
-            ...data,
-            author: {
-              name: data.author_name || 'Dietary Guide',
-              avatarUrl: data.author_avatar_url || 'https://placehold.co/40x40.png',
-            },
-            tags: Array.isArray(data.tags) ? data.tags : [],
-            image: data.image || 'https://placehold.co/600x400.png',
-            snippet: data.snippet || '',
-            reading_time: data.reading_time || 1,
-            content: data.content || '',
-          });
+        console.log('🔍 BlogDetailPage: Fetching post with slug:', slug);
+        const postData = await getBlogPostBySlug(slug);
+
+        console.log('📦 BlogDetailPage: Post received:', postData);
+
+        if (postData) {
+          setPost(postData);
         } else {
           setNotFound(true);
         }
       } catch (err: any) {
+        console.error('❌ BlogDetailPage error:', err);
         setError(err.message || 'Failed to load the blog post.');
-        console.error('BlogDetailPage Supabase error:', err);
       } finally {
         setLoading(false);
       }
