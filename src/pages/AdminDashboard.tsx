@@ -27,6 +27,7 @@ const AdminDashboard = () => {
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
 
   useEffect(() => {
     if (!user) {
@@ -65,6 +66,15 @@ const AdminDashboard = () => {
     window.open(`/blog/${slug}`, '_blank');
   };
 
+  const filteredPosts = posts.filter(post => {
+    if (statusFilter === 'published') return post.published;
+    if (statusFilter === 'draft') return !post.published;
+    return true;
+  });
+
+  const publishedCount = posts.filter(post => post.published).length;
+  const draftCount = posts.filter(post => !post.published).length;
+
   if (!user) {
     return null;
   }
@@ -102,7 +112,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Posts</CardTitle>
@@ -119,7 +129,17 @@ const AdminDashboard = () => {
               <Eye className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{posts.length}</div>
+              <div className="text-2xl font-bold text-green-600">{publishedCount}</div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Drafts</CardTitle>
+              <Edit className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-yellow-600">{draftCount}</div>
             </CardContent>
           </Card>
           
@@ -139,10 +159,37 @@ const AdminDashboard = () => {
         {/* Posts List */}
         <Card>
           <CardHeader>
-            <CardTitle>Recent Posts</CardTitle>
-            <CardDescription>
-              Manage and edit your blog posts
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Recent Posts</CardTitle>
+                <CardDescription>
+                  Manage and edit your blog posts
+                </CardDescription>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant={statusFilter === 'all' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setStatusFilter('all')}
+                >
+                  All ({posts.length})
+                </Button>
+                <Button
+                  variant={statusFilter === 'published' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setStatusFilter('published')}
+                >
+                  Published ({publishedCount})
+                </Button>
+                <Button
+                  variant={statusFilter === 'draft' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setStatusFilter('draft')}
+                >
+                  Drafts ({draftCount})
+                </Button>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -157,9 +204,23 @@ const AdminDashboard = () => {
                   Create Your First Post
                 </Button>
               </div>
+            ) : filteredPosts.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground mb-4">
+                  No {statusFilter === 'all' ? '' : statusFilter} posts found.
+                </p>
+                {statusFilter !== 'all' && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setStatusFilter('all')}
+                  >
+                    View All Posts
+                  </Button>
+                )}
+              </div>
             ) : (
               <div className="space-y-4">
-                {posts.map((post) => (
+                {filteredPosts.map((post) => (
                   <div
                     key={post.id}
                     className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-muted/50 transition-colors"
@@ -167,9 +228,15 @@ const AdminDashboard = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="font-semibold truncate">{post.title}</h3>
+                        <Badge
+                          variant={post.published ? "default" : "secondary"}
+                          className={`text-xs ${post.published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}
+                        >
+                          {post.published ? 'Published' : 'Draft'}
+                        </Badge>
                         <div className="flex flex-wrap gap-1">
                           {post.tags.slice(0, 2).map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge key={tag} variant="outline" className="text-xs">
                               {tag}
                             </Badge>
                           ))}

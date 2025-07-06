@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
 import { TipTapEditor } from '@/components/editor/TipTapEditor';
 import { 
   createBlogPost, 
@@ -53,6 +54,7 @@ const AdminBlogEditor = () => {
   const [tagInput, setTagInput] = useState('');
   const [metaTitle, setMetaTitle] = useState('');
   const [metaDescription, setMetaDescription] = useState('');
+  const [published, setPublished] = useState(false);
 
   const isEditing = !!slug;
 
@@ -80,8 +82,9 @@ const AdminBlogEditor = () => {
         setContent(postData.content);
         setImage(postData.image);
         setTags(postData.tags);
-        setMetaTitle(postData.title);
-        setMetaDescription(postData.snippet || '');
+        setMetaTitle(postData.meta_title || postData.title);
+        setMetaDescription(postData.meta_description || postData.snippet || '');
+        setPublished(postData.published || false);
       } else {
         toast({
           variant: 'destructive',
@@ -170,7 +173,8 @@ const AdminBlogEditor = () => {
         author_name: user?.displayName || user?.email?.split('@')[0] || 'Team DietaryGuide',
         author_avatar: user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
         meta_title: finalMetaTitle,
-        meta_description: finalMetaDescription
+        meta_description: finalMetaDescription,
+        published
       };
 
       if (isEditing && post) {
@@ -471,6 +475,43 @@ const AdminBlogEditor = () => {
                       <p className="text-sm text-muted-foreground">No tags selected</p>
                     )}
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Publish Status */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Publish Status</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="published">Publish Post</Label>
+                    <p className="text-sm text-muted-foreground">
+                      {published ? 'Post will be visible to readers' : 'Post will be saved as draft'}
+                    </p>
+                  </div>
+                  <Switch
+                    id="published"
+                    checked={published}
+                    onCheckedChange={setPublished}
+                  />
+                </div>
+
+                <div className="p-3 rounded-lg border bg-muted/50">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${published ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                    <span className="text-sm font-medium">
+                      {published ? 'Published' : 'Draft'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {published
+                      ? 'This post is live and visible to all visitors'
+                      : 'This post is saved as a draft and only visible to admins'
+                    }
+                  </p>
                 </div>
               </CardContent>
             </Card>

@@ -54,10 +54,14 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       },
       image: post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
       created_at: post.created_at || post.date,
+      updated_at: post.created_at || post.date,
       tags: post.category ? [post.category] : [],
       snippet: post.description,
       reading_time: 5,
-      content: post.content || post.description
+      content: post.content || post.description,
+      published: true, // Auto blogs are always published
+      meta_title: post.title,
+      meta_description: post.description
     }));
 
     // Also include static blogs
@@ -72,10 +76,14 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       },
       image: blog.imageUrl,
       created_at: blog.date,
+      updated_at: blog.date,
       tags: blog.category ? [blog.category] : [],
       snippet: blog.excerpt,
       reading_time: calculateReadingTime(blog.content || blog.excerpt),
-      content: blog.content || blog.excerpt
+      content: blog.content || blog.excerpt,
+      published: true, // Static blogs are always published
+      meta_title: blog.title,
+      meta_description: blog.excerpt
     }));
 
     // Combine and sort all blogs

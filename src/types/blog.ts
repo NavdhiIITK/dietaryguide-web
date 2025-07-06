@@ -9,10 +9,14 @@ export interface BlogPost {
   };
   image: string;
   created_at: string;
+  updated_at?: string;
   tags: string[];
   snippet: string;
   reading_time: number;
   content: string;
+  published: boolean;
+  meta_title?: string;
+  meta_description?: string;
 }
 
 export interface CreateBlogPost {
@@ -23,6 +27,9 @@ export interface CreateBlogPost {
   image: string;
   author_name: string;
   author_avatar: string;
+  published?: boolean;
+  meta_title?: string;
+  meta_description?: string;
 }
 
 export interface UpdateBlogPost extends Partial<CreateBlogPost> {
