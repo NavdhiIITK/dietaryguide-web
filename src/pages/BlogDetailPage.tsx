@@ -7,38 +7,57 @@ import { getBlogPostBySlug } from "@/lib/blog-data";
 import { BlogPost } from "@/types/blog";
 import { Skeleton } from "@/components/ui/skeleton";
 import SEOOptimizer from "@/components/SEOOptimizer";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchPost = async () => {
+    if (!slug) {
+      setNotFound(true);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      setNotFound(false);
+      
+      console.log(`BlogDetailPage: Fetching post with slug: ${slug}`);
+      const postData = await getBlogPostBySlug(slug);
+      
+      if (postData && postData.published) {
+        console.log(`BlogDetailPage: Found published post: ${postData.title}`);
+        setPost(postData);
+      } else if (postData && !postData.published) {
+        console.log(`BlogDetailPage: Post found but not published: ${postData.title}`);
+        setNotFound(true);
+      } else {
+        console.log(`BlogDetailPage: Post not found: ${slug}`);
+        setNotFound(true);
+      }
+    } catch (error) {
+      console.error('BlogDetailPage: Error fetching blog post:', error);
+      setError('Failed to load the blog post. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPost = async () => {
-      if (!slug) {
-        setNotFound(true);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const postData = await getBlogPostBySlug(slug);
-        if (postData) {
-          setPost(postData);
-        } else {
-          setNotFound(true);
-        }
-      } catch (error) {
-        console.error('Error fetching blog post:', error);
-        setNotFound(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchPost();
   }, [slug]);
+
+  const handleRetry = () => {
+    fetchPost();
+  };
 
   if (loading) {
     return (
@@ -64,6 +83,27 @@ const BlogDetailPage = () => {
                 ))}
               </div>
             </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center max-w-md mx-auto px-4">
+            <Alert variant="destructive" className="mb-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+            <Button onClick={handleRetry} className="gap-2">
+              <RefreshCw className="w-4 h-4" />
+              Try Again
+            </Button>
           </div>
         </main>
         <Footer />

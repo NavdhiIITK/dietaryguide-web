@@ -9,6 +9,63 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      posts: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          subtitle: string | null
+          author_name: string
+          author_avatar_url: string
+          image: string
+          created_at: string
+          updated_at: string
+          tags: string[]
+          snippet: string
+          reading_time: number
+          content: string
+          published: boolean
+          meta_title: string | null
+          meta_description: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          slug: string
+          subtitle?: string | null
+          author_name?: string
+          author_avatar_url?: string
+          image: string
+          created_at?: string
+          updated_at?: string
+          tags?: string[]
+          snippet: string
+          reading_time?: number
+          content: string
+          published?: boolean
+          meta_title?: string | null
+          meta_description?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          slug?: string
+          subtitle?: string | null
+          author_name?: string
+          author_avatar_url?: string
+          image?: string
+          created_at?: string
+          updated_at?: string
+          tags?: string[]
+          snippet?: string
+          reading_time?: number
+          content?: string
+          published?: boolean
+          meta_title?: string | null
+          meta_description?: string | null
+        }
+        Relationships: []
+      }
       auto_blogs: {
         Row: {
           author: string | null
