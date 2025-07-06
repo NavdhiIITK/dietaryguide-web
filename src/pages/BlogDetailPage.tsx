@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { BlogDetail } from "@/components/blog/BlogDetail";
-import { getBlogPostBySlug } from "@/lib/blog-data";
-import { BlogPost } from "@/types/blog";
+import { supabase } from '../lib/supabase-client';
 import { Skeleton } from "@/components/ui/skeleton";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -13,46 +12,56 @@ import { Button } from "@/components/ui/button";
 
 const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [post, setPost] = useState<BlogPost | null>(null);
+  const [post, setPost] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPost = async () => {
-    if (!slug) {
-      setNotFound(true);
-      setLoading(false);
-      return;
-    }
-
-    try {
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!slug) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       setError(null);
       setNotFound(false);
-      
-      const postData = await getBlogPostBySlug(slug);
-      // Debug log for Supabase fetch
-      console.log('Supabase post fetch result:', postData);
-      
-      if (postData && postData.published) {
-        setPost(postData);
-      } else {
-        setNotFound(true);
+      try {
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+        if (error) throw error;
+        if (data && data.published !== false) {
+          setPost({
+            ...data,
+            author: {
+              name: data.author_name || 'Dietary Guide',
+              avatarUrl: data.author_avatar_url || 'https://placehold.co/40x40.png',
+            },
+            tags: Array.isArray(data.tags) ? data.tags : [],
+            image: data.image || 'https://placehold.co/600x400.png',
+            snippet: data.snippet || '',
+            reading_time: data.reading_time || 1,
+            content: data.content || '',
+          });
+        } else {
+          setNotFound(true);
+        }
+      } catch (err: any) {
+        setError(err.message || 'Failed to load the blog post.');
+        console.error('BlogDetailPage Supabase error:', err);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('BlogDetailPage: Error fetching blog post:', error);
-      setError('Failed to load the blog post. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
+    };
     fetchPost();
   }, [slug]);
 
   const handleRetry = () => {
-    fetchPost();
+    window.location.reload();
   };
 
   if (loading) {
@@ -107,7 +116,6 @@ const BlogDetailPage = () => {
     );
   }
 
-  // Fallback UI if post is not found or not published
   if (notFound || !post) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -147,15 +155,12 @@ const BlogDetailPage = () => {
         publishedTime={post.created_at}
         author={post.author.name}
       />
-      
       <Navbar />
-      
       <main className="flex-1">
         <div className="container mx-auto px-4 py-16">
           <BlogDetail post={post} />
         </div>
       </main>
-      
       <Footer />
     </div>
   );

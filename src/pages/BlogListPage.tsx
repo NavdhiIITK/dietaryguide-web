@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BlogListComponent } from '@/components/blog/BlogListComponent';
-import { supabase } from '../lib/supabase-client'; // We'll create this for direct credentials
-import { Button } from '@/components/ui/button';
+import { supabase } from '../lib/supabase-client';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import SEOOptimizer from "@/components/SEOOptimizer";
 
 const BlogListPage = () => {
@@ -37,11 +37,11 @@ const BlogListPage = () => {
           content: post.content || '',
         }));
         setPosts(mapped);
-        // Tags
         const allTags = (data || []).flatMap((post: any) => post.tags || []);
         setTags([...new Set(allTags)].filter(Boolean).map(String).sort());
       } catch (err: any) {
         setError(err.message || 'Failed to load blog posts.');
+        console.error('BlogListPage Supabase error:', err);
       } finally {
         setLoading(false);
       }
