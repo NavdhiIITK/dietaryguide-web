@@ -23,21 +23,19 @@ function generateSnippet(content: string): string {
   return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
 }
 
-// Fetch all blog posts from Supabase (simplified query)
+// Fetch all blog posts from Supabase (same logic as admin panel)
 export async function getBlogPosts(): Promise<BlogPost[]> {
   console.log('🔍 Fetching blog posts from Supabase posts table...');
 
   try {
-    // Simple query without filters first to test connection
+    // Simple query without filters first (same as admin panel)
     const { data, error } = await supabase
       .from('posts')
       .select('*')
       .order('created_at', { ascending: false });
 
-    // Comprehensive error logging
-    console.log('📦 Supabase blog posts loaded:', data);
+    console.log('📦 Supabase raw posts result:', data);
     console.log('❌ Supabase error:', error);
-    console.log('🔢 Posts count:', data?.length || 0);
 
     if (error) {
       console.error('❌ Supabase error details:', error.message, error.details, error.hint);
@@ -49,7 +47,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       return [];
     }
 
-    // Map Supabase data to BlogPost type (flexible field mapping)
+    // Map Supabase data to BlogPost type (using correct field names)
     const posts = data.map((post: any) => {
       console.log('🔍 Processing post:', post.title, 'Fields:', Object.keys(post));
 
@@ -57,25 +55,25 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
         id: post.id,
         title: post.title || 'Untitled',
         slug: post.slug || post.id,
-        subtitle: post.excerpt || post.subtitle || '',
+        subtitle: post.subtitle || '',
         author: {
-          name: post.author || post.author_name || 'Team DietaryGuide',
+          name: post.author_name || 'Team DietaryGuide',
           avatarUrl: post.author_avatar_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
         },
-        image: post.feature_image_url || post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+        image: post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
         created_at: post.created_at,
         updated_at: post.updated_at || post.created_at,
         tags: Array.isArray(post.tags) ? post.tags : [],
-        snippet: post.excerpt || post.snippet || generateSnippet(post.content || ''),
+        snippet: post.snippet || generateSnippet(post.content || ''),
         reading_time: post.reading_time || calculateReadingTime(post.content || ''),
         content: post.content || '',
-        published: true, // Show all posts for now
+        published: post.published !== false, // Default to true if not specified
         meta_title: post.meta_title || post.title,
-        meta_description: post.meta_description || post.excerpt || post.snippet || generateSnippet(post.content || '')
+        meta_description: post.meta_description || post.snippet || generateSnippet(post.content || '')
       };
     });
 
-    console.log(`✅ Found ${posts.length} published posts in Supabase`);
+    console.log(`✅ Found ${posts.length} posts in Supabase`);
     return posts;
   } catch (error) {
     console.error('❌ Unexpected error fetching posts:', error);
@@ -92,7 +90,6 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       .from('posts')
       .select('*')
       .eq('slug', slug)
-      .eq('status', 'Published')
       .single();
 
     if (error) {
@@ -114,21 +111,21 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       id: data.id,
       title: data.title,
       slug: data.slug,
-      subtitle: data.excerpt,
+      subtitle: data.subtitle,
       author: {
-        name: data.author || 'Team DietaryGuide',
-        avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+        name: data.author_name || 'Team DietaryGuide',
+        avatarUrl: data.author_avatar_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
       },
-      image: data.feature_image_url || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+      image: data.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
       created_at: data.created_at,
-      updated_at: data.created_at,
+      updated_at: data.updated_at || data.created_at,
       tags: data.tags || [],
-      snippet: data.excerpt || generateSnippet(data.content || ''),
-      reading_time: calculateReadingTime(data.content || ''),
+      snippet: data.snippet || generateSnippet(data.content || ''),
+      reading_time: data.reading_time || calculateReadingTime(data.content || ''),
       content: data.content,
-      published: data.status === 'Published',
-      meta_title: data.title,
-      meta_description: data.excerpt || generateSnippet(data.content || '')
+      published: data.published !== false,
+      meta_title: data.meta_title || data.title,
+      meta_description: data.meta_description || data.snippet || generateSnippet(data.content || '')
     };
 
     console.log(`✅ Found post: ${post.title}`);

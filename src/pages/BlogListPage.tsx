@@ -2,55 +2,55 @@ import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BlogListComponent } from '@/components/blog/BlogListComponent';
-import { getBlogPosts, getAllTags, testSupabaseConnection } from '@/lib/blog-data';
+import { getBlogPosts, getAllTags } from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
 import SEOOptimizer from "@/components/SEOOptimizer";
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const BlogListPage = () => {
-  const [posts, setPosts] = useState<BlogPost[] | null>(null);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchPosts = async () => {
     try {
       setLoading(true);
       setError(null);
+      
+      console.log('BlogListPage: Fetching posts from Supabase...');
+      const postsData = await getBlogPosts();
+      
+      // Only show posts that have valid data from Supabase (same logic as admin)
+      const validPosts = postsData.filter(post => 
+        post && 
+        post.id && 
+        post.title && 
+        post.slug
+      );
+      
+      console.log(`BlogListPage: Found ${validPosts.length} valid posts from Supabase`);
+      setPosts(validPosts);
 
-      // Test Supabase connection first
-      await testSupabaseConnection();
-
-      const [postsData, tagsData] = await Promise.all([
-        getBlogPosts(),
-        getAllTags()
-      ]);
-
-      // Debug log for Supabase fetch
-      console.log('🔍 BlogListPage: Supabase posts fetch result:', postsData);
-      console.log('🔍 BlogListPage: Supabase tags fetch result:', tagsData);
-      console.log('🔍 BlogListPage: Posts count:', postsData?.length || 0);
-
-      // Show all posts (remove published filter for debugging)
-      setPosts(postsData || []);
+      // Fetch tags separately
+      const tagsData = await getAllTags();
       setTags(tagsData || []);
     } catch (error) {
-      console.error('BlogListPage: Error fetching blog data:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      setError(`Failed to load blog posts: ${errorMessage}`);
+      console.error('BlogListPage: Error fetching posts:', error);
+      setError('Failed to load blog posts from Supabase.');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchPosts();
   }, []);
 
   const handleRetry = () => {
-    fetchData();
+    fetchPosts();
   };
 
   if (loading) {
@@ -59,8 +59,8 @@ const BlogListPage = () => {
         <Navbar />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-4 text-muted-foreground">Loading blog posts...</p>
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading blog posts...</p>
           </div>
         </main>
         <Footer />
@@ -89,7 +89,7 @@ const BlogListPage = () => {
     );
   }
 
-  // Fallback UI if no posts
+  // Fallback UI if no posts (same logic as admin)
   if (!posts || posts.length === 0) {
     return (
       <div className="min-h-screen flex flex-col">
