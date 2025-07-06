@@ -22,30 +22,9 @@ const generateSnippet = (content: string): string => {
   return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
 };
 
-// Helper function to generate slug from title
-export function generateSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9 -]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
-}
 
-// Helper function to calculate reading time
-export function calculateReadingTime(content: string): number {
-  const wordsPerMinute = 200;
-  const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
-  return Math.ceil(words / wordsPerMinute);
-}
 
-// Helper function to generate snippet
-export function generateSnippet(content: string, maxLength: number = 160): string {
-  const textContent = content.replace(/<[^>]*>/g, '');
-  return textContent.length > maxLength
-    ? textContent.substring(0, maxLength).trim() + '...'
-    : textContent;
-}
+
 
 // Fetch all published blog posts from Supabase ONLY
 export async function getBlogPosts(): Promise<BlogPost[]> {
