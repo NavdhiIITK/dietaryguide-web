@@ -17,16 +17,20 @@ const BlogListPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('BlogListPage: Starting to fetch blog data...');
         const [postsData, tagsData] = await Promise.all([
           getBlogPosts(),
           getAllTags()
         ]);
 
+        console.log('BlogListPage: Fetched posts:', postsData.length);
+        console.log('BlogListPage: Fetched tags:', tagsData);
+
         setPosts(postsData);
         setTags(['All', ...tagsData]);
         setFilteredPosts(postsData);
       } catch (error) {
-        console.error('Error fetching blog data:', error);
+        console.error('BlogListPage: Error fetching blog data:', error);
       } finally {
         setLoading(false);
       }
@@ -46,6 +50,8 @@ const BlogListPage = () => {
   const handleFilterChange = (tag: string) => {
     setActiveFilter(tag);
   };
+
+  console.log('BlogListPage: Rendering with loading:', loading, 'posts:', posts.length, 'filteredPosts:', filteredPosts.length);
 
   return (
     <div className="min-h-screen flex flex-col">
