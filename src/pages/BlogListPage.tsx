@@ -30,6 +30,11 @@ const BlogListPage = () => {
             name: post.author_name || 'Dietary Guide',
             avatarUrl: post.author_avatar_url || 'https://placehold.co/40x40.png',
           },
+          tags: Array.isArray(post.tags) ? post.tags : [],
+          image: post.image || 'https://placehold.co/600x400.png',
+          snippet: post.snippet || '',
+          reading_time: post.reading_time || 1,
+          content: post.content || '',
         }));
         setPosts(mapped);
         // Tags
