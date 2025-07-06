@@ -33,13 +33,13 @@ const BlogListPage = () => {
       console.log('🔍 BlogListPage: Supabase tags fetch result:', tagsData);
       console.log('🔍 BlogListPage: Posts count:', postsData?.length || 0);
 
-      // Only show published posts
-      const validPosts = (postsData || []).filter(post => post && post.published);
-      setPosts(validPosts);
-      setTags(tagsData);
+      // Show all posts (remove published filter for debugging)
+      setPosts(postsData || []);
+      setTags(tagsData || []);
     } catch (error) {
       console.error('BlogListPage: Error fetching blog data:', error);
-      setError('Failed to load blog posts. Please try again later.');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setError(`Failed to load blog posts: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

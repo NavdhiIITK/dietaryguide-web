@@ -23,52 +23,57 @@ function generateSnippet(content: string): string {
   return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
 }
 
-// Fetch all published blog posts from Supabase ONLY
+// Fetch all blog posts from Supabase (simplified query)
 export async function getBlogPosts(): Promise<BlogPost[]> {
   console.log('🔍 Fetching blog posts from Supabase posts table...');
 
   try {
+    // Simple query without filters first to test connection
     const { data, error } = await supabase
       .from('posts')
       .select('*')
-      .eq('status', 'Published')
       .order('created_at', { ascending: false });
 
-    // Debug logs for immediate diagnosis
+    // Comprehensive error logging
     console.log('📦 Supabase blog posts loaded:', data);
     console.log('❌ Supabase error:', error);
+    console.log('🔢 Posts count:', data?.length || 0);
 
     if (error) {
-      console.error('❌ Error fetching posts from Supabase:', error);
+      console.error('❌ Supabase error details:', error.message, error.details, error.hint);
       throw new Error(`Supabase query failed: ${error.message}`);
     }
 
     if (!data || data.length === 0) {
-      console.log('ℹ️ No published posts found in Supabase posts table');
+      console.log('ℹ️ No posts found in Supabase posts table');
       return [];
     }
 
-    // Map Supabase data to BlogPost type using correct field names
-    const posts = data.map((post: any) => ({
-      id: post.id,
-      title: post.title,
-      slug: post.slug,
-      subtitle: post.excerpt, // Using excerpt as subtitle
-      author: {
-        name: post.author || 'Team DietaryGuide',
-        avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
-      },
-      image: post.feature_image_url || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
-      created_at: post.created_at,
-      updated_at: post.created_at,
-      tags: post.tags || [],
-      snippet: post.excerpt || generateSnippet(post.content || ''),
-      reading_time: calculateReadingTime(post.content || ''),
-      content: post.content,
-      published: post.status === 'Published',
-      meta_title: post.title,
-      meta_description: post.excerpt || generateSnippet(post.content || '')
-    }));
+    // Map Supabase data to BlogPost type (flexible field mapping)
+    const posts = data.map((post: any) => {
+      console.log('🔍 Processing post:', post.title, 'Fields:', Object.keys(post));
+
+      return {
+        id: post.id,
+        title: post.title || 'Untitled',
+        slug: post.slug || post.id,
+        subtitle: post.excerpt || post.subtitle || '',
+        author: {
+          name: post.author || post.author_name || 'Team DietaryGuide',
+          avatarUrl: post.author_avatar_url || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+        },
+        image: post.feature_image_url || post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+        created_at: post.created_at,
+        updated_at: post.updated_at || post.created_at,
+        tags: Array.isArray(post.tags) ? post.tags : [],
+        snippet: post.excerpt || post.snippet || generateSnippet(post.content || ''),
+        reading_time: post.reading_time || calculateReadingTime(post.content || ''),
+        content: post.content || '',
+        published: true, // Show all posts for now
+        meta_title: post.meta_title || post.title,
+        meta_description: post.meta_description || post.excerpt || post.snippet || generateSnippet(post.content || '')
+      };
+    });
 
     console.log(`✅ Found ${posts.length} published posts in Supabase`);
     return posts;
@@ -321,6 +326,7 @@ export async function getAllTags(): Promise<string[]> {
 // Test function to check Supabase connection and posts table
 export async function testSupabaseConnection(): Promise<void> {
   console.log('🧪 Testing Supabase connection...');
+  console.log('🧪 Using URL: https://qqnzqdrnqvoblyqeeoed.supabase.co');
 
   try {
     const { data, error, count } = await supabase
@@ -331,11 +337,11 @@ export async function testSupabaseConnection(): Promise<void> {
     console.log('  - Error:', error);
     console.log('  - Total posts in table:', count);
     console.log('  - Sample data:', data?.slice(0, 2));
+    console.log('  - All field names in first post:', data?.[0] ? Object.keys(data[0]) : 'No posts');
 
-    if (data) {
-      const publishedPosts = data.filter(post => post.status === 'Published');
-      console.log('  - Published posts:', publishedPosts.length);
-      console.log('  - Published posts sample:', publishedPosts.slice(0, 1));
+    if (data && data.length > 0) {
+      console.log('  - All posts found:', data.length);
+      console.log('  - First post structure:', data[0]);
     }
   } catch (err) {
     console.error('🧪 Supabase connection test failed:', err);
