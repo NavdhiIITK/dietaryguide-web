@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BlogListComponent } from '@/components/blog/BlogListComponent';
-import { getBlogPosts, getAllTags } from '@/lib/blog-data';
+import { getBlogPosts, getAllTags, testSupabaseConnection } from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
 import SEOOptimizer from "@/components/SEOOptimizer";
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -19,15 +19,19 @@ const BlogListPage = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
+      // Test Supabase connection first
+      await testSupabaseConnection();
+
       const [postsData, tagsData] = await Promise.all([
         getBlogPosts(),
         getAllTags()
       ]);
 
       // Debug log for Supabase fetch
-      console.log('Supabase posts fetch result:', postsData);
-      console.log('Supabase tags fetch result:', tagsData);
+      console.log('🔍 BlogListPage: Supabase posts fetch result:', postsData);
+      console.log('🔍 BlogListPage: Supabase tags fetch result:', tagsData);
+      console.log('🔍 BlogListPage: Posts count:', postsData?.length || 0);
 
       // Only show published posts
       const validPosts = (postsData || []).filter(post => post && post.published);

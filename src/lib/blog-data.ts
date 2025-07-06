@@ -317,3 +317,27 @@ export async function getAllTags(): Promise<string[]> {
     return [];
   }
 }
+
+// Test function to check Supabase connection and posts table
+export async function testSupabaseConnection(): Promise<void> {
+  console.log('🧪 Testing Supabase connection...');
+
+  try {
+    const { data, error, count } = await supabase
+      .from('posts')
+      .select('*', { count: 'exact' });
+
+    console.log('🧪 Supabase connection test results:');
+    console.log('  - Error:', error);
+    console.log('  - Total posts in table:', count);
+    console.log('  - Sample data:', data?.slice(0, 2));
+
+    if (data) {
+      const publishedPosts = data.filter(post => post.status === 'Published');
+      console.log('  - Published posts:', publishedPosts.length);
+      console.log('  - Published posts sample:', publishedPosts.slice(0, 1));
+    }
+  } catch (err) {
+    console.error('🧪 Supabase connection test failed:', err);
+  }
+}
