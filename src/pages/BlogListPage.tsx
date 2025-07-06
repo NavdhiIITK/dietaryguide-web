@@ -2,56 +2,47 @@ import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BlogListComponent } from '@/components/blog/BlogListComponent';
-import { getBlogPosts, getAllTags } from '@/lib/blog-data';
-import { BlogPost } from '@/types/blog';
-import SEOOptimizer from "@/components/SEOOptimizer";
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, RefreshCw, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase-client'; // We'll create this for direct credentials
 import { Button } from '@/components/ui/button';
+import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import SEOOptimizer from "@/components/SEOOptimizer";
 
 const BlogListPage = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPosts = async () => {
-    try {
+  useEffect(() => {
+    const fetchPosts = async () => {
       setLoading(true);
       setError(null);
-      
-      console.log('BlogListPage: Fetching posts from Supabase...');
-      const postsData = await getBlogPosts();
-      
-      // Only show posts that have valid data from Supabase (same logic as admin)
-      const validPosts = postsData.filter(post => 
-        post && 
-        post.id && 
-        post.title && 
-        post.slug
-      );
-      
-      console.log(`BlogListPage: Found ${validPosts.length} valid posts from Supabase`);
-      setPosts(validPosts);
-
-      // Fetch tags separately
-      const tagsData = await getAllTags();
-      setTags(tagsData || []);
-    } catch (error) {
-      console.error('BlogListPage: Error fetching posts:', error);
-      setError('Failed to load blog posts from Supabase.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
+      try {
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        const mapped = (data || []).map((post: any) => ({
+          ...post,
+          author: {
+            name: post.author_name || 'Dietary Guide',
+            avatarUrl: post.author_avatar_url || 'https://placehold.co/40x40.png',
+          },
+        }));
+        setPosts(mapped);
+        // Tags
+        const allTags = (data || []).flatMap((post: any) => post.tags || []);
+        setTags([...new Set(allTags)].filter(Boolean).map(String).sort());
+      } catch (err: any) {
+        setError(err.message || 'Failed to load blog posts.');
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchPosts();
   }, []);
-
-  const handleRetry = () => {
-    fetchPosts();
-  };
 
   if (loading) {
     return (
@@ -78,7 +69,7 @@ const BlogListPage = () => {
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
-            <Button onClick={handleRetry} className="gap-2">
+            <Button onClick={() => window.location.reload()} className="gap-2">
               <RefreshCw className="w-4 h-4" />
               Try Again
             </Button>
@@ -89,7 +80,6 @@ const BlogListPage = () => {
     );
   }
 
-  // Fallback UI if no posts (same logic as admin)
   if (!posts || posts.length === 0) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -100,7 +90,7 @@ const BlogListPage = () => {
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>No blog posts found.</AlertDescription>
             </Alert>
-            <Button onClick={handleRetry} className="gap-2">
+            <Button onClick={() => window.location.reload()} className="gap-2">
               <RefreshCw className="w-4 h-4" />
               Retry
             </Button>

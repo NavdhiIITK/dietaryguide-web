@@ -25,17 +25,20 @@ function generateSnippet(content: string): string {
 
 // Fetch all blog posts from Supabase (same logic as admin panel)
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  console.log('🔍 Fetching blog posts from Supabase posts table...');
+  console.log('🔍 getBlogPosts: Starting fetch from Supabase posts table...');
 
   try {
     // Simple query without filters first (same as admin panel)
+    console.log('🔍 getBlogPosts: Executing Supabase query...');
     const { data, error } = await supabase
       .from('posts')
       .select('*')
       .order('created_at', { ascending: false });
 
-    console.log('📦 Supabase raw posts result:', data);
-    console.log('❌ Supabase error:', error);
+    console.log('📦 getBlogPosts: Supabase raw posts result:', data);
+    console.log('📦 getBlogPosts: Data type:', typeof data);
+    console.log('📦 getBlogPosts: Data length:', data?.length);
+    console.log('❌ getBlogPosts: Supabase error:', error);
 
     if (error) {
       console.error('❌ Supabase error details:', error.message, error.details, error.hint);
