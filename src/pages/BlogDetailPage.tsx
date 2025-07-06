@@ -201,7 +201,14 @@ const BlogDetailPage = () => {
               <div className="flex items-center gap-1.5">
                 <CalendarDays className="h-4 w-4" />
                 <time dateTime={post.created_at}>
-                  {post.created_at ? format(new Date(post.created_at), 'MMMM d, yyyy') : 'Unknown date'}
+                  {post.created_at ? (() => {
+                    try {
+                      return format(new Date(post.created_at), 'MMMM d, yyyy');
+                    } catch (error) {
+                      console.error('Date formatting error:', error);
+                      return 'Unknown date';
+                    }
+                  })() : 'Unknown date'}
                 </time>
               </div>
               
