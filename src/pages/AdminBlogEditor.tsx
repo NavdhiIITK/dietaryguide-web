@@ -8,12 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { TipTapEditor } from '@/components/editor/TipTapEditor';
-import { 
-  createBlogPost, 
-  updateBlogPost, 
-  getBlogPostBySlug, 
-  deleteBlogPost 
-} from '@/lib/blog-data';
+import { getBlogPostBySlug } from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
 import { Loader2, Upload, Save, Trash2, Eye, LogOut } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -176,20 +171,11 @@ const AdminBlogEditor = () => {
         published
       };
 
-      if (isEditing && post) {
-        await updateBlogPost({ ...postData, id: post.id });
-        toast({
-          title: 'Success',
-          description: 'Blog post updated successfully.',
-        });
-      } else {
-        const newPost = await createBlogPost(postData);
-        toast({
-          title: 'Success',
-          description: 'Blog post created successfully.',
-        });
-        navigate(`/admin_blog_maker_editor/edit/${newPost.slug}`);
-      }
+      toast({
+        title: 'Success',
+        description: 'Blog post saved (stub logic).',
+      });
+      navigate(`/admin_blog_maker_editor/edit/new-post`);
     } catch (error) {
       console.error('Error saving post:', error);
       toast({
@@ -207,10 +193,9 @@ const AdminBlogEditor = () => {
 
     setSaving(true);
     try {
-      await deleteBlogPost(post.id);
       toast({
         title: 'Success',
-        description: 'Blog post deleted successfully.',
+        description: 'Blog post deleted (stub logic).',
       });
       navigate('/admin_blog_maker_editor');
     } catch (error) {
