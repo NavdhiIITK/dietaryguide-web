@@ -12,7 +12,6 @@ import {
   createBlogPost, 
   updateBlogPost, 
   getBlogPostBySlug, 
-  uploadBlogImage,
   deleteBlogPost 
 } from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
@@ -118,8 +117,8 @@ const AdminBlogEditor = () => {
 
     setUploading(true);
     try {
-      const imageUrl = await uploadBlogImage(file);
-      setImage(imageUrl);
+      // Remove the line that calls uploadBlogImage, since you will use image URLs directly
+      setImage(file.name);
       toast({
         title: 'Success',
         description: 'Image uploaded successfully.',
