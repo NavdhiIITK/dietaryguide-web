@@ -1,26 +1,27 @@
 import { supabase } from '@/integrations/supabase/client';
 import { BlogPost, CreateBlogPost, UpdateBlogPost } from '@/types/blog';
 
-// Helper functions
-const slugify = (text: string) =>
-  text
+// Helper functions for blog operations
+function slugify(text: string): string {
+  return text
     .toString()
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/[^\w-]+/g, '') // Remove all non-word chars
-    .replace(/--+/g, '-'); // Replace multiple - with single -
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-');
+}
 
-const calculateReadingTime = (content: string): number => {
+function calculateReadingTime(content: string): number {
   const wordsPerMinute = 200;
   const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
   return Math.ceil(words / wordsPerMinute);
-};
+}
 
-const generateSnippet = (content: string): string => {
+function generateSnippet(content: string): string {
   const plainText = content.replace(/<[^>]*>/g, '');
   return plainText.length > 150 ? plainText.substring(0, 150) + '...' : plainText;
-};
+}
 
 
 
