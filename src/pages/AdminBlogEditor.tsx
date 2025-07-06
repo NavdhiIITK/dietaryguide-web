@@ -18,6 +18,21 @@ import { BlogPost } from '@/types/blog';
 import { Loader2, Upload, Save, Trash2, Eye, LogOut } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+// Predefined health and nutrition tags
+const PREDEFINED_TAGS = [
+  'Weight Loss', 'Weight Gain', 'Protein', 'Carbohydrates', 'Healthy Fats',
+  'Vitamins', 'Minerals', 'Fiber', 'Antioxidants', 'Probiotics',
+  'Meal Plan', 'Indian Diet', 'Vegetarian', 'Vegan', 'Keto Diet',
+  'Mediterranean Diet', 'DASH Diet', 'Intermittent Fasting',
+  'Diabetes', 'Heart Health', 'Blood Pressure', 'Cholesterol',
+  'Digestive Health', 'Gut Health', 'Immunity', 'Bone Health',
+  'Fitness', 'Exercise', 'Strength Training', 'Cardio', 'Yoga',
+  'Mental Health', 'Stress Management', 'Sleep', 'Hydration',
+  'Supplements', 'Superfoods', 'Organic', 'Natural Remedies',
+  'Recipes', 'Cooking Tips', 'Meal Prep', 'Healthy Snacks',
+  'Nutrition Facts', 'Calorie Counting', 'Metabolism', 'Detox'
+];
+
 const AdminBlogEditor = () => {
   const { slug } = useParams<{ slug?: string }>();
   const navigate = useNavigate();
@@ -36,6 +51,8 @@ const AdminBlogEditor = () => {
   const [image, setImage] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
 
   const isEditing = !!slug;
 
@@ -63,6 +80,8 @@ const AdminBlogEditor = () => {
         setContent(postData.content);
         setImage(postData.image);
         setTags(postData.tags);
+        setMetaTitle(postData.title);
+        setMetaDescription(postData.snippet || '');
       } else {
         toast({
           variant: 'destructive',
@@ -82,6 +101,13 @@ const AdminBlogEditor = () => {
       setLoading(false);
     }
   };
+
+  // Auto-fill meta title when title changes
+  useEffect(() => {
+    if (title && !metaTitle) {
+      setMetaTitle(title);
+    }
+  }, [title, metaTitle]);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -130,14 +156,21 @@ const AdminBlogEditor = () => {
 
     setSaving(true);
     try {
+      // Auto-fill SEO fields if empty
+      const finalMetaTitle = metaTitle.trim() || title.trim();
+      const finalMetaDescription = metaDescription.trim() ||
+        (subtitle.trim() || content.replace(/<[^>]*>/g, '').substring(0, 150) + '...');
+
       const postData = {
         title: title.trim(),
         subtitle: subtitle.trim() || undefined,
         content,
         tags,
         image,
-        author_name: user?.displayName || 'Admin',
-        author_avatar: user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'
+        author_name: user?.displayName || user?.email?.split('@')[0] || 'Team DietaryGuide',
+        author_avatar: user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
+        meta_title: finalMetaTitle,
+        meta_description: finalMetaDescription
       };
 
       if (isEditing && post) {
@@ -280,6 +313,44 @@ const AdminBlogEditor = () => {
               </CardContent>
             </Card>
 
+            {/* SEO Fields */}
+            <Card>
+              <CardHeader>
+                <CardTitle>SEO Settings</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="meta-title">Meta Title</Label>
+                  <Input
+                    id="meta-title"
+                    value={metaTitle}
+                    onChange={(e) => setMetaTitle(e.target.value)}
+                    placeholder="SEO title (auto-filled from title)"
+                    maxLength={60}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {metaTitle.length}/60 characters
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="meta-description">Meta Description</Label>
+                  <textarea
+                    id="meta-description"
+                    value={metaDescription}
+                    onChange={(e) => setMetaDescription(e.target.value)}
+                    placeholder="Brief description for search engines"
+                    maxLength={160}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-input rounded-md text-sm"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {metaDescription.length}/160 characters
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Content */}
             <Card>
               <CardHeader>
@@ -348,30 +419,58 @@ const AdminBlogEditor = () => {
                 <CardTitle>Tags</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex gap-2">
-                  <Input
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    placeholder="Add a tag..."
-                    onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                  />
-                  <Button onClick={handleAddTag} size="sm">
-                    Add
-                  </Button>
-                </div>
-                
-                <div className="flex flex-wrap gap-2">
-                  {tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="cursor-pointer">
-                      {tag}
-                      <button
-                        onClick={() => handleRemoveTag(tag)}
-                        className="ml-2 text-xs"
+                {/* Predefined Tags */}
+                <div>
+                  <Label className="text-sm font-medium">Quick Add Tags</Label>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {PREDEFINED_TAGS.filter(tag => !tags.includes(tag)).slice(0, 12).map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="outline"
+                        className="cursor-pointer hover:bg-primary hover:text-primary-foreground text-xs"
+                        onClick={() => setTags([...tags, tag])}
                       >
-                        ×
-                      </button>
-                    </Badge>
-                  ))}
+                        + {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Custom Tag Input */}
+                <div>
+                  <Label className="text-sm font-medium">Custom Tag</Label>
+                  <div className="flex gap-2 mt-2">
+                    <Input
+                      value={tagInput}
+                      onChange={(e) => setTagInput(e.target.value)}
+                      placeholder="Add a custom tag..."
+                      onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+                    />
+                    <Button onClick={handleAddTag} size="sm">
+                      Add
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Selected Tags */}
+                <div>
+                  <Label className="text-sm font-medium">Selected Tags</Label>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {tags.map((tag) => (
+                      <Badge key={tag} variant="secondary" className="cursor-pointer">
+                        {tag}
+                        <button
+                          onClick={() => handleRemoveTag(tag)}
+                          className="ml-2 text-xs hover:text-destructive"
+                        >
+                          ×
+                        </button>
+                      </Badge>
+                    ))}
+                    {tags.length === 0 && (
+                      <p className="text-sm text-muted-foreground">No tags selected</p>
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>
