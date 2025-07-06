@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Button } from "@/components/ui/button";
-import { BlogList } from '@/components/blog/BlogList';
+import { BlogListComponent } from '@/components/blog/BlogListComponent';
 import { getBlogPosts, getAllTags } from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
 import SEOOptimizer from "@/components/SEOOptimizer";
 
 const BlogListPage = () => {
-  const [activeFilter, setActiveFilter] = useState("All");
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,8 +24,7 @@ const BlogListPage = () => {
         console.log('BlogListPage: Fetched tags:', tagsData);
 
         setPosts(postsData);
-        setTags(['All', ...tagsData]);
-        setFilteredPosts(postsData);
+        setTags(tagsData);
       } catch (error) {
         console.error('BlogListPage: Error fetching blog data:', error);
       } finally {
@@ -39,26 +35,27 @@ const BlogListPage = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (activeFilter === "All") {
-      setFilteredPosts(posts);
-    } else {
-      setFilteredPosts(posts.filter(post => post.tags.includes(activeFilter)));
-    }
-  }, [activeFilter, posts]);
-
-  const handleFilterChange = (tag: string) => {
-    setActiveFilter(tag);
-  };
-
-  console.log('BlogListPage: Rendering with loading:', loading, 'posts:', posts.length, 'filteredPosts:', filteredPosts.length);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Loading blog posts...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
       <SEOOptimizer
-        title="Blog - DietaryGuide"
-        description="Discover expert insights on nutrition, diet, fitness, and wellness. Read our latest articles on healthy living and dietary guidance."
-        keywords="nutrition blog, diet tips, fitness advice, wellness articles, healthy eating, dietary guidance"
+        title="Nutrition & Wellness Blog - DietaryGuide"
+        description="Evidence-based articles on health, nutrition, fitness, and wellness to help you make informed decisions about your diet and lifestyle."
+        keywords="nutrition blog, diet tips, fitness advice, wellness articles, healthy eating, dietary guidance, indian diet, meal planning"
         url="/blog"
         type="website"
       />
@@ -66,52 +63,7 @@ const BlogListPage = () => {
       <Navbar />
 
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-16">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline mb-4">
-              Our Blog
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover expert insights on nutrition, diet, fitness, and wellness to help you live your healthiest life.
-            </p>
-          </div>
-
-          {/* Filter buttons */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {tags.map((tag) => (
-              <Button
-                key={tag}
-                variant={activeFilter === tag ? "default" : "outline"}
-                onClick={() => handleFilterChange(tag)}
-                className="rounded-full"
-              >
-                {tag}
-              </Button>
-            ))}
-          </div>
-
-          {/* Blog posts */}
-          <BlogList posts={filteredPosts} loading={loading} />
-
-          {/* Empty state */}
-          {!loading && filteredPosts.length === 0 && activeFilter !== "All" && (
-            <div className="text-center py-12">
-              <h3 className="text-xl font-semibold text-muted-foreground mb-2">
-                No posts found for "{activeFilter}"
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Try selecting a different category or check back later.
-              </p>
-              <Button
-                variant="outline"
-                onClick={() => setActiveFilter("All")}
-              >
-                View All Posts
-              </Button>
-            </div>
-          )}
-        </div>
+        <BlogListComponent posts={posts} tags={tags} />
       </main>
 
       <Footer />
