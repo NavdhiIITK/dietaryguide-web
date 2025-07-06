@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getBlogPosts, getAllTags } from '@/lib/blog-data';
-import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { Loader2, AlertCircle, RefreshCw, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const BlogListPage = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -124,7 +126,7 @@ const BlogListPage = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
               {posts.map(post => (
-                <div key={post.id} className="border rounded-lg p-4">
+                <div key={post.id} className="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-200">
                   <div className="mb-4">
                     <img
                       src={post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'}
@@ -156,6 +158,21 @@ const BlogListPage = () => {
                             {tag}
                           </span>
                         ))}
+                      </div>
+                    )}
+                    
+                    {/* Read More Button */}
+                    {post.slug && (
+                      <div className="mt-4">
+                        <Link to={`/blog/${post.slug}`}>
+                          <Button 
+                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 group"
+                            size="sm"
+                          >
+                            Read More
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </Link>
                       </div>
                     )}
                   </div>
