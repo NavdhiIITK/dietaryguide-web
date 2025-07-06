@@ -52,26 +52,54 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
 };
 
 export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefined> => {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+  try {
+    console.log('🔍 Fetching blog post by slug:', slug);
+    
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('slug', slug)
+      .single();
 
-  if (error) {
-    console.error('Error fetching post by slug:', error);
-    return undefined;
-  }
+    if (error) {
+      console.error('❌ Supabase error fetching post by slug:', error);
+      throw new Error(`Failed to fetch post: ${error.message}`);
+    }
 
-  if (!data) return undefined;
+    if (!data) {
+      console.log('📦 No post found with slug:', slug);
+      return undefined;
+    }
 
-  return {
-    ...data,
-     author: {
+    console.log('📦 Fetched post from Supabase:', data.title);
+
+    // Map and validate the data with proper fallbacks (same as getBlogPosts)
+    const validatedPost = {
+      id: data.id,
+      title: data.title || 'Untitled Post',
+      subtitle: data.subtitle || '',
+      slug: data.slug || '',
+      content: data.content || '',
+      image: data.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
+      tags: Array.isArray(data.tags) ? data.tags : [],
+      author_name: data.author_name || 'Dietary Guide',
+      author_avatar_url: data.author_avatar_url || 'https://placehold.co/40x40.png',
+      snippet: data.snippet || (data.content ? data.content.substring(0, 150).replace(/<[^>]*>/g, '') + '...' : ''),
+      reading_time: data.reading_time || Math.ceil((data.content || '').split(' ').length / 200),
+      created_at: data.created_at || new Date().toISOString(),
+      updated_at: data.updated_at || new Date().toISOString(),
+      author: {
         name: data.author_name || "Dietary Guide",
         avatarUrl: data.author_avatar_url || "https://placehold.co/40x40.png"
-    }
-  } as BlogPost;
+      }
+    } as BlogPost;
+
+    console.log('✅ Successfully processed blog post');
+    return validatedPost;
+  } catch (error) {
+    console.error('❌ Error in getBlogPostBySlug:', error);
+    throw error;
+  }
 };
 
 export const getAllTags = async (): Promise<string[]> => {

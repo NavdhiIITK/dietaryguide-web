@@ -159,13 +159,15 @@ const BlogDetailPage = () => {
           {/* Article header */}
           <header className="mb-8">
             {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {post.tags && Array.isArray(post.tags) && post.tags.map((tag: string) => (
-                <Badge key={tag} variant="secondary" className="border-transparent">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
+            {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {post.tags.map((tag: string) => (
+                  <Badge key={tag} variant="secondary" className="border-transparent">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
 
             {/* Title */}
             <h1 className="font-headline text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
@@ -224,10 +226,16 @@ const BlogDetailPage = () => {
           </div>
 
           {/* Article content */}
-          <div
-            className="prose prose-lg max-w-none prose-headings:font-headline prose-headings:font-semibold prose-h2:text-2xl prose-h3:text-xl prose-p:text-foreground prose-p:leading-relaxed prose-strong:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:border"
-            dangerouslySetInnerHTML={{ __html: post.content || 'No content available.' }}
-          />
+          {post.content ? (
+            <div
+              className="prose prose-lg max-w-none prose-headings:font-headline prose-headings:font-semibold prose-h2:text-2xl prose-h3:text-xl prose-p:text-foreground prose-p:leading-relaxed prose-strong:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:border"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg">No content available for this blog post.</p>
+            </div>
+          )}
 
           {/* Article footer */}
           <footer className="mt-12 pt-8 border-t border-border">
