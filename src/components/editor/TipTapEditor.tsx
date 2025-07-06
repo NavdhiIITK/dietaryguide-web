@@ -36,7 +36,7 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-lg max-w-none focus:outline-none min-h-[300px] p-4',
+        class: 'max-w-none focus:outline-none min-h-[300px] p-4 text-foreground leading-relaxed [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-8 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-6 [&>h3]:text-lg [&>h3]:font-semibold [&>h3]:mb-2 [&>h3]:mt-4 [&>p]:mb-4 [&>p]:leading-relaxed [&>strong]:font-semibold [&>a]:text-primary [&>a]:underline [&>a:hover]:text-primary/80 [&>blockquote]:border-l-4 [&>blockquote]:border-primary [&>blockquote]:bg-muted/50 [&>blockquote]:py-2 [&>blockquote]:px-4 [&>blockquote]:rounded-r-lg [&>code]:bg-muted [&>code]:px-1 [&>code]:py-0.5 [&>code]:rounded [&>pre]:bg-muted [&>pre]:border [&>pre]:p-4 [&>pre]:rounded [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-4 [&>li]:mb-1',
       },
     },
   });
@@ -142,7 +142,7 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
       <div className="min-h-[300px] bg-background">
         <EditorContent 
           editor={editor} 
-          className="prose-headings:font-headline prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-p:text-foreground prose-strong:text-foreground prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:rounded-r-lg"
+          className="[&>h1]:font-headline [&>h1]:font-semibold [&>h1]:text-2xl [&>h2]:font-headline [&>h2]:font-semibold [&>h2]:text-xl [&>h3]:font-headline [&>h3]:font-semibold [&>h3]:text-lg [&>p]:text-foreground [&>strong]:text-foreground [&>blockquote]:border-l-primary [&>blockquote]:bg-muted/50 [&>blockquote]:py-2 [&>blockquote]:px-4 [&>blockquote]:rounded-r-lg"
         />
       </div>
     </div>

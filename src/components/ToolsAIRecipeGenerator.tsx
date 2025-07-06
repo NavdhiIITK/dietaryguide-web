@@ -394,7 +394,7 @@ const ToolsAIRecipeGenerator = () => {
               <CardTitle className="text-green-800 dark:text-green-300">Generated Recipe</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
-              <div className="prose dark:prose-invert max-w-none mb-4 whitespace-pre-line">
+              <div className="text-foreground leading-relaxed [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mb-4 [&>h1]:mt-8 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:mb-3 [&>h2]:mt-6 [&>h3]:text-lg [&>h3]:font-semibold [&>h3]:mb-2 [&>h3]:mt-4 [&>p]:mb-4 [&>p]:leading-relaxed [&>strong]:font-semibold [&>a]:text-primary [&>a]:underline [&>a:hover]:text-primary/80 [&>blockquote]:border-l-4 [&>blockquote]:border-primary [&>blockquote]:bg-muted/50 [&>blockquote]:py-2 [&>blockquote]:px-4 [&>blockquote]:rounded-r-lg [&>blockquote]:italic [&>code]:bg-muted [&>code]:px-1 [&>code]:py-0.5 [&>code]:rounded [&>pre]:bg-muted [&>pre]:border [&>pre]:p-4 [&>pre]:rounded [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-4 [&>li]:mb-1 max-w-none mb-4 whitespace-pre-line">
                 {generatedRecipe.split('\n').map((line, index) => {
                   if (line.startsWith('# ')) {
                     return <h1 key={index} className="text-2xl font-bold mt-4 mb-2 text-green-800 dark:text-green-300">{line.substring(2)}</h1>;
