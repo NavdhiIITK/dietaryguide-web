@@ -16,9 +16,6 @@ export interface BlogPost {
   content: string;
   author_name?: string;
   author_avatar_url?: string;
-  meta_title?: string;
-  meta_description?: string;
-  published?: boolean;
 }
 
 export interface CreateBlogPost {
