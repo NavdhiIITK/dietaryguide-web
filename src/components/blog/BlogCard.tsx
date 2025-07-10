@@ -26,7 +26,6 @@ export function BlogCard({ post }: BlogCardProps) {
             src={post.image}
             alt={post.title}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            data-ai-hint="healthy indian food"
           />
         </div>
         <div className="flex flex-col gap-2">

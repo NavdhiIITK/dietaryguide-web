@@ -339,16 +339,14 @@ const LatestContent = () => {
         } = await supabase.from('posts').select('id, title, snippet, image, tags, created_at').order('created_at', { ascending: false }).limit(3);
         if (blogError) throw blogError;
         
-        const mappedBlogs = blogData?.map(post => ({
-          id: post.id,
-          title: post.title,
-          description: post.snippet,
-          image: post.image,
-          category: post.tags?.[0] || 'Health',
-          date: post.created_at
-        })) || [];
-        
-        setLatestBlogs(mappedBlogs);
+        setLatestBlogs((blogData || []).map(item => ({
+          id: item.id,
+          title: item.title,
+          description: item.snippet,
+          image: item.image,
+          category: Array.isArray(item.tags) ? item.tags[0] : null,
+          date: item.created_at
+        })) as ContentItem[]);
       } catch (error) {
         console.error("Error fetching latest content:", error);
       } finally {
