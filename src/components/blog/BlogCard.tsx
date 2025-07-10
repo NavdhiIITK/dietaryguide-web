@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
+import { Link } from 'react-router-dom';
 import type { BlogPost } from '@/types/blog';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
@@ -20,14 +19,13 @@ export function BlogCard({ post }: BlogCardProps) {
   }, [post.created_at]);
 
   return (
-    <Link href={`/blog/${post.slug}`} className="group block">
+    <Link to={`/blog/${post.slug}`} className="group block">
       <div className="flex flex-col gap-4">
         <div className="relative h-56 w-full overflow-hidden rounded-lg">
-          <Image
+          <img
             src={post.image}
             alt={post.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             data-ai-hint="healthy indian food"
           />
         </div>
