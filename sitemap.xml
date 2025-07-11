@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset 
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Main Pages -->
   <url>
     <loc>https://dietaryguide.in/</loc>
@@ -78,7 +76,6 @@
     <loc>https://dietaryguide.in/blog/the-plant-protein-revolution:-india's-complete-guide-to-vegetarian-muscle-building-&-optimal-health-in-2025</loc>
   </url>
   <url>
-    <loc>http://dietaryguide.in/blog/gut-health-revolution:-how-ancient-indian-wisdom-is-healing-modern-digestive-woes-in-2025</loc>
+    <loc>https://dietaryguide.in/blog/gut-health-revolution:-how-ancient-indian-wisdom-is-healing-modern-digestive-woes-in-2025</loc>
   </url>
-
 </urlset>
