@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS posts (
   slug TEXT UNIQUE NOT NULL,
   subtitle TEXT,
   author_name TEXT NOT NULL DEFAULT 'Team DietaryGuide',
-  author_avatar TEXT NOT NULL DEFAULT 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
+  author_avatar TEXT NOT NULL DEFAULT 'https://github.com/ANVEAI/nutriverse-3d-guide-78/blob/main/Untitled%20design.png?raw=true',
   image TEXT NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),

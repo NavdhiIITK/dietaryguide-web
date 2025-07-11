@@ -1,0 +1,80 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "blog": "Blog",
+    "recipes": "Recettes",
+    "products": "Produits",
+    "app": "APP",
+    "healthTools": "Outils de Santé",
+    "getStarted": "Commencer"
+  },
+  "hero": {
+    "headline": "Votre Santé, Votre Guide",
+    "subheadline": "Conseils basés sur des preuves pour une vie plus saine et plus heureuse grâce à une nutrition équilibrée et une alimentation consciente.",
+    "exploreTools": "Explorer les Outils",
+    "viewRecipes": "Voir les Recettes"
+  },
+  "features": {
+    "title": "Pourquoi choisir DietaryGuide ?",
+    "subtitle": "Conseils nutritionnels complets soutenus par la science",
+    "personalizedPlans": {
+      "title": "Plans de Nutrition Personnalisés",
+      "description": "Planification de repas alimentée par l'IA adaptée à vos préférences alimentaires, objectifs de santé et style de vie."
+    },
+    "expertGuidance": {
+      "title": "Conseils d'Experts",
+      "description": "Accès à des nutritionnistes certifiés et des recommandations alimentaires basées sur des preuves."
+    },
+    "progressTracking": {
+      "title": "Suivi des Progrès",
+      "description": "Surveillez votre parcours de santé avec des outils de suivi complets et des analyses."
+    }
+  },
+  "blog": {
+    "title": "Dernières Perspectives de Santé",
+    "subtitle": "Restez informé avec notre contenu de santé et nutrition curé par des experts",
+    "readMore": "Lire Plus",
+    "categories": {
+      "nutrition": "Nutrition",
+      "wellness": "Bien-être",
+      "fitness": "Fitness",
+      "recipes": "Recettes"
+    }
+  },
+  "footer": {
+    "description": "Votre compagnon de confiance pour des conseils nutritionnels basés sur des preuves et une vie saine.",
+    "quickLinks": "Liens Rapides",
+    "resources": "Ressources",
+    "support": "Support",
+    "contact": "Contact",
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions de Service",
+    "about": "À Propos de Nous",
+    "faq": "FAQ",
+    "help": "Centre d'Aide"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Quelque chose s'est mal passé",
+    "retry": "Réessayer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "language": "Langue"
+  },
+  "tools": {
+    "title": "Outils de Santé",
+    "subtitle": "Outils complets pour soutenir votre parcours de bien-être",
+    "bmiCalculator": "Calculateur d'IMC",
+    "mealPlanner": "Planificateur de Repas IA",
+    "nutritionTracker": "Tracker de Nutrition",
+    "workoutPlanner": "Planificateur d'Entraînement"
+  }
+}

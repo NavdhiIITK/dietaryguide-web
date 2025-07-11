@@ -1,0 +1,80 @@
+{
+  "navbar": {
+    "home": "Inicio",
+    "blog": "Blog",
+    "recipes": "Recetas",
+    "products": "Productos",
+    "app": "APP",
+    "healthTools": "Herramientas de Salud",
+    "getStarted": "Comenzar"
+  },
+  "hero": {
+    "headline": "Tu Salud, Tu Guía",
+    "subheadline": "Orientación basada en evidencia para una vida más saludable y feliz a través de una nutrición equilibrada y una alimentación consciente.",
+    "exploreTools": "Explorar Herramientas",
+    "viewRecipes": "Ver Recetas"
+  },
+  "features": {
+    "title": "¿Por qué elegir DietaryGuide?",
+    "subtitle": "Orientación nutricional integral respaldada por la ciencia",
+    "personalizedPlans": {
+      "title": "Planes de Nutrición Personalizados",
+      "description": "Planificación de comidas impulsada por IA adaptada a tus preferencias dietéticas, objetivos de salud y estilo de vida."
+    },
+    "expertGuidance": {
+      "title": "Orientación Experta",
+      "description": "Acceso a nutricionistas certificados y recomendaciones dietéticas basadas en evidencia."
+    },
+    "progressTracking": {
+      "title": "Seguimiento del Progreso",
+      "description": "Monitorea tu viaje de salud con herramientas de seguimiento integral y análisis."
+    }
+  },
+  "blog": {
+    "title": "Últimas Perspectivas de Salud",
+    "subtitle": "Mantente informado con nuestro contenido de salud y nutrición curado por expertos",
+    "readMore": "Leer Más",
+    "categories": {
+      "nutrition": "Nutrición",
+      "wellness": "Bienestar",
+      "fitness": "Fitness",
+      "recipes": "Recetas"
+    }
+  },
+  "footer": {
+    "description": "Tu compañero de confianza para orientación nutricional basada en evidencia y vida saludable.",
+    "quickLinks": "Enlaces Rápidos",
+    "resources": "Recursos",
+    "support": "Soporte",
+    "contact": "Contacto",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "about": "Acerca de Nosotros",
+    "faq": "Preguntas Frecuentes",
+    "help": "Centro de Ayuda"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "retry": "Intentar de Nuevo",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "language": "Idioma"
+  },
+  "tools": {
+    "title": "Herramientas de Salud",
+    "subtitle": "Herramientas integrales para apoyar tu viaje de bienestar",
+    "bmiCalculator": "Calculadora de IMC",
+    "mealPlanner": "Planificador de Comidas IA",
+    "nutritionTracker": "Rastreador de Nutrición",
+    "workoutPlanner": "Planificador de Ejercicios"
+  }
+}

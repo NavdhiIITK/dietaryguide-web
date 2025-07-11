@@ -35,7 +35,7 @@ const samplePosts = [
     tags: ["Protein", "Muscle Building", "Nutrition", "Fitness"],
     image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
     author_name: "Team DietaryGuide",
-    author_avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face",
+    author_avatar_url: "https://github.com/ANVEAI/nutriverse-3d-guide-78/blob/main/Untitled%20design.png?raw=true",
     published: true
   },
   {
@@ -78,7 +78,7 @@ const samplePosts = [
     tags: ["Hydration", "Health", "Performance", "Wellness"],
     image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
     author_name: "Team DietaryGuide",
-    author_avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face",
+    author_avatar_url: "https://github.com/ANVEAI/nutriverse-3d-guide-78/blob/main/Untitled%20design.png?raw=true",
     published: true
   },
   {
@@ -115,7 +115,7 @@ const samplePosts = [
     tags: ["Indian Diet", "Nutrition Myths", "Health", "Traditional Foods"],
     image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
     author_name: "Team DietaryGuide",
-    author_avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face",
+    author_avatar_url: "https://github.com/ANVEAI/nutriverse-3d-guide-78/blob/main/Untitled%20design.png?raw=true",
     published: true
   }
 ];
