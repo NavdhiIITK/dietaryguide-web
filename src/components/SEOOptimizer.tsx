@@ -31,11 +31,12 @@ const SEOOptimizer = ({
   schemaData,
   breadcrumbs
 }: SEOOptimizerProps) => {
-  const fullTitle = title ? `${title} | ${seoMetadata.siteName}` : seoMetadata.defaultTitle;
-  const metaDescription = description || seoMetadata.defaultDescription;
-  const metaKeywords = keywords || seoMetadata.defaultKeywords;
-  const fullUrl = url ? `${seoMetadata.siteUrl}${url}` : seoMetadata.siteUrl;
-  const ogImage = image || `${seoMetadata.siteUrl}/logo/dg.png`;
+  try {
+    const fullTitle = title ? `${title} | ${seoMetadata.siteName}` : seoMetadata.defaultTitle;
+    const metaDescription = description || seoMetadata.defaultDescription;
+    const metaKeywords = keywords || seoMetadata.defaultKeywords;
+    const fullUrl = url ? `${seoMetadata.siteUrl}${url}` : seoMetadata.siteUrl;
+    const ogImage = image || `${seoMetadata.siteUrl}/logo/dg.png`;
 
   const getStructuredData = () => {
     const schemas = [];
@@ -198,6 +199,10 @@ const SEOOptimizer = ({
       <meta name="msapplication-starturl" content="/" />
     </Helmet>
   );
+  } catch (error) {
+    console.error('SEOOptimizer error:', error);
+    return null;
+  }
 };
 
 export default SEOOptimizer;

@@ -151,7 +151,7 @@ const BlogListPage = () => {
                       <span>{post.reading_time || 5} min read</span>
                     </div>
                     
-                    {post.tags && post.tags.length > 0 && (
+                    {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {post.tags.slice(0, 3).map((tag: string, index: number) => (
                           <span key={index} className="bg-primary/10 text-primary px-2 py-1 rounded text-xs">
