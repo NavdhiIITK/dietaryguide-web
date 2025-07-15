@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroCanvas from "@/components/HeroCanvas";
@@ -20,7 +19,6 @@ interface ContentItem {
 }
 
 const Home = () => {
-  const { t } = useTranslation();
   const contentRef = useRef<HTMLDivElement>(null);
 
   const scrollToContent = () => {
@@ -45,23 +43,23 @@ const Home = () => {
             <h1 className="text-hero font-bold leading-tight animate-fade-in max-w-4xl" style={{
             animationDelay: "0.2s"
           }}>
-              {t("hero.headline")}
+              Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
             </h1>
-
+            
             <p className="text-subtitle max-w-3xl text-foreground/80 leading-relaxed animate-fade-in px-4" style={{
             animationDelay: "0.4s"
           }}>
-              {t("hero.subheadline")}
+              Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in w-full max-w-lg mt-8" style={{
             animationDelay: "0.6s"
           }}>
               <Button asChild size="lg" className="btn-primary w-full sm:w-auto min-w-[180px]">
-                <Link to="/tools">{t("hero.exploreTools")}</Link>
+                <Link to="/tools">Explore Tools</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="btn-secondary w-full sm:w-auto min-w-[180px]">
-                <Link to="/recipes">{t("hero.viewRecipes")}</Link>
+                <Link to="/recipes">View Recipes</Link>
               </Button>
             </div>
             
@@ -341,13 +339,13 @@ const LatestContent = () => {
         } = await supabase.from('posts').select('id, title, snippet, image, tags, created_at').order('created_at', { ascending: false }).limit(3);
         if (blogError) throw blogError;
         
-        const mappedBlogs: ContentItem[] = blogData?.map(blog => ({
-          id: blog.id,
-          title: blog.title,
-          description: blog.snippet,
-          image: blog.image,
-          category: blog.tags?.[0] || 'General',
-          date: blog.created_at
+        const mappedBlogs = blogData?.map(post => ({
+          id: post.id,
+          title: post.title,
+          description: post.snippet,
+          image: post.image,
+          category: post.tags?.[0] || 'Health',
+          date: post.created_at
         })) || [];
         
         setLatestBlogs(mappedBlogs);

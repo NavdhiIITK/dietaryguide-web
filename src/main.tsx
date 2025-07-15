@@ -5,7 +5,6 @@ import { HelmetProvider } from 'react-helmet-async'
 import { Toaster } from "@/components/ui/toaster";
 import App from './App.tsx'
 import './index.css'
-import './i18n'
 
 // Create the root first
 const root = createRoot(document.getElementById("root")!);

@@ -169,7 +169,7 @@ const AdminBlogEditor = () => {
         tags,
         image,
         author_name: user?.displayName || user?.email?.split('@')[0] || 'Team DietaryGuide',
-        author_avatar_url: user?.photoURL || 'https://github.com/ANVEAI/nutriverse-3d-guide-78/blob/main/Untitled%20design.png?raw=true',
+        author_avatar_url: user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
         meta_title: finalMetaTitle,
         meta_description: finalMetaDescription,
         published

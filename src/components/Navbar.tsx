@@ -3,24 +3,21 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
-import { useTranslation } from "react-i18next";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
-  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   const navigation = [
-    { name: t("navbar.home"), href: "/" },
-    { name: t("navbar.blog"), href: "/blog" },
-    { name: t("navbar.recipes"), href: "/recipes" },
-    { name: t("navbar.products"), href: "/products" },
-    { name: t("navbar.app"), href: "/app" },
-    { name: t("navbar.healthTools"), href: "/tools" },
+    { name: "Home", href: "/" },
+    { name: "Blog", href: "/blog" },
+    { name: "Recipes", href: "/recipes" },
+    { name: "Products", href: "/products" },
+    { name: "APP", href: "/app" },
+    { name: "Health Tools", href: "/tools" },
   ];
 
   useEffect(() => {
@@ -75,7 +72,6 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
-          <LanguageSwitcher />
           <Button
             variant="outline"
             size="icon"
@@ -90,13 +86,12 @@ const Navbar = () => {
             )}
           </Button>
           <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white">
-            <Link to="/tools">{t("navbar.getStarted")}</Link>
+            <Link to="/tools">Get Started</Link>
           </Button>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="flex md:hidden items-center space-x-2">
-          <LanguageSwitcher />
+        <div className="flex md:hidden items-center space-x-4">
           <Button
             variant="outline"
             size="icon"
@@ -145,7 +140,7 @@ const Navbar = () => {
               </Link>
             ))}
             <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white mt-2">
-              <Link to="/tools" onClick={() => setMobileMenuOpen(false)}>{t("navbar.getStarted")}</Link>
+              <Link to="/tools" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
             </Button>
           </div>
         </nav>

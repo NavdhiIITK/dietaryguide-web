@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { AuthProvider } from "@/context/auth-context";
-import { LanguageProvider } from "@/contexts/LanguageContext";
 
 // Pages
 import Index from "./pages/Index";
@@ -24,13 +23,11 @@ import SEODashboardPage from "./pages/SEODashboardPage";
 import NotFound from "./pages/NotFound";
 
 import "./App.css";
-import "./i18n";
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <LanguageProvider>
-        <AuthProvider>
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<BlogListPage />} />
@@ -53,8 +50,7 @@ function App() {
           <Route path="/seo-dashboard" element={<SEODashboardPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        </AuthProvider>
-      </LanguageProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
