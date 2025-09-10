@@ -116,14 +116,14 @@ const AppPage = () => {
               <Button 
                 size="lg" 
                 className="bg-forest hover:bg-spring text-white"
-                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg', '_blank')}
               >
                 Download for iOS
               </Button>
               <Button 
                 size="lg" 
                 className="bg-forest hover:bg-spring text-white"
-                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg', '_blank')}
               >
                 Download for Android
               </Button>

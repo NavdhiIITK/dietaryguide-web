@@ -142,7 +142,7 @@ const AppPromotionPage = () => {
                 <Button 
                   size="lg" 
                   className="bg-forest hover:bg-spring text-white rounded-full px-8"
-                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg', '_blank')}
                 >
                   <GooglePlayLogo />
                   <span className="ml-2">Get it on Google Play</span>
@@ -151,7 +151,7 @@ const AppPromotionPage = () => {
                   size="lg" 
                   variant="outline" 
                   className="rounded-full px-8"
-                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg', '_blank')}
                 >
                   <AppleStoreLogo />
                   <span className="ml-2">Download on App Store</span>
