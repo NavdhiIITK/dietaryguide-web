@@ -139,11 +139,20 @@ const AppPromotionPage = () => {
               
               {/* Download Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="bg-forest hover:bg-spring text-white rounded-full px-8">
+                <Button 
+                  size="lg" 
+                  className="bg-forest hover:bg-spring text-white rounded-full px-8"
+                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+                >
                   <GooglePlayLogo />
                   <span className="ml-2">Get it on Google Play</span>
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full px-8">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="rounded-full px-8"
+                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+                >
                   <AppleStoreLogo />
                   <span className="ml-2">Download on App Store</span>
                 </Button>

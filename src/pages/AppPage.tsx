@@ -113,10 +113,18 @@ const AppPage = () => {
               Download the Dietary Guide app today and start your journey towards healthier eating habits.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-forest hover:bg-spring text-white">
+              <Button 
+                size="lg" 
+                className="bg-forest hover:bg-spring text-white"
+                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+              >
                 Download for iOS
               </Button>
-              <Button size="lg" className="bg-forest hover:bg-spring text-white">
+              <Button 
+                size="lg" 
+                className="bg-forest hover:bg-spring text-white"
+                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg&hl=en_IN', '_blank')}
+              >
                 Download for Android
               </Button>
               <Button variant="outline" size="lg">
