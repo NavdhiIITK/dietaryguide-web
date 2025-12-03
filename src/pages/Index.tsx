@@ -16,6 +16,7 @@ interface ContentItem {
   image: string | null;
   category: string | null;
   date: string | null;
+  slug: string | null;
 }
 
 const Home = () => {
@@ -30,7 +31,7 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-gray-900">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="hero-section pt-16">
         <HeroCanvas />
@@ -39,22 +40,22 @@ const Home = () => {
             <span className="inline-block px-6 py-3 text-sm md:text-base font-medium text-secondary bg-secondary/10 rounded-full animate-fade-in">
               Nourish Your Body. Elevate Your Life.
             </span>
-            
+
             <h1 className="text-hero font-bold leading-tight animate-fade-in max-w-4xl" style={{
-            animationDelay: "0.2s"
-          }}>
+              animationDelay: "0.2s"
+            }}>
               Your Path to <span className="text-green-300">Personalized</span> Nutrition & Wellness
             </h1>
-            
+
             <p className="text-subtitle max-w-3xl text-foreground/80 leading-relaxed animate-fade-in px-4" style={{
-            animationDelay: "0.4s"
-          }}>
+              animationDelay: "0.4s"
+            }}>
               Evidence-based guidance for a healthier, happier life through balanced nutrition and mindful eating.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in w-full max-w-lg mt-8" style={{
-            animationDelay: "0.6s"
-          }}>
+              animationDelay: "0.6s"
+            }}>
               <Button asChild size="lg" className="btn-primary w-full sm:w-auto min-w-[180px]">
                 <Link to="/tools">Explore Tools</Link>
               </Button>
@@ -62,10 +63,10 @@ const Home = () => {
                 <Link to="/recipes">View Recipes</Link>
               </Button>
             </div>
-            
+
             <div className="mt-16 animate-bounce animate-fade-in" style={{
-            animationDelay: "1s"
-          }}>
+              animationDelay: "1s"
+            }}>
               <Button variant="ghost" size="icon" className="rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 w-14 h-14" onClick={scrollToContent} aria-label="Scroll down">
                 <ArrowDown className="h-6 w-6" />
               </Button>
@@ -73,7 +74,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Features Section */}
       <section ref={contentRef} className="py-24 bg-gray-900">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,7 +82,7 @@ const Home = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Explore Our Features</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
               <div className="w-20 h-20 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-8 mx-auto">
@@ -95,7 +96,7 @@ const Home = () => {
                 <Link to="/tools">Try Our Tools</Link>
               </Button>
             </Card>
-            
+
             <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
               <div className="w-20 h-20 rounded-2xl bg-green-500/10 flex items-center justify-center mb-8 mx-auto">
                 <Utensils className="w-10 h-10 text-green-400" />
@@ -108,7 +109,7 @@ const Home = () => {
                 <Link to="/recipes">Discover Recipes</Link>
               </Button>
             </Card>
-            
+
             <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
               <div className="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8 mx-auto">
                 <BookOpen className="w-10 h-10 text-blue-400" />
@@ -124,7 +125,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Featured Articles Section */}
       <section className="py-24 bg-gray-800">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -140,7 +141,7 @@ const Home = () => {
               </Link>
             </Button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Nutritional_Equality%20(2).png?raw=true" alt="Nutritional Equality: Making Healthy Food Accessible for All" className="h-48 w-full object-cover" />
@@ -159,7 +160,7 @@ const Home = () => {
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
@@ -177,7 +178,7 @@ const Home = () => {
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_The_Science_of_Hydra.png?raw=true" alt="The Science of Hydration: Why Water Is Essential" className="h-48 w-full object-cover" />
               <CardContent className="p-6">
@@ -200,7 +201,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Featured Recipes Section */}
       <section className="py-24 bg-gray-900">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -208,12 +209,12 @@ const Home = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Featured Recipes</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">Healthy, authentic flavors from Indian cuisine</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {allIndianRecipes.slice(0, 3).map((recipe, index) => {
               const titles = ["Quick & Easy Salad", "Vegetable Stir-Fry", "Berry Blast Smoothie"];
               const subtitles = ["Ready in 15 minutes", "Perfect for a weeknight dinner", "Start your day right"];
-              
+
               return (
                 <Card key={recipe.id} className="overflow-hidden bg-gray-800 border-gray-700 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                   <div className="h-64 relative overflow-hidden">
@@ -232,7 +233,7 @@ const Home = () => {
               );
             })}
           </div>
-          
+
           <div className="text-center mt-16">
             <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white px-8 py-3">
               <Link to="/recipes" className="flex items-center">
@@ -243,7 +244,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Testimonials Section */}
       <section className="py-24 bg-gray-800">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -253,7 +254,7 @@ const Home = () => {
               Real stories from people who have transformed their relationship with food and health.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
@@ -265,7 +266,7 @@ const Home = () => {
               </div>
               <p className="text-gray-300 italic leading-relaxed">The bespoke meal plans have completely transformed how I view nutrition. I've lost over a stone and feel more energised, focused, and motivated than ever. DietaryGuide is the perfect tool for anyone serious about fitness and healthy eating.</p>
             </Card>
-            
+
             <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
                 <img src="https://github.com/amishardev/navdhiweb/blob/main/nishant_jindal.png?raw=true" alt="Nishant Jindal" className="w-12 h-12 rounded-full object-cover mr-4" />
@@ -276,7 +277,7 @@ const Home = () => {
               </div>
               <p className="text-gray-300 italic leading-relaxed">As a corporate employee, smart nutrition is non-negotiable for staying on top of my game. DietaryGuide has been a game-changer, helping me fine-tune my diet to maintain peak energy and focus through demanding workdays.</p>
             </Card>
-            
+
             <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
                 <img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" alt="Lisa M." className="w-12 h-12 rounded-full object-cover mr-4" />
@@ -290,7 +291,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Newsletter */}
       <section className="py-24 bg-gray-900">
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -314,10 +315,10 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Latest Content */}
       <LatestContent />
-      
+
       <Footer />
     </div>
   );
@@ -326,28 +327,30 @@ const Home = () => {
 const LatestContent = () => {
   const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   // Get most popular recipes (trending ones)
   const popularRecipes = allIndianRecipes.filter(recipe => recipe.isTrending).slice(0, 3);
-  
+
   useEffect(() => {
     const fetchLatestContent = async () => {
       try {
+
         const {
           data: blogData,
           error: blogError
-        } = await supabase.from('posts').select('id, title, snippet, image, tags, created_at').order('created_at', { ascending: false }).limit(3);
+        } = await supabase.from('posts').select('id, title, snippet, image, tags, created_at, slug').order('created_at', { ascending: false }).limit(3);
         if (blogError) throw blogError;
-        
+
         const mappedBlogs = blogData?.map(post => ({
           id: post.id,
           title: post.title,
           description: post.snippet,
           image: post.image,
           category: post.tags?.[0] || 'Health',
-          date: post.created_at
+          date: post.created_at,
+          slug: post.slug
         })) || [];
-        
+
         setLatestBlogs(mappedBlogs);
       } catch (error) {
         console.error("Error fetching latest content:", error);
@@ -357,164 +360,164 @@ const LatestContent = () => {
     };
     fetchLatestContent();
   }, []);
-  
+
   if (loading) {
     return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
-        <div className="absolute inset-0" style={{
+      <div className="absolute inset-0" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         opacity: 0.4
       }}></div>
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-200/30 to-green-300/30 rounded-full blur-xl animate-float"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{
+      <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-200/30 to-green-300/30 rounded-full blur-xl animate-float"></div>
+      <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{
         animationDelay: "2s"
       }}></div>
-        
-        <div className="w-full mx-auto text-center relative z-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full mb-6 shadow-lg animate-pulse">
-            <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
-          </div>
-          <h2 className="text-section-title font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">Latest Content</h2>
-          <p className="text-muted-foreground mt-4 text-lg">Loading our newest articles and recipes...</p>
+
+      <div className="w-full mx-auto text-center relative z-10">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full mb-6 shadow-lg animate-pulse">
+          <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
         </div>
-      </div>;
+        <h2 className="text-section-title font-bold bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">Latest Content</h2>
+        <p className="text-muted-foreground mt-4 text-lg">Loading our newest articles and recipes...</p>
+      </div>
+    </div>;
   }
-  
+
   if (latestBlogs.length === 0 && popularRecipes.length === 0) {
     return null;
   }
-  
+
   // Define different article titles and descriptions for the cards
   const articleTitles = [
     "Women, Prioritize Your Health Every Day - Not Just During Summer Break",
-    "Nutritional Equality: Making Healthy Food Accessible for All", 
+    "Nutritional Equality: Making Healthy Food Accessible for All",
     "Intermittent Fasting: Science-Based Benefits and Best Practices"
   ];
-  
+
   const articleDescriptions = [
     "Essential health tips and strategies specifically designed for women to maintain wellness throughout the year, not just during vacation periods.",
     "Explore how we can break down barriers to healthy eating and ensure nutritious food is available and affordable for everyone, regardless of income or location.",
     "Explore the proven benefits of intermittent fasting, including weight management, improved metabolism, and enhanced mental clarity."
   ];
-  
+
   // Define custom images for the articles
   const articleImages = [
     '/lovable-uploads/3747d582-8764-4b6c-a467-104d8fee29f0.png',
     '/lovable-uploads/1748a82d-c7ef-4bc1-b27d-bb5e27f723bb.png',
     'https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
   ];
-  
+
   return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0" style={{
+    {/* Decorative background elements */}
+    <div className="absolute inset-0" style={{
       backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2334d399' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
       opacity: 0.4
     }}></div>
-      <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-200/30 to-green-300/30 rounded-full blur-xl animate-float"></div>
-      <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{
+    <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-200/30 to-green-300/30 rounded-full blur-xl animate-float"></div>
+    <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-br from-teal-200/30 to-emerald-300/30 rounded-full blur-xl animate-float" style={{
       animationDelay: "2s"
     }}></div>
-      
-      <div className="w-full max-w-none mx-auto space-luxurious relative z-10">
-        <div className="text-center px-4 sm:px-6 lg:px-8">
-          <div>
-            <h2 className="text-section-title font-bold mb-6">Latest Content</h2>
-            <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Discover our newest articles and most popular recipes</p>
-          </div>
+
+    <div className="w-full max-w-none mx-auto space-luxurious relative z-10">
+      <div className="text-center px-4 sm:px-6 lg:px-8">
+        <div>
+          <h2 className="text-section-title font-bold mb-6">Latest Content</h2>
+          <p className="text-subtitle text-foreground/70 max-w-3xl mx-auto">Discover our newest articles and most popular recipes</p>
         </div>
-        
-        {latestBlogs.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold mb-4 text-left">Latest Articles</h3>
-              <div className="h-px bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-800 dark:to-green-800 flex-1 ml-6"></div>
-            </div>
-            <div className="grid-layout">
-              {latestBlogs.map((blog, index) => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
-                  <div className="h-48 overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img src={articleImages[index] || blog.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
-              }} />
-                    <div className="absolute top-4 right-4 z-20">
-                      <div className="px-3 py-1 bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-                        Article
-                      </div>
-                    </div>
-                  </div>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">{articleTitles[index] || blog.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pb-2">
-                    <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{articleDescriptions[index] || blog.description}</p>
-                  </CardContent>
-                  <CardFooter className="pt-4">
-                    <Link to={`/blog/${blog.id}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
-                      Read Article 
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                    </Link>
-                  </CardFooter>
-                </Card>)}
-            </div>
-            <div className="text-center mt-12">
-              <Link to="/blog" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
-                <BookOpen className="w-5 h-5 mr-2" />
-                View All Articles
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-            </div>
-          </div>}
-        
-        {popularRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold mb-4 text-left">Most Popular Recipes</h3>
-              <div className="h-px bg-gradient-to-r from-teal-200 to-emerald-200 dark:from-teal-800 dark:to-emerald-800 flex-1 ml-6"></div>
-            </div>
-            <div className="grid-layout">
-              {popularRecipes.map(recipe => <Card key={recipe.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
-                  <div className="h-48 overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-                    <img src={recipe.imageUrl} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
-              }} />
-                    <div className="absolute top-4 right-4 z-20">
-                      <div className="px-3 py-1 bg-teal-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-                        <Heart className="w-3 h-3 inline mr-1" />
-                        Popular
-                      </div>
-                    </div>
-                  </div>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">{recipe.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pb-2">
-                    <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">{recipe.description}</p>
-                    <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
-                      <span className="flex items-center">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {recipe.prepTime}
-                      </span>
-                      {recipe.nutritionFacts?.calories && (
-                        <span>{recipe.nutritionFacts.calories}</span>
-                      )}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="pt-4">
-                    <Link to={`/recipes/${recipe.id}`} className="inline-flex items-center text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
-                      View Recipe 
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                    </Link>
-                  </CardFooter>
-                </Card>)}
-            </div>
-            <div className="text-center mt-12">
-              <Link to="/recipes" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
-                <Utensils className="w-5 h-5 mr-2" />
-                View All Recipes
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-            </div>
-          </div>}
       </div>
-    </div>;
+
+      {latestBlogs.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-8">
+          <h3 className="text-2xl font-bold mb-4 text-left">Latest Articles</h3>
+          <div className="h-px bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-800 dark:to-green-800 flex-1 ml-6"></div>
+        </div>
+        <div className="grid-layout">
+          {latestBlogs.map((blog, index) => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+            <div className="h-48 overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+              <img src={articleImages[index] || blog.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
+              }} />
+              <div className="absolute top-4 right-4 z-20">
+                <div className="px-3 py-1 bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                  Article
+                </div>
+              </div>
+            </div>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">{articleTitles[index] || blog.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="pb-2">
+              <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{articleDescriptions[index] || blog.description}</p>
+            </CardContent>
+            <CardFooter className="pt-4">
+              <Link to={`/blog/${blog.slug || blog.id}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
+                Read Article
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </CardFooter>
+          </Card>)}
+        </div>
+        <div className="text-center mt-12">
+          <Link to="/blog" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
+            <BookOpen className="w-5 h-5 mr-2" />
+            View All Articles
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Link>
+        </div>
+      </div>}
+
+      {popularRecipes.length > 0 && <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-8">
+          <h3 className="text-2xl font-bold mb-4 text-left">Most Popular Recipes</h3>
+          <div className="h-px bg-gradient-to-r from-teal-200 to-emerald-200 dark:from-teal-800 dark:to-emerald-800 flex-1 ml-6"></div>
+        </div>
+        <div className="grid-layout">
+          {popularRecipes.map(recipe => <Card key={recipe.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+            <div className="h-48 overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+              <img src={recipe.imageUrl} alt={recipe.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
+              }} />
+              <div className="absolute top-4 right-4 z-20">
+                <div className="px-3 py-1 bg-teal-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                  <Heart className="w-3 h-3 inline mr-1" />
+                  Popular
+                </div>
+              </div>
+            </div>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors duration-300">{recipe.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="pb-2">
+              <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">{recipe.description}</p>
+              <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
+                <span className="flex items-center">
+                  <Clock className="w-3 h-3 mr-1" />
+                  {recipe.prepTime}
+                </span>
+                {recipe.nutritionFacts?.calories && (
+                  <span>{recipe.nutritionFacts.calories}</span>
+                )}
+              </div>
+            </CardContent>
+            <CardFooter className="pt-4">
+              <Link to={`/recipes/${recipe.id}`} className="inline-flex items-center text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
+                View Recipe
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </CardFooter>
+          </Card>)}
+        </div>
+        <div className="text-center mt-12">
+          <Link to="/recipes" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-medium">
+            <Utensils className="w-5 h-5 mr-2" />
+            View All Recipes
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Link>
+        </div>
+      </div>}
+    </div>
+  </div>;
 };
 
 export default Home;
