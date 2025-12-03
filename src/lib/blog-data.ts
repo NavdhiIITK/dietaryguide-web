@@ -4,7 +4,7 @@ import { BlogPost } from '@/types/blog';
 export const getBlogPosts = async (): Promise<BlogPost[]> => {
   try {
     console.log('🔍 Fetching blog posts from Supabase...');
-    
+
     const { data, error } = await supabase
       .from('posts')
       .select('*')
@@ -61,7 +61,7 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
 export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefined> => {
   try {
     console.log('🔍 Fetching blog post by slug:', slug);
-    
+
     const { data, error } = await supabase
       .from('posts')
       .select('*')
@@ -110,38 +110,38 @@ export const getBlogPostBySlug = async (slug: string): Promise<BlogPost | undefi
 };
 
 export const getAllTags = async (): Promise<string[]> => {
-    try {
-        console.log('🔍 Fetching tags from Supabase...');
-        
-        const { data, error } = await supabase
-            .from('posts')
-            .select('tags');
+  try {
+    console.log('🔍 Fetching tags from Supabase...');
 
-        if (error) {
-            console.error('❌ Supabase error fetching tags:', error);
-            throw new Error(`Failed to fetch tags: ${error.message}`);
-        }
+    const { data, error } = await supabase
+      .from('posts')
+      .select('tags');
 
-        if (!data) {
-            console.log('📦 No data returned for tags');
-            return [];
-        }
-
-        console.log(`📦 Fetched tags from ${data.length} posts`);
-
-        // Safely extract tags with validation
-        const allTags = data
-            .filter(post => post && Array.isArray(post.tags))
-            .flatMap(post => post.tags)
-            .filter(tag => tag && typeof tag === 'string');
-
-        const uniqueTags = [...new Set(allTags)].sort();
-        console.log('✅ Successfully processed tags:', uniqueTags.length);
-        return uniqueTags;
-    } catch (error) {
-        console.error('❌ Error in getAllTags:', error);
-        throw error;
+    if (error) {
+      console.error('❌ Supabase error fetching tags:', error);
+      throw new Error(`Failed to fetch tags: ${error.message}`);
     }
+
+    if (!data) {
+      console.log('📦 No data returned for tags');
+      return [];
+    }
+
+    console.log(`📦 Fetched tags from ${data.length} posts`);
+
+    // Safely extract tags with validation
+    const allTags = data
+      .filter(post => post && Array.isArray(post.tags))
+      .flatMap(post => post.tags)
+      .filter(tag => tag && typeof tag === 'string');
+
+    const uniqueTags = [...new Set(allTags)].sort();
+    console.log('✅ Successfully processed tags:', uniqueTags.length);
+    return uniqueTags;
+  } catch (error) {
+    console.error('❌ Error in getAllTags:', error);
+    throw error;
+  }
 };
 
 // Create a new blog post
@@ -150,7 +150,7 @@ export async function createBlogPost(postData) {
   const postToInsert = {
     title: postData.title,
     subtitle: postData.subtitle || '',
-    slug: postData.slug || postData.title.toLowerCase().replace(/\s+/g, '-'),
+    slug: postData.slug || postData.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, ''),
     content: postData.content,
     image: postData.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80',
     tags: Array.isArray(postData.tags) ? postData.tags : [],
@@ -165,7 +165,7 @@ export async function createBlogPost(postData) {
     .insert([postToInsert])
     .select()
     .single();
-    
+
   if (error) throw error;
   return data;
 }
@@ -192,7 +192,7 @@ export async function updateBlogPost(id, postData) {
     .eq('id', id)
     .select()
     .single();
-    
+
   if (error) throw error;
   return data;
 }

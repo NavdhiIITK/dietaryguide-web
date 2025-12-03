@@ -12,7 +12,7 @@ const BlogListPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-    const fetchData = async () => {
+  const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -33,10 +33,10 @@ const BlogListPage = () => {
     } catch (err: any) {
       console.error('❌ BlogListPage error:', err);
       setError(err.message || 'Failed to load blog posts. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -70,8 +70,8 @@ const BlogListPage = () => {
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
             <h2 className="text-xl font-semibold mb-2">Error Loading Posts</h2>
             <p className="text-red-500 mb-4">{error}</p>
-            <button 
-              onClick={handleRetry} 
+            <button
+              onClick={handleRetry}
               className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors flex items-center gap-2 mx-auto"
             >
               <RefreshCw className="w-4 h-4" />
@@ -92,8 +92,8 @@ const BlogListPage = () => {
           <div className="text-center max-w-md mx-auto px-4">
             <h2 className="text-xl font-semibold mb-2">No Blog Posts</h2>
             <p className="text-muted-foreground mb-4">No blog posts found at the moment.</p>
-            <button 
-              onClick={handleRetry} 
+            <button
+              onClick={handleRetry}
               className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors flex items-center gap-2 mx-auto"
             >
               <RefreshCw className="w-4 h-4" />
@@ -123,7 +123,7 @@ const BlogListPage = () => {
 
           <div className="mb-8 md:mb-12">
             <h2 className="text-3xl font-bold mb-8">Latest Articles</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
               {posts.map(post => (
                 <div key={post.id} className="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-200">
@@ -134,23 +134,23 @@ const BlogListPage = () => {
                       className="w-full h-48 object-cover rounded"
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <h3 className="text-xl font-semibold">
                       {post.title || 'Untitled Post'}
                     </h3>
-                    
+
                     {post.subtitle && (
                       <p className="text-muted-foreground">
                         {post.subtitle}
                       </p>
                     )}
-                    
+
                     <div className="flex items-center justify-between text-sm text-muted-foreground">
                       <span>{post.author?.name || 'Dietary Guide'}</span>
                       <span>{post.reading_time || 5} min read</span>
                     </div>
-                    
+
                     {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {post.tags.slice(0, 3).map((tag: string, index: number) => (
@@ -160,12 +160,12 @@ const BlogListPage = () => {
                         ))}
                       </div>
                     )}
-                    
+
                     {/* Read More Button */}
                     {post.slug && (
                       <div className="mt-4">
-                        <Link to={`/blog/${post.slug}`}>
-                          <Button 
+                        <Link to={`/blog/${encodeURIComponent(post.slug)}`}>
+                          <Button
                             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 group"
                             size="sm"
                           >
