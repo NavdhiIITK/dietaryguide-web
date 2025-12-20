@@ -35,11 +35,11 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-medium mb-2">Tools</h3>
             <ul className="space-y-2">
-              <li><Link to="/tools#bmi" className="hover:text-primary transition-colors">BMI Calculator</Link></li>
-              <li><Link to="/tools#recipe-generator" className="hover:text-primary transition-colors">Recipe Generator</Link></li>
-              <li><Link to="/tools#workout-planner" className="hover:text-primary transition-colors">Workout Planner</Link></li>
-              <li><Link to="/tools#diet-planner" className="hover:text-primary transition-colors">Diet Planner</Link></li>
-              <li><Link to="/tools#meal-tracker" className="hover:text-primary transition-colors">Meal Tracker</Link></li>
+              <li><span className="text-foreground/80">BMI Calculator</span></li>
+              <li><span className="text-foreground/80">Recipe Generator</span></li>
+              <li><span className="text-foreground/80">Workout Planner</span></li>
+              <li><span className="text-foreground/80">Diet Planner</span></li>
+              <li><span className="text-foreground/80">Meal Tracker</span></li>
             </ul>
           </div>
           
