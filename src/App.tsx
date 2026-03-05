@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { AuthProvider } from "@/context/auth-context";
+import { CartProvider } from "@/context/cart-context";
 
 // Pages
 import Index from "./pages/Index";
@@ -17,6 +18,7 @@ import RecipePage from "./pages/RecipePage";
 import RecipeDetailPage from "./pages/RecipeDetailPage";
 import ToolsPage from "./pages/ToolsPage";
 import ProductsPage from "./pages/ProductsPage";
+import ProductDetailPage from "./pages/ProductDetailPage";
 import AppPage from "./pages/AppPage";
 import AppPromotionPage from "./pages/AppPromotionPage";
 import SEODashboardPage from "./pages/SEODashboardPage";
@@ -28,6 +30,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <AuthProvider>
+        <CartProvider>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<BlogListPage />} />
@@ -46,10 +49,12 @@ function App() {
           <Route path="/recipes/:id" element={<RecipeDetailPage />} />
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/app" element={<AppPromotionPage />} />
           <Route path="/seo-dashboard" element={<SEODashboardPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </CartProvider>
       </AuthProvider>
     </ThemeProvider>
   );

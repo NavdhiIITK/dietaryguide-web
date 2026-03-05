@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import { useCart } from "@/context/cart-context";
+import { Moon, Sun, Menu, X, ShoppingCart } from "lucide-react";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
+  const { totalItems, openCart } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -32,6 +34,8 @@ const Navbar = () => {
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
+
+  const isStorePage = location.pathname === "/products" || location.pathname.startsWith("/products/");
 
   // Determine which logo to use based on theme
   const logoSrc = theme === "dark" 
@@ -72,6 +76,22 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
+          {isStorePage && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={openCart}
+              aria-label="Open cart"
+              className="rounded-full border-forest dark:border-spring relative"
+            >
+              <ShoppingCart className="h-5 w-5 text-forest dark:text-spring" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </Button>
+          )}
           <Button
             variant="outline"
             size="icon"
@@ -92,6 +112,22 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <div className="flex md:hidden items-center space-x-4">
+          {isStorePage && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={openCart}
+              aria-label="Open cart"
+              className="rounded-full border-forest dark:border-spring relative"
+            >
+              <ShoppingCart className="h-5 w-5 text-forest dark:text-spring" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </Button>
+          )}
           <Button
             variant="outline"
             size="icon"
