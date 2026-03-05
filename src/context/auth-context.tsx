@@ -2,28 +2,29 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   User,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
-  OAuthProvider,
   signOut,
   onAuthStateChanged
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
+import { upsertProfile } from '@/services/storeService';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, displayName: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
-  signInWithMicrosoft: () => Promise<void>;
   signOutUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const googleProvider = new GoogleAuthProvider();
-const microsoftProvider = new OAuthProvider('microsoft.com');
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -34,6 +35,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
+      // Sync profile to Supabase on login
+      if (user) {
+        upsertProfile({
+          firebase_uid: user.uid,
+          display_name: user.displayName,
+          email: user.email,
+          photo_url: user.photoURL,
+        });
+      }
     });
 
     return () => unsubscribe();
@@ -56,27 +66,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const signUp = async (email: string, password: string, displayName: string) => {
+    setLoading(true);
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(cred.user, { displayName });
+    } catch (error: any) {
+      console.error('Error signing up:', error);
+      const msg =
+        error.code === 'auth/email-already-in-use'
+          ? 'An account with this email already exists.'
+          : error.code === 'auth/weak-password'
+          ? 'Password must be at least 6 characters.'
+          : error.message;
+      toast({ variant: 'destructive', title: 'Sign Up Error', description: msg });
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') return;
       console.error('Google sign-in error:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Sign In Error',
-        description: error.message,
-      });
-      throw error;
-    }
-  };
-
-  const signInWithMicrosoft = async () => {
-    try {
-      await signInWithPopup(auth, microsoftProvider);
-    } catch (error: any) {
-      if (error.code === 'auth/popup-closed-by-user') return;
-      console.error('Microsoft sign-in error:', error);
       toast({
         variant: 'destructive',
         title: 'Sign In Error',
@@ -104,8 +119,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     loading,
     signIn,
+    signUp,
     signInWithGoogle,
-    signInWithMicrosoft,
     signOutUser
   };
 

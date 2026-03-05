@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
 import { useCart } from "@/context/cart-context";
@@ -16,6 +16,7 @@ const Navbar = () => {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const profileDropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -157,10 +158,10 @@ const Navbar = () => {
                     <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                   </div>
                   <div className="py-1">
-                    <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+                    <button onClick={() => { navigate("/products/account?tab=profile"); setProfileDropdownOpen(false); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
                       <User className="h-4 w-4" /> Profile
                     </button>
-                    <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+                    <button onClick={() => { navigate("/products/account?tab=orders"); setProfileDropdownOpen(false); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
                       <Package className="h-4 w-4" /> Orders
                     </button>
                   </div>
@@ -289,10 +290,10 @@ const Navbar = () => {
             <p className="text-xs text-muted-foreground truncate">{user.email}</p>
           </div>
           <div className="py-1">
-            <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+            <button onClick={() => { navigate("/products/account?tab=profile"); setProfileDropdownOpen(false); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
               <User className="h-4 w-4" /> Profile
             </button>
-            <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+            <button onClick={() => { navigate("/products/account?tab=orders"); setProfileDropdownOpen(false); }} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
               <Package className="h-4 w-4" /> Orders
             </button>
           </div>

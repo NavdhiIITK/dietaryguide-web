@@ -22,6 +22,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import AppPage from "./pages/AppPage";
 import AppPromotionPage from "./pages/AppPromotionPage";
 import SEODashboardPage from "./pages/SEODashboardPage";
+import StoreAccountPage from "./pages/StoreAccountPage";
 import NotFound from "./pages/NotFound";
 
 import "./App.css";
@@ -49,6 +50,7 @@ function App() {
           <Route path="/recipes/:id" element={<RecipeDetailPage />} />
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/account" element={<StoreAccountPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/app" element={<AppPromotionPage />} />
           <Route path="/seo-dashboard" element={<SEODashboardPage />} />

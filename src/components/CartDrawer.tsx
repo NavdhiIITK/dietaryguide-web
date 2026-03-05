@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/context/cart-context";
 import { useAuth } from "@/context/auth-context";
-import { X, Plus, Minus, ShoppingBag, Trash2 } from "lucide-react";
+import { X, Plus, Minus, ShoppingBag, Trash2, Eye, EyeOff, Loader2, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { createOrder, getProfile } from "@/services/storeService";
 
 const C = {
   brand: "#55b685",
@@ -18,10 +19,56 @@ const C = {
 const ff = "'Space Grotesk', 'Inter', sans-serif";
 
 const CartDrawer = () => {
-  const { items, isOpen, closeCart, removeItem, updateQty, totalItems, subtotal } = useCart();
-  const { user, signInWithGoogle, signInWithMicrosoft } = useAuth();
+  const { items, isOpen, closeCart, removeItem, updateQty, totalItems, subtotal, clearCart } = useCart();
+  const { user, signIn, signUp, signInWithGoogle } = useAuth();
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [authEmail, setAuthEmail] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authName, setAuthName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
+
+  // Checkout flow
+  const [checkoutStep, setCheckoutStep] = useState<"cart" | "shipping" | "success">("cart");
+  const [shipName, setShipName] = useState("");
+  const [shipPhone, setShipPhone] = useState("");
+  const [shipAddress, setShipAddress] = useState("");
+  const [shipCity, setShipCity] = useState("");
+  const [shipState, setShipState] = useState("");
+  const [shipPincode, setShipPincode] = useState("");
+  const [placingOrder, setPlacingOrder] = useState(false);
+  const [orderNumber, setOrderNumber] = useState("");
+
   const navigate = useNavigate();
+
+  // Pre-fill shipping from stored profile
+  useEffect(() => {
+    if (user && checkoutStep === "shipping") {
+      (async () => {
+        const p = await getProfile(user.uid);
+        if (p) {
+          setShipName(p.display_name || user.displayName || "");
+          setShipPhone(p.phone || "");
+          setShipAddress(p.address_line1 || "");
+          setShipCity(p.city || "");
+          setShipState(p.state || "");
+          setShipPincode(p.pincode || "");
+        } else {
+          setShipName(user.displayName || "");
+        }
+      })();
+    }
+  }, [user, checkoutStep]);
+
+  // Reset checkout when drawer closes
+  useEffect(() => {
+    if (!isOpen) {
+      setCheckoutStep("cart");
+      setOrderNumber("");
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -318,8 +365,8 @@ const CartDrawer = () => {
                   setShowLoginPrompt(true);
                   return;
                 }
-                // User is logged in — proceed to checkout (no payment gateway yet)
-                closeCart();
+                // User is logged in — go to shipping step
+                setCheckoutStep("shipping");
               }}
               style={{
                 width: "100%",
@@ -369,6 +416,165 @@ const CartDrawer = () => {
         )}
       </div>
 
+      {/* Shipping Form Overlay */}
+      {checkoutStep === "shipping" && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0, right: 0, bottom: 0,
+            width: "min(420px, 100vw)",
+            background: C.white,
+            zIndex: 10001,
+            display: "flex",
+            flexDirection: "column",
+            fontFamily: ff,
+            animation: "cart-slide-in .3s ease-out",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 24px", borderBottom: `1px solid ${C.brandLight}` }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: C.dark, margin: 0 }}>Shipping Details</h3>
+            <button onClick={() => setCheckoutStep("cart")} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
+              <X size={20} color={C.textMuted} />
+            </button>
+          </div>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!user) return;
+              setPlacingOrder(true);
+              const order = await createOrder(user.uid, items, {
+                name: shipName, phone: shipPhone, address: shipAddress,
+                city: shipCity, state: shipState, pincode: shipPincode,
+              });
+              setPlacingOrder(false);
+              if (order) {
+                setOrderNumber(order.order_number);
+                clearCart();
+                setCheckoutStep("success");
+              }
+            }}
+            style={{ flex: 1, overflowY: "auto", padding: "24px", display: "flex", flexDirection: "column", gap: 14 }}
+          >
+            <div>
+              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Full Name *</label>
+              <input required value={shipName} onChange={(e) => setShipName(e.target.value)} placeholder="Name"
+                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+            </div>
+            <div>
+              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Phone Number *</label>
+              <input required value={shipPhone} onChange={(e) => setShipPhone(e.target.value)} placeholder="+91 XXXXX XXXXX"
+                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+            </div>
+            <div>
+              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Address *</label>
+              <input required value={shipAddress} onChange={(e) => setShipAddress(e.target.value)} placeholder="House/Flat No, Building, Street"
+                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>City *</label>
+                <input required value={shipCity} onChange={(e) => setShipCity(e.target.value)} placeholder="City"
+                  style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>State *</label>
+                <input required value={shipState} onChange={(e) => setShipState(e.target.value)} placeholder="State"
+                  style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+              </div>
+            </div>
+            <div style={{ maxWidth: 180 }}>
+              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Pincode *</label>
+              <input required value={shipPincode} onChange={(e) => setShipPincode(e.target.value)} placeholder="XXXXXX" maxLength={6}
+                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+            </div>
+
+            {/* Order summary */}
+            <div style={{ marginTop: 8, padding: "16px", background: C.brandUltraLight, borderRadius: 12, fontSize: 13 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4, color: C.dark }}>
+                <span>Subtotal ({totalItems} items)</span>
+                <span style={{ fontWeight: 600 }}>₹{subtotal.toLocaleString("en-IN")}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4, color: C.textMuted }}>
+                <span>Shipping</span>
+                <span style={{ fontWeight: 600, color: subtotal >= 999 ? C.brand : C.dark }}>{subtotal >= 999 ? "FREE" : "₹49"}</span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 8, borderTop: `1px solid ${C.brandLight}`, fontWeight: 700, fontSize: 15, color: C.dark }}>
+                <span>Total</span>
+                <span>₹{(subtotal + (subtotal >= 999 ? 0 : 49)).toLocaleString("en-IN")}</span>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={placingOrder}
+              style={{
+                width: "100%", padding: "14px 0", background: C.brand, color: C.white,
+                border: "none", borderRadius: 12, fontSize: 15, fontWeight: 700,
+                fontFamily: ff, cursor: placingOrder ? "wait" : "pointer",
+                opacity: placingOrder ? 0.7 : 1, transition: "background .2s",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                marginTop: 4,
+              }}
+            >
+              {placingOrder && <Loader2 size={16} className="animate-spin" />}
+              {placingOrder ? "Placing Order…" : "Place Order"}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Order Success Overlay */}
+      {checkoutStep === "success" && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0, right: 0, bottom: 0,
+            width: "min(420px, 100vw)",
+            background: C.white,
+            zIndex: 10001,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: ff,
+            padding: 32,
+            textAlign: "center",
+            animation: "cart-fade-in .3s ease-out",
+          }}
+        >
+          <CheckCircle size={56} color={C.brand} style={{ marginBottom: 16 }} />
+          <h3 style={{ fontSize: 22, fontWeight: 700, color: C.dark, margin: "0 0 8px" }}>Order Placed!</h3>
+          <p style={{ fontSize: 14, color: C.textMuted, margin: "0 0 4px", lineHeight: 1.6 }}>
+            Your order has been confirmed.
+          </p>
+          {orderNumber && (
+            <p style={{ fontSize: 15, fontWeight: 700, color: C.brand, margin: "0 0 24px" }}>
+              {orderNumber}
+            </p>
+          )}
+          <button
+            onClick={() => { navigate("/products/account?tab=orders"); closeCart(); }}
+            style={{
+              padding: "12px 28px", background: C.brand, color: C.white,
+              border: "none", borderRadius: 12, fontSize: 14, fontWeight: 700,
+              fontFamily: ff, cursor: "pointer", marginBottom: 10, width: "100%",
+            }}
+          >
+            View Orders
+          </button>
+          <button
+            onClick={() => { closeCart(); navigate("/products"); }}
+            style={{
+              padding: "12px 28px", background: "transparent", color: C.dark,
+              border: `1.5px solid ${C.brandLight}`, borderRadius: 12, fontSize: 13,
+              fontWeight: 600, fontFamily: ff, cursor: "pointer", width: "100%",
+            }}
+          >
+            Continue Shopping
+          </button>
+        </div>
+      )}
+
       {/* Animations */}
       <style>{`
         @keyframes cart-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
@@ -379,7 +585,7 @@ const CartDrawer = () => {
       {showLoginPrompt && (
         <>
           <div
-            onClick={() => setShowLoginPrompt(false)}
+            onClick={() => { setShowLoginPrompt(false); setAuthError(""); }}
             style={{
               position: "fixed",
               inset: 0,
@@ -398,13 +604,15 @@ const CartDrawer = () => {
               borderRadius: 20,
               padding: "36px 32px 32px",
               width: "min(400px, 90vw)",
+              maxHeight: "90vh",
+              overflowY: "auto",
               boxShadow: "0 20px 60px rgba(0,0,0,.18)",
               fontFamily: ff,
               textAlign: "center",
             }}
           >
             <button
-              onClick={() => setShowLoginPrompt(false)}
+              onClick={() => { setShowLoginPrompt(false); setAuthError(""); }}
               aria-label="Close"
               style={{
                 position: "absolute",
@@ -419,19 +627,25 @@ const CartDrawer = () => {
               <X size={20} color={C.textMuted} />
             </button>
 
-            <ShoppingBag size={36} color={C.brand} style={{ marginBottom: 12 }} />
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+              <ShoppingBag size={36} color={C.brand} />
+            </div>
             <h3 style={{ fontSize: 20, fontWeight: 700, color: C.dark, margin: "0 0 8px" }}>
-              Sign in to continue
+              {authMode === "login" ? "Sign in to continue" : "Create your account"}
             </h3>
-            <p style={{ fontSize: 14, color: C.textMuted, margin: "0 0 28px", lineHeight: 1.6 }}>
-              Please sign in to proceed to checkout. Your cart will be saved.
+            <p style={{ fontSize: 14, color: C.textMuted, margin: "0 0 24px", lineHeight: 1.6 }}>
+              {authMode === "login"
+                ? "Please sign in to proceed to checkout."
+                : "Create an account to place orders and track them."}
             </p>
 
+            {/* Google button */}
             <button
               onClick={async () => {
                 try {
                   await signInWithGoogle();
                   setShowLoginPrompt(false);
+                  setAuthError("");
                 } catch { /* handled in context */ }
               }}
               style={{
@@ -450,7 +664,7 @@ const CartDrawer = () => {
                 justifyContent: "center",
                 gap: 10,
                 transition: "background .2s",
-                marginBottom: 10,
+                marginBottom: 20,
               }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = C.brandUltraLight; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = C.white; }}
@@ -459,36 +673,168 @@ const CartDrawer = () => {
               Continue with Google
             </button>
 
-            <button
-              onClick={async () => {
+            {/* Divider */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+              <div style={{ flex: 1, height: 1, background: C.brandLight }} />
+              <span style={{ fontSize: 12, color: C.textMuted, fontWeight: 500 }}>OR</span>
+              <div style={{ flex: 1, height: 1, background: C.brandLight }} />
+            </div>
+
+            {/* Email/Password Form */}
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setAuthError("");
+                setAuthLoading(true);
                 try {
-                  await signInWithMicrosoft();
+                  if (authMode === "signup") {
+                    if (!authName.trim()) { setAuthError("Please enter your name."); setAuthLoading(false); return; }
+                    await signUp(authEmail, authPassword, authName.trim());
+                  } else {
+                    await signIn(authEmail, authPassword);
+                  }
                   setShowLoginPrompt(false);
-                } catch { /* handled in context */ }
+                  setAuthEmail(""); setAuthPassword(""); setAuthName(""); setAuthError("");
+                } catch {
+                  /* toast shown by context */
+                } finally {
+                  setAuthLoading(false);
+                }
               }}
-              style={{
-                width: "100%",
-                padding: "13px 0",
-                background: C.white,
-                color: C.dark,
-                border: `1.5px solid ${C.brandLight}`,
-                borderRadius: 12,
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: ff,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-                transition: "background .2s",
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = C.brandUltraLight; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = C.white; }}
+              style={{ display: "flex", flexDirection: "column", gap: 12, textAlign: "left" }}
             >
-              <svg width="18" height="18" viewBox="0 0 23 23"><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg>
-              Continue with Microsoft
-            </button>
+              {authMode === "signup" && (
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Full Name</label>
+                  <input
+                    type="text"
+                    value={authName}
+                    onChange={(e) => setAuthName(e.target.value)}
+                    placeholder="John Doe"
+                    required={authMode === "signup"}
+                    style={{
+                      width: "100%",
+                      padding: "11px 14px",
+                      border: `1.5px solid ${C.brandLight}`,
+                      borderRadius: 10,
+                      fontSize: 14,
+                      fontFamily: ff,
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                </div>
+              )}
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Email</label>
+                <input
+                  type="email"
+                  value={authEmail}
+                  onChange={(e) => setAuthEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "11px 14px",
+                    border: `1.5px solid ${C.brandLight}`,
+                    borderRadius: 10,
+                    fontSize: 14,
+                    fontFamily: ff,
+                    outline: "none",
+                    boxSizing: "border-box",
+                  }}
+                />
+              </div>
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Password</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={authPassword}
+                    onChange={(e) => setAuthPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    minLength={6}
+                    style={{
+                      width: "100%",
+                      padding: "11px 42px 11px 14px",
+                      border: `1.5px solid ${C.brandLight}`,
+                      borderRadius: 10,
+                      fontSize: 14,
+                      fontFamily: ff,
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      position: "absolute",
+                      right: 10,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: 2,
+                    }}
+                  >
+                    {showPassword ? <EyeOff size={16} color={C.textMuted} /> : <Eye size={16} color={C.textMuted} />}
+                  </button>
+                </div>
+              </div>
+
+              {authError && (
+                <p style={{ fontSize: 13, color: "#e74c3c", margin: 0 }}>{authError}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={authLoading}
+                style={{
+                  width: "100%",
+                  padding: "13px 0",
+                  background: C.brand,
+                  color: C.white,
+                  border: "none",
+                  borderRadius: 12,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  fontFamily: ff,
+                  cursor: authLoading ? "wait" : "pointer",
+                  opacity: authLoading ? 0.7 : 1,
+                  transition: "background .2s",
+                  marginTop: 4,
+                }}
+                onMouseEnter={(e) => { if (!authLoading) (e.currentTarget as HTMLElement).style.background = C.brandDark; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = C.brand; }}
+              >
+                {authLoading ? "Please wait…" : authMode === "login" ? "Sign In" : "Create Account"}
+              </button>
+            </form>
+
+            {/* Toggle mode */}
+            <p style={{ fontSize: 13, color: C.textMuted, marginTop: 16, marginBottom: 0 }}>
+              {authMode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button
+                type="button"
+                onClick={() => { setAuthMode(authMode === "login" ? "signup" : "login"); setAuthError(""); }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: C.brand,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontSize: 13,
+                  fontFamily: ff,
+                  padding: 0,
+                  textDecoration: "underline",
+                }}
+              >
+                {authMode === "login" ? "Create one" : "Sign in"}
+              </button>
+            </p>
           </div>
         </>
       )}
