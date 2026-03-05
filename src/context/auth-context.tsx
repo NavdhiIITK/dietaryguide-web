@@ -3,23 +3,31 @@ import {
   User,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  updateProfile,
+  updateProfile as fbUpdateProfile,
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  RecaptchaVerifier,
+  PhoneAuthProvider,
+  signInWithPhoneNumber,
+  linkWithCredential,
+  ConfirmationResult,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
-import { upsertProfile } from '@/services/storeService';
+import { ensureUserDoc } from '@/services/storeService';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  phoneVerified: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, displayName: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOutUser: () => Promise<void>;
+  sendPhoneOtp: (phoneNumber: string, recaptchaContainerId: string) => Promise<void>;
+  verifyPhoneOtp: (otp: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,23 +37,25 @@ const googleProvider = new GoogleAuthProvider();
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [phoneVerified, setPhoneVerified] = useState(false);
+  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
+  const [recaptchaVerifier, setRecaptchaVerifier] = useState<RecaptchaVerifier | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      setUser(u);
       setLoading(false);
-      // Sync profile to Supabase on login
-      if (user) {
-        upsertProfile({
-          firebase_uid: user.uid,
-          display_name: user.displayName,
-          email: user.email,
-          photo_url: user.photoURL,
-        });
+      // Check if phone is already linked
+      if (u) {
+        const hasPhone = u.providerData.some((p) => p.providerId === 'phone');
+        setPhoneVerified(hasPhone);
+        // Ensure Firestore user document exists
+        ensureUserDoc(u.uid, { name: u.displayName, email: u.email, photoURL: u.photoURL });
+      } else {
+        setPhoneVerified(false);
       }
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -70,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(cred.user, { displayName });
+      await fbUpdateProfile(cred.user, { displayName });
     } catch (error: any) {
       console.error('Error signing up:', error);
       const msg =
@@ -104,13 +114,65 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOutUser = async () => {
     try {
       await signOut(auth);
+      setPhoneVerified(false);
+      setConfirmationResult(null);
     } catch (error: any) {
       console.error('Error signing out:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Sign Out Error',
-        description: error.message,
-      });
+      toast({ variant: 'destructive', title: 'Sign Out Error', description: error.message });
+      throw error;
+    }
+  };
+
+  /** Send OTP to phone number. Creates invisible reCAPTCHA on the given container. */
+  const sendPhoneOtp = async (phoneNumber: string, recaptchaContainerId: string) => {
+    try {
+      // Clean up previous verifier
+      if (recaptchaVerifier) {
+        recaptchaVerifier.clear();
+      }
+      const verifier = new RecaptchaVerifier(auth, recaptchaContainerId, { size: 'invisible' });
+      setRecaptchaVerifier(verifier);
+
+      const result = await signInWithPhoneNumber(auth, phoneNumber, verifier);
+      setConfirmationResult(result);
+      toast({ title: 'OTP Sent', description: `A verification code was sent to ${phoneNumber}` });
+    } catch (error: any) {
+      console.error('Phone OTP error:', error);
+      const msg =
+        error.code === 'auth/invalid-phone-number'
+          ? 'Invalid phone number. Use format: +91XXXXXXXXXX'
+          : error.code === 'auth/too-many-requests'
+          ? 'Too many requests. Please try again later.'
+          : error.message;
+      toast({ variant: 'destructive', title: 'OTP Error', description: msg });
+      throw error;
+    }
+  };
+
+  /** Verify the OTP code and link phone to current user */
+  const verifyPhoneOtp = async (otp: string) => {
+    if (!confirmationResult) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Please request OTP first.' });
+      return;
+    }
+    try {
+      const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, otp);
+      if (user) {
+        // Link phone to existing account
+        await linkWithCredential(user, credential);
+      }
+      setPhoneVerified(true);
+      setConfirmationResult(null);
+      toast({ title: 'Verified', description: 'Phone number verified successfully!' });
+    } catch (error: any) {
+      console.error('OTP verify error:', error);
+      const msg =
+        error.code === 'auth/invalid-verification-code'
+          ? 'Invalid OTP code. Please try again.'
+          : error.code === 'auth/credential-already-in-use'
+          ? 'This phone number is already linked to another account.'
+          : error.message;
+      toast({ variant: 'destructive', title: 'Verification Failed', description: msg });
       throw error;
     }
   };
@@ -118,10 +180,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = {
     user,
     loading,
+    phoneVerified,
     signIn,
     signUp,
     signInWithGoogle,
-    signOutUser
+    signOutUser,
+    sendPhoneOtp,
+    verifyPhoneOtp,
   };
 
   return (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/context/auth-context";
-import { getProfile, upsertProfile, getOrders, StoreProfile, StoreOrder } from "@/services/storeService";
+import { getProfile, updateProfile as updateUserProfile, getOrders, UserProfile, StoreOrder } from "@/services/storeService";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { User, Package, MapPin, ChevronRight, ArrowLeft, Camera, Save, Loader2 } from "lucide-react";
@@ -21,7 +21,7 @@ export default function StoreAccountPage() {
   const initialTab = (searchParams.get("tab") as Tab) || "profile";
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
 
-  const [profile, setProfile] = useState<StoreProfile | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [orders, setOrders] = useState<StoreOrder[]>([]);
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -50,13 +50,13 @@ export default function StoreAccountPage() {
       const p = await getProfile(user.uid);
       if (p) {
         setProfile(p);
-        setDisplayName(p.display_name || user.displayName || "");
+        setDisplayName(p.name || user.displayName || "");
         setPhone(p.phone || "");
-        setAddressLine1(p.address_line1 || "");
-        setAddressLine2(p.address_line2 || "");
-        setCity(p.city || "");
-        setState(p.state || "");
-        setPincode(p.pincode || "");
+        setAddressLine1(p.address?.line1 || "");
+        setAddressLine2(p.address?.line2 || "");
+        setCity(p.address?.city || "");
+        setState(p.address?.state || "");
+        setPincode(p.address?.pincode || "");
       } else {
         setDisplayName(user.displayName || "");
       }
@@ -79,12 +79,11 @@ export default function StoreAccountPage() {
     if (!user) return;
     setSaving(true);
     setSaveMsg("");
-    await upsertProfile({
-      firebase_uid: user.uid,
-      display_name: displayName,
+    await updateUserProfile(user.uid, {
+      name: displayName,
       email: user.email,
       phone,
-      photo_url: user.photoURL,
+      photoURL: user.photoURL,
     });
     setSaving(false);
     setSaveMsg("Profile saved!");
@@ -95,17 +94,16 @@ export default function StoreAccountPage() {
     if (!user) return;
     setSaving(true);
     setSaveMsg("");
-    await upsertProfile({
-      firebase_uid: user.uid,
-      display_name: displayName || user.displayName,
-      email: user.email,
+    await updateUserProfile(user.uid, {
+      name: displayName || user.displayName,
       phone,
-      photo_url: user.photoURL,
-      address_line1: addressLine1,
-      address_line2: addressLine2,
-      city,
-      state,
-      pincode,
+      address: {
+        line1: addressLine1,
+        line2: addressLine2,
+        city,
+        state,
+        pincode,
+      },
     });
     setSaving(false);
     setSaveMsg("Address saved!");
@@ -296,10 +294,10 @@ export default function StoreAccountPage() {
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 {orders.map((order) => {
-                  const sc = statusColor(order.status);
+                  const sc = statusColor(order.orderStatus);
                   return (
                     <div
-                      key={order.id}
+                      key={order.orderId}
                       style={{
                         background: C.white, borderRadius: 16,
                         border: `1px solid ${C.brandLight}`,
@@ -313,9 +311,9 @@ export default function StoreAccountPage() {
                         borderBottom: `1px solid ${C.brandLight}`, gap: 8,
                       }}>
                         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: C.dark }}>{order.order_number}</span>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: C.dark }}>{order.orderNumber}</span>
                           <span style={{ fontSize: 11, color: C.textMuted }}>
-                            {order.created_at ? formatDate(order.created_at) : ""}
+                            {order.createdAt ? formatDate(order.createdAt) : ""}
                           </span>
                         </div>
                         <span style={{
@@ -323,7 +321,7 @@ export default function StoreAccountPage() {
                           padding: "4px 12px", borderRadius: 20,
                           background: sc.bg, color: sc.color, letterSpacing: ".5px",
                         }}>
-                          {order.status}
+                          {order.orderStatus}
                         </span>
                       </div>
 
@@ -338,16 +336,16 @@ export default function StoreAccountPage() {
                               borderBottom: idx < (order.items?.length || 0) - 1 ? `1px solid ${C.brandLight}` : "none",
                             }}
                           >
-                            {item.product_image && (
+                            {item.productImage && (
                               <img
-                                src={item.product_image}
-                                alt={item.product_name}
+                                src={item.productImage}
+                                alt={item.productName}
                                 style={{ width: 52, height: 52, borderRadius: 8, objectFit: "cover", flexShrink: 0, border: `1px solid ${C.brandLight}` }}
                               />
                             )}
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <p style={{ fontSize: 14, fontWeight: 600, color: C.dark, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                {item.product_name}
+                                {item.productName}
                               </p>
                               <p style={{ fontSize: 12, color: C.textMuted, margin: "2px 0 0" }}>
                                 Qty: {item.quantity} × ₹{item.price.toLocaleString("en-IN")}
@@ -367,12 +365,12 @@ export default function StoreAccountPage() {
                         borderTop: `1px solid ${C.brandLight}`, gap: 12,
                       }}>
                         <div style={{ fontSize: 12, color: C.textMuted, lineHeight: 1.6 }}>
-                          {order.shipping_name && <div><strong>Ship to:</strong> {order.shipping_name}</div>}
-                          {order.shipping_address && <div>{order.shipping_address}</div>}
-                          {(order.shipping_city || order.shipping_state) && (
-                            <div>{[order.shipping_city, order.shipping_state, order.shipping_pincode].filter(Boolean).join(", ")}</div>
+                          {order.shippingAddress?.name && <div><strong>Ship to:</strong> {order.shippingAddress.name}</div>}
+                          {order.shippingAddress?.address && <div>{order.shippingAddress.address}</div>}
+                          {(order.shippingAddress?.city || order.shippingAddress?.state) && (
+                            <div>{[order.shippingAddress.city, order.shippingAddress.state, order.shippingAddress.pincode].filter(Boolean).join(", ")}</div>
                           )}
-                          {order.shipping_phone && <div>Phone: {order.shipping_phone}</div>}
+                          {order.shippingAddress?.phone && <div>Phone: {order.shippingAddress.phone}</div>}
                         </div>
                         <div style={{ textAlign: "right" }}>
                           <div style={{ fontSize: 12, color: C.textMuted }}>
@@ -382,7 +380,7 @@ export default function StoreAccountPage() {
                             Shipping: {order.shipping === 0 ? "FREE" : `₹${order.shipping}`}
                           </div>
                           <div style={{ fontSize: 16, fontWeight: 700, color: C.dark, marginTop: 4 }}>
-                            Total: ₹{order.total.toLocaleString("en-IN")}
+                            Total: ₹{order.totalAmount.toLocaleString("en-IN")}
                           </div>
                         </div>
                       </div>

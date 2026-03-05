@@ -20,7 +20,7 @@ const ff = "'Space Grotesk', 'Inter', sans-serif";
 
 const CartDrawer = () => {
   const { items, isOpen, closeCart, removeItem, updateQty, totalItems, subtotal, clearCart } = useCart();
-  const { user, signIn, signUp, signInWithGoogle } = useAuth();
+  const { user, signIn, signUp, signInWithGoogle, phoneVerified, sendPhoneOtp, verifyPhoneOtp } = useAuth();
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [authEmail, setAuthEmail] = useState("");
@@ -29,6 +29,14 @@ const CartDrawer = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState("");
+
+  // Phone verification
+  const [showPhoneVerify, setShowPhoneVerify] = useState(false);
+  const [otpPhone, setOtpPhone] = useState("");
+  const [otpCode, setOtpCode] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpError, setOtpError] = useState("");
 
   // Checkout flow
   const [checkoutStep, setCheckoutStep] = useState<"cart" | "shipping" | "success">("cart");
@@ -49,12 +57,12 @@ const CartDrawer = () => {
       (async () => {
         const p = await getProfile(user.uid);
         if (p) {
-          setShipName(p.display_name || user.displayName || "");
+          setShipName(p.name || user.displayName || "");
           setShipPhone(p.phone || "");
-          setShipAddress(p.address_line1 || "");
-          setShipCity(p.city || "");
-          setShipState(p.state || "");
-          setShipPincode(p.pincode || "");
+          setShipAddress(p.address?.line1 || "");
+          setShipCity(p.address?.city || "");
+          setShipState(p.address?.state || "");
+          setShipPincode(p.address?.pincode || "");
         } else {
           setShipName(user.displayName || "");
         }
@@ -365,7 +373,11 @@ const CartDrawer = () => {
                   setShowLoginPrompt(true);
                   return;
                 }
-                // User is logged in — go to shipping step
+                if (!phoneVerified) {
+                  setShowPhoneVerify(true);
+                  return;
+                }
+                // User is logged in & phone verified — go to shipping step
                 setCheckoutStep("shipping");
               }}
               style={{
@@ -448,7 +460,7 @@ const CartDrawer = () => {
               });
               setPlacingOrder(false);
               if (order) {
-                setOrderNumber(order.order_number);
+                setOrderNumber(order.orderNumber);
                 clearCart();
                 setCheckoutStep("success");
               }
@@ -581,6 +593,137 @@ const CartDrawer = () => {
         @keyframes cart-fade-in { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
 
+      {/* Phone Verification Modal */}
+      {showPhoneVerify && (
+        <>
+          <div
+            onClick={() => { setShowPhoneVerify(false); setOtpError(""); }}
+            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.55)", zIndex: 10001 }}
+          />
+          <div
+            style={{
+              position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+              zIndex: 10002, background: C.white, borderRadius: 20, padding: "36px 32px 32px",
+              width: "min(400px, 90vw)", boxShadow: "0 20px 60px rgba(0,0,0,.18)",
+              fontFamily: ff, textAlign: "center",
+            }}
+          >
+            <button
+              onClick={() => { setShowPhoneVerify(false); setOtpError(""); }}
+              aria-label="Close"
+              style={{ position: "absolute", top: 14, right: 14, background: "none", border: "none", cursor: "pointer", padding: 4 }}
+            >
+              <X size={20} color={C.textMuted} />
+            </button>
+
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+              <ShoppingBag size={36} color={C.brand} />
+            </div>
+            <h3 style={{ fontSize: 20, fontWeight: 700, color: C.dark, margin: "0 0 8px" }}>Verify your phone</h3>
+            <p style={{ fontSize: 14, color: C.textMuted, margin: "0 0 24px", lineHeight: 1.6 }}>
+              We need to verify your phone number before you can checkout.
+            </p>
+
+            {!otpSent ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, textAlign: "left" }}>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Phone Number</label>
+                  <input
+                    type="tel"
+                    value={otpPhone}
+                    onChange={(e) => setOtpPhone(e.target.value)}
+                    placeholder="+91 XXXXX XXXXX"
+                    style={{
+                      width: "100%", padding: "11px 14px",
+                      border: `1.5px solid ${C.brandLight}`, borderRadius: 10,
+                      fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box",
+                    }}
+                  />
+                </div>
+                {otpError && <p style={{ fontSize: 13, color: "#e74c3c", margin: 0 }}>{otpError}</p>}
+                <button
+                  onClick={async () => {
+                    if (!otpPhone.trim()) { setOtpError("Enter your phone number."); return; }
+                    setOtpLoading(true); setOtpError("");
+                    try {
+                      await sendPhoneOtp(otpPhone.trim(), "recaptcha-checkout");
+                      setOtpSent(true);
+                    } catch { /* toast in context */ }
+                    finally { setOtpLoading(false); }
+                  }}
+                  disabled={otpLoading}
+                  style={{
+                    width: "100%", padding: "13px 0", background: C.brand, color: C.white,
+                    border: "none", borderRadius: 12, fontSize: 14, fontWeight: 700,
+                    fontFamily: ff, cursor: otpLoading ? "wait" : "pointer",
+                    opacity: otpLoading ? 0.7 : 1, marginTop: 4,
+                  }}
+                >
+                  {otpLoading ? "Sending…" : "Send OTP"}
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, textAlign: "left" }}>
+                <p style={{ fontSize: 13, color: C.textMuted, margin: 0 }}>
+                  OTP sent to <strong>{otpPhone}</strong>
+                </p>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Enter OTP</label>
+                  <input
+                    type="text"
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                    placeholder="123456"
+                    maxLength={6}
+                    style={{
+                      width: "100%", padding: "11px 14px",
+                      border: `1.5px solid ${C.brandLight}`, borderRadius: 10,
+                      fontSize: 18, fontFamily: ff, outline: "none", boxSizing: "border-box",
+                      letterSpacing: "6px", textAlign: "center",
+                    }}
+                  />
+                </div>
+                {otpError && <p style={{ fontSize: 13, color: "#e74c3c", margin: 0 }}>{otpError}</p>}
+                <button
+                  onClick={async () => {
+                    if (otpCode.length < 6) { setOtpError("Enter the 6-digit code."); return; }
+                    setOtpLoading(true); setOtpError("");
+                    try {
+                      await verifyPhoneOtp(otpCode);
+                      setShowPhoneVerify(false);
+                      setOtpSent(false); setOtpCode(""); setOtpPhone("");
+                      setCheckoutStep("shipping");
+                    } catch { /* toast in context */ }
+                    finally { setOtpLoading(false); }
+                  }}
+                  disabled={otpLoading}
+                  style={{
+                    width: "100%", padding: "13px 0", background: C.brand, color: C.white,
+                    border: "none", borderRadius: 12, fontSize: 14, fontWeight: 700,
+                    fontFamily: ff, cursor: otpLoading ? "wait" : "pointer",
+                    opacity: otpLoading ? 0.7 : 1, marginTop: 4,
+                  }}
+                >
+                  {otpLoading ? "Verifying…" : "Verify & Continue"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setOtpSent(false); setOtpCode(""); setOtpError(""); }}
+                  style={{
+                    background: "none", border: "none", color: C.brand, fontSize: 13,
+                    fontWeight: 600, cursor: "pointer", fontFamily: ff, padding: 0, textDecoration: "underline",
+                    textAlign: "center",
+                  }}
+                >
+                  Change number
+                </button>
+              </div>
+            )}
+            <div id="recaptcha-checkout" />
+          </div>
+        </>
+      )}
+
       {/* Login Prompt Modal */}
       {showLoginPrompt && (
         <>
@@ -646,6 +789,8 @@ const CartDrawer = () => {
                   await signInWithGoogle();
                   setShowLoginPrompt(false);
                   setAuthError("");
+                  // After login, prompt phone verification
+                  setShowPhoneVerify(true);
                 } catch { /* handled in context */ }
               }}
               style={{
@@ -695,6 +840,8 @@ const CartDrawer = () => {
                   }
                   setShowLoginPrompt(false);
                   setAuthEmail(""); setAuthPassword(""); setAuthName(""); setAuthError("");
+                  // After login, prompt phone verification
+                  setShowPhoneVerify(true);
                 } catch {
                   /* toast shown by context */
                 } finally {

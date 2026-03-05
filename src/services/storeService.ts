@@ -1,72 +1,97 @@
-import { supabase } from "@/lib/supabase-client";
+import { db } from "@/lib/firebase";
+import {
+  doc, getDoc, setDoc, updateDoc, collection,
+  addDoc, getDocs, query, where, orderBy, serverTimestamp, Timestamp
+} from "firebase/firestore";
 
 /* ── Profile ───────────────────────────────────────────────── */
 
-export interface StoreProfile {
-  id?: string;
-  firebase_uid: string;
-  display_name: string | null;
+export interface UserProfile {
+  uid: string;
+  name: string | null;
   email: string | null;
   phone: string | null;
-  photo_url: string | null;
-  address_line1: string | null;
-  address_line2: string | null;
-  city: string | null;
-  state: string | null;
-  pincode: string | null;
-  created_at?: string;
-  updated_at?: string;
+  photoURL: string | null;
+  address: {
+    line1: string;
+    line2: string;
+    city: string;
+    state: string;
+    pincode: string;
+  } | null;
+  createdAt?: any;
+  updatedAt?: any;
 }
 
-export async function getProfile(uid: string): Promise<StoreProfile | null> {
-  const { data, error } = await supabase
-    .from("store_profiles")
-    .select("*")
-    .eq("firebase_uid", uid)
-    .maybeSingle();
-  if (error) { console.error("getProfile error:", error); return null; }
-  return data;
+export async function getProfile(uid: string): Promise<UserProfile | null> {
+  try {
+    const snap = await getDoc(doc(db, "users", uid));
+    if (!snap.exists()) return null;
+    return { uid, ...snap.data() } as UserProfile;
+  } catch (err) {
+    console.error("getProfile error:", err);
+    return null;
+  }
 }
 
-export async function upsertProfile(profile: Partial<StoreProfile> & { firebase_uid: string }): Promise<StoreProfile | null> {
-  const { data, error } = await supabase
-    .from("store_profiles")
-    .upsert(profile, { onConflict: "firebase_uid" })
-    .select()
-    .single();
-  if (error) { console.error("upsertProfile error:", error); return null; }
-  return data;
+/** Create a user document if it doesn't already exist */
+export async function ensureUserDoc(uid: string, data: { name?: string | null; email?: string | null; photoURL?: string | null }): Promise<void> {
+  try {
+    const ref = doc(db, "users", uid);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) {
+      await setDoc(ref, {
+        uid,
+        name: data.name ?? null,
+        email: data.email ?? null,
+        phone: null,
+        photoURL: data.photoURL ?? null,
+        address: null,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    }
+  } catch (err) {
+    console.error("ensureUserDoc error:", err);
+  }
+}
+
+export async function updateProfile(uid: string, fields: Partial<Omit<UserProfile, "uid" | "createdAt">>): Promise<void> {
+  try {
+    await updateDoc(doc(db, "users", uid), { ...fields, updatedAt: serverTimestamp() });
+  } catch (err) {
+    console.error("updateProfile error:", err);
+  }
 }
 
 /* ── Orders ────────────────────────────────────────────────── */
 
 export interface OrderItem {
-  id?: string;
-  order_id?: string;
-  product_id: string;
-  product_name: string;
-  product_image: string | null;
+  productId: string;
+  productName: string;
+  productImage: string | null;
   price: number;
   quantity: number;
 }
 
 export interface StoreOrder {
-  id?: string;
-  firebase_uid: string;
-  order_number: string;
-  status: string;
+  orderId: string;
+  userId: string;
+  orderNumber: string;
+  orderStatus: string;
   subtotal: number;
   shipping: number;
-  total: number;
-  shipping_name: string | null;
-  shipping_phone: string | null;
-  shipping_address: string | null;
-  shipping_city: string | null;
-  shipping_state: string | null;
-  shipping_pincode: string | null;
-  created_at?: string;
-  updated_at?: string;
-  items?: OrderItem[];
+  totalAmount: number;
+  shippingAddress: {
+    name: string;
+    phone: string;
+    address: string;
+    city: string;
+    state: string;
+    pincode: string;
+  };
+  items: OrderItem[];
+  createdAt?: any;
 }
 
 function generateOrderNumber(): string {
@@ -78,86 +103,61 @@ function generateOrderNumber(): string {
 export async function createOrder(
   uid: string,
   cartItems: { id: string; name: string; price: number; image: string; quantity: number }[],
-  shippingInfo: {
-    name: string;
-    phone: string;
-    address: string;
-    city: string;
-    state: string;
-    pincode: string;
-  }
+  shippingInfo: { name: string; phone: string; address: string; city: string; state: string; pincode: string; }
 ): Promise<StoreOrder | null> {
-  const subtotal = cartItems.reduce((s, i) => s + i.price * i.quantity, 0);
-  const shipping = subtotal >= 999 ? 0 : 49;
-  const total = subtotal + shipping;
+  try {
+    const subtotal = cartItems.reduce((s, i) => s + i.price * i.quantity, 0);
+    const shipping = subtotal >= 999 ? 0 : 49;
+    const totalAmount = subtotal + shipping;
+    const orderNumber = generateOrderNumber();
 
-  const orderNumber = generateOrderNumber();
+    const items: OrderItem[] = cartItems.map((i) => ({
+      productId: i.id,
+      productName: i.name,
+      productImage: i.image,
+      price: i.price,
+      quantity: i.quantity,
+    }));
 
-  const { data: order, error: orderErr } = await supabase
-    .from("store_orders")
-    .insert({
-      firebase_uid: uid,
-      order_number: orderNumber,
-      status: "confirmed",
+    const orderData = {
+      userId: uid,
+      orderNumber,
+      orderStatus: "confirmed",
       subtotal,
       shipping,
-      total,
-      shipping_name: shippingInfo.name,
-      shipping_phone: shippingInfo.phone,
-      shipping_address: shippingInfo.address,
-      shipping_city: shippingInfo.city,
-      shipping_state: shippingInfo.state,
-      shipping_pincode: shippingInfo.pincode,
-    })
-    .select()
-    .single();
+      totalAmount,
+      shippingAddress: shippingInfo,
+      items,
+      createdAt: serverTimestamp(),
+    };
 
-  if (orderErr || !order) {
-    console.error("createOrder error:", orderErr);
+    const ref = await addDoc(collection(db, "orders"), orderData);
+
+    return { orderId: ref.id, ...orderData, createdAt: new Date().toISOString() } as StoreOrder;
+  } catch (err) {
+    console.error("createOrder error:", err);
     return null;
   }
-
-  const orderItems = cartItems.map((item) => ({
-    order_id: order.id,
-    product_id: item.id,
-    product_name: item.name,
-    product_image: item.image,
-    price: item.price,
-    quantity: item.quantity,
-  }));
-
-  const { error: itemsErr } = await supabase
-    .from("store_order_items")
-    .insert(orderItems);
-
-  if (itemsErr) {
-    console.error("createOrder items error:", itemsErr);
-  }
-
-  return { ...order, items: orderItems };
 }
 
 export async function getOrders(uid: string): Promise<StoreOrder[]> {
-  const { data: orders, error } = await supabase
-    .from("store_orders")
-    .select("*")
-    .eq("firebase_uid", uid)
-    .order("created_at", { ascending: false });
-
-  if (error || !orders) {
-    console.error("getOrders error:", error);
+  try {
+    const q = query(
+      collection(db, "orders"),
+      where("userId", "==", uid),
+      orderBy("createdAt", "desc")
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        orderId: d.id,
+        ...data,
+        createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate().toISOString() : data.createdAt,
+      } as StoreOrder;
+    });
+  } catch (err) {
+    console.error("getOrders error:", err);
     return [];
   }
-
-  // Fetch items for each order
-  const orderIds = orders.map((o: any) => o.id);
-  const { data: allItems } = await supabase
-    .from("store_order_items")
-    .select("*")
-    .in("order_id", orderIds);
-
-  return orders.map((o: any) => ({
-    ...o,
-    items: (allItems || []).filter((i: any) => i.order_id === o.id),
-  }));
 }
