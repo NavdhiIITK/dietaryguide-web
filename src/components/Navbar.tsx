@@ -1,16 +1,20 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
 import { useCart } from "@/context/cart-context";
-import { Moon, Sun, Menu, X, ShoppingCart } from "lucide-react";
+import { useAuth } from "@/context/auth-context";
+import { Moon, Sun, Menu, X, ShoppingCart, User, LogOut, Package, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const { totalItems, openCart } = useCart();
+  const { user, signInWithGoogle, signOutUser } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const profileDropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   const navigation = [
@@ -29,6 +33,17 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close profile dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(e.target as Node)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleTheme = () => {
@@ -92,19 +107,75 @@ const Navbar = () => {
               )}
             </Button>
           )}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="rounded-full border-forest dark:border-spring"
-          >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-spring" />
-            ) : (
-              <Moon className="h-5 w-5 text-forest" />
-            )}
-          </Button>
+          {!isStorePage && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="rounded-full border-forest dark:border-spring"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5 text-spring" />
+              ) : (
+                <Moon className="h-5 w-5 text-forest" />
+              )}
+            </Button>
+          )}
+          {isStorePage && !user && (
+            <Button
+              onClick={signInWithGoogle}
+              variant="outline"
+              className="rounded-full border-forest dark:border-spring text-forest dark:text-spring"
+            >
+              <User className="h-4 w-4 mr-2" />
+              Login
+            </Button>
+          )}
+          {isStorePage && user && (
+            <div className="relative" ref={profileDropdownRef}>
+              <button
+                onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                className="flex items-center gap-2 rounded-full border border-forest dark:border-spring px-3 py-1.5 hover:bg-muted transition-colors"
+              >
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt="" className="w-7 h-7 rounded-full object-cover" referrerPolicy="no-referrer" />
+                ) : (
+                  <div className="w-7 h-7 rounded-full bg-forest text-white flex items-center justify-center text-xs font-bold">
+                    {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <span className="text-sm font-medium text-foreground/80 max-w-[100px] truncate hidden lg:inline">
+                  {user.displayName || user.email?.split("@")[0] || "Account"}
+                </span>
+                <ChevronDown className="h-3.5 w-3.5 text-foreground/60" />
+              </button>
+              {profileDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-52 bg-background border border-border rounded-xl shadow-lg overflow-hidden z-[200]">
+                  <div className="px-4 py-3 border-b border-border">
+                    <p className="text-sm font-semibold text-foreground truncate">{user.displayName || "User"}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                  </div>
+                  <div className="py-1">
+                    <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+                      <User className="h-4 w-4" /> Profile
+                    </button>
+                    <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+                      <Package className="h-4 w-4" /> Orders
+                    </button>
+                  </div>
+                  <div className="border-t border-border py-1">
+                    <button
+                      onClick={() => { signOutUser(); setProfileDropdownOpen(false); }}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+                    >
+                      <LogOut className="h-4 w-4" /> Sign Out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white">
             <Link to="/tools">Get Started</Link>
           </Button>
@@ -128,19 +199,47 @@ const Navbar = () => {
             )}
           </Button>
           )}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="rounded-full border-forest dark:border-spring"
-          >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5 text-spring" />
-            ) : (
-              <Moon className="h-5 w-5 text-forest" />
-            )}
-          </Button>
+          {isStorePage && !user && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={signInWithGoogle}
+              aria-label="Login"
+              className="rounded-full border-forest dark:border-spring"
+            >
+              <User className="h-5 w-5 text-forest dark:text-spring" />
+            </Button>
+          )}
+          {isStorePage && user && (
+            <button
+              onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+              className="rounded-full overflow-hidden border-2 border-forest dark:border-spring"
+              aria-label="Account menu"
+            >
+              {user.photoURL ? (
+                <img src={user.photoURL} alt="" className="w-8 h-8 rounded-full object-cover" referrerPolicy="no-referrer" />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-forest text-white flex items-center justify-center text-xs font-bold">
+                  {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
+                </div>
+              )}
+            </button>
+          )}
+          {!isStorePage && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="rounded-full border-forest dark:border-spring"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-5 w-5 text-spring" />
+              ) : (
+                <Moon className="h-5 w-5 text-forest" />
+              )}
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
@@ -180,6 +279,32 @@ const Navbar = () => {
             </Button>
           </div>
         </nav>
+      )}
+
+      {/* Mobile profile dropdown */}
+      {isStorePage && user && profileDropdownOpen && (
+        <div ref={profileDropdownRef} className="md:hidden absolute right-4 top-[72px] w-52 bg-background border border-border rounded-xl shadow-lg overflow-hidden z-[200]">
+          <div className="px-4 py-3 border-b border-border">
+            <p className="text-sm font-semibold text-foreground truncate">{user.displayName || "User"}</p>
+            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+          </div>
+          <div className="py-1">
+            <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+              <User className="h-4 w-4" /> Profile
+            </button>
+            <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground/80 hover:bg-muted transition-colors">
+              <Package className="h-4 w-4" /> Orders
+            </button>
+          </div>
+          <div className="border-t border-border py-1">
+            <button
+              onClick={() => { signOutUser(); setProfileDropdownOpen(false); }}
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+            >
+              <LogOut className="h-4 w-4" /> Sign Out
+            </button>
+          </div>
+        </div>
       )}
     </header>
   );
