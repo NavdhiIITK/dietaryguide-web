@@ -1,6 +1,6 @@
 import { db } from "@/lib/firebase";
 import {
-  doc, getDoc, setDoc, updateDoc, collection,
+  doc, getDoc, setDoc, updateDoc, deleteDoc, collection,
   addDoc, getDocs, query, where, orderBy, serverTimestamp, Timestamp
 } from "firebase/firestore";
 
@@ -159,5 +159,56 @@ export async function getOrders(uid: string): Promise<StoreOrder[]> {
   } catch (err) {
     console.error("getOrders error:", err);
     return [];
+  }
+}
+
+/* ── Cart (users/{uid}/cart/{productId}) ───────────────────── */
+
+export interface FirestoreCartItem {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+export async function loadCartFromFirestore(uid: string): Promise<FirestoreCartItem[]> {
+  try {
+    const snap = await getDocs(collection(db, "users", uid, "cart"));
+    return snap.docs.map((d) => ({ productId: d.id, ...d.data() } as FirestoreCartItem));
+  } catch (err) {
+    console.error("loadCartFromFirestore error:", err);
+    return [];
+  }
+}
+
+export async function saveCartItemToFirestore(uid: string, item: { id: string; name: string; price: number; image: string; quantity: number }): Promise<void> {
+  try {
+    await setDoc(doc(db, "users", uid, "cart", item.id), {
+      productId: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+    });
+  } catch (err) {
+    console.error("saveCartItemToFirestore error:", err);
+  }
+}
+
+export async function removeCartItemFromFirestore(uid: string, itemId: string): Promise<void> {
+  try {
+    await deleteDoc(doc(db, "users", uid, "cart", itemId));
+  } catch (err) {
+    console.error("removeCartItemFromFirestore error:", err);
+  }
+}
+
+export async function clearCartFromFirestore(uid: string): Promise<void> {
+  try {
+    const snap = await getDocs(collection(db, "users", uid, "cart"));
+    await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
+  } catch (err) {
+    console.error("clearCartFromFirestore error:", err);
   }
 }

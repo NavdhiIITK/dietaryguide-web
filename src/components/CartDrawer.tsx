@@ -565,7 +565,7 @@ const CartDrawer = () => {
             </p>
           )}
           <button
-            onClick={() => { navigate("/products/account?tab=orders"); closeCart(); }}
+            onClick={() => { navigate("/products/orders"); closeCart(); }}
             style={{
               padding: "12px 28px", background: C.brand, color: C.white,
               border: "none", borderRadius: 12, fontSize: 14, fontWeight: 700,

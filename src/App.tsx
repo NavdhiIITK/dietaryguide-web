@@ -23,6 +23,8 @@ import AppPage from "./pages/AppPage";
 import AppPromotionPage from "./pages/AppPromotionPage";
 import SEODashboardPage from "./pages/SEODashboardPage";
 import StoreAccountPage from "./pages/StoreAccountPage";
+import ProfilePage from "./pages/ProfilePage";
+import OrdersPage from "./pages/OrdersPage";
 import NotFound from "./pages/NotFound";
 
 import "./App.css";
@@ -51,6 +53,8 @@ function App() {
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/account" element={<StoreAccountPage />} />
+          <Route path="/products/profile" element={<ProfilePage />} />
+          <Route path="/products/orders" element={<OrdersPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/app" element={<AppPromotionPage />} />
           <Route path="/seo-dashboard" element={<SEODashboardPage />} />
