@@ -58,7 +58,7 @@ const ProductDetailPage = () => {
     if (!product || product.images.length <= 1 || slideshowPaused) return;
     const timer = setInterval(() => {
       setSelectedImage((i) => (i + 1) % product.images.length);
-    }, 3000);
+    }, 15000);
     return () => clearInterval(timer);
   }, [product, slideshowPaused]);
 
@@ -176,13 +176,25 @@ const ProductDetailPage = () => {
         }
         @media (max-width: 768px) {
           .pdp-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-          .pdp-image-box { min-height: 300px !important; }
-          .pdp-section { padding: 24px 16px !important; }
+          .pdp-image-box { min-height: 280px !important; padding: 20px !important; border-radius: 16px !important; }
+          .pdp-section { padding: 100px 16px 80px !important; }
           .pdp-sticky-bar { display: flex !important; }
-          .pdp-tab-row { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+          .pdp-tab-row { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+          .pdp-tab-row::-webkit-scrollbar { display: none; }
+          .pdp-tab-row button { padding: 12px 18px !important; font-size: 13px !important; }
+          .pdp-qty-cart-row { gap: 8px !important; }
+          .pdp-qty-cart-row .pdp-add-btn { min-width: unset !important; padding: 12px 16px !important; font-size: 14px !important; }
+          .pdp-trust-badges { gap: 12px !important; }
+          .pdp-thumb-strip { gap: 6px !important; }
+          .pdp-thumb-strip button { width: 52px !important; height: 52px !important; border-radius: 10px !important; }
+          .pdp-short-desc { max-width: 100% !important; }
+          .pdp-tab-content { max-width: 100% !important; }
         }
         @media (max-width: 480px) {
-          .pdp-image-box { min-height: 240px !important; padding: 16px !important; }
+          .pdp-image-box { min-height: 220px !important; padding: 14px !important; }
+          .pdp-section { padding: 90px 12px 80px !important; }
+          .pdp-nav-arrow { width: 32px !important; height: 32px !important; }
+          .pdp-nav-arrow svg { width: 16px !important; height: 16px !important; }
         }
       `}</style>
 
@@ -263,9 +275,10 @@ const ProductDetailPage = () => {
                 <button
                   onClick={prevImage}
                   aria-label="Previous image"
+                  className="pdp-nav-arrow"
                   style={{
                     position: "absolute",
-                    left: 14,
+                    left: 10,
                     top: "50%",
                     transform: "translateY(-50%)",
                     zIndex: 4,
@@ -309,9 +322,10 @@ const ProductDetailPage = () => {
                 <button
                   onClick={nextImage}
                   aria-label="Next image"
+                  className="pdp-nav-arrow"
                   style={{
                     position: "absolute",
-                    right: 14,
+                    right: 10,
                     top: "50%",
                     transform: "translateY(-50%)",
                     zIndex: 4,
@@ -371,7 +385,7 @@ const ProductDetailPage = () => {
 
             {/* Thumbnail strip */}
             {product.images.length > 1 && (
-              <div style={{ display: "flex", gap: 10, marginTop: 14, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none" }}>
+              <div className="pdp-thumb-strip" style={{ display: "flex", gap: 10, marginTop: 14, overflowX: "auto", paddingBottom: 4, scrollbarWidth: "none" }}>
                 {product.images.map((img, i) => (
                   <button
                     key={i}
@@ -448,13 +462,13 @@ const ProductDetailPage = () => {
             </div>
 
             {/* Short description */}
-            <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: "0 0 28px", maxWidth: 500 }}>
+            <p className="pdp-short-desc" style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: "0 0 28px", maxWidth: 500 }}>
               {product.description.slice(0, 180)}
               {product.description.length > 180 ? "…" : ""}
             </p>
 
             {/* Qty + Add to cart */}
-            <div style={{ display: "flex", gap: 12, alignItems: "stretch", marginBottom: 16, flexWrap: "wrap" }}>
+            <div className="pdp-qty-cart-row" style={{ display: "flex", gap: 12, alignItems: "stretch", marginBottom: 16, flexWrap: "wrap" }}>
               {/* Qty selector */}
               <div
                 style={{
@@ -505,6 +519,7 @@ const ProductDetailPage = () => {
 
               {/* Add to cart */}
               <button
+                className="pdp-add-btn"
                 onClick={handleAddToCart}
                 style={{
                   flex: 1,
@@ -557,7 +572,7 @@ const ProductDetailPage = () => {
             </div>
 
             {/* Trust badges */}
-            <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginTop: 28, paddingTop: 24, borderTop: `1px solid ${C.brandLight}` }}>
+            <div className="pdp-trust-badges" style={{ display: "flex", gap: 20, flexWrap: "wrap", marginTop: 28, paddingTop: 24, borderTop: `1px solid ${C.brandLight}` }}>
               {[
                 { icon: <Leaf size={16} />, label: "Clean Label" },
                 { icon: <ShieldCheck size={16} />, label: "No Preservatives" },
@@ -609,7 +624,7 @@ const ProductDetailPage = () => {
           </div>
 
           {/* Tab content */}
-          <div style={{ maxWidth: 720 }}>
+          <div className="pdp-tab-content" style={{ maxWidth: 720 }}>
             {activeTab === "description" && (
               <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.8 }}>{product.description}</p>
             )}
