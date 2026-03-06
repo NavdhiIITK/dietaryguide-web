@@ -5,21 +5,8 @@ import Footer from "@/components/Footer";
 import Products from "@/components/Products";
 import CartDrawer from "@/components/CartDrawer";
 import { Toaster } from "@/components/ui/toaster";
-import { useTheme } from "@/components/ThemeProvider";
 
 const ProductsPage = () => {
-  const { theme, setTheme } = useTheme();
-
-  // Force light theme on the products/store page so navbar text is visible
-  useEffect(() => {
-    const prev = theme;
-    if (theme === "dark") setTheme("light");
-    return () => {
-      // restore on unmount only if we changed it
-      if (prev === "dark") setTheme(prev);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Hide AnveVoice widget on /products page only
   useEffect(() => {

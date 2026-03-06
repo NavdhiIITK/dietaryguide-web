@@ -161,17 +161,17 @@ export default function StoreAccountPage() {
       <Navbar />
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "100px 16px 60px" }}>
         {/* Back link */}
-        <button
-          onClick={() => navigate("/products")}
+        <a
+          href="/products"
           style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             background: "none", border: "none", cursor: "pointer",
             fontSize: 14, color: C.brand, fontWeight: 600, fontFamily: ff,
-            marginBottom: 24, padding: 0,
+            marginBottom: 24, padding: 0, textDecoration: "none",
           }}
         >
           <ArrowLeft size={16} /> Back to Store
-        </button>
+        </a>
 
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 32 }}>

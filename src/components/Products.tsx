@@ -658,7 +658,7 @@ const Products = () => {
                   fontWeight: 400,
                 }}
               >
-                Take the step towards a healthier, more vibrant life — shop now and fuel your body
+                Take the step towards a healthier, more vibrant life shop now and fuel your body
                 with the best!
               </p>
               <div className="store-hero-left-actions">
@@ -853,7 +853,7 @@ const Products = () => {
                   lineHeight: 1.7,
                 }}
               >
-                Our products are carefully curated with science-backed, clean-label ingredients,
+                Our products are carefully curated with science backed, clean label ingredients,
                 free from artificial additives, and made to the highest standards.
               </p>
               <div

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/auth-context";
 import { getProfile, updateProfile as updateUserProfile } from "@/services/storeService";
@@ -29,7 +29,7 @@ const sectionCard: React.CSSProperties = {
 };
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -50,6 +50,7 @@ export default function ProfilePage() {
   const [pincode, setPincode] = useState("");
 
   useEffect(() => {
+    if (authLoading) return;
     if (!user) { navigate("/products"); return; }
     (async () => {
       setLoading(true);
@@ -67,7 +68,7 @@ export default function ProfilePage() {
       }
       setLoading(false);
     })();
-  }, [user, navigate]);
+  }, [user, authLoading, navigate]);
 
   const handleSaveProfile = async () => {
     if (!user) return;
@@ -89,6 +90,7 @@ export default function ProfilePage() {
     setTimeout(() => setAddressMsg(""), 3000);
   };
 
+  if (authLoading) return null;
   if (!user) return null;
 
   return (
@@ -97,17 +99,17 @@ export default function ProfilePage() {
       <div style={{ maxWidth: 600, margin: "0 auto", padding: "100px 16px 60px" }}>
 
         {/* Back */}
-        <button
-          onClick={() => navigate("/products")}
+        <a
+          href="/products"
           style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             background: "none", border: "none", cursor: "pointer",
             fontSize: 14, color: C.brand, fontWeight: 600, fontFamily: ff,
-            marginBottom: 24, padding: 0,
+            marginBottom: 24, padding: 0, textDecoration: "none",
           }}
         >
           <ArrowLeft size={16} /> Back to Store
-        </button>
+        </a>
 
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 28 }}>

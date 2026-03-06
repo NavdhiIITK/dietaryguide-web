@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "./components/ThemeProvider";
+import { useLayoutEffect, type ReactNode } from "react";
+import { ThemeProvider, useTheme } from "./components/ThemeProvider";
 import { AuthProvider } from "@/context/auth-context";
 import { CartProvider } from "@/context/cart-context";
 
@@ -29,6 +30,24 @@ import NotFound from "./pages/NotFound";
 
 import "./App.css";
 
+// Synchronously forces light theme for all store pages before browser paints
+function StoreLayout({ children }: { children: ReactNode }) {
+  const { setTheme } = useTheme();
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("dark");
+    root.classList.add("light");
+    setTheme("light");
+    return () => {
+      root.classList.remove("light");
+      root.classList.add("dark");
+      setTheme("dark");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return <>{children}</>;
+}
+
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -51,11 +70,11 @@ function App() {
           <Route path="/recipes" element={<RecipePage />} />
           <Route path="/recipes/:id" element={<RecipeDetailPage />} />
           <Route path="/tools" element={<ToolsPage />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/products/account" element={<StoreAccountPage />} />
-          <Route path="/products/profile" element={<ProfilePage />} />
-          <Route path="/products/orders" element={<OrdersPage />} />
-          <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path="/products" element={<StoreLayout><ProductsPage /></StoreLayout>} />
+          <Route path="/products/account" element={<StoreLayout><StoreAccountPage /></StoreLayout>} />
+          <Route path="/products/profile" element={<StoreLayout><ProfilePage /></StoreLayout>} />
+          <Route path="/products/orders" element={<StoreLayout><OrdersPage /></StoreLayout>} />
+          <Route path="/products/:id" element={<StoreLayout><ProductDetailPage /></StoreLayout>} />
           <Route path="/app" element={<AppPromotionPage />} />
           <Route path="/seo-dashboard" element={<SEODashboardPage />} />
           <Route path="*" element={<NotFound />} />

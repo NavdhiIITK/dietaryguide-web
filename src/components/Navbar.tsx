@@ -5,16 +5,17 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/ThemeProvider";
 import { useCart } from "@/context/cart-context";
 import { useAuth } from "@/context/auth-context";
-import { Moon, Sun, Menu, X, ShoppingCart, User, LogOut, Package, ChevronDown } from "lucide-react";
+import { Menu, X, ShoppingCart, User, LogOut, Package, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const { totalItems, openCart } = useCart();
   const { user, signInWithGoogle, signOutUser } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const profileDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -39,17 +40,16 @@ const Navbar = () => {
   // Close profile dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (profileDropdownRef.current && !profileDropdownRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      const inDesktop = profileDropdownRef.current?.contains(target);
+      const inMobile = mobileDropdownRef.current?.contains(target);
+      if (!inDesktop && !inMobile) {
         setProfileDropdownOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
 
   const isStorePage = location.pathname === "/products" || location.pathname.startsWith("/products/");
 
@@ -108,21 +108,6 @@ const Navbar = () => {
               )}
             </Button>
           )}
-          {!isStorePage && (
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              className="rounded-full border-forest dark:border-spring"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5 text-spring" />
-              ) : (
-                <Moon className="h-5 w-5 text-forest" />
-              )}
-            </Button>
-          )}
           {isStorePage && !user && (
             <Button
               onClick={signInWithGoogle}
@@ -177,9 +162,11 @@ const Navbar = () => {
               )}
             </div>
           )}
-          <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white">
-            <Link to="/tools">Get Started</Link>
-          </Button>
+          {!isStorePage && (
+            <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white">
+              <Link to="/tools">Get Started</Link>
+            </Button>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -226,21 +213,6 @@ const Navbar = () => {
               )}
             </button>
           )}
-          {!isStorePage && (
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              className="rounded-full border-forest dark:border-spring"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-5 w-5 text-spring" />
-              ) : (
-                <Moon className="h-5 w-5 text-forest" />
-              )}
-            </Button>
-          )}
           <Button
             variant="ghost"
             size="icon"
@@ -275,16 +247,18 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white mt-2">
-              <Link to="/tools" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
-            </Button>
+            {!isStorePage && (
+              <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white mt-2">
+                <Link to="/tools" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+              </Button>
+            )}
           </div>
         </nav>
       )}
 
       {/* Mobile profile dropdown */}
       {isStorePage && user && profileDropdownOpen && (
-        <div ref={profileDropdownRef} className="md:hidden absolute right-4 top-[72px] w-52 bg-background border border-border rounded-xl shadow-lg overflow-hidden z-[200]">
+        <div ref={mobileDropdownRef} className="md:hidden absolute right-4 top-[72px] w-52 bg-background border border-border rounded-xl shadow-lg overflow-hidden z-[200]">
           <div className="px-4 py-3 border-b border-border">
             <p className="text-sm font-semibold text-foreground truncate">{user.displayName || "User"}</p>
             <p className="text-xs text-muted-foreground truncate">{user.email}</p>

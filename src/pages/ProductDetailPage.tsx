@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById } from "@/data/products";
 import { useCart } from "@/context/cart-context";
-import { useTheme } from "@/components/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
@@ -46,7 +45,6 @@ const ProductDetailPage = () => {
   const product = getProductById(id || "");
   const { addItem } = useCart();
   const { toast } = useToast();
-  const { theme, setTheme } = useTheme();
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState<TabKey>("description");
   const [liked, setLiked] = useState(false);
@@ -73,16 +71,6 @@ const ProductDetailPage = () => {
     setSlideshowPaused(true);
     setSelectedImage((i) => (i + 1) % product.images.length);
   };
-
-  // Force light theme
-  useEffect(() => {
-    const prev = theme;
-    if (theme === "dark") setTheme("light");
-    return () => {
-      if (prev === "dark") setTheme(prev);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Hide voice widgets
   useEffect(() => {

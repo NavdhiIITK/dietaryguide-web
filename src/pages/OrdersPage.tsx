@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/auth-context";
 import { getOrders, StoreOrder } from "@/services/storeService";
@@ -155,13 +155,14 @@ function OrderCard({ order }: { order: StoreOrder }) {
 }
 
 export default function OrdersPage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   const [orders, setOrders] = useState<StoreOrder[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (authLoading) return;
     if (!user) { navigate("/products"); return; }
     (async () => {
       setLoading(true);
@@ -169,8 +170,9 @@ export default function OrdersPage() {
       setOrders(o);
       setLoading(false);
     })();
-  }, [user, navigate]);
+  }, [user, authLoading, navigate]);
 
+  if (authLoading) return null;
   if (!user) return null;
 
   return (
@@ -179,17 +181,17 @@ export default function OrdersPage() {
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "100px 16px 60px" }}>
 
         {/* Back */}
-        <button
-          onClick={() => navigate("/products")}
+        <a
+          href="/products"
           style={{
             display: "inline-flex", alignItems: "center", gap: 6,
             background: "none", border: "none", cursor: "pointer",
             fontSize: 14, color: C.brand, fontWeight: 600, fontFamily: ff,
-            marginBottom: 24, padding: 0,
+            marginBottom: 24, padding: 0, textDecoration: "none",
           }}
         >
           <ArrowLeft size={16} /> Back to Store
-        </button>
+        </a>
 
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 28 }}>
