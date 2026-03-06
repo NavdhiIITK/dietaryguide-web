@@ -66,7 +66,7 @@ const Navbar = () => {
           : "bg-transparent py-4"
       }`}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 flex justify-between items-center relative">
         <Link
           to="/"
           className="flex items-center space-x-2 text-2xl md:text-3xl font-display font-bold"
@@ -74,8 +74,8 @@ const Navbar = () => {
           <img src={logoSrc} alt="Dietary Guide Logo" className="h-24 w-24 object-contain" />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        {/* Desktop Navigation - absolutely centered */}
+        <nav className="hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2">
           {navigation.map((item) => (
             <Link
               key={item.name}
