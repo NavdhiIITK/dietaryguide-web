@@ -75,7 +75,7 @@ export const storeProducts: StoreProduct[] = [
     price: 449,
     originalPrice: 549,
     images: [
-      "https://github.com/amishardev/DGWEBSITEIMG/blob/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png?raw=true",
+      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png",
     ],
     badge: "New",
     tags: ["protein", "millet"],
@@ -125,7 +125,7 @@ export const storeProducts: StoreProduct[] = [
     subtitle: "Crunchy & guilt-free",
     price: 199,
     images: [
-      "https://github.com/amishardev/DGWEBSITEIMG/blob/main/ChatGPT%20Image%20Mar%206,%202026,%2012_15_18%20AM-Photoroom.png?raw=true",
+      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2012_15_18%20AM-Photoroom.png",
     ],
     tags: ["snack", "roasted"],
     rating: 4.6,
@@ -170,7 +170,7 @@ export const storeProducts: StoreProduct[] = [
     subtitle: "Spicy & protein-rich snack",
     price: 199,
     images: [
-      "https://github.com/amishardev/DGWEBSITEIMG/blob/main/RAJMAJOR.png?raw=true",
+      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/RAJMAJOR.png",
     ],
     tags: ["snack", "roasted"],
     rating: 4.5,
@@ -264,7 +264,7 @@ export const storeProducts: StoreProduct[] = [
     subtitle: "Soothing herbal blend",
     price: 299,
     images: [
-      "https://github.com/amishardev/DGWEBSITEIMG/blob/main/diegetiontea.png?raw=true",
+      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/diegetiontea.png",
     ],
     tags: ["tea", "digestion"],
     rating: 4.7,
