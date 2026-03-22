@@ -1177,7 +1177,7 @@ const Products = () => {
                 <span style={{ textDecoration: "line-through", fontSize: 18, color: C.textMuted }}>
                   ₹1,999
                 </span>
-                <span style={{ fontSize: 36, fontWeight: 700, color: C.dark }}>₹1,499</span>
+                <span style={{ fontSize: 36, fontWeight: 700, color: C.dark }}>₹999</span>
               </div>
 
               <button
