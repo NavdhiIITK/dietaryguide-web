@@ -27,8 +27,8 @@ export const storeProducts: ProductDetail[] = [
     id: "wt-1",
     name: "The Wellness Treat",
     subtitle: "Premium Diet Snack Gift Box",
-    price: 1499,
-    originalPrice: 1999,
+    price: 999,
+    originalPrice: 1499,
     image: HERO_PRODUCT_IMG,
     images: [
       HERO_PRODUCT_IMG,
@@ -71,7 +71,7 @@ export const storeProducts: ProductDetail[] = [
     id: "sp-1",
     name: "High-Protein Millet Granola",
     subtitle: "21g protein / serving",
-    price: 449,
+    price: 149,
     originalPrice: 549,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png",
@@ -123,7 +123,7 @@ export const storeProducts: ProductDetail[] = [
     id: "sp-2",
     name: "Roasted Chana Jor Masala",
     subtitle: "Crunchy & guilt-free",
-    price: 199,
+    price: 149,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2012_15_18%20AM-Photoroom.png",
     images: [
@@ -167,7 +167,7 @@ export const storeProducts: ProductDetail[] = [
     id: "sp-2b",
     name: "Rajma Jor Masala",
     subtitle: "Spicy & protein-rich snack",
-    price: 199,
+    price: 149,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/RAJMAJOR.png",
     images: [
@@ -255,7 +255,7 @@ export const storeProducts: ProductDetail[] = [
     id: "sp-4",
     name: "Digestion Tea",
     subtitle: "Soothing herbal blend",
-    price: 299,
+    price: 149,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/diegetiontea.png",
     images: [
@@ -289,8 +289,96 @@ export const storeProducts: ProductDetail[] = [
       { label: "Servings", value: "25 sachets / pack" },
     ],
   },
+  {
+    id: "sp-5",
+    name: "Mixed Seed Protein Bar",
+    subtitle: "Nutrient-packed seed bar",
+    price: 55,
+    image:
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/%2C%202026%2C%2008_29_33%20PM.png",
+    images: [
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/%2C%202026%2C%2008_29_33%20PM.png",
+    ],
+    tags: ["protein", "seeds", "bar"],
+    badge: "New",
+    category: "Bars",
+    rating: 4.7,
+    reviewCount: 32,
+    description:
+      "A crunchy, nutrient-dense protein bar loaded with mixed seeds — flax, sunflower, pumpkin, and chia — bound with plant protein and natural sweeteners for sustained energy. No artificial preservatives, no refined sugar.",
+    ingredients: [
+      "Flaxseeds",
+      "Sunflower Seeds",
+      "Pumpkin Seeds",
+      "Chia Seeds",
+      "Pea Protein Isolate",
+      "Dates",
+      "Honey (minimal)",
+      "Coconut Oil",
+      "Rock Salt",
+    ],
+    benefits: [
+      "Rich in Omega-3 fatty acids from seeds",
+      "High in plant-based protein",
+      "No refined sugar or artificial sweeteners",
+      "Excellent source of dietary fibre",
+      "Sustained energy without sugar crash",
+    ],
+    nutrition: [
+      { label: "Energy", value: "390 kcal / 100g" },
+      { label: "Protein", value: "10g / bar" },
+      { label: "Carbs", value: "12.6g / bar" },
+      { label: "Fat", value: "6.3g / bar" },
+      { label: "Fibre", value: "3.5g / bar" },
+      { label: "Added Sugar", value: "0g" },
+    ],
+  },
+  {
+    id: "sp-6",
+    name: "Almond Protein Bar",
+    subtitle: "Crunchy almond goodness",
+    price: 55,
+    image:
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/08_34_57%20PM.png",
+    images: [
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/08_34_57%20PM.png",
+    ],
+    tags: ["protein", "almond", "bar"],
+    badge: "New",
+    category: "Bars",
+    rating: 4.8,
+    reviewCount: 28,
+    description:
+      "A premium protein bar packed with whole roasted almonds combined with plant protein, oats, and natural binders. Crunchy, satisfying, and naturally delicious with no added sugar. Perfect for fitness enthusiasts or as a healthy on-the-go snack.",
+    ingredients: [
+      "Whole Roasted Almonds",
+      "Pea Protein Isolate",
+      "Rolled Oats",
+      "Dates",
+      "Honey (minimal)",
+      "Coconut Oil",
+      "Vanilla Extract",
+      "Rock Salt",
+    ],
+    benefits: [
+      "Rich in protein and healthy fats from almonds",
+      "No added sugar or artificial sweeteners",
+      "Excellent source of Vitamin E",
+      "Supports muscle recovery post-workout",
+      "Clean-label, whole food ingredients",
+    ],
+    nutrition: [
+      { label: "Energy", value: "410 kcal / 100g" },
+      { label: "Protein", value: "10.5g / bar" },
+      { label: "Carbs", value: "11.9g / bar" },
+      { label: "Fat", value: "7g / bar" },
+      { label: "Fibre", value: "2.8g / bar" },
+      { label: "Added Sugar", value: "0g" },
+    ],
+  },
 ];
 
 export function getProductById(id: string): ProductDetail | undefined {
   return storeProducts.find((p) => p.id === id);
 }
+

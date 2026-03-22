@@ -55,8 +55,8 @@ const storeProducts: Product[] = [
     id: "wt-1",
     name: "The Wellness Treat",
     subtitle: "Premium Diet Snack Gift Box",
-    price: 1499,
-    originalPrice: 1999,
+    price: 999,
+    originalPrice: 1499,
     image: HERO_PRODUCT_IMG,
     tags: ["bestseller", "gift-box", "no-sugar"],
     badge: "Bestseller",
@@ -65,7 +65,7 @@ const storeProducts: Product[] = [
     id: "sp-1",
     name: "High-Protein Millet Granola",
     subtitle: "21g protein / serving",
-    price: 449,
+    price: 149,
     originalPrice: 549,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png",
@@ -76,7 +76,7 @@ const storeProducts: Product[] = [
     id: "sp-2",
     name: "Roasted Chana Jor Masala",
     subtitle: "Crunchy & guilt-free",
-    price: 199,
+    price: 149,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2012_15_18%20AM-Photoroom.png",
     tags: ["snack", "roasted"],
@@ -85,7 +85,7 @@ const storeProducts: Product[] = [
     id: "sp-2b",
     name: "Rajma Jor Masala",
     subtitle: "Spicy & protein-rich snack",
-    price: 199,
+    price: 149,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/RAJMAJOR.png",
     tags: ["snack", "roasted"],
@@ -104,10 +104,30 @@ const storeProducts: Product[] = [
     id: "sp-4",
     name: "Digestion Tea",
     subtitle: "Soothing herbal blend",
-    price: 299,
+    price: 149,
     image:
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/diegetiontea.png",
     tags: ["tea", "digestion"],
+  },
+  {
+    id: "sp-5",
+    name: "Mixed Seed Protein Bar",
+    subtitle: "Nutrient-packed seed bar",
+    price: 55,
+    image:
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/%2C%202026%2C%2008_29_33%20PM.png",
+    tags: ["protein", "seeds", "bar"],
+    badge: "New",
+  },
+  {
+    id: "sp-6",
+    name: "Almond Protein Bar",
+    subtitle: "Crunchy almond goodness",
+    price: 55,
+    image:
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/08_34_57%20PM.png",
+    tags: ["protein", "almond", "bar"],
+    badge: "New",
   },
 ];
 
@@ -1138,7 +1158,7 @@ const Products = () => {
             {/* Description */}
             <div className="bundle-desc">
               <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, maxWidth: 420, marginTop: 16 }}>
-                
+
               </p>
               <p style={{ fontSize: 13, color: C.textMuted, marginTop: 12, lineHeight: 1.7 }}>
                 A premium wellness gift box curated by Dietary Guide. Includes High-Protein Millet
@@ -1214,41 +1234,41 @@ const Products = () => {
                 minHeight: 400,
               }}
             >
-            <img
-              src={HERO_PRODUCT_IMG}
-              alt="The Wellness Treat Gift Box"
-              loading="lazy"
-              decoding="async"
-              style={{
-                maxWidth: "85%",
-                maxHeight: 380,
-                objectFit: "contain",
-                filter: "drop-shadow(0 16px 32px rgba(85,182,133,.2))",
-              }}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "/placeholder.svg";
-              }}
-            />
-            {/* Review stars */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: 24,
-                right: 24,
-                background: C.white,
-                borderRadius: 12,
-                padding: "10px 16px",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                boxShadow: "0 4px 16px rgba(0,0,0,.06)",
-              }}
-            >
-              {[1, 2, 3, 4, 5].map((s) => (
-                <Star key={s} size={14} fill={C.gold} color={C.gold} />
-              ))}
-              <span style={{ fontSize: 12, color: C.textMuted, marginLeft: 4 }}>4.9</span>
-            </div>
+              <img
+                src={HERO_PRODUCT_IMG}
+                alt="The Wellness Treat Gift Box"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  maxWidth: "85%",
+                  maxHeight: 380,
+                  objectFit: "contain",
+                  filter: "drop-shadow(0 16px 32px rgba(85,182,133,.2))",
+                }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/placeholder.svg";
+                }}
+              />
+              {/* Review stars */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 24,
+                  right: 24,
+                  background: C.white,
+                  borderRadius: 12,
+                  padding: "10px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  boxShadow: "0 4px 16px rgba(0,0,0,.06)",
+                }}
+              >
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} size={14} fill={C.gold} color={C.gold} />
+                ))}
+                <span style={{ fontSize: 12, color: C.textMuted, marginLeft: 4 }}>4.9</span>
+              </div>
             </div>
           </div>
         </div>

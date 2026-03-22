@@ -280,7 +280,7 @@ const Home = () => {
 
             <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
               <div className="flex items-center mb-6">
-                <img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" alt="Lisa M." className="w-12 h-12 rounded-full object-cover mr-4" />
+                <img src="https://images.unsplash.com/photo-999952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" alt="Lisa M." className="w-12 h-12 rounded-full object-cover mr-4" />
                 <div>
                   <p className="font-bold text-white">Lisa M.</p>
                   <p className="text-sm text-gray-400">Busy Parent</p>

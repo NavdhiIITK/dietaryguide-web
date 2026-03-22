@@ -113,7 +113,7 @@ const samplePosts = [
       <p>Remember, the best diet is one that's sustainable, enjoyable, and meets your individual nutritional needs.</p>
     `,
     tags: ["Indian Diet", "Nutrition Myths", "Health", "Traditional Foods"],
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+    image: "https://images.unsplash.com/photo-1565149624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
     author_name: "Team DietaryGuide",
     author_avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face",
     published: true
@@ -122,7 +122,7 @@ const samplePosts = [
 
 export async function addSamplePosts() {
   console.log('Adding sample posts to Supabase...');
-  
+
   try {
     for (const post of samplePosts) {
       const { data, error } = await supabase
@@ -147,7 +147,7 @@ export async function addSamplePosts() {
         console.log(`✅ Added post: ${post.title}`);
       }
     }
-    
+
     console.log('Sample posts addition completed!');
   } catch (error) {
     console.error('Error adding sample posts:', error);

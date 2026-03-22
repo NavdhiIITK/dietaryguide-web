@@ -27,8 +27,8 @@ export const storeProducts: StoreProduct[] = [
     id: "wt-1",
     name: "The Wellness Treat",
     subtitle: "Premium Diet Snack Gift Box",
-    price: 1499,
-    originalPrice: 1999,
+    price: 999,
+    originalPrice: 1499,
     images: [HERO_IMG],
     badge: "Bestseller",
     tags: ["bestseller", "gift-box", "no-sugar"],
@@ -72,7 +72,7 @@ export const storeProducts: StoreProduct[] = [
     id: "sp-1",
     name: "High-Protein Millet Granola",
     subtitle: "21g protein / serving",
-    price: 449,
+    price: 149,
     originalPrice: 549,
     images: [
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png",
@@ -123,7 +123,7 @@ export const storeProducts: StoreProduct[] = [
     id: "sp-2",
     name: "Roasted Chana Jor Masala",
     subtitle: "Crunchy & guilt-free",
-    price: 199,
+    price: 149,
     images: [
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2012_15_18%20AM-Photoroom.png",
     ],
@@ -168,7 +168,7 @@ export const storeProducts: StoreProduct[] = [
     id: "sp-2b",
     name: "Rajma Jor Masala",
     subtitle: "Spicy & protein-rich snack",
-    price: 199,
+    price: 149,
     images: [
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/RAJMAJOR.png",
     ],
@@ -262,7 +262,7 @@ export const storeProducts: StoreProduct[] = [
     id: "sp-4",
     name: "Digestion Tea",
     subtitle: "Soothing herbal blend",
-    price: 299,
+    price: 149,
     images: [
       "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/diegetiontea.png",
     ],
@@ -302,7 +302,107 @@ export const storeProducts: StoreProduct[] = [
       { q: "Is this caffeine-free?", a: "Yes, 100% caffeine-free and safe to drink at night." },
     ],
   },
+  {
+    id: "sp-5",
+    name: "Mixed Seed Protein Bar",
+    subtitle: "Nutrient-packed seed bar",
+    price: 55,
+    images: [
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/%2C%202026%2C%2008_29_33%20PM.png",
+    ],
+    badge: "New",
+    tags: ["protein", "seeds", "bar"],
+    rating: 4.7,
+    reviewCount: 32,
+    category: "Bars",
+    servingSize: "1 bar (35g)",
+    shortDescription:
+      "A crunchy, nutrient-dense protein bar loaded with mixed seeds — flax, sunflower, pumpkin, and chia — for sustained energy and wholesome nutrition.",
+    description:
+      "Our Mixed Seed Protein Bar is crafted with a blend of premium seeds including flaxseeds, sunflower seeds, pumpkin seeds, and chia seeds, bound together with natural sweeteners and plant protein. Each bar delivers a satisfying crunch with a balanced macro profile — ideal as a mid-day snack, pre-workout fuel, or a healthy on-the-go option. No artificial preservatives, no refined sugar.",
+    ingredients: [
+      "Flaxseeds",
+      "Sunflower Seeds",
+      "Pumpkin Seeds",
+      "Chia Seeds",
+      "Pea Protein Isolate",
+      "Dates",
+      "Honey (minimal)",
+      "Coconut Oil",
+      "Rock Salt",
+    ],
+    benefits: [
+      "Rich in Omega-3 fatty acids from seeds",
+      "High in plant-based protein",
+      "No refined sugar or artificial sweeteners",
+      "Excellent source of dietary fibre",
+      "Sustained energy without sugar crash",
+    ],
+    nutrition: [
+      { label: "Energy", per100g: "390 kcal", perServing: "137 kcal" },
+      { label: "Protein", per100g: "28g", perServing: "10g" },
+      { label: "Carbohydrates", per100g: "36g", perServing: "12.6g" },
+      { label: "Total Fat", per100g: "18g", perServing: "6.3g" },
+      { label: "Dietary Fibre", per100g: "10g", perServing: "3.5g" },
+      { label: "Sugar", per100g: "12g", perServing: "4.2g (from dates)" },
+    ],
+    faqs: [
+      { q: "How many bars come in a pack?", a: "Each pack contains 1 bar (35g). Bundle packs of 6 and 12 are also available." },
+      { q: "Is this bar suitable for vegans?", a: "The bar contains honey, so it is vegetarian but not strictly vegan." },
+      { q: "Can kids eat this bar?", a: "Yes, it's made with whole food ingredients and is safe for children above 3 years." },
+    ],
+  },
+  {
+    id: "sp-6",
+    name: "Almond Protein Bar",
+    subtitle: "Crunchy almond goodness",
+    price: 55,
+    images: [
+      "https://raw.githubusercontent.com/amishardev/navdhiweb/main/08_34_57%20PM.png",
+    ],
+    badge: "New",
+    tags: ["protein", "almond", "bar"],
+    rating: 4.8,
+    reviewCount: 28,
+    category: "Bars",
+    servingSize: "1 bar (35g)",
+    shortDescription:
+      "A premium protein bar packed with real almonds and plant protein — crunchy, satisfying, and naturally delicious with no added sugar.",
+    description:
+      "Our Almond Protein Bar features whole roasted almonds combined with plant protein, oats, and natural binders for a satisfying crunch in every bite. Each bar is a wholesome source of protein, healthy fats, and fibre — perfect for fitness enthusiasts, busy professionals, or anyone looking for a clean, nutritious snack. No artificial colours, no preservatives, no refined sugar.",
+    ingredients: [
+      "Whole Roasted Almonds",
+      "Pea Protein Isolate",
+      "Rolled Oats",
+      "Dates",
+      "Honey (minimal)",
+      "Coconut Oil",
+      "Vanilla Extract",
+      "Rock Salt",
+    ],
+    benefits: [
+      "Rich in protein and healthy fats from almonds",
+      "No added sugar or artificial sweeteners",
+      "Excellent source of Vitamin E",
+      "Supports muscle recovery post-workout",
+      "Clean-label, whole food ingredients",
+    ],
+    nutrition: [
+      { label: "Energy", per100g: "410 kcal", perServing: "144 kcal" },
+      { label: "Protein", per100g: "30g", perServing: "10.5g" },
+      { label: "Carbohydrates", per100g: "34g", perServing: "11.9g" },
+      { label: "Total Fat", per100g: "20g", perServing: "7g" },
+      { label: "Dietary Fibre", per100g: "8g", perServing: "2.8g" },
+      { label: "Sugar", per100g: "10g", perServing: "3.5g (from dates)" },
+    ],
+    faqs: [
+      { q: "Does this contain tree nuts?", a: "Yes, this product contains almonds. Not suitable for those with tree nut allergies." },
+      { q: "Is this bar gluten-free?", a: "It contains rolled oats, which may contain traces of gluten. Not recommended for celiac patients." },
+      { q: "How should I store the bars?", a: "Store in a cool, dry place. Avoid direct sunlight. Best consumed within 3 months of manufacture." },
+    ],
+  },
 ];
 
 // Quick-lookup map
 export const productMap = Object.fromEntries(storeProducts.map((p) => [p.id, p]));
+
