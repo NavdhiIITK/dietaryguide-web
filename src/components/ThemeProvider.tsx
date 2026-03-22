@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -23,19 +23,22 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
   children,
+  defaultTheme = "dark",
   ...props
 }: ThemeProviderProps) {
-  // Always force dark mode
+  // Always start with dark — ignore localStorage to prevent stale "light" values
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
+
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove("light", "system");
-    root.classList.add("dark");
-  }, []);
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+  }, [theme]);
 
   const value = {
-    theme: "dark" as Theme,
-    setTheme: () => {
-      // No-op: dark mode only
+    theme,
+    setTheme: (newTheme: Theme) => {
+      setTheme(newTheme);
     },
   };
 
@@ -54,3 +57,4 @@ export const useTheme = () => {
 
   return context;
 };
+
