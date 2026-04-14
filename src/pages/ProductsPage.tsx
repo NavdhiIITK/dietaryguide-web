@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Products from "@/components/Products";
 import CartDrawer from "@/components/CartDrawer";
+import SEOOptimizer from "@/components/SEOOptimizer";
+import { storeProducts } from "@/data/store-products";
 import { Toaster } from "@/components/ui/toaster";
 
 const ProductsPage = () => {
@@ -47,6 +49,18 @@ const ProductsPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "#faf9f6" }}>
+      <SEOOptimizer
+        title="Healthy Snacks & Nutrition Products – Buy Online"
+        description="Shop premium healthy snacks: high-protein millet granola, roasted chana jor, protein bars, digestion tea & wellness gift boxes. Clean-label, no preservatives. Free shipping on ₹999+."
+        keywords="healthy snacks online India, protein bars India, millet granola buy online, roasted chana snack, digestion tea online, clean label snacks, no preservatives snacks India, protein rich snacks, diet snacks online, wellness gift box India"
+        url="/products"
+        schemaType="ItemList"
+        schemaData={storeProducts}
+        breadcrumbs={[
+          { name: "Home", url: "https://dietaryguide.in/" },
+          { name: "Products", url: "https://dietaryguide.in/products" }
+        ]}
+      />
       <Navbar />
       <div className="flex-grow" style={{ paddingTop: 0 }}>
         <Products />

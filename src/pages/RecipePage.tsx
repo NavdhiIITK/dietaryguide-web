@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOOptimizer from "@/components/SEOOptimizer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -45,6 +46,16 @@ const RecipePage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOOptimizer
+        title="Healthy Indian Breakfast Recipes for Weight Loss"
+        description="Discover 10+ nutritious, protein-rich Indian breakfast recipes for weight loss. Moong dal chilla, oats upma, besan cheela, ragi porridge & more. ICMR-approved, vegetarian & vegan options."
+        keywords="healthy Indian breakfast recipes, weight loss recipes India, moong dal chilla recipe, protein rich breakfast India, vegetarian breakfast recipes, vegan Indian breakfast, low calorie Indian breakfast, oats upma recipe, besan cheela recipe, ragi porridge recipe"
+        url="/recipes"
+        breadcrumbs={[
+          { name: "Home", url: "https://dietaryguide.in/" },
+          { name: "Recipes", url: "https://dietaryguide.in/recipes" }
+        ]}
+      />
       <Navbar />
       
       {/* Hero Section */}

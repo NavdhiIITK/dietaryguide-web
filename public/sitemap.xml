@@ -1,4 +1,4 @@
-
+﻿
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
@@ -7,7 +7,7 @@
   <!-- Homepage - highest priority -->
   <url>
     <loc>https://dietaryguide.in/</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -20,7 +20,7 @@
   <!-- Blog section - high priority for content marketing -->
   <url>
     <loc>https://dietaryguide.in/blog</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -28,7 +28,7 @@
   <!-- Recipes section - core content for food-related keywords -->
   <url>
     <loc>https://dietaryguide.in/recipes</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -36,7 +36,7 @@
   <!-- Tools section - AI health tools, BMI calculator keywords -->
   <url>
     <loc>https://dietaryguide.in/tools</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -44,7 +44,7 @@
   <!-- Products section -->
   <url>
     <loc>https://dietaryguide.in/products</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -52,7 +52,7 @@
   <!-- App promotion page -->
   <url>
     <loc>https://dietaryguide.in/app</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -60,7 +60,7 @@
   <!-- Individual Recipe Pages with Enhanced SEO -->
   <url>
     <loc>https://dietaryguide.in/recipes/moong-dal-chilla</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -72,7 +72,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/vegetable-oats-upma</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -84,7 +84,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/besan-cheela-spinach</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -96,7 +96,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/vegetable-dalia</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -108,7 +108,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/sprouted-moong-salad</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -120,7 +120,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/ragi-porridge</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -132,7 +132,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/millet-idli-coconut-chutney</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -144,7 +144,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/poha-vegetables</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -156,7 +156,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/tofu-bhurji</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -168,7 +168,7 @@
   
   <url>
     <loc>https://dietaryguide.in/recipes/spinach-banana-flaxseed-smoothie</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -181,37 +181,87 @@
   <!-- Additional SEO-targeted pages for key terms -->
   <url>
     <loc>https://dietaryguide.in/tools/bmi-calculator</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://dietaryguide.in/tools/ai-diet-planner</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://dietaryguide.in/tools/ai-meal-analyzer</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://dietaryguide.in/tools/ai-recipe-generator</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>https://dietaryguide.in/tools/ai-workout-planner</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  
+  <!-- Product Pages -->
+  <url>
+    <loc>https://dietaryguide.in/products/sp-1</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/products/sp-1b</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/products/sp-2</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/products/sp-2b</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/products/sp-4</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/products/sp-5</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://dietaryguide.in/products/sp-6</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   
 </urlset>

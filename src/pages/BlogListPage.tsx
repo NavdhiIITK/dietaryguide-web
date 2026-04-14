@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEOOptimizer from '@/components/SEOOptimizer';
 import { getBlogPosts, getAllTags } from '@/lib/blog-data';
 import { Loader2, AlertCircle, RefreshCw, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -108,6 +109,16 @@ const BlogListPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOOptimizer
+        title="Nutrition & Wellness Blog – Expert Health Articles"
+        description="Read evidence-based articles on Indian nutrition, weight loss, healthy recipes, mental wellness, gut health & fitness. Expert tips from certified dietitians for a healthier India."
+        keywords="nutrition blog India, healthy diet articles, weight loss tips India, Indian diet blog, wellness blog, gut health India, fitness tips, ICMR diet, healthy Indian food blog, dietitian articles"
+        url="/blog"
+        breadcrumbs={[
+          { name: "Home", url: "https://dietaryguide.in/" },
+          { name: "Blog", url: "https://dietaryguide.in/blog" }
+        ]}
+      />
       <Navbar />
 
       <main className="flex-1">

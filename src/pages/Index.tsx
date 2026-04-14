@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroCanvas from "@/components/HeroCanvas";
+import SEOOptimizer from "@/components/SEOOptimizer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -30,6 +31,13 @@ const Home = () => {
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-gray-900">
+      <SEOOptimizer
+        title="Dietary Guide – India's #1 AI Nutrition Platform | Diet Plans, Recipes & Tools"
+        description="Dietary Guide is India's leading AI nutrition platform by Navdhi. Personalized Indian diet plans based on ICMR guidelines, healthy recipes, BMI calculator, meal planner & expert wellness guidance. Start free today."
+        keywords="Dietary Guide, dietaryguide.in, Dietary Guide India, Dietary Guide by Navdhi, AI diet planner India, Indian diet plan for weight loss, healthy Indian recipes, BMI calculator, personalized nutrition, ICMR diet guidelines, meal planner India, AI nutrition assistant, calorie tracker India"
+        url="/
+        breadcrumbs={[{ name: "Home", url: "https://dietaryguide.in/" }]}
+      />
       <Navbar />
 
       {/* Hero Section */}

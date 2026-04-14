@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductById } from "@/data/products";
+import { productMap } from "@/data/store-products";
 import { useCart } from "@/context/cart-context";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import SEOOptimizer from "@/components/SEOOptimizer";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -43,6 +45,7 @@ const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const product = getProductById(id || "");
+  const storeProduct = id ? productMap[id] : undefined;
   const { addItem } = useCart();
   const { toast } = useToast();
   const [qty, setQty] = useState(1);
@@ -157,6 +160,28 @@ const ProductDetailPage = () => {
 
   return (
     <div className="dg-store" style={{ fontFamily: ff, background: C.cream, minHeight: "100vh" }}>
+      <SEOOptimizer
+        title={(storeProduct?.seoTitle || `${product.name} – Buy Online`) + ' | Dietary Guide Store'}
+        description={storeProduct?.seoDescription || `Buy ${product.name} online. ${product.subtitle || product.description?.substring(0, 120)}. ₹${product.price}${product.originalPrice ? ` (was ₹${product.originalPrice})` : ''}. Clean-label, no preservatives. Free shipping on ₹999+.`}
+        keywords={storeProduct?.seoKeywords || `buy ${product.name} online India, ${product.name} price, healthy ${(product.tags || []).join(', ')} snacks, Dietary Guide ${product.name}`}
+        url={`/products/${product.id}`}
+        image={product.image || product.images?.[0]}
+        schemaType="Product"
+        schemaData={{
+          ...product,
+          ...(storeProduct ? {
+            seoDescription: storeProduct.seoDescription,
+            nutrition: storeProduct.nutrition,
+            topReview: storeProduct.topReview,
+            faqs: storeProduct.faqs,
+          } : {}),
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "https://dietaryguide.in/" },
+          { name: "Products", url: "https://dietaryguide.in/products" },
+          { name: product.name, url: `https://dietaryguide.in/products/${product.id}` }
+        ]}
+      />
       <style>{`
         .dg-store h1, .dg-store h2, .dg-store h3, .dg-store h4, .dg-store h5, .dg-store h6,
         .dg-store p, .dg-store span, .dg-store button, .dg-store input, .dg-store a {

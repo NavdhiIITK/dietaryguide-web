@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOOptimizer from "@/components/SEOOptimizer";
 import { Button } from "@/components/ui/button";
 import { Clock, ChefHat, Flame, Bookmark, ArrowLeft, Heart, Share2, Printer } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -71,9 +72,32 @@ const RecipeDetailPage = () => {
   }
   
   return <div className="min-h-screen flex flex-col">
+      <SEOOptimizer
+        title={`${recipe.title} – Healthy Indian Recipe`}
+        description={`${recipe.description} ${recipe.prepTime} prep time, ${recipe.difficulty} difficulty. ${recipe.dietPreference} recipe with ${recipe.nutritionFacts?.calories || ''} calories per serving.`}
+        keywords={`${recipe.title} recipe, healthy Indian ${recipe.mealType} recipe, ${recipe.dietPreference} recipe, ${recipe.title} for weight loss, protein rich Indian recipe`}
+        url={`/recipes/${recipe.id}`}
+        type="recipe"
+        schemaType="Recipe"
+        schemaData={{
+          title: recipe.title,
+          description: recipe.description,
+          imageUrl: recipe.imageUrl,
+          prepTime: recipe.prepTime,
+          servings: recipe.servings,
+          mealType: recipe.mealType,
+          dietPreference: recipe.dietPreference,
+          ingredients: recipe.ingredients,
+          instructions: recipe.instructions,
+          nutritionFacts: recipe.nutritionFacts
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "https://dietaryguide.in/" },
+          { name: "Recipes", url: "https://dietaryguide.in/recipes" },
+          { name: recipe.title, url: `https://dietaryguide.in/recipes/${recipe.id}` }
+        ]}
+      />
       <Navbar />
-      
-      {/* Recipe Content */}
       <main className="pt-32 pb-16 flex-grow">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">

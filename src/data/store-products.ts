@@ -17,6 +17,10 @@ export interface StoreProduct {
   servingSize: string;
   category: string;
   faqs: { q: string; a: string }[];
+  seoTitle: string;
+  seoDescription: string;
+  seoKeywords: string;
+  topReview?: string;
 }
 
 const HERO_IMG =
@@ -67,6 +71,10 @@ export const storeProducts: StoreProduct[] = [
       { q: "How long do the products last?", a: "Each product has a shelf life of 3–6 months. Best consumed within 30 days of opening." },
       { q: "Is this available for delivery across India?", a: "Yes, we deliver pan-India. Free shipping on orders above ₹999." },
     ],
+    seoTitle: "The Wellness Treat – Premium Healthy Snack Gift Box | Buy Online ₹999",
+    seoDescription: "Buy The Wellness Treat gift box online ₹999. Includes high-protein millet granola, roasted chana jor, protein bars & digestion tea. No added sugar, no preservatives. Free shipping pan-India. Perfect healthy gift hamper.",
+    seoKeywords: "wellness gift box India, healthy snack gift box, protein snack hamper, Dietary Guide gift box, no sugar gift box, healthy gift hamper online, premium diet snack box, fitness gift India, clean label gift box, wellness treat box, healthy gift box online India, buy protein snack gift hamper, no added sugar snack box online, premium wellness gift box for fitness, best healthy snack gift box India, Dietary Guide wellness treat review, clean label gift hamper buy online, diet snack box free shipping India, healthy gift hamper for diabetics, no preservative snack gift box",
+    topReview: "Amazing gift box! Gave this to my fitness-conscious friend and they loved it. Every product inside is clean-label and tastes incredible. The granola is our household favourite now.",
   },
   {
     id: "sp-1",
@@ -118,6 +126,10 @@ export const storeProducts: StoreProduct[] = [
       { q: "Is it gluten-free?", a: "It is made with millet which is naturally gluten-free, however it is produced in a facility that handles gluten-containing grains." },
       { q: "Can I eat this if I am trying to lose weight?", a: "Yes! The high protein and fibre content promotes satiety, helping you eat less overall." },
     ],
+    seoTitle: "High-Protein Millet Granola – 21g Protein | Buy Online ₹149",
+    seoDescription: "Buy High-Protein Millet Granola online ₹149. 21g protein per serving, made with foxtail millet, flaxseeds & almonds. No added sugar, no preservatives. Perfect high-protein breakfast cereal for weight loss & muscle gain.",
+    seoKeywords: "high protein millet granola, millet granola India, protein granola buy online, 21g protein breakfast, foxtail millet granola, no sugar granola India, healthy breakfast cereal, millet protein snack, Dietary Guide granola, clean label granola, buy millet granola online India, high protein breakfast cereal no sugar, best protein granola for weight loss, foxtail millet granola price India, millet granola 21g protein review, healthy granola for gym India, plant protein breakfast online, no preservative granola India, protein rich millet cereal buy, best clean label granola India",
+    topReview: "Best granola I've tried in India! 21g protein per serving is incredible. Tastes amazing with cold milk and keeps me full till lunch. Zero sugar crash. Highly recommend for anyone on a fitness journey.",
   },
   {
     id: "sp-2",
@@ -163,6 +175,10 @@ export const storeProducts: StoreProduct[] = [
       { q: "Is this spicy?", a: "It has a mild-to-medium spice level. Great for most palates." },
       { q: "How long does it stay crunchy?", a: "Up to 90 days in an airtight container away from moisture." },
     ],
+    seoTitle: "Roasted Chana Jor Masala – High Protein Snack | Buy Online ₹149",
+    seoDescription: "Buy Roasted Chana Jor Masala online ₹149. Crunchy, high-protein roasted chickpea snack with house masala blend. No MSG, no preservatives, no deep frying. Guilt-free Indian snack for weight management.",
+    seoKeywords: "roasted chana jor masala, chana jor garam online, roasted chickpea snack India, high protein snack online, healthy namkeen India, guilt free snack buy online, roasted chana buy, no preservative snack, clean label namkeen, Dietary Guide chana jor, buy roasted chana jor masala online India, healthy chana snack for weight loss, best roasted chickpea snack no MSG, high protein namkeen online India, guilt free Indian snack buy online, roasted chana jor masala price, clean label roasted chana India, no preservative namkeen buy online, low calorie chana snack India, best healthy snack for evening India",
+    topReview: "Finally a healthy namkeen that actually tastes good! Perfectly spiced and super crunchy. Great with evening chai. Love that it's high in protein and has zero preservatives.",
   },
   {
     id: "sp-2b",
@@ -208,55 +224,10 @@ export const storeProducts: StoreProduct[] = [
       { q: "Is Rajma Jor Masala suitable for vegans?", a: "Yes, 100% plant-based and vegan friendly." },
       { q: "How is this different from regular chana snacks?", a: "Rajma has a denser, meatier texture and higher iron content compared to chana. Different flavour profile too." },
     ],
-  },
-  {
-    id: "sp-3",
-    name: "Plant-Protein Bars",
-    subtitle: "Clean-label energy on the go",
-    price: 349,
-    originalPrice: 399,
-    images: [
-      "https://images.unsplash.com/photo-1622484212850-eb596d769edc?auto=format&fit=crop&w=600&q=80",
-    ],
-    tags: ["protein", "plant-based"],
-    rating: 4.8,
-    reviewCount: 55,
-    category: "Bars",
-    servingSize: "1 bar (45g)",
-    shortDescription:
-      "Wholesome plant-protein bars with 15g protein, no added sugar, and real ingredients you can actually read.",
-    description:
-      "Our Plant-Protein Bars are made for people who demand quality ingredients without compromising on taste. Each bar is cold-pressed with dates, nuts, seeds, and plant protein — no syrups, no artificial sweeteners, no fillers. A perfect pre-workout snack or mid-day energy boost.",
-    ingredients: [
-      "Medjool Dates",
-      "Pea Protein Isolate",
-      "Almonds",
-      "Cashews",
-      "Sunflower Seeds",
-      "Cocoa Powder",
-      "Chia Seeds",
-      "Vanilla Extract",
-      "Rock Salt",
-    ],
-    benefits: [
-      "15g plant protein per bar",
-      "Naturally sweetened with dates",
-      "No added sugar or artificial sweeteners",
-      "Clean, whole-food ingredients",
-      "Great for pre/post workout",
-    ],
-    nutrition: [
-      { label: "Energy", per100g: "380 kcal", perServing: "171 kcal" },
-      { label: "Protein", per100g: "34g", perServing: "15g" },
-      { label: "Carbohydrates", per100g: "40g", perServing: "18g" },
-      { label: "Total Fat", per100g: "16g", perServing: "7.2g" },
-      { label: "Dietary Fibre", per100g: "8g", perServing: "3.6g" },
-      { label: "Sugar", per100g: "22g", perServing: "10g (from dates)" },
-    ],
-    faqs: [
-      { q: "Do these bars need refrigeration?", a: "No, they are shelf-stable at room temperature up to 30°C. Refrigeration can extend freshness." },
-      { q: "Are these suitable for kids?", a: "Yes, the bars are made with whole food ingredients and are free from artificial additives — suitable for children above 3 years." },
-    ],
+    seoTitle: "Rajma Jor Masala – Spicy Roasted Kidney Bean Snack | Buy Online ₹149",
+    seoDescription: "Buy Rajma Jor Masala online ₹149. Crunchy roasted kidney beans with bold masala seasoning. High protein, high iron, 100% vegan. No artificial flavours, no preservatives. Unique Indian protein snack.",
+    seoKeywords: "rajma jor masala, roasted rajma snack, kidney bean snack India, vegan protein snack, roasted rajma buy online, high iron snack India, healthy masala snack, plant protein snack, Dietary Guide rajma jor, gluten free snack India, buy rajma jor masala online India, roasted kidney bean snack price, vegan protein snack buy online India, high iron healthy snack for women, best roasted rajma masala snack, plant based protein snack India, gluten free roasted snack online, unique Indian health snack buy, rajma jor masala review India, healthy spicy snack no preservatives",
+    topReview: "Such a unique snack! Never had roasted rajma before — it's crunchy, spicy, and packed with protein. Great vegan alternative to regular namkeen. My kids love it too.",
   },
   {
     id: "sp-4",
@@ -301,6 +272,10 @@ export const storeProducts: StoreProduct[] = [
       { q: "Can pregnant women drink this?", a: "Please consult your doctor before consuming herbal teas during pregnancy." },
       { q: "Is this caffeine-free?", a: "Yes, 100% caffeine-free and safe to drink at night." },
     ],
+    seoTitle: "Digestion Tea – Ayurvedic Herbal Blend | Buy Online ₹149",
+    seoDescription: "Buy Digestion Tea online ₹149. Ayurvedic herbal blend with fennel, ginger, peppermint & licorice. Reduces bloating, supports gut health. 100% caffeine-free, no artificial flavours. Perfect after-meal tea.",
+    seoKeywords: "digestion tea India, herbal tea for bloating, ayurvedic digestion tea, caffeine free tea online, fennel ginger tea, gut health tea India, bloating relief tea, after meal tea, Dietary Guide digestion tea, herbal tea buy online, buy digestion tea online India, ayurvedic herbal tea for bloating relief, best caffeine free digestion tea, fennel ginger peppermint tea price, natural gut health tea India, herbal tea for gas and bloating, after meal ayurvedic tea online, Dietary Guide herbal tea review, bloating relief herbal tea buy online, best digestion tea for IBS India",
+    topReview: "This tea has been a game-changer for my digestion. I drink it after every meal and the bloating has reduced significantly. Love the fennel-ginger flavour. Caffeine-free so I can have it at night too.",
   },
   {
     id: "sp-5",
@@ -351,6 +326,10 @@ export const storeProducts: StoreProduct[] = [
       { q: "Is this bar suitable for vegans?", a: "The bar contains honey, so it is vegetarian but not strictly vegan." },
       { q: "Can kids eat this bar?", a: "Yes, it's made with whole food ingredients and is safe for children above 3 years." },
     ],
+    seoTitle: "Mixed Seed Protein Bar – 10g Protein | Buy Online ₹55",
+    seoDescription: "Buy Mixed Seed Protein Bar online ₹55. Loaded with flax, sunflower, pumpkin & chia seeds. 10g protein per bar, no refined sugar, no preservatives. Perfect pre-workout or on-the-go snack.",
+    seoKeywords: "mixed seed protein bar, seed bar India, protein bar buy online, flax seed bar, pumpkin seed bar, healthy protein bar India, no sugar protein bar, pre workout snack bar, Dietary Guide protein bar, plant protein bar, buy mixed seed protein bar online India, best seed protein bar no sugar, healthy protein bar for gym India, flax sunflower pumpkin chia seed bar, affordable protein bar India ₹55, no preservative protein bar online, plant protein seed bar for weight loss, natural protein bar buy online India, healthy snack bar for kids India, best clean label protein bar India",
+    topReview: "Best affordable protein bar I've found! The seed crunch is amazing and 10g protein for ₹55 is unbeatable. No artificial taste at all — you can tell it's made with real ingredients.",
   },
   {
     id: "sp-6",
@@ -400,6 +379,10 @@ export const storeProducts: StoreProduct[] = [
       { q: "Is this bar gluten-free?", a: "It contains rolled oats, which may contain traces of gluten. Not recommended for celiac patients." },
       { q: "How should I store the bars?", a: "Store in a cool, dry place. Avoid direct sunlight. Best consumed within 3 months of manufacture." },
     ],
+    seoTitle: "Almond Protein Bar – 10.5g Protein | Buy Online ₹55",
+    seoDescription: "Buy Almond Protein Bar online ₹55. Packed with whole roasted almonds & plant protein. 10.5g protein per bar, no added sugar, no preservatives. Rich in Vitamin E. Perfect post-workout recovery snack.",
+    seoKeywords: "almond protein bar, almond bar India, protein bar buy online, roasted almond bar, healthy almond snack bar, no sugar almond bar, post workout snack, Dietary Guide almond bar, clean label protein bar, Vitamin E snack bar, buy almond protein bar online India, best almond protein bar no sugar, healthy almond bar for gym India, whole roasted almond protein bar price, affordable almond protein bar India ₹55, no preservative almond bar online, almond protein bar for muscle recovery, natural almond snack bar buy online India, best clean label almond bar India, healthy protein bar with real almonds",
+    topReview: "Love the real almond chunks in every bite! Tastes like a premium bar but at ₹55 it's a steal. Great post-gym snack. No artificial sweetness — just real almond goodness.",
   },
 ];
 

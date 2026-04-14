@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOOptimizer from "@/components/SEOOptimizer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -121,6 +122,17 @@ const AppPromotionPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
+      <SEOOptimizer
+        title="Dietary Guide App – AI Nutrition Assistant IRA for Indian Users"
+        description="Download the Dietary Guide App featuring IRA, your AI nutrition buddy. Smart meal logging, photo food recognition, Google Calendar sync, personalized Indian diet plans & expert consultations. Free on Android & iOS."
+        keywords="diet app India, AI nutrition app, meal tracker app India, IRA AI assistant, food photo recognition app, calorie tracker India, personalized diet app, health app India, Google fit diet app, Indian diet planner app"
+        url="/app"
+        schemaType="MobileApplication"
+        breadcrumbs={[
+          { name: "Home", url: "https://dietaryguide.in/" },
+          { name: "App", url: "https://dietaryguide.in/app" }
+        ]}
+      />
       <Navbar />
       
       <main className="pt-32 pb-20">

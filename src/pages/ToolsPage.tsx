@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SEOOptimizer from "@/components/SEOOptimizer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -109,6 +110,23 @@ const ToolsPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOOptimizer
+        title="Free AI Health Tools – BMI Calculator, Diet Planner & Meal Analyzer"
+        description="Use free AI-powered health tools: BMI calculator, personalized diet planner, AI recipe generator, workout planner & meal analyzer. Built for Indian users with ICMR guidelines."
+        keywords="free BMI calculator India, AI diet planner, online meal analyzer, AI recipe generator India, workout planner free, calorie calculator India, personalized diet plan, health tools online, nutrition calculator, Indian diet tools"
+        url="/tools"
+        schemaType="Tool"
+        schemaData={{
+          name: "DietaryGuide AI Health Tools",
+          description: "Free AI-powered BMI calculator, diet planner, recipe generator, workout planner and meal analyzer for Indian users",
+          url: "https://dietaryguide.in/tools",
+          about: "AI Health & Nutrition Tools"
+        }}
+        breadcrumbs={[
+          { name: "Home", url: "https://dietaryguide.in/" },
+          { name: "Health Tools", url: "https://dietaryguide.in/tools" }
+        ]}
+      />
       <Navbar />
       
       {/* Hero Section */}

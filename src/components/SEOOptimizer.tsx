@@ -12,9 +12,10 @@ interface SEOOptimizerProps {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
-  schemaType?: "Recipe" | "Article" | "FAQPage" | "HowTo" | "Tool" | "WebPage";
+  schemaType?: "Recipe" | "Article" | "FAQPage" | "HowTo" | "Tool" | "WebPage" | "Product" | "MobileApplication" | "ItemList";
   schemaData?: any;
   breadcrumbs?: Array<{name: string, url: string}>;
+  additionalSchemas?: any[];
 }
 
 const SEOOptimizer = ({
@@ -29,7 +30,8 @@ const SEOOptimizer = ({
   author,
   schemaType,
   schemaData,
-  breadcrumbs
+  breadcrumbs,
+  additionalSchemas
 }: SEOOptimizerProps) => {
   try {
     const fullTitle = title ? `${title} | ${seoMetadata.siteName}` : seoMetadata.defaultTitle;
@@ -58,6 +60,22 @@ const SEOOptimizer = ({
       schemas.push(structuredDataSchemas.tool(schemaData));
     }
     
+    if (schemaType === "Product" && schemaData) {
+      schemas.push(structuredDataSchemas.product(schemaData));
+      // Add FAQ schema if product has FAQs
+      if (schemaData.faqs && schemaData.faqs.length > 0) {
+        schemas.push(structuredDataSchemas.productFAQ(schemaData.faqs));
+      }
+    }
+
+    if (schemaType === "ItemList" && schemaData) {
+      schemas.push(structuredDataSchemas.productCollection(schemaData));
+    }
+
+    if (schemaType === "MobileApplication") {
+      schemas.push(structuredDataSchemas.mobileApplication);
+    }
+    
     if (schemaType === "FAQPage") {
       schemas.push(structuredDataSchemas.faqPage);
     }
@@ -78,6 +96,11 @@ const SEOOptimizer = ({
     // Add software application schema for tools pages
     if (url?.includes('/tools') || schemaType === "Tool") {
       schemas.push(structuredDataSchemas.softwareApplication);
+    }
+
+    // Add any additional schemas passed directly
+    if (additionalSchemas && additionalSchemas.length > 0) {
+      schemas.push(...additionalSchemas);
     }
     
     return schemas;

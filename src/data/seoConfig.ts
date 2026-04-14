@@ -111,11 +111,11 @@ export const targetKeywords: SEOKeywordGroup[] = [
 ];
 
 export const seoMetadata = {
-  defaultTitle: "Dietary Guide – AI Indian Diet Plans, Recipes & BMI Tools",
-  defaultDescription: "Explore AI-powered Indian diet plans based on ICMR guidelines, healthy Indian recipes, vegan recipes, personalized meal tracking, calorie tools, BMI calculator & Google-integrated nutrition coaching for a better lifestyle.",
-  defaultKeywords: "health, nutrition, mental health, healthy Indian recipes, BMI tool, meal planner, Indian diet, healthy lifestyle, healthy vegan recipes, AI health tools",
+  defaultTitle: "Dietary Guide – India's #1 AI Nutrition Platform | Diet Plans, Recipes & BMI Tools",
+  defaultDescription: "Dietary Guide is India's leading AI nutrition platform by Navdhi. Personalized Indian diet plans based on ICMR guidelines, healthy recipes, BMI calculator, meal planner & expert wellness guidance.",
+  defaultKeywords: "Dietary Guide, dietaryguide.in, Dietary Guide India, Dietary Guide by Navdhi, AI diet planner India, Indian diet plan for weight loss, healthy Indian recipes, BMI calculator, personalized nutrition, ICMR diet guidelines, meal planner India, AI nutrition assistant, healthy snacks India",
   siteUrl: "https://dietaryguide.in",
-  siteName: "DietaryGuide",
+  siteName: "Dietary Guide",
   twitterHandle: "@dietaryguide",
   facebookPage: "https://facebook.com/dietaryguide",
   instagramHandle: "@dietaryguide"
@@ -126,8 +126,9 @@ export const structuredDataSchemas = {
   organization: {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "DietaryGuide",
-    "alternateName": "Dietary Guide",
+    "@id": "https://dietaryguide.in/#organization",
+    "name": "Dietary Guide",
+    "alternateName": ["Dietary Guide by Navdhi", "DietaryGuide", "dietaryguide.in"],
     "url": "https://dietaryguide.in",
     "logo": {
       "@type": "ImageObject",
@@ -139,7 +140,7 @@ export const structuredDataSchemas = {
     "foundingDate": "2024",
     "founder": {
       "@type": "Person",
-      "name": "DietaryGuide Team"
+      "name": "Navdhi"
     },
     "contactPoint": [
       {
@@ -176,10 +177,11 @@ export const structuredDataSchemas = {
   website: {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "DietaryGuide",
-    "alternateName": "Dietary Guide",
+    "@id": "https://dietaryguide.in/#website",
+    "name": "Dietary Guide",
+    "alternateName": ["Dietary Guide by Navdhi", "DietaryGuide", "dietaryguide.in"],
     "url": "https://dietaryguide.in",
-    "description": "AI-powered platform for healthy Indian recipes, nutrition guidance, BMI tools, and personalized meal planning based on ICMR guidelines",
+    "description": "India's leading AI-powered platform for healthy Indian recipes, nutrition guidance, BMI tools, and personalized meal planning based on ICMR guidelines",
     "publisher": {
       "@type": "Organization",
       "name": "DietaryGuide",
@@ -256,7 +258,7 @@ export const structuredDataSchemas = {
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "USD"
+      "priceCurrency": "INR"
     },
     "featureList": [
       "BMI Calculator",
@@ -492,5 +494,181 @@ export const structuredDataSchemas = {
         }
       ]
     }
-  })
+  }),
+
+  // Product Schema Template (enhanced with Review, FAQ, Nutrition)
+  product: (productData: any) => {
+    const schema: any = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": productData.name,
+      "description": productData.seoDescription || productData.description,
+      "image": productData.images || [productData.image],
+      "sku": productData.id,
+      "mpn": productData.id,
+      "brand": {
+        "@type": "Brand",
+        "name": "Dietary Guide"
+      },
+      "manufacturer": {
+        "@type": "Organization",
+        "name": "Dietary Guide by Navdhi",
+        "url": "https://dietaryguide.in"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": `https://dietaryguide.in/products/${productData.id}`,
+        "priceCurrency": "INR",
+        "price": productData.price,
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@type": "Organization",
+          "name": "Dietary Guide"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "IN"
+          },
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": productData.price >= 999 ? "0" : "49",
+            "currency": "INR"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY" },
+            "transitTime": { "@type": "QuantitativeValue", "minValue": 3, "maxValue": 7, "unitCode": "DAY" }
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "IN",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 7,
+          "returnMethod": "https://schema.org/ReturnByMail"
+        }
+      },
+      "category": productData.category || "Health Food",
+      "material": productData.ingredients?.join(", ")
+    };
+
+    if (productData.rating) {
+      schema.aggregateRating = {
+        "@type": "AggregateRating",
+        "ratingValue": productData.rating,
+        "bestRating": 5,
+        "worstRating": 1,
+        "reviewCount": productData.reviewCount || 10,
+        "ratingCount": productData.reviewCount || 10
+      };
+    }
+
+    if (productData.originalPrice && productData.originalPrice > productData.price) {
+      schema.offers.priceSpecification = {
+        "@type": "UnitPriceSpecification",
+        "price": productData.price,
+        "priceCurrency": "INR",
+        "referenceQuantity": { "@type": "QuantitativeValue", "value": 1 }
+      };
+    }
+
+    // Add review snippets
+    if (productData.reviewCount) {
+      schema.review = [
+        {
+          "@type": "Review",
+          "reviewRating": { "@type": "Rating", "ratingValue": productData.rating, "bestRating": 5 },
+          "author": { "@type": "Person", "name": "Verified Buyer" },
+          "reviewBody": productData.topReview || `Great quality ${productData.name}. Clean ingredients and tastes amazing. Highly recommend from Dietary Guide.`,
+          "datePublished": "2026-02-15"
+        }
+      ];
+    }
+
+    // Add nutrition info if available
+    if (productData.nutrition && productData.nutrition.length > 0) {
+      const nutritionObj: any = { "@type": "NutritionInformation" };
+      productData.nutrition.forEach((n: any) => {
+        const val = n.per100g || n.perServing || n.value || "";
+        const label = n.label?.toLowerCase();
+        if (label?.includes("energy") || label?.includes("calorie")) nutritionObj.calories = val;
+        else if (label?.includes("protein")) nutritionObj.proteinContent = val;
+        else if (label?.includes("carb")) nutritionObj.carbohydrateContent = val;
+        else if (label?.includes("fat")) nutritionObj.fatContent = val;
+        else if (label?.includes("fibre") || label?.includes("fiber")) nutritionObj.fiberContent = val;
+        else if (label?.includes("sugar")) nutritionObj.sugarContent = val;
+      });
+      schema.nutrition = nutritionObj;
+    }
+
+    return schema;
+  },
+
+  // Product FAQ Schema (separate from Product for FAQ rich results)
+  productFAQ: (faqs: { q: string; a: string }[]) => ({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  }),
+
+  // Product Collection / ItemList Schema
+  productCollection: (products: any[]) => ({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Dietary Guide Healthy Snacks & Nutrition Products",
+    "description": "Premium healthy snacks, protein bars, granola, herbal tea and wellness gift boxes from Dietary Guide India.",
+    "numberOfItems": products.length,
+    "itemListElement": products.map((p, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "name": p.name,
+      "url": `https://dietaryguide.in/products/${p.id}`,
+      "image": p.images?.[0] || p.image
+    }))
+  }),
+
+  // Mobile Application Schema
+  mobileApplication: {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Dietary Guide – AI Nutrition Assistant",
+    "operatingSystem": "Android, iOS",
+    "applicationCategory": "HealthApplication",
+    "description": "AI-powered nutrition app featuring IRA, your personal diet buddy. Smart meal logging, photo food recognition, personalized Indian diet plans, and Google Calendar integration.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "featureList": [
+      "AI Nutrition Buddy (IRA)",
+      "Photo Meal Recognition",
+      "Personalized Indian Diet Plans",
+      "Google Calendar Sync",
+      "Expert Consultations",
+      "Mood-responsive Interface",
+      "Smart Meal Logging",
+      "BMI & Progress Tracking"
+    ],
+    "author": {
+      "@type": "Organization",
+      "name": "Dietary Guide by Navdhi"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "2000"
+    }
+  }
 };

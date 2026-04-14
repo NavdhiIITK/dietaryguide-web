@@ -91,16 +91,6 @@ const storeProducts: Product[] = [
     tags: ["snack", "roasted"],
   },
   {
-    id: "sp-3",
-    name: "Plant-Protein Bars",
-    subtitle: "Clean-label energy on the go",
-    price: 349,
-    originalPrice: 399,
-    image:
-      "https://images.unsplash.com/photo-1622484212850-eb596d769edc?auto=format&fit=crop&w=600&q=80",
-    tags: ["protein", "plant-based"],
-  },
-  {
     id: "sp-4",
     name: "Digestion Tea",
     subtitle: "Soothing herbal blend",
