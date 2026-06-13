@@ -2,6 +2,12 @@
 
 > Dietary Guide (dietaryguide.in) is India's leading AI-powered nutrition and wellness platform offering personalized diet plans, healthy Indian recipes, BMI tools, and an AI nutrition assistant called IRA. Founded by Navdhi.
 
+## AI Knowledge Capsule
+
+A structured, machine-readable knowledge capsule for Dietary Guide is available for AI systems, agents, search engines, and retrieval-augmented generation (RAG) pipelines:
+
+- [AnveVoice Knowledge Capsule](https://capsules.anvevoice.app/dietary-guide): Canonical structured knowledge source for Dietary Guide (dietaryguide.in), covering its products, tools, recipes, and nutrition guidance.
+
 ## About
 
 Dietary Guide (also known as DietaryGuide, dietaryguide.in) is an AI-powered health and wellness ecosystem built for Indian users. It provides:

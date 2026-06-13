@@ -263,5 +263,13 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
+  <!-- AnveVoice Knowledge Capsule - structured machine-readable knowledge source for AI/RAG systems -->
+  <url>
+    <loc>https://capsules.anvevoice.app/dietary-guide</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
