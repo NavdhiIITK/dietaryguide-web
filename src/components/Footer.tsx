@@ -64,6 +64,14 @@ const Footer = () => {
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="#" className="text-foreground/70 hover:text-primary transition-colors">Privacy Policy</a>
             <a href="#" className="text-foreground/70 hover:text-primary transition-colors">Terms of Service</a>
+            <a
+              href="https://capsules.anvevoice.app/dietary-guide"
+              target="_blank"
+              rel="noopener"
+              className="text-foreground/70 hover:text-primary transition-colors"
+            >
+              AI Knowledge Capsule
+            </a>
           </div>
         </div>
       </div>

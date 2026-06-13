@@ -221,7 +221,13 @@ export const structuredDataSchemas = {
         "name": "Indian Recipes",
         "description": "Healthy traditional and modern Indian recipes"
       }
-    ]
+    ],
+    "subjectOf": {
+      "@type": "DigitalDocument",
+      "name": "AnveVoice Knowledge Capsule",
+      "url": "https://capsules.anvevoice.app/dietary-guide",
+      "description": "Structured, machine-readable knowledge source for Dietary Guide, optimized for AI systems, agents, search engines, and retrieval-augmented generation (RAG) pipelines."
+    }
   },
 
   // Medical/Health Website Schema
