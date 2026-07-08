@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/auth-context';
+import { useAdminAuth } from '@/context/admin-auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { user, loading, signIn } = useAuth();
+  const { user, loading, signIn } = useAdminAuth();
   const { toast } = useToast();
 
   const [email, setEmail] = useState('');

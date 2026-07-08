@@ -1,8 +1,11 @@
-const express = require('express');
-const multer = require('multer');
-const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
+import express from 'express';
+import multer from 'multer';
+import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const PORT = process.env.PORT || 5000;

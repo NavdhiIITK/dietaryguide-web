@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useLayoutEffect, type ReactNode } from "react";
 import { ThemeProvider, useTheme } from "./components/ThemeProvider";
 import { AuthProvider } from "@/context/auth-context";
+import { AdminAuthProvider } from "@/context/admin-auth-context";
 import { CartProvider } from "@/context/cart-context";
 
 // Pages
@@ -52,6 +53,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <AuthProvider>
+        <AdminAuthProvider>
         <CartProvider>
         <Routes>
           <Route path="/" element={<Index />} />
@@ -80,6 +82,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         </CartProvider>
+        </AdminAuthProvider>
       </AuthProvider>
     </ThemeProvider>
   );

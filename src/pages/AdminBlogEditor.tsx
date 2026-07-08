@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from '@/context/auth-context';
+import { useAdminAuth } from '@/context/admin-auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -36,7 +36,7 @@ const PREDEFINED_TAGS = [
 const AdminBlogEditor = () => {
   const { slug } = useParams<{ slug?: string }>();
   const navigate = useNavigate();
-  const { user, signOutUser } = useAuth();
+  const { user, signOutUser } = useAdminAuth();
   const { toast } = useToast();
 
   const [post, setPost] = useState<BlogPost | null>(null);
