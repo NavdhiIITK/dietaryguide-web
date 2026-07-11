@@ -15,7 +15,7 @@ import {
   deleteBlogPost
 } from '@/lib/blog-data';
 import { BlogPost } from '@/types/blog';
-import { Loader2, Upload, Save, Trash2, Eye, LogOut } from 'lucide-react';
+import { Loader2, Save, Trash2, Eye, LogOut } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 // Predefined health and nutrition tags
@@ -42,7 +42,6 @@ const AdminBlogEditor = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
 
   // Form state
   const [title, setTitle] = useState('');
@@ -73,7 +72,7 @@ const AdminBlogEditor = () => {
     
     setLoading(true);
     try {
-      const postData = await getBlogPostBySlug(slug);
+      const postData = await getBlogPostBySlug(slug, { includeUnpublished: true });
       if (postData) {
         setPost(postData);
         setTitle(postData.title);
@@ -110,30 +109,6 @@ const AdminBlogEditor = () => {
       setMetaTitle(title);
     }
   }, [title, metaTitle]);
-
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    try {
-      // Removed uploadBlogImage usage. Use image URL directly.
-      setImage(file.name);
-      toast({
-        title: 'Success',
-        description: 'Image uploaded successfully.',
-      });
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Upload failed',
-        description: 'Failed to upload image. Please try again.',
-      });
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const handleAddTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput.trim())) {
@@ -175,18 +150,17 @@ const AdminBlogEditor = () => {
         published
       };
 
-      let savedPost;
       if (isEditing && post) {
-        savedPost = await updateBlogPost(post.id, postData);
+        await updateBlogPost(post.id, postData);
       } else {
         try {
-          savedPost = await createBlogPost(postData);
-        } catch (err) {
-          if (err.code === '23505' || (err.message && err.message.includes('duplicate key value'))) {
+          await createBlogPost(postData);
+        } catch (err: any) {
+          if (err.message === 'DUPLICATE_SLUG') {
             toast({
               variant: 'destructive',
               title: 'Duplicate Slug',
-              description: 'A post with this slug already exists. Please change the title.',
+              description: 'A post with this title (URL slug) already exists. Please change the title.',
             });
             return;
           }
@@ -197,7 +171,7 @@ const AdminBlogEditor = () => {
         title: 'Success',
         description: 'Blog post saved successfully.',
       });
-      navigate(`/admin_blog_maker_editor/edit/${savedPost.slug}`);
+      navigate('/admin_blog_maker_editor');
     } catch (error) {
       console.error('Error saving post:', error);
       toast({
@@ -393,32 +367,19 @@ const AdminBlogEditor = () => {
                     />
                   </div>
                 )}
-                
+
                 <div>
-                  <Label htmlFor="image-upload">Upload Image</Label>
-                  <Input
-                    id="image-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    disabled={uploading}
-                  />
-                  {uploading && (
-                    <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Uploading...
-                    </div>
-                  )}
-                </div>
-                
-                <div>
-                  <Label htmlFor="image-url">Or enter image URL</Label>
+                  <Label htmlFor="image-url">Image URL</Label>
                   <Input
                     id="image-url"
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
-                    placeholder="https://example.com/image.jpg"
+                    placeholder="https://raw.githubusercontent.com/..."
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Paste a public image link — e.g. upload the image to a GitHub repo and use its
+                    raw.githubusercontent.com URL.
+                  </p>
                 </div>
               </CardContent>
             </Card>

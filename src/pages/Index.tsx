@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, Utensils, Calculator, BookOpen, Heart, Clock } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { getBlogPosts } from "@/lib/blog-data";
 import { allIndianRecipes } from "@/data/recipes";
 
 interface ContentItem {
@@ -343,11 +343,7 @@ const LatestContent = () => {
     const fetchLatestContent = async () => {
       try {
 
-        const {
-          data: blogData,
-          error: blogError
-        } = await supabase.from('posts').select('id, title, snippet, image, tags, created_at, slug').order('created_at', { ascending: false }).limit(3);
-        if (blogError) throw blogError;
+        const blogData = (await getBlogPosts()).slice(0, 3);
 
         const mappedBlogs = blogData?.map(post => ({
           id: post.id,

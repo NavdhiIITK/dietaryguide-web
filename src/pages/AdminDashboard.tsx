@@ -46,26 +46,23 @@ const AdminDashboard = () => {
       setLoading(true);
       setError(null);
       
-      console.log('AdminDashboard: Fetching posts from Supabase...');
-      const postsData = await getBlogPosts();
-      
-      // Only show posts that have valid data from Supabase
-      const validPosts = postsData.filter(post => 
-        post && 
-        post.id && 
-        post.title && 
+      const postsData = await getBlogPosts({ includeUnpublished: true });
+
+      const validPosts = postsData.filter(post =>
+        post &&
+        post.id &&
+        post.title &&
         post.slug
       );
-      
-      console.log(`AdminDashboard: Found ${validPosts.length} valid posts from Supabase`);
+
       setPosts(validPosts);
     } catch (error) {
       console.error('AdminDashboard: Error fetching posts:', error);
-      setError('Failed to load blog posts from Supabase.');
+      setError('Failed to load blog posts.');
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Failed to load blog posts from Supabase.',
+        description: 'Failed to load blog posts.',
       });
     } finally {
       setLoading(false);
@@ -105,22 +102,14 @@ const AdminDashboard = () => {
           <div>
             <h1 className="text-3xl font-bold">Blog Admin Dashboard</h1>
             <p className="text-muted-foreground">
-              Manage your blog posts from Supabase database
+              Manage your blog posts
             </p>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button onClick={handleCreateNew}>
               <Plus className="w-4 h-4 mr-2" />
               New Post
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => navigate('/admin_blog_maker_editor/cleanup')}
-              className="text-orange-600 border-orange-200 hover:bg-orange-50"
-            >
-              <Database className="w-4 h-4 mr-2" />
-              Database Cleanup
             </Button>
             <Button variant="outline" onClick={signOutUser}>
               <LogOut className="w-4 h-4 mr-2" />
@@ -146,7 +135,7 @@ const AdminDashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{posts.length}</div>
-              <p className="text-xs text-muted-foreground">From Supabase</p>
+              <p className="text-xs text-muted-foreground">All posts</p>
             </CardContent>
           </Card>
           
@@ -191,9 +180,9 @@ const AdminDashboard = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Blog Posts from Supabase</CardTitle>
+                <CardTitle>Blog Posts</CardTitle>
                 <CardDescription>
-                  Manage and edit your blog posts stored in Supabase
+                  Manage and edit your blog posts
                 </CardDescription>
               </div>
               <div className="flex gap-2">
@@ -231,7 +220,7 @@ const AdminDashboard = () => {
                 <Database className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">No Posts Found</h3>
                 <p className="text-muted-foreground mb-4">
-                  No blog posts found in Supabase database.
+                  No blog posts found yet.
                 </p>
                 <Button onClick={handleCreateNew}>
                   <Plus className="w-4 h-4 mr-2" />

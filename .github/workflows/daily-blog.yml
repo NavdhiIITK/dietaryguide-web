@@ -1,0 +1,49 @@
+name: Publish Blog Post (from Cowork)
+
+# No API key needed. The article is written inside the Claude Cowork app and sent
+# here via a repository_dispatch event. This Action only publishes the ready-made
+# post.json to Firestore, so it needs just ONE secret: FIREBASE_SERVICE_ACCOUNT_JSON.
+#
+# The thumbnail is already generated and hosted (image URL is inside the payload),
+# so nothing else is required here.
+
+on:
+  repository_dispatch:
+    types: [publish-blog]
+  workflow_dispatch: {}   # manual trigger for testing (expects post.json committed at repo root)
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-blog
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout site repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install firebase-admin
+        run: npm install --no-save firebase-admin@^14.1.0
+
+      - name: Write payload to post.json
+        if: ${{ github.event_name == 'repository_dispatch' }}
+        env:
+          PAYLOAD: ${{ toJSON(github.event.client_payload.post) }}
+        run: |
+          printf '%s' "$PAYLOAD" > post.json
+          node -e "const p=require('./post.json'); if(!p.title||!p.content||!p.image){console.error('payload missing required fields (title/content/image)');process.exit(1)}; console.log('Payload OK:', p.title)"
+
+      - name: Publish to Firestore (goes live)
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+        run: node scripts/publish-blog-post.mjs post.json

@@ -29,6 +29,9 @@ export interface CreateBlogPost {
   image: string;
   author_name?: string;
   author_avatar_url?: string;
+  meta_title?: string;
+  meta_description?: string;
+  published?: boolean;
 }
 
 export interface UpdateBlogPost extends Partial<CreateBlogPost> {

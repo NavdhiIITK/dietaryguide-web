@@ -23,7 +23,7 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Blog", href: "/blog" },
     { name: "Recipes", href: "/recipes" },
-    { name: "Products", href: "/products" },
+    { name: "AI MODELS", href: "/products" },
     { name: "APP", href: "/app" },
     { name: "Health Tools", href: "/tools" },
   ];
@@ -164,7 +164,7 @@ const Navbar = () => {
           )}
           {!isStorePage && (
             <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white">
-              <Link to="/tools">Get Started</Link>
+              <Link to="/products">Get Started</Link>
             </Button>
           )}
         </div>
@@ -249,7 +249,7 @@ const Navbar = () => {
             ))}
             {!isStorePage && (
               <Button asChild variant="default" className="rounded-full bg-forest hover:bg-spring text-white mt-2">
-                <Link to="/tools" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+                <Link to="/products" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
               </Button>
             )}
           </div>

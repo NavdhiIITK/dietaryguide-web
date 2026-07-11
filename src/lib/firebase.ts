@@ -34,5 +34,10 @@ const blogApp = getApps().some((a) => a.name === "blogApp")
   ? getApp("blogApp")
   : initializeApp(blogFirebaseConfig, "blogApp");
 const blogAuth = getAuth(blogApp);
+// Blog posts live in the dietaryguideblog project too, so Firestore security
+// rules can check request.auth against the same admin accounts that sign in
+// via blogAuth. Blog images are hosted externally (e.g. GitHub raw URLs)
+// rather than Firebase Storage, which requires the paid Blaze plan.
+const blogDb = getFirestore(blogApp);
 
-export { app, auth, db, blogApp, blogAuth };
+export { app, auth, db, blogApp, blogAuth, blogDb };

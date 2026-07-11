@@ -12,6 +12,19 @@ dist
 dist-ssr
 *.local
 
+# Firebase Admin SDK service account keys — never commit these
+*service-account*.json
+scripts/*.secret.json
+# Actual service account key files for the dietaryguideblog project (any name)
+dietaryguideblog-*.json
+scripts/dietaryguideblog-*.json
+# Daily-blog automation working files
+post.json
+thumb.png
+_imgrepo/
+__pycache__/
+scripts/__pycache__/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

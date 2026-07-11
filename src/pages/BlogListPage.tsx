@@ -17,13 +17,7 @@ const BlogListPage = () => {
     setLoading(true);
     setError(null);
     try {
-      console.log('🔍 BlogListPage: Starting to fetch blog data...');
-      const postsData = await getBlogPosts();
-      const tagsData = await getAllTags();
-
-      console.log('📦 BlogListPage: Posts received:', postsData);
-      console.log('📦 BlogListPage: Posts count:', postsData?.length || 0);
-      console.log('📦 BlogListPage: Tags received:', tagsData);
+      const [postsData, tagsData] = await Promise.all([getBlogPosts(), getAllTags()]);
 
       // Safe validation of data
       const validPosts = Array.isArray(postsData) ? postsData : [];
