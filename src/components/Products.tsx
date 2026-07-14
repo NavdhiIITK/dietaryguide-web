@@ -332,18 +332,24 @@ const Marquee = ({ text, speed = 30 }: { text: string; speed?: number }) => (
         .fill(text)
         .map((t, i) => (
           <span key={i} style={{ marginRight: 60 }}>
-            {t} <span style={{ color: C.gold, margin: "0 12px" }}>·</span>
+            {t}{" "}
+            <span style={{ color: C.gold, margin: "0 12px" }}>·</span>
           </span>
         ))}
     </div>
   </div>
 );
 
+const CATEGORIES = ["All", "Snacks", "Protein", "Tea"];
+const CATEGORY_TAG: Record<string, string> = { Snacks: "snack", Protein: "protein", Tea: "tea" };
+
 /* ─── Main Products Component ─── */
 const Products = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [bundleLiked, setBundleLiked] = useState(false);
   const { addItem } = useCart();
   const { toast } = useToast();
 
@@ -369,6 +375,10 @@ const Products = () => {
 
   const wellnessTreat = storeProducts[0];
   const otherProducts = storeProducts.slice(1);
+  const filteredProducts =
+    activeCategory === "All"
+      ? storeProducts
+      : storeProducts.filter((p) => p.tags.includes(CATEGORY_TAG[activeCategory]));
 
   return (
     <div className="dg-store" style={{ fontFamily: ff, background: C.cream, overflowX: "hidden" }}>
@@ -730,7 +740,7 @@ const Products = () => {
               >
                 <img
                   src={HERO_PRODUCT_IMG}
-                  alt="The Wellness Treat Gift Box"
+                  alt="The Wellness Treat"
                   loading="eager"
                   decoding="async"
                   style={{
@@ -926,15 +936,17 @@ const Products = () => {
 
             {/* Category pills */}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {["All", "Snacks", "Protein", "Tea"].map((cat, i) => (
+              {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  aria-pressed={activeCategory === cat}
                   style={{
                     padding: "8px 20px",
                     borderRadius: 20,
-                    border: `1px solid ${i === 0 ? C.brand : C.brandLight}`,
-                    background: i === 0 ? C.brand : "transparent",
-                    color: i === 0 ? C.white : C.dark,
+                    border: `1px solid ${activeCategory === cat ? C.brand : C.brandLight}`,
+                    background: activeCategory === cat ? C.brand : "transparent",
+                    color: activeCategory === cat ? C.white : C.dark,
                     fontSize: 13,
                     fontWeight: 500,
                     fontFamily: ff,
@@ -957,39 +969,9 @@ const Products = () => {
               gap: 24,
             }}
           >
-            {storeProducts.map((p) => (
+            {filteredProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
-          </div>
-
-          <div style={{ textAlign: "center", marginTop: 48 }}>
-            <button
-              style={{
-                padding: "14px 36px",
-                background: "transparent",
-                color: C.dark,
-                border: `2px solid ${C.dark}`,
-                borderRadius: 30,
-                fontSize: 14,
-                fontWeight: 600,
-                fontFamily: ff,
-                cursor: "pointer",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 10,
-                transition: "all .2s",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = C.dark;
-                (e.currentTarget as HTMLElement).style.color = C.white;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-                (e.currentTarget as HTMLElement).style.color = C.dark;
-              }}
-            >
-              View all products <ArrowRight size={16} />
-            </button>
           </div>
         </div>
       </section>
@@ -1021,6 +1003,7 @@ const Products = () => {
               <button
                 onClick={() => scroll("left")}
                 disabled={!canScrollLeft}
+                aria-label="Previous product"
                 style={{
                   width: 44,
                   height: 44,
@@ -1040,6 +1023,7 @@ const Products = () => {
               <button
                 onClick={() => scroll("right")}
                 disabled={!canScrollRight}
+                aria-label="Next product"
                 style={{
                   width: 44,
                   height: 44,
@@ -1139,16 +1123,14 @@ const Products = () => {
                   textTransform: "uppercase",
                 }}
               >
-                The Wellness
-                <br />
-                Treat Gift Box
+                {wellnessTreat.name}
               </h2>
             </div>
 
             {/* Description */}
             <div className="bundle-desc">
               <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, maxWidth: 420, marginTop: 16 }}>
-
+                {wellnessTreat.subtitle}
               </p>
               <p style={{ fontSize: 13, color: C.textMuted, marginTop: 12, lineHeight: 1.7 }}>
                 A premium wellness gift box curated by Dietary Guide. Includes High-Protein Millet
@@ -1164,10 +1146,12 @@ const Products = () => {
             <div className="store-bundle-cta">
               {/* Price */}
               <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginTop: 24 }}>
-                <span style={{ textDecoration: "line-through", fontSize: 18, color: C.textMuted }}>
-                  ₹1,999
-                </span>
-                <span style={{ fontSize: 36, fontWeight: 700, color: C.dark }}>₹999</span>
+                {wellnessTreat.originalPrice && (
+                  <span style={{ textDecoration: "line-through", fontSize: 18, color: C.textMuted }}>
+                    ₹{wellnessTreat.originalPrice}
+                  </span>
+                )}
+                <span style={{ fontSize: 36, fontWeight: 700, color: C.dark }}>₹{wellnessTreat.price}</span>
               </div>
 
               <button
@@ -1202,10 +1186,27 @@ const Products = () => {
                 <ShoppingCart size={18} /> Add to cart
               </button>
 
-              <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 16 }}>
-                <Heart size={16} color={C.textMuted} />
-                <span style={{ fontSize: 13, color: C.textMuted }}>Add to wishlist</span>
-              </div>
+              <button
+                onClick={() => setBundleLiked((v) => !v)}
+                aria-label="Add to wishlist"
+                aria-pressed={bundleLiked}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  marginTop: 16,
+                  background: "none",
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  fontFamily: ff,
+                }}
+              >
+                <Heart size={16} fill={bundleLiked ? "#e74c3c" : "none"} color={bundleLiked ? "#e74c3c" : C.textMuted} />
+                <span style={{ fontSize: 13, color: bundleLiked ? "#e74c3c" : C.textMuted }}>
+                  {bundleLiked ? "Added to wishlist" : "Add to wishlist"}
+                </span>
+              </button>
             </div>
           </div>
 
@@ -1226,7 +1227,7 @@ const Products = () => {
             >
               <img
                 src={HERO_PRODUCT_IMG}
-                alt="The Wellness Treat Gift Box"
+                alt="The Wellness Treat"
                 loading="lazy"
                 decoding="async"
                 style={{

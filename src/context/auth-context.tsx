@@ -126,6 +126,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   /** Send OTP to phone number. Creates invisible reCAPTCHA on the given container. */
   const sendPhoneOtp = async (phoneNumber: string, recaptchaContainerId: string) => {
     try {
+      // Normalize to E.164 (Firebase rejects spaces/dashes and requires a country code).
+      // Users naturally type spaces since the input's placeholder shows "+91 XXXXX XXXXX".
+      const cleaned = phoneNumber.trim().replace(/[^\d+]/g, '');
+      const e164 = cleaned.startsWith('+')
+        ? cleaned
+        : cleaned.length === 10
+        ? `+91${cleaned}`
+        : `+${cleaned}`;
+
       // Clean up previous verifier
       if (recaptchaVerifier) {
         recaptchaVerifier.clear();
@@ -133,9 +142,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const verifier = new RecaptchaVerifier(auth, recaptchaContainerId, { size: 'invisible' });
       setRecaptchaVerifier(verifier);
 
-      const result = await signInWithPhoneNumber(auth, phoneNumber, verifier);
+      const result = await signInWithPhoneNumber(auth, e164, verifier);
       setConfirmationResult(result);
-      toast({ title: 'OTP Sent', description: `A verification code was sent to ${phoneNumber}` });
+      toast({ title: 'OTP Sent', description: `A verification code was sent to ${e164}` });
     } catch (error: any) {
       console.error('Phone OTP error:', error);
       const msg =

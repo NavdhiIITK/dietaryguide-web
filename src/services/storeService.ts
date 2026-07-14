@@ -3,6 +3,28 @@ import {
   doc, getDoc, setDoc, updateDoc, deleteDoc, collection,
   addDoc, getDocs, query, where, orderBy, serverTimestamp, Timestamp
 } from "firebase/firestore";
+import type { PaymentResult } from "@/services/paymentService";
+
+/** Firestore can transiently return permission-denied on the very first
+ * request right after sign-up/sign-in while the ID token is still
+ * propagating to the SDK's request pipeline. One short retry clears it. */
+async function withAuthRetry<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await fn();
+  } catch (err: any) {
+    if (err?.code === "permission-denied") {
+      await new Promise((r) => setTimeout(r, 800));
+      try {
+        return await fn();
+      } catch (err2) {
+        console.error("withAuthRetry: retry also failed:", err2);
+        return fallback;
+      }
+    }
+    console.error("withAuthRetry error:", err);
+    return fallback;
+  }
+}
 
 /* ── Profile ───────────────────────────────────────────────── */
 
@@ -79,16 +101,25 @@ export interface StoreOrder {
   userId: string;
   orderNumber: string;
   orderStatus: string;
+  paymentStatus: string;
+  paymentMethod: string;
+  paymentId?: string;
   subtotal: number;
   shipping: number;
   totalAmount: number;
   shippingAddress: {
     name: string;
     phone: string;
+    email?: string;
     address: string;
+    addressLine2?: string;
     city: string;
+    district?: string;
     state: string;
+    country?: string;
     pincode: string;
+    addressType?: string;
+    deliveryInstructions?: string;
   };
   items: OrderItem[];
   createdAt?: any;
@@ -103,7 +134,8 @@ function generateOrderNumber(): string {
 export async function createOrder(
   uid: string,
   cartItems: { id: string; name: string; price: number; image: string; quantity: number }[],
-  shippingInfo: { name: string; phone: string; address: string; city: string; state: string; pincode: string; }
+  shippingInfo: StoreOrder["shippingAddress"],
+  payment: PaymentResult
 ): Promise<StoreOrder | null> {
   try {
     const subtotal = cartItems.reduce((s, i) => s + i.price * i.quantity, 0);
@@ -123,6 +155,9 @@ export async function createOrder(
       userId: uid,
       orderNumber,
       orderStatus: "confirmed",
+      paymentStatus: payment.status,
+      paymentMethod: payment.method,
+      ...(payment.paymentId ? { paymentId: payment.paymentId } : {}),
       subtotal,
       shipping,
       totalAmount,
@@ -173,17 +208,14 @@ export interface FirestoreCartItem {
 }
 
 export async function loadCartFromFirestore(uid: string): Promise<FirestoreCartItem[]> {
-  try {
+  return withAuthRetry(async () => {
     const snap = await getDocs(collection(db, "users", uid, "cart"));
     return snap.docs.map((d) => ({ productId: d.id, ...d.data() } as FirestoreCartItem));
-  } catch (err) {
-    console.error("loadCartFromFirestore error:", err);
-    return [];
-  }
+  }, []);
 }
 
 export async function saveCartItemToFirestore(uid: string, item: { id: string; name: string; price: number; image: string; quantity: number }): Promise<void> {
-  try {
+  return withAuthRetry(async () => {
     await setDoc(doc(db, "users", uid, "cart", item.id), {
       productId: item.id,
       name: item.name,
@@ -191,24 +223,18 @@ export async function saveCartItemToFirestore(uid: string, item: { id: string; n
       quantity: item.quantity,
       image: item.image,
     });
-  } catch (err) {
-    console.error("saveCartItemToFirestore error:", err);
-  }
+  }, undefined);
 }
 
 export async function removeCartItemFromFirestore(uid: string, itemId: string): Promise<void> {
-  try {
+  return withAuthRetry(async () => {
     await deleteDoc(doc(db, "users", uid, "cart", itemId));
-  } catch (err) {
-    console.error("removeCartItemFromFirestore error:", err);
-  }
+  }, undefined);
 }
 
 export async function clearCartFromFirestore(uid: string): Promise<void> {
-  try {
+  return withAuthRetry(async () => {
     const snap = await getDocs(collection(db, "users", uid, "cart"));
     await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
-  } catch (err) {
-    console.error("clearCartFromFirestore error:", err);
-  }
+  }, undefined);
 }

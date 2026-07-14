@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/context/auth-context";
 import { getProfile, updateProfile as updateUserProfile, getOrders, UserProfile, StoreOrder } from "@/services/storeService";
+import { PAYMENT_STATUS_LABELS, PaymentStatus } from "@/services/paymentService";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { User, Package, MapPin, ChevronRight, ArrowLeft, Camera, Save, Loader2 } from "lucide-react";
+import AddressBook from "@/components/address/AddressBook";
 
 const C = {
   brand: "#55b685", brandDark: "#3d8a63", brandLight: "#d6f0e3", brandUltraLight: "#eef8f2",
@@ -31,11 +33,6 @@ export default function StoreAccountPage() {
   // Form fields
   const [displayName, setDisplayName] = useState("");
   const [phone, setPhone] = useState("");
-  const [addressLine1, setAddressLine1] = useState("");
-  const [addressLine2, setAddressLine2] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
 
   // Redirect if not logged in
   useEffect(() => {
@@ -52,11 +49,6 @@ export default function StoreAccountPage() {
         setProfile(p);
         setDisplayName(p.name || user.displayName || "");
         setPhone(p.phone || "");
-        setAddressLine1(p.address?.line1 || "");
-        setAddressLine2(p.address?.line2 || "");
-        setCity(p.address?.city || "");
-        setState(p.address?.state || "");
-        setPincode(p.address?.pincode || "");
       } else {
         setDisplayName(user.displayName || "");
       }
@@ -90,32 +82,12 @@ export default function StoreAccountPage() {
     setTimeout(() => setSaveMsg(""), 3000);
   };
 
-  const handleSaveAddress = async () => {
-    if (!user) return;
-    setSaving(true);
-    setSaveMsg("");
-    await updateUserProfile(user.uid, {
-      name: displayName || user.displayName,
-      phone,
-      address: {
-        line1: addressLine1,
-        line2: addressLine2,
-        city,
-        state,
-        pincode,
-      },
-    });
-    setSaving(false);
-    setSaveMsg("Address saved!");
-    setTimeout(() => setSaveMsg(""), 3000);
-  };
-
   if (!user) return null;
 
   const tabs: { key: Tab; label: string; icon: typeof User }[] = [
     { key: "profile", label: "Profile", icon: User },
     { key: "orders", label: "Orders", icon: Package },
-    { key: "address", label: "Address", icon: MapPin },
+    { key: "address", label: "My Addresses", icon: MapPin },
   ];
 
   const inputStyle: React.CSSProperties = {
@@ -152,6 +124,15 @@ export default function StoreAccountPage() {
       case "shipped": return { bg: "#e3f2fd", color: "#1565c0" };
       case "delivered": return { bg: "#e8f5e9", color: "#1b5e20" };
       case "cancelled": return { bg: "#fce4ec", color: "#c62828" };
+      default: return { bg: C.brandUltraLight, color: C.brand };
+    }
+  };
+
+  const paymentStatusColor = (s: string) => {
+    switch (s) {
+      case "pending": return { bg: "#fff8e1", color: "#a06b00" };
+      case "paid": return { bg: "#e8f5e9", color: "#2e7d32" };
+      case "failed": return { bg: "#fce4ec", color: "#c62828" };
       default: return { bg: C.brandUltraLight, color: C.brand };
     }
   };
@@ -316,13 +297,23 @@ export default function StoreAccountPage() {
                             {order.createdAt ? formatDate(order.createdAt) : ""}
                           </span>
                         </div>
-                        <span style={{
-                          fontSize: 11, fontWeight: 700, textTransform: "uppercase",
-                          padding: "4px 12px", borderRadius: 20,
-                          background: sc.bg, color: sc.color, letterSpacing: ".5px",
-                        }}>
-                          {order.orderStatus}
-                        </span>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <span style={{
+                            fontSize: 11, fontWeight: 700, textTransform: "uppercase",
+                            padding: "4px 12px", borderRadius: 20,
+                            background: sc.bg, color: sc.color, letterSpacing: ".5px",
+                          }}>
+                            {order.orderStatus}
+                          </span>
+                          {order.paymentStatus && (() => {
+                            const pc = paymentStatusColor(order.paymentStatus);
+                            return (
+                              <span style={{ fontSize: 11, fontWeight: 600, padding: "4px 12px", borderRadius: 20, background: pc.bg, color: pc.color }}>
+                                {PAYMENT_STATUS_LABELS[order.paymentStatus as PaymentStatus] || order.paymentStatus}
+                              </span>
+                            );
+                          })()}
+                        </div>
                       </div>
 
                       {/* Order items */}
@@ -367,6 +358,7 @@ export default function StoreAccountPage() {
                         <div style={{ fontSize: 12, color: C.textMuted, lineHeight: 1.6 }}>
                           {order.shippingAddress?.name && <div><strong>Ship to:</strong> {order.shippingAddress.name}</div>}
                           {order.shippingAddress?.address && <div>{order.shippingAddress.address}</div>}
+                          {order.shippingAddress?.addressLine2 && <div>{order.shippingAddress.addressLine2}</div>}
                           {(order.shippingAddress?.city || order.shippingAddress?.state) && (
                             <div>{[order.shippingAddress.city, order.shippingAddress.state, order.shippingAddress.pincode].filter(Boolean).join(", ")}</div>
                           )}
@@ -394,53 +386,9 @@ export default function StoreAccountPage() {
 
         {/* Address Tab */}
         {activeTab === "address" && (
-          <div style={{ maxWidth: 480 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 700, color: C.dark, marginBottom: 20 }}>Shipping Address</h2>
-            {loadingProfile ? (
-              <div style={{ display: "flex", alignItems: "center", gap: 8, color: C.textMuted }}>
-                <Loader2 size={18} className="animate-spin" /> Loading...
-              </div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <div>
-                  <label style={labelStyle}>Address Line 1</label>
-                  <input style={inputStyle} value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} placeholder="House/Flat No, Building, Street" />
-                </div>
-                <div>
-                  <label style={labelStyle}>Address Line 2</label>
-                  <input style={inputStyle} value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} placeholder="Landmark, Area (Optional)" />
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <div>
-                    <label style={labelStyle}>City</label>
-                    <input style={inputStyle} value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>State</label>
-                    <input style={inputStyle} value={state} onChange={(e) => setState(e.target.value)} placeholder="State" />
-                  </div>
-                </div>
-                <div style={{ maxWidth: 200 }}>
-                  <label style={labelStyle}>Pincode</label>
-                  <input style={inputStyle} value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="XXXXXX" maxLength={6} />
-                </div>
-                {saveMsg && <p style={{ fontSize: 13, color: C.brand, margin: 0 }}>{saveMsg}</p>}
-                <button
-                  onClick={handleSaveAddress}
-                  disabled={saving}
-                  style={{
-                    display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8,
-                    padding: "12px 24px", background: C.brand, color: C.white,
-                    border: "none", borderRadius: 12, fontSize: 14, fontWeight: 700,
-                    fontFamily: ff, cursor: saving ? "wait" : "pointer",
-                    opacity: saving ? 0.7 : 1, transition: "background .2s",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  <Save size={16} /> {saving ? "Saving..." : "Save Address"}
-                </button>
-              </div>
-            )}
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 700, color: C.dark, marginBottom: 20 }}>My Addresses</h2>
+            {user && <AddressBook uid={user.uid} />}
           </div>
         )}
       </div>

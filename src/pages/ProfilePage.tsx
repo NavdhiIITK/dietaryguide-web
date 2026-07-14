@@ -5,6 +5,7 @@ import { getProfile, updateProfile as updateUserProfile } from "@/services/store
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ArrowLeft, Save, Loader2, User, MapPin, CheckCircle } from "lucide-react";
+import AddressBook from "@/components/address/AddressBook";
 
 const C = {
   brand: "#55b685", brandDark: "#3d8a63", brandLight: "#d6f0e3", brandUltraLight: "#eef8f2",
@@ -34,20 +35,11 @@ export default function ProfilePage() {
 
   const [loading, setLoading] = useState(true);
   const [savingProfile, setSavingProfile] = useState(false);
-  const [savingAddress, setSavingAddress] = useState(false);
   const [profileMsg, setProfileMsg] = useState("");
-  const [addressMsg, setAddressMsg] = useState("");
 
   // Profile fields
   const [displayName, setDisplayName] = useState("");
   const [phone, setPhone] = useState("");
-
-  // Address fields
-  const [addressLine1, setAddressLine1] = useState("");
-  const [addressLine2, setAddressLine2] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
 
   useEffect(() => {
     if (authLoading) return;
@@ -58,11 +50,6 @@ export default function ProfilePage() {
       if (p) {
         setDisplayName(p.name || user.displayName || "");
         setPhone(p.phone || "");
-        setAddressLine1(p.address?.line1 || "");
-        setAddressLine2(p.address?.line2 || "");
-        setCity(p.address?.city || "");
-        setState(p.address?.state || "");
-        setPincode(p.address?.pincode || "");
       } else {
         setDisplayName(user.displayName || "");
       }
@@ -77,17 +64,6 @@ export default function ProfilePage() {
     setSavingProfile(false);
     setProfileMsg("Profile saved!");
     setTimeout(() => setProfileMsg(""), 3000);
-  };
-
-  const handleSaveAddress = async () => {
-    if (!user) return;
-    setSavingAddress(true);
-    await updateUserProfile(user.uid, {
-      address: { line1: addressLine1, line2: addressLine2, city, state, pincode },
-    });
-    setSavingAddress(false);
-    setAddressMsg("Address saved!");
-    setTimeout(() => setAddressMsg(""), 3000);
   };
 
   if (authLoading) return null;
@@ -197,59 +173,15 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Address */}
+            {/* Addresses */}
             <div style={sectionCard}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
                 <div style={{ width: 32, height: 32, borderRadius: 8, background: C.brandUltraLight, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <MapPin size={16} color={C.brand} />
                 </div>
-                <h2 style={{ fontSize: 16, fontWeight: 700, color: C.dark, margin: 0 }}>Shipping Address</h2>
+                <h2 style={{ fontSize: 16, fontWeight: 700, color: C.dark, margin: 0 }}>My Addresses</h2>
               </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <div>
-                  <label style={labelStyle}>Address Line 1</label>
-                  <input style={inputStyle} value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} placeholder="House/Flat No, Building, Street" />
-                </div>
-                <div>
-                  <label style={labelStyle}>Address Line 2 <span style={{ fontWeight: 400, color: C.textMuted }}>(Optional)</span></label>
-                  <input style={inputStyle} value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} placeholder="Landmark, Area" />
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <div>
-                    <label style={labelStyle}>City</label>
-                    <input style={inputStyle} value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>State</label>
-                    <input style={inputStyle} value={state} onChange={(e) => setState(e.target.value)} placeholder="State" />
-                  </div>
-                </div>
-                <div style={{ maxWidth: 180 }}>
-                  <label style={labelStyle}>Pincode</label>
-                  <input style={inputStyle} value={pincode} onChange={(e) => setPincode(e.target.value)} placeholder="XXXXXX" maxLength={6} />
-                </div>
-
-                {addressMsg && (
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: C.brand, fontWeight: 600 }}>
-                    <CheckCircle size={15} /> {addressMsg}
-                  </div>
-                )}
-
-                <button
-                  onClick={handleSaveAddress}
-                  disabled={savingAddress}
-                  style={{
-                    alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 8,
-                    padding: "11px 22px", background: savingAddress ? C.brandLight : C.brand,
-                    color: savingAddress ? C.brand : C.white,
-                    border: "none", borderRadius: 10, fontSize: 14, fontWeight: 700,
-                    fontFamily: ff, cursor: savingAddress ? "wait" : "pointer", transition: "all .2s",
-                  }}
-                >
-                  <Save size={15} /> {savingAddress ? "Saving..." : "Save Address"}
-                </button>
-              </div>
+              <AddressBook uid={user.uid} />
             </div>
 
             {/* Quick links */}

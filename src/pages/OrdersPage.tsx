@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/auth-context";
 import { getOrders, StoreOrder } from "@/services/storeService";
+import { PAYMENT_STATUS_LABELS, PaymentStatus } from "@/services/paymentService";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ArrowLeft, Package, Loader2, ShoppingBag } from "lucide-react";
@@ -25,6 +26,21 @@ function statusStyle(s: string): React.CSSProperties {
     fontSize: 11, fontWeight: 700, textTransform: "uppercase",
     padding: "4px 12px", borderRadius: 20,
     background: t.bg, color: t.color, letterSpacing: ".5px",
+    flexShrink: 0,
+  };
+}
+
+function paymentStatusStyle(s: string): React.CSSProperties {
+  const map: Record<string, { bg: string; color: string }> = {
+    pending: { bg: "#fff8e1", color: "#a06b00" },
+    paid: { bg: "#e8f5e9", color: "#2e7d32" },
+    failed: { bg: "#fce4ec", color: "#c62828" },
+  };
+  const t = map[s] ?? { bg: C.brandUltraLight, color: C.brand };
+  return {
+    fontSize: 11, fontWeight: 600,
+    padding: "4px 12px", borderRadius: 20,
+    background: t.bg, color: t.color,
     flexShrink: 0,
   };
 }
@@ -65,6 +81,11 @@ function OrderCard({ order }: { order: StoreOrder }) {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={statusStyle(order.orderStatus)}>{order.orderStatus}</span>
+          {order.paymentStatus && (
+            <span style={paymentStatusStyle(order.paymentStatus)}>
+              {PAYMENT_STATUS_LABELS[order.paymentStatus as PaymentStatus] || order.paymentStatus}
+            </span>
+          )}
           <span style={{ fontSize: 15, fontWeight: 700, color: C.dark, whiteSpace: "nowrap" }}>
             ₹{order.totalAmount.toLocaleString("en-IN")}
           </span>
@@ -126,6 +147,7 @@ function OrderCard({ order }: { order: StoreOrder }) {
                 <div><strong style={{ color: C.dark }}>Ship to:</strong> {order.shippingAddress.name}</div>
               )}
               {order.shippingAddress?.address && <div>{order.shippingAddress.address}</div>}
+              {order.shippingAddress?.addressLine2 && <div>{order.shippingAddress.addressLine2}</div>}
               {(order.shippingAddress?.city || order.shippingAddress?.state) && (
                 <div>
                   {[order.shippingAddress.city, order.shippingAddress.state, order.shippingAddress.pincode]

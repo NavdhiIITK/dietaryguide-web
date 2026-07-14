@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/cart-context";
 import { useAuth } from "@/context/auth-context";
-import { X, Plus, Minus, ShoppingBag, Trash2, Eye, EyeOff, Loader2, CheckCircle } from "lucide-react";
+import { X, Plus, Minus, ShoppingBag, Trash2, Eye, EyeOff, Loader2, CheckCircle, MapPin, ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { createOrder, getProfile } from "@/services/storeService";
+import { createOrder } from "@/services/storeService";
+import { processPayment, PAYMENT_STATUS_LABELS } from "@/services/paymentService";
+import { Address, AddressInput, formatAddressLine } from "@/types/address";
+import { getAddresses, addAddress, updateAddress, deleteAddress } from "@/services/addressService";
+import { auth } from "@/lib/firebase";
+import AddressCard from "@/components/address/AddressCard";
+import AddressForm from "@/components/address/AddressForm";
 
 const C = {
   brand: "#55b685",
@@ -17,6 +23,47 @@ const C = {
   white: "#ffffff",
 };
 const ff = "'Space Grotesk', 'Inter', sans-serif";
+
+const COUNTRY_CODES = [
+  { code: "+91", country: "India" },
+  { code: "+1", country: "US/Canada" },
+  { code: "+44", country: "UK" },
+  { code: "+971", country: "UAE" },
+  { code: "+65", country: "Singapore" },
+  { code: "+61", country: "Australia" },
+  { code: "+49", country: "Germany" },
+  { code: "+33", country: "France" },
+  { code: "+81", country: "Japan" },
+  { code: "+86", country: "China" },
+  { code: "+92", country: "Pakistan" },
+  { code: "+880", country: "Bangladesh" },
+  { code: "+94", country: "Sri Lanka" },
+  { code: "+977", country: "Nepal" },
+  { code: "+966", country: "Saudi Arabia" },
+  { code: "+974", country: "Qatar" },
+  { code: "+968", country: "Oman" },
+  { code: "+973", country: "Bahrain" },
+  { code: "+965", country: "Kuwait" },
+  { code: "+60", country: "Malaysia" },
+  { code: "+27", country: "South Africa" },
+  { code: "+234", country: "Nigeria" },
+  { code: "+55", country: "Brazil" },
+  { code: "+52", country: "Mexico" },
+  { code: "+34", country: "Spain" },
+  { code: "+39", country: "Italy" },
+  { code: "+31", country: "Netherlands" },
+  { code: "+46", country: "Sweden" },
+  { code: "+41", country: "Switzerland" },
+  { code: "+82", country: "South Korea" },
+  { code: "+64", country: "New Zealand" },
+  { code: "+353", country: "Ireland" },
+  { code: "+62", country: "Indonesia" },
+  { code: "+63", country: "Philippines" },
+  { code: "+66", country: "Thailand" },
+  { code: "+84", country: "Vietnam" },
+  { code: "+90", country: "Turkey" },
+  { code: "+7", country: "Russia" },
+];
 
 const CartDrawer = () => {
   const { items, isOpen, closeCart, removeItem, updateQty, totalItems, subtotal, clearCart } = useCart();
@@ -32,6 +79,7 @@ const CartDrawer = () => {
 
   // Phone verification
   const [showPhoneVerify, setShowPhoneVerify] = useState(false);
+  const [otpCountryCode, setOtpCountryCode] = useState("+91");
   const [otpPhone, setOtpPhone] = useState("");
   const [otpCode, setOtpCode] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -39,42 +87,54 @@ const CartDrawer = () => {
   const [otpError, setOtpError] = useState("");
 
   // Checkout flow
-  const [checkoutStep, setCheckoutStep] = useState<"cart" | "shipping" | "success">("cart");
-  const [shipName, setShipName] = useState("");
-  const [shipPhone, setShipPhone] = useState("");
-  const [shipAddress, setShipAddress] = useState("");
-  const [shipCity, setShipCity] = useState("");
-  const [shipState, setShipState] = useState("");
-  const [shipPincode, setShipPincode] = useState("");
+  const [checkoutStep, setCheckoutStep] = useState<"cart" | "address" | "review" | "success">("cart");
+  const [checkoutAddresses, setCheckoutAddresses] = useState<Address[]>([]);
+  const [loadingAddresses, setLoadingAddresses] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [addressFormMode, setAddressFormMode] = useState<"list" | "add" | "edit">("list");
+  const [editingAddress, setEditingAddress] = useState<Address | null>(null);
+  const [savingAddress, setSavingAddress] = useState(false);
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
+  const [orderPaymentStatus, setOrderPaymentStatus] = useState<string>("");
 
   const navigate = useNavigate();
 
-  // Pre-fill shipping from stored profile
-  useEffect(() => {
-    if (user && checkoutStep === "shipping") {
-      (async () => {
-        const p = await getProfile(user.uid);
-        if (p) {
-          setShipName(p.name || user.displayName || "");
-          setShipPhone(p.phone || "");
-          setShipAddress(p.address?.line1 || "");
-          setShipCity(p.address?.city || "");
-          setShipState(p.address?.state || "");
-          setShipPincode(p.address?.pincode || "");
-        } else {
-          setShipName(user.displayName || "");
-        }
-      })();
+  // Fetches the user's saved addresses and decides where to land:
+  // default address -> straight to review; some addresses -> pick from list;
+  // no addresses yet -> straight to the "add new" form.
+  const goToAddressStep = async (uid: string) => {
+    setLoadingAddresses(true);
+    const list = await getAddresses(uid);
+    setCheckoutAddresses(list);
+    setLoadingAddresses(false);
+    const def = list.find((a) => a.isDefault);
+    if (def) {
+      setSelectedAddress(def);
+      setCheckoutStep("review");
+    } else if (list.length === 0) {
+      setAddressFormMode("add");
+      setCheckoutStep("address");
+    } else {
+      setAddressFormMode("list");
+      setCheckoutStep("address");
     }
-  }, [user, checkoutStep]);
+  };
+
+  const reloadCheckoutAddresses = async (uid: string) => {
+    const list = await getAddresses(uid);
+    setCheckoutAddresses(list);
+    return list;
+  };
 
   // Reset checkout when drawer closes
   useEffect(() => {
     if (!isOpen) {
       setCheckoutStep("cart");
       setOrderNumber("");
+      setSelectedAddress(null);
+      setAddressFormMode("list");
+      setEditingAddress(null);
     }
   }, [isOpen]);
 
@@ -368,17 +428,19 @@ const CartDrawer = () => {
               </p>
             )}
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (!user) {
                   setShowLoginPrompt(true);
                   return;
                 }
-                if (!phoneVerified) {
-                  setShowPhoneVerify(true);
-                  return;
-                }
-                // User is logged in & phone verified — go to shipping step
-                setCheckoutStep("shipping");
+                // Phone OTP verification is temporarily disabled — Firebase now
+                // requires a Google Cloud billing account (reCAPTCHA Enterprise
+                // migration) to send SMS. The full flow (sendPhoneOtp/verifyPhoneOtp,
+                // the modal below) is still intact — re-enable by restoring the
+                // `if (!phoneVerified) { setShowPhoneVerify(true); return; }` check
+                // here and in the two post-login handlers below once billing (or a
+                // 3rd-party SMS provider) is set up.
+                await goToAddressStep(user.uid);
               }}
               style={{
                 width: "100%",
@@ -428,8 +490,95 @@ const CartDrawer = () => {
         )}
       </div>
 
-      {/* Shipping Form Overlay */}
-      {checkoutStep === "shipping" && (
+      {/* Address Step Overlay — select a saved address or add a new one */}
+      {checkoutStep === "address" && user && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0, right: 0, bottom: 0,
+            width: "min(460px, 100vw)",
+            background: C.white,
+            zIndex: 10001,
+            display: "flex",
+            flexDirection: "column",
+            fontFamily: ff,
+            animation: "cart-slide-in .3s ease-out",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 24px", borderBottom: `1px solid ${C.brandLight}` }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: C.dark, margin: 0 }}>
+              {addressFormMode === "list" ? "Choose Delivery Address" : addressFormMode === "edit" ? "Edit Address" : "Add New Address"}
+            </h3>
+            <button onClick={() => setCheckoutStep("cart")} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
+              <X size={20} color={C.textMuted} />
+            </button>
+          </div>
+
+          <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+            {addressFormMode === "list" ? (
+              loadingAddresses ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 8, color: C.textMuted, padding: "24px 0" }}>
+                  <Loader2 size={18} className="animate-spin" /> Loading addresses…
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                  {checkoutAddresses.map((a) => (
+                    <AddressCard
+                      key={a.id}
+                      address={a}
+                      selected={selectedAddress?.id === a.id}
+                      onSelect={() => { setSelectedAddress(a); setCheckoutStep("review"); }}
+                      onEdit={() => { setEditingAddress(a); setAddressFormMode("edit"); }}
+                      onDelete={async () => {
+                        if (!window.confirm(`Delete the address for ${a.fullName}?`)) return;
+                        await deleteAddress(user.uid, a.id);
+                        await reloadCheckoutAddresses(user.uid);
+                        if (selectedAddress?.id === a.id) setSelectedAddress(null);
+                      }}
+                    />
+                  ))}
+                  <button
+                    onClick={() => { setEditingAddress(null); setAddressFormMode("add"); }}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                      padding: "13px 0", background: "transparent", color: C.brand,
+                      border: `1.5px dashed ${C.brand}`, borderRadius: 12, fontSize: 14, fontWeight: 700,
+                      fontFamily: ff, cursor: "pointer",
+                    }}
+                  >
+                    <Plus size={16} /> Add New Address
+                  </button>
+                </div>
+              )
+            ) : (
+              <AddressForm
+                initial={editingAddress || undefined}
+                existingAddresses={checkoutAddresses}
+                saving={savingAddress}
+                onCancel={() => setAddressFormMode("list")}
+                onSave={async (input: AddressInput) => {
+                  setSavingAddress(true);
+                  try {
+                    const saved = addressFormMode === "edit" && editingAddress
+                      ? await updateAddress(user.uid, editingAddress.id, input)
+                      : await addAddress(user.uid, input);
+                    await reloadCheckoutAddresses(user.uid);
+                    setSelectedAddress(saved);
+                    setAddressFormMode("list");
+                    setEditingAddress(null);
+                    setCheckoutStep("review");
+                  } finally {
+                    setSavingAddress(false);
+                  }
+                }}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Review Step Overlay — confirm address, see order summary, place order */}
+      {checkoutStep === "review" && user && selectedAddress && (
         <div
           style={{
             position: "fixed",
@@ -443,65 +592,39 @@ const CartDrawer = () => {
             animation: "cart-slide-in .3s ease-out",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 24px", borderBottom: `1px solid ${C.brandLight}` }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700, color: C.dark, margin: 0 }}>Shipping Details</h3>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "20px 24px", borderBottom: `1px solid ${C.brandLight}` }}>
+            <button onClick={() => setCheckoutStep("cart")} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
+              <ChevronLeft size={20} color={C.textMuted} />
+            </button>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: C.dark, margin: 0, flex: 1 }}>Review Order</h3>
             <button onClick={() => setCheckoutStep("cart")} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
               <X size={20} color={C.textMuted} />
             </button>
           </div>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              if (!user) return;
-              setPlacingOrder(true);
-              const order = await createOrder(user.uid, items, {
-                name: shipName, phone: shipPhone, address: shipAddress,
-                city: shipCity, state: shipState, pincode: shipPincode,
-              });
-              setPlacingOrder(false);
-              if (order) {
-                setOrderNumber(order.orderNumber);
-                clearCart();
-                setCheckoutStep("success");
-              }
-            }}
-            style={{ flex: 1, overflowY: "auto", padding: "24px", display: "flex", flexDirection: "column", gap: 14 }}
-          >
+
+          <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
+            {/* Selected address */}
             <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Full Name *</label>
-              <input required value={shipName} onChange={(e) => setShipName(e.target.value)} placeholder="Name"
-                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
-            </div>
-            <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Phone Number *</label>
-              <input required value={shipPhone} onChange={(e) => setShipPhone(e.target.value)} placeholder="+91 XXXXX XXXXX"
-                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
-            </div>
-            <div>
-              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Address *</label>
-              <input required value={shipAddress} onChange={(e) => setShipAddress(e.target.value)} placeholder="House/Flat No, Building, Street"
-                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>City *</label>
-                <input required value={shipCity} onChange={(e) => setShipCity(e.target.value)} placeholder="City"
-                  style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: ".4px" }}>
+                  <MapPin size={12} style={{ display: "inline", marginRight: 4, verticalAlign: -1 }} /> Deliver to
+                </span>
+                <button
+                  onClick={async () => { setAddressFormMode("list"); setCheckoutStep("address"); await reloadCheckoutAddresses(user.uid); }}
+                  style={{ background: "none", border: "none", padding: 0, fontSize: 13, color: C.brand, fontWeight: 600, cursor: "pointer", fontFamily: ff, textDecoration: "underline" }}
+                >
+                  Change
+                </button>
               </div>
-              <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>State *</label>
-                <input required value={shipState} onChange={(e) => setShipState(e.target.value)} placeholder="State"
-                  style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
+              <div style={{ padding: 14, background: C.brandUltraLight, borderRadius: 12, fontSize: 13, color: C.dark, lineHeight: 1.6 }}>
+                <strong>{selectedAddress.fullName}</strong> · {selectedAddress.phone}<br />
+                {formatAddressLine(selectedAddress)}<br />
+                {[selectedAddress.city, selectedAddress.state].filter(Boolean).join(", ")} - {selectedAddress.pincode}
               </div>
-            </div>
-            <div style={{ maxWidth: 180 }}>
-              <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Pincode *</label>
-              <input required value={shipPincode} onChange={(e) => setShipPincode(e.target.value)} placeholder="XXXXXX" maxLength={6}
-                style={{ width: "100%", padding: "11px 14px", border: `1.5px solid ${C.brandLight}`, borderRadius: 10, fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box" }} />
             </div>
 
             {/* Order summary */}
-            <div style={{ marginTop: 8, padding: "16px", background: C.brandUltraLight, borderRadius: 12, fontSize: 13 }}>
+            <div style={{ padding: "16px", background: C.brandUltraLight, borderRadius: 12, fontSize: 13 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4, color: C.dark }}>
                 <span>Subtotal ({totalItems} items)</span>
                 <span style={{ fontWeight: 600 }}>₹{subtotal.toLocaleString("en-IN")}</span>
@@ -516,8 +639,41 @@ const CartDrawer = () => {
               </div>
             </div>
 
+            <div style={{ padding: "12px 14px", background: "#fff8e6", border: "1px solid #f0dca0", borderRadius: 10, fontSize: 12.5, color: "#7a5c00" }}>
+              💵 Online payment isn't set up yet — this order will be placed as <strong>Cash on Delivery</strong>. You'll pay when it arrives.
+            </div>
+
             <button
-              type="submit"
+              onClick={async () => {
+                setPlacingOrder(true);
+                const shipping = subtotal >= 999 ? 0 : 49;
+                const payment = await processPayment(subtotal + shipping);
+                const order = await createOrder(
+                  user.uid,
+                  items,
+                  {
+                    name: selectedAddress.fullName,
+                    phone: selectedAddress.phone,
+                    email: selectedAddress.email,
+                    address: formatAddressLine(selectedAddress),
+                    city: selectedAddress.city,
+                    district: selectedAddress.district,
+                    state: selectedAddress.state,
+                    country: selectedAddress.country,
+                    pincode: selectedAddress.pincode,
+                    addressType: selectedAddress.addressType,
+                    deliveryInstructions: selectedAddress.deliveryInstructions,
+                  },
+                  payment
+                );
+                setPlacingOrder(false);
+                if (order) {
+                  setOrderNumber(order.orderNumber);
+                  setOrderPaymentStatus(order.paymentStatus);
+                  clearCart();
+                  setCheckoutStep("success");
+                }
+              }}
               disabled={placingOrder}
               style={{
                 width: "100%", padding: "14px 0", background: C.brand, color: C.white,
@@ -525,13 +681,12 @@ const CartDrawer = () => {
                 fontFamily: ff, cursor: placingOrder ? "wait" : "pointer",
                 opacity: placingOrder ? 0.7 : 1, transition: "background .2s",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                marginTop: 4,
               }}
             >
               {placingOrder && <Loader2 size={16} className="animate-spin" />}
               {placingOrder ? "Placing Order…" : "Place Order"}
             </button>
-          </form>
+          </div>
         </div>
       )}
 
@@ -560,8 +715,13 @@ const CartDrawer = () => {
             Your order has been confirmed.
           </p>
           {orderNumber && (
-            <p style={{ fontSize: 15, fontWeight: 700, color: C.brand, margin: "0 0 24px" }}>
+            <p style={{ fontSize: 15, fontWeight: 700, color: C.brand, margin: "0 0 4px" }}>
               {orderNumber}
+            </p>
+          )}
+          {orderPaymentStatus && (
+            <p style={{ fontSize: 12.5, color: C.textMuted, margin: "0 0 24px", padding: "6px 12px", background: C.brandUltraLight, borderRadius: 20, display: "inline-block" }}>
+              {PAYMENT_STATUS_LABELS[orderPaymentStatus as keyof typeof PAYMENT_STATUS_LABELS] || orderPaymentStatus}
             </p>
           )}
           <button
@@ -628,17 +788,37 @@ const CartDrawer = () => {
               <div style={{ display: "flex", flexDirection: "column", gap: 12, textAlign: "left" }}>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Phone Number</label>
-                  <input
-                    type="tel"
-                    value={otpPhone}
-                    onChange={(e) => setOtpPhone(e.target.value)}
-                    placeholder="+91 XXXXX XXXXX"
-                    style={{
-                      width: "100%", padding: "11px 14px",
-                      border: `1.5px solid ${C.brandLight}`, borderRadius: 10,
-                      fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box",
-                    }}
-                  />
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <select
+                      value={otpCountryCode}
+                      onChange={(e) => setOtpCountryCode(e.target.value)}
+                      aria-label="Country code"
+                      style={{
+                        padding: "11px 8px",
+                        border: `1.5px solid ${C.brandLight}`, borderRadius: 10,
+                        fontSize: 14, fontFamily: ff, outline: "none",
+                        background: C.white, color: C.dark, cursor: "pointer",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {COUNTRY_CODES.map((c) => (
+                        <option key={c.code + c.country} value={c.code}>
+                          {c.code} {c.country}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      type="tel"
+                      value={otpPhone}
+                      onChange={(e) => setOtpPhone(e.target.value)}
+                      placeholder="XXXXX XXXXX"
+                      style={{
+                        flex: 1, minWidth: 0, padding: "11px 14px",
+                        border: `1.5px solid ${C.brandLight}`, borderRadius: 10,
+                        fontSize: 14, fontFamily: ff, outline: "none", boxSizing: "border-box",
+                      }}
+                    />
+                  </div>
                 </div>
                 {otpError && <p style={{ fontSize: 13, color: "#e74c3c", margin: 0 }}>{otpError}</p>}
                 <button
@@ -646,7 +826,8 @@ const CartDrawer = () => {
                     if (!otpPhone.trim()) { setOtpError("Enter your phone number."); return; }
                     setOtpLoading(true); setOtpError("");
                     try {
-                      await sendPhoneOtp(otpPhone.trim(), "recaptcha-checkout");
+                      const digitsOnly = otpPhone.trim().replace(/\D/g, "");
+                      await sendPhoneOtp(`${otpCountryCode}${digitsOnly}`, "recaptcha-checkout");
                       setOtpSent(true);
                     } catch { /* toast in context */ }
                     finally { setOtpLoading(false); }
@@ -665,7 +846,7 @@ const CartDrawer = () => {
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 12, textAlign: "left" }}>
                 <p style={{ fontSize: 13, color: C.textMuted, margin: 0 }}>
-                  OTP sent to <strong>{otpPhone}</strong>
+                  OTP sent to <strong>{otpCountryCode} {otpPhone}</strong>
                 </p>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 600, color: C.dark, marginBottom: 4, display: "block" }}>Enter OTP</label>
@@ -692,7 +873,7 @@ const CartDrawer = () => {
                       await verifyPhoneOtp(otpCode);
                       setShowPhoneVerify(false);
                       setOtpSent(false); setOtpCode(""); setOtpPhone("");
-                      setCheckoutStep("shipping");
+                      if (user) await goToAddressStep(user.uid);
                     } catch { /* toast in context */ }
                     finally { setOtpLoading(false); }
                   }}
@@ -789,8 +970,10 @@ const CartDrawer = () => {
                   await signInWithGoogle();
                   setShowLoginPrompt(false);
                   setAuthError("");
-                  // After login, prompt phone verification
-                  setShowPhoneVerify(true);
+                  // Phone verification disabled for now — see checkout button comment above.
+                  // Use auth.currentUser (not the `user` from useAuth()) — the hook's value
+                  // is still stale inside this same closure right after signing in.
+                  if (auth.currentUser) await goToAddressStep(auth.currentUser.uid);
                 } catch { /* handled in context */ }
               }}
               style={{
@@ -840,8 +1023,9 @@ const CartDrawer = () => {
                   }
                   setShowLoginPrompt(false);
                   setAuthEmail(""); setAuthPassword(""); setAuthName(""); setAuthError("");
-                  // After login, prompt phone verification
-                  setShowPhoneVerify(true);
+                  // Phone verification disabled for now — see checkout button comment above.
+                  // Use auth.currentUser, not the (still-stale-in-this-closure) `user` from useAuth().
+                  if (auth.currentUser) await goToAddressStep(auth.currentUser.uid);
                 } catch {
                   /* toast shown by context */
                 } finally {

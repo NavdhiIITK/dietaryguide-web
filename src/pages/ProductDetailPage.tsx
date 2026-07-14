@@ -39,6 +39,13 @@ const C = {
 };
 const ff = "'Space Grotesk', 'Inter', sans-serif";
 
+function truncateAtWord(text: string, maxLen: number): string {
+  if (text.length <= maxLen) return text;
+  const cut = text.slice(0, maxLen);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${lastSpace > 0 ? cut.slice(0, lastSpace) : cut}…`;
+}
+
 type TabKey = "description" | "nutrition" | "ingredients" | "benefits";
 
 const ProductDetailPage = () => {
@@ -476,8 +483,7 @@ const ProductDetailPage = () => {
 
             {/* Short description */}
             <p className="pdp-short-desc" style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: "0 0 28px", maxWidth: 500 }}>
-              {product.description.slice(0, 180)}
-              {product.description.length > 180 ? "…" : ""}
+              {truncateAtWord(product.description, 180)}
             </p>
 
             {/* Qty + Add to cart */}
