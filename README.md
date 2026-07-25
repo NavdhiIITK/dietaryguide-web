@@ -7,6 +7,15 @@ A modern, responsive web application for **Dietary Guide** providing personalize
 
 ---
 
+## ✨ Features
+
+- **Personalized Nutrition & Diet Guidance**: Tailored meal plans and dietary advice.
+- **Hybrid Blog System**: Static SEO-optimized articles alongside dynamic Supabase-backed community posts.
+- **Address Book & Checkout System**: Multi-address management with home/work tags and streamlined checkout.
+- **Responsive Modern UI**: Styled with Tailwind CSS, shadcn/ui components, and interactive micro-animations.
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18, TypeScript, Vite
