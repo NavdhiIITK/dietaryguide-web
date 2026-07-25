@@ -71,3 +71,4 @@ This application is deployed on **Vercel** with native GitHub integration:
 ## 📜 License
 
 Private Repository - All Rights Reserved.
+
