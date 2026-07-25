@@ -96,3 +96,6 @@ The project includes:
 - Proper base path configuration in Vite
 
 # Deployment trigger update
+
+
+
