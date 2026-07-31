@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, Utensils, Calculator, BookOpen, Heart, Clock } from "lucide-react";
 import { allIndianRecipes } from "@/data/recipes";
 import { useLatestBlogPosts } from "@/hooks/use-latest-blog-posts";
+import PressGallery from "@/components/PressGallery";
 import { format } from "date-fns";
 
 const FALLBACK_BLOG_IMAGE = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80";
@@ -195,95 +196,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Recipes Section */}
-      <section className="py-24 bg-gray-900">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Featured Recipes</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Healthy, authentic flavors from Indian cuisine</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {allIndianRecipes.slice(0, 3).map((recipe, index) => {
-              const titles = ["Quick & Easy Salad", "Vegetable Stir-Fry", "Berry Blast Smoothie"];
-              const subtitles = ["Ready in 15 minutes", "Perfect for a weeknight dinner", "Start your day right"];
-
-              return (
-                <Card key={recipe.id} className="overflow-hidden bg-gray-800 border-gray-700 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                  <div className="h-64 relative overflow-hidden">
-                    <img src={recipe.imageUrl} alt={recipe.title} className="h-full w-full object-cover" />
-                  </div>
-                  <CardContent className="p-8 text-center">
-                    <h3 className="text-2xl font-bold mb-2 text-white">{titles[index]}</h3>
-                    <p className="text-gray-400 mb-6">{subtitles[index]}</p>
-                    <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80 font-medium">
-                      <Link to={`/recipes/${recipe.id}`}>
-                        View Recipe
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-
-          <div className="text-center mt-16">
-            <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white px-8 py-3">
-              <Link to="/recipes" className="flex items-center">
-                All Recipes
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-24 bg-gray-800">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-20">
-            <h2 className="text-4xl font-bold mb-6 text-white">What Our Community Says</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Real stories from people who have transformed their relationship with food and health.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
-              <div className="flex items-center mb-6">
-                <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80" alt="Sarah J." className="w-12 h-12 rounded-full object-cover mr-4" />
-                <div>
-                  <p className="font-bold text-white">Sarah J.</p>
-                  <p className="text-sm text-gray-400">Fitness Enthusiast</p>
-                </div>
-              </div>
-              <p className="text-gray-300 italic leading-relaxed">The bespoke meal plans have completely transformed how I view nutrition. I've lost over a stone and feel more energised, focused, and motivated than ever. DietaryGuide is the perfect tool for anyone serious about fitness and healthy eating.</p>
-            </Card>
-
-            <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
-              <div className="flex items-center mb-6">
-                <img src="https://github.com/amishardev/navdhiweb/blob/main/nishant_jindal.png?raw=true" alt="Nishant Jindal" className="w-12 h-12 rounded-full object-cover mr-4" />
-                <div>
-                  <p className="font-bold text-white">Nishant Jindal</p>
-                  <p className="text-sm text-gray-400">Cooperate employee</p>
-                </div>
-              </div>
-              <p className="text-gray-300 italic leading-relaxed">As a corporate employee, smart nutrition is non-negotiable for staying on top of my game. DietaryGuide has been a game-changer, helping me fine-tune my diet to maintain peak energy and focus through demanding workdays.</p>
-            </Card>
-
-            <Card className="bg-gray-900 border-gray-700 rounded-2xl p-8 shadow-xl">
-              <div className="flex items-center mb-6">
-                <img src="https://images.unsplash.com/photo-999952127939-9bbf5af6c51c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80" alt="Lisa M." className="w-12 h-12 rounded-full object-cover mr-4" />
-                <div>
-                  <p className="font-bold text-white">Lisa M.</p>
-                  <p className="text-sm text-gray-400">Busy Parent</p>
-                </div>
-              </div>
-              <p className="text-gray-300 italic leading-relaxed">The quick, nutritious recipes are a game-changer for busy mums like me. My children now love their veggies, and planning family meals is no longer stressful. It's ideal for anyone juggling health and parenting.</p>
-            </Card>
-          </div>
-        </div>
-      </section>
+      <PressGallery />
 
       {/* Newsletter */}
       <section className="py-24 bg-gray-900">
