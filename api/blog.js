@@ -28,28 +28,8 @@ import {
   getPostBySlug,
   getPublishedPosts,
   getShell,
+  renderIntoShell,
 } from './_lib.js';
-
-/** Head tags describing the homepage that must not survive onto a post page. */
-const STALE_HEAD_PATTERNS = [
-  /<title>[\s\S]*?<\/title>/i,
-  /<meta\s+name="description"[^>]*>/gi,
-  /<meta\s+name="author"[^>]*>/gi,
-  /<meta\s+name="robots"[^>]*>/gi,
-  /<link\s+rel="canonical"[^>]*>/gi,
-  /<meta\s+property="og:[^"]*"[^>]*>/gi,
-  /<meta\s+name="twitter:[^"]*"[^>]*>/gi,
-];
-
-function stripStaleHead(html) {
-  const headEnd = html.indexOf('</head>');
-  if (headEnd === -1) return html;
-
-  let head = html.slice(0, headEnd);
-  const rest = html.slice(headEnd);
-  for (const pattern of STALE_HEAD_PATTERNS) head = head.replace(pattern, '');
-  return head + rest;
-}
 
 /** Posts sharing the most tags, for internal linking. */
 function findRelated(post, all, limit = 3) {
@@ -166,9 +146,7 @@ export default async function handler(req, res) {
 
     const related = findRelated(post, summaries);
 
-    const html = stripStaleHead(shell)
-      .replace('</head>', `${buildHead(post)}</head>`)
-      .replace('<div id="root"></div>', `<div id="root">${buildBody(post, related)}</div>`);
+    const html = renderIntoShell(shell, buildHead(post), buildBody(post, related));
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     // Short edge TTL so same-day edits go out quickly, with a long

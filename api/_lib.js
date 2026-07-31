@@ -175,3 +175,35 @@ export function getShell() {
   shellCache = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf-8');
   return shellCache;
 }
+
+/** Head tags describing the homepage that must not survive onto any per-item page. */
+const STALE_HEAD_PATTERNS = [
+  /<title>[\s\S]*?<\/title>/i,
+  /<meta\s+name="description"[^>]*>/gi,
+  /<meta\s+name="author"[^>]*>/gi,
+  /<meta\s+name="robots"[^>]*>/gi,
+  /<link\s+rel="canonical"[^>]*>/gi,
+  /<meta\s+property="og:[^"]*"[^>]*>/gi,
+  /<meta\s+name="twitter:[^"]*"[^>]*>/gi,
+];
+
+function stripStaleHead(html) {
+  const headEnd = html.indexOf('</head>');
+  if (headEnd === -1) return html;
+
+  let head = html.slice(0, headEnd);
+  const rest = html.slice(headEnd);
+  for (const pattern of STALE_HEAD_PATTERNS) head = head.replace(pattern, '');
+  return head + rest;
+}
+
+/**
+ * Splice per-item <head> tags and <div id="root"> content into the shell,
+ * after stripping the homepage's own title/description/canonical/OG/Twitter
+ * tags so they can't end up alongside the real ones.
+ */
+export function renderIntoShell(shell, headHtml, bodyHtml) {
+  return stripStaleHead(shell)
+    .replace('</head>', `${headHtml}</head>`)
+    .replace('<div id="root"></div>', `<div id="root">${bodyHtml}</div>`);
+}
