@@ -11,8 +11,8 @@
 
 import { escapeHtml, serializeJsonLd, getShell, renderIntoShell } from './_lib.js';
 import { buildProductMeta, buildProductSchemas } from '../shared/site-seo.mjs';
-import { getProductById } from '../src/data/products.ts';
-import { productMap } from '../src/data/store-products.ts';
+import { getProductById } from '../shared/_data/products.mjs';
+import { productMap } from '../shared/_data/store-products.mjs';
 
 function buildHead(product, storeProduct) {
   const meta = buildProductMeta(product, storeProduct);

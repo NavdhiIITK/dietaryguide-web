@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Generated from src/data/*.ts by scripts/build-api-data.mjs (prebuild step)
+# for the serverless functions to import — not a source file.
+shared/_data/
+
 # Firebase Admin SDK service account keys — never commit these
 *service-account*.json
 scripts/*.secret.json

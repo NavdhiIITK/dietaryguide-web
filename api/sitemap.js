@@ -9,8 +9,8 @@
 
 import { SITE_URL } from '../shared/blog-seo.mjs';
 import { SITEMAP_FIELDS, escapeXml, getPublishedPosts } from './_lib.js';
-import { allIndianRecipes } from '../src/data/recipes.ts';
-import { storeProducts } from '../src/data/products.ts';
+import { allIndianRecipes } from '../shared/_data/recipes.mjs';
+import { storeProducts } from '../shared/_data/products.mjs';
 
 /**
  * Recipe and product URLs are generated from the same data files api/recipe.js
