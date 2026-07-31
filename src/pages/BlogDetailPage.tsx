@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from 'date-fns';
+import { buildBlogMeta, buildBlogSchemas, improveContentImages } from '@shared/blog-seo.mjs';
 
 const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -133,17 +134,24 @@ const BlogDetailPage = () => {
     );
   }
 
+  // Mirror exactly what api/blog.js already wrote into the server-rendered HTML.
+  // Both call the same builders, so react-helmet re-asserts those tags on mount
+  // instead of replacing them with homepage defaults.
+  const seo = buildBlogMeta(post);
+
   return (
     <div className="min-h-screen flex flex-col">
       <SEOOptimizer
-        title={`${post.title} - DietaryGuide`}
-        description={post.snippet}
-        keywords={post.tags?.join(', ') || ''}
-        image={post.image}
+        exactTitle={seo.title}
+        description={seo.description}
+        keywords={seo.tags.join(', ')}
+        image={seo.image}
         url={`/blog/${post.slug}`}
         type="article"
-        publishedTime={post.created_at}
-        author={post.author?.name || 'Dietary Guide'}
+        publishedTime={seo.published}
+        modifiedTime={seo.modified}
+        author={seo.author}
+        additionalSchemas={buildBlogSchemas(post)}
       />
       <Navbar />
       <main className="flex-1">
@@ -224,6 +232,10 @@ const BlogDetailPage = () => {
             <img
               src={post.image || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'}
               alt={post.title || 'Blog post image'}
+              width={1200}
+              height={630}
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-full object-cover"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
@@ -236,7 +248,7 @@ const BlogDetailPage = () => {
           {post.content ? (
             <div
               className="blog-content max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: improveContentImages(post.content, post.title) }}
             />
           ) : (
             <div className="text-center py-12">

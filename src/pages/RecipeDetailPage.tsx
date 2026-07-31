@@ -9,6 +9,7 @@ import { Clock, ChefHat, Flame, Bookmark, ArrowLeft, Heart, Share2, Printer } fr
 import { Skeleton } from "@/components/ui/skeleton";
 import { allIndianRecipes, Recipe } from "@/data/recipes";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { buildRecipeMeta, buildRecipeSchemas } from "@shared/site-seo.mjs";
 
 const RecipeDetailPage = () => {
   const {
@@ -71,31 +72,23 @@ const RecipeDetailPage = () => {
       </div>;
   }
   
+  // Mirrors api/recipe.js exactly, same reason as the blog page: both call
+  // the same shared builders, so hydration re-asserts identical tags instead
+  // of swapping in the fabricated-review schema seoConfig.ts used to inject
+  // here (a hardcoded 4.8 rating and a "Health Enthusiast" review that never
+  // happened, on every recipe — a real risk under Google's fake-review
+  // policy, not just noise).
+  const seo = buildRecipeMeta(recipe);
+
   return <div className="min-h-screen flex flex-col">
       <SEOOptimizer
-        title={`${recipe.title} – Healthy Indian Recipe`}
-        description={`${recipe.description} ${recipe.prepTime} prep time, ${recipe.difficulty} difficulty. ${recipe.dietPreference} recipe with ${recipe.nutritionFacts?.calories || ''} calories per serving.`}
-        keywords={`${recipe.title} recipe, healthy Indian ${recipe.mealType} recipe, ${recipe.dietPreference} recipe, ${recipe.title} for weight loss, protein rich Indian recipe`}
+        exactTitle={seo.title}
+        description={seo.description}
+        keywords={`${recipe.title} recipe, healthy Indian ${recipe.mealType} recipe, ${recipe.dietPreference} recipe, protein rich Indian recipe`}
+        image={seo.image}
         url={`/recipes/${recipe.id}`}
-        type="recipe"
-        schemaType="Recipe"
-        schemaData={{
-          title: recipe.title,
-          description: recipe.description,
-          imageUrl: recipe.imageUrl,
-          prepTime: recipe.prepTime,
-          servings: recipe.servings,
-          mealType: recipe.mealType,
-          dietPreference: recipe.dietPreference,
-          ingredients: recipe.ingredients,
-          instructions: recipe.instructions,
-          nutritionFacts: recipe.nutritionFacts
-        }}
-        breadcrumbs={[
-          { name: "Home", url: "https://dietaryguide.in/" },
-          { name: "Recipes", url: "https://dietaryguide.in/recipes" },
-          { name: recipe.title, url: `https://dietaryguide.in/recipes/${recipe.id}` }
-        ]}
+        type="article"
+        additionalSchemas={buildRecipeSchemas(recipe)}
       />
       <Navbar />
       <main className="pt-32 pb-16 flex-grow">

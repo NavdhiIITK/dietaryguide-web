@@ -4,6 +4,12 @@ import { seoMetadata, structuredDataSchemas } from "@/data/seoConfig";
 
 interface SEOOptimizerProps {
   title?: string;
+  /**
+   * Use this exact string as the <title>, skipping the "| Dietary Guide"
+   * suffix. Blog posts need it so the tag react-helmet writes on mount matches
+   * the one the /blog/:slug serverless function already put in the HTML.
+   */
+  exactTitle?: string;
   description?: string;
   keywords?: string;
   image?: string;
@@ -20,6 +26,7 @@ interface SEOOptimizerProps {
 
 const SEOOptimizer = ({
   title,
+  exactTitle,
   description,
   keywords,
   image,
@@ -34,7 +41,7 @@ const SEOOptimizer = ({
   additionalSchemas
 }: SEOOptimizerProps) => {
   try {
-    const fullTitle = title ? `${title} | ${seoMetadata.siteName}` : seoMetadata.defaultTitle;
+    const fullTitle = exactTitle || (title ? `${title} | ${seoMetadata.siteName}` : seoMetadata.defaultTitle);
     const metaDescription = description || seoMetadata.defaultDescription;
     const metaKeywords = keywords || seoMetadata.defaultKeywords;
     const fullUrl = url ? `${seoMetadata.siteUrl}${url}` : seoMetadata.siteUrl;

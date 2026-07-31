@@ -20,6 +20,8 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // SEO helpers shared with the serverless functions in api/
+      "@shared": path.resolve(__dirname, "./shared"),
     },
   },
   build: {

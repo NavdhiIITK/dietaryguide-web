@@ -1,27 +1,22 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroCanvas from "@/components/HeroCanvas";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, Utensils, Calculator, BookOpen, Heart, Clock } from "lucide-react";
-import { getBlogPosts } from "@/lib/blog-data";
 import { allIndianRecipes } from "@/data/recipes";
+import { useLatestBlogPosts } from "@/hooks/use-latest-blog-posts";
+import { format } from "date-fns";
 
-interface ContentItem {
-  id: string;
-  title: string;
-  description: string;
-  image: string | null;
-  category: string | null;
-  date: string | null;
-  slug: string | null;
-}
+const FALLBACK_BLOG_IMAGE = "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80";
 
 const Home = () => {
   const contentRef = useRef<HTMLDivElement>(null);
+  const { posts: latestInsights, loading: insightsLoading } = useLatestBlogPosts(3);
 
   const scrollToContent = () => {
     contentRef.current?.scrollIntoView({
@@ -151,61 +146,51 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_Nutritional_Equality%20(2).png?raw=true" alt="Nutritional Equality: Making Healthy Food Accessible for All" className="h-48 w-full object-cover" />
-              <CardContent className="p-6">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">Nutrition</span>
-                  <span className="text-sm text-gray-400">April 5, 2025</span>
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Nutritional Equality: Making Healthy Food Accessible for All</h3>
-                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Understand the vital role of proteins, fats, and carbohydrates in your body. Learn how to balance your macronutrient intake for weight loss, muscle building, and optimal energy levels.</p>
-                <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80">
-                  <Link to="/blog" className="flex items-center">
-                    Read Article
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Person meditating while eating" className="h-48 w-full object-cover" />
-              <CardContent className="p-6">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 text-xs font-medium text-secondary bg-secondary/10 rounded-full">mental health</span>
-                  <span className="text-sm text-gray-400">March 14, 2025</span>
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">Mindful Eating: Developing Healthier Food Relationships</h3>
-                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">Learn powerful techniques to develop mindful eating habits. Improve digestion, reduce emotional eating, and create a healthier connection with your meals.</p>
-                <Button asChild variant="link" className="p-0 text-secondary hover:text-secondary/80">
-                  <Link to="/blog" className="flex items-center">
-                    Read Article
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <img src="https://github.com/qubicle232/dietaryguide/blob/DG-WEBSITE/gpt-image-1_The_Science_of_Hydra.png?raw=true" alt="The Science of Hydration: Why Water Is Essential" className="h-48 w-full object-cover" />
-              <CardContent className="p-6">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="px-3 py-1 text-xs font-medium text-accent bg-accent/10 rounded-full">Health</span>
-                  <span className="text-sm text-gray-400">March 28, 2025</span>
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">The Science of Hydration: Why Water Is Essential</h3>
-                <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">
-                  Unlock the science behind hydration and discover how drinking enough water improves cognitive function, energy levels, metabolism, and skin health.
-                </p>
-                <Button asChild variant="link" className="p-0 text-accent hover:text-accent/80">
-                  <Link to="/blog" className="flex items-center">
-                    Read Article
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
+            {insightsLoading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <Card key={i} className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl">
+                  <Skeleton className="h-48 w-full bg-gray-800" />
+                  <CardContent className="p-6">
+                    <Skeleton className="h-4 w-24 mb-4 bg-gray-800" />
+                    <Skeleton className="h-6 w-full mb-2 bg-gray-800" />
+                    <Skeleton className="h-6 w-3/4 mb-4 bg-gray-800" />
+                    <Skeleton className="h-4 w-full mb-2 bg-gray-800" />
+                    <Skeleton className="h-4 w-2/3 bg-gray-800" />
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              latestInsights.map((post) => (
+                <Card key={post.slug} className="overflow-hidden bg-gray-900 border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                  <img
+                    src={post.image || FALLBACK_BLOG_IMAGE}
+                    alt={post.title}
+                    className="h-48 w-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = FALLBACK_BLOG_IMAGE;
+                    }}
+                  />
+                  <CardContent className="p-6">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full">
+                        {post.tags?.[0] || "Health"}
+                      </span>
+                      <span className="text-sm text-gray-400">
+                        {post.created_at ? format(new Date(post.created_at), "MMMM d, yyyy") : ""}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-white line-clamp-2">{post.title}</h3>
+                    <p className="text-gray-300 mb-4 line-clamp-2 leading-relaxed">{post.snippet}</p>
+                    <Button asChild variant="link" className="p-0 text-primary hover:text-primary/80">
+                      <Link to={`/blog/${post.slug}`} className="flex items-center">
+                        Read Article
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -333,37 +318,10 @@ const Home = () => {
 };
 
 const LatestContent = () => {
-  const [latestBlogs, setLatestBlogs] = useState<ContentItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { posts: latestBlogs, loading } = useLatestBlogPosts(3);
 
   // Get most popular recipes (trending ones)
   const popularRecipes = allIndianRecipes.filter(recipe => recipe.isTrending).slice(0, 3);
-
-  useEffect(() => {
-    const fetchLatestContent = async () => {
-      try {
-
-        const blogData = (await getBlogPosts()).slice(0, 3);
-
-        const mappedBlogs = blogData?.map(post => ({
-          id: post.id,
-          title: post.title,
-          description: post.snippet,
-          image: post.image,
-          category: post.tags?.[0] || 'Health',
-          date: post.created_at,
-          slug: post.slug
-        })) || [];
-
-        setLatestBlogs(mappedBlogs);
-      } catch (error) {
-        console.error("Error fetching latest content:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchLatestContent();
-  }, []);
 
   if (loading) {
     return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
@@ -390,26 +348,6 @@ const LatestContent = () => {
     return null;
   }
 
-  // Define different article titles and descriptions for the cards
-  const articleTitles = [
-    "Women, Prioritize Your Health Every Day - Not Just During Summer Break",
-    "Nutritional Equality: Making Healthy Food Accessible for All",
-    "Intermittent Fasting: Science-Based Benefits and Best Practices"
-  ];
-
-  const articleDescriptions = [
-    "Essential health tips and strategies specifically designed for women to maintain wellness throughout the year, not just during vacation periods.",
-    "Explore how we can break down barriers to healthy eating and ensure nutritious food is available and affordable for everyone, regardless of income or location.",
-    "Explore the proven benefits of intermittent fasting, including weight management, improved metabolism, and enhanced mental clarity."
-  ];
-
-  // Define custom images for the articles
-  const articleImages = [
-    '/lovable-uploads/3747d582-8764-4b6c-a467-104d8fee29f0.png',
-    '/lovable-uploads/1748a82d-c7ef-4bc1-b27d-bb5e27f723bb.png',
-    'https://images.unsplash.com/photo-1629210171765-9582dcb26761?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
-  ];
-
   return <div className="w-full py-16 md:py-20 lg:py-24 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/30 dark:via-green-950/30 dark:to-teal-950/30 relative overflow-hidden">
     {/* Decorative background elements */}
     <div className="absolute inset-0" style={{
@@ -435,11 +373,11 @@ const LatestContent = () => {
           <div className="h-px bg-gradient-to-r from-emerald-200 to-green-200 dark:from-emerald-800 dark:to-green-800 flex-1 ml-6"></div>
         </div>
         <div className="grid-layout">
-          {latestBlogs.map((blog, index) => <Card key={blog.id} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
+          {latestBlogs.map((blog) => <Card key={blog.slug} className="group overflow-hidden border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-gray-800/90 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 rounded-2xl">
             <div className="h-48 overflow-hidden relative">
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-              <img src={articleImages[index] || blog.image || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80'} alt={articleTitles[index] || blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80';
+              <img src={blog.image || FALLBACK_BLOG_IMAGE} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onError={e => {
+                (e.target as HTMLImageElement).src = FALLBACK_BLOG_IMAGE;
               }} />
               <div className="absolute top-4 right-4 z-20">
                 <div className="px-3 py-1 bg-emerald-500/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
@@ -448,13 +386,13 @@ const LatestContent = () => {
               </div>
             </div>
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">{articleTitles[index] || blog.title}</CardTitle>
+              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-gray-200 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">{blog.title}</CardTitle>
             </CardHeader>
             <CardContent className="pb-2">
-              <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{articleDescriptions[index] || blog.description}</p>
+              <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{blog.snippet}</p>
             </CardContent>
             <CardFooter className="pt-4">
-              <Link to={`/blog/${blog.slug || blog.id}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
+              <Link to={`/blog/${blog.slug}`} className="inline-flex items-center text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 text-sm font-medium group-hover:translate-x-1 transition-all duration-300">
                 Read Article
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>

@@ -4,6 +4,7 @@ import { ThemeProvider, useTheme } from "./components/ThemeProvider";
 import { AuthProvider } from "@/context/auth-context";
 import { AdminAuthProvider } from "@/context/admin-auth-context";
 import { CartProvider } from "@/context/cart-context";
+import { AnalyticsRouteTracker } from "@/components/AnalyticsRouteTracker";
 
 // Pages
 import Index from "./pages/Index";
@@ -52,6 +53,7 @@ function App() {
       <AuthProvider>
         <AdminAuthProvider>
         <CartProvider>
+        <AnalyticsRouteTracker />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<BlogListPage />} />
