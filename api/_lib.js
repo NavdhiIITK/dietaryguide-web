@@ -153,22 +153,25 @@ export async function getPublishedPosts({ select } = {}) {
 /**
  * Load the built index.html shell.
  *
- * The shell only exists as a build artifact (with hashed asset URLs), so it is
- * read back over HTTP from this same deployment rather than from the function
- * bundle. Static files are served ahead of rewrites on Vercel, so requesting
- * /index.html returns the real file and cannot recurse into this function.
- * Cached per warm instance to keep the extra hop off the common path.
+ * Read from disk rather than over HTTP back to this same deployment.
+ * A self-fetch was tried first, but it broke under Vercel Deployment
+ * Protection: that internal request carries no bypass credential, so a
+ * protected deployment serves the SSO login page instead of the real file,
+ * and it gets spliced into the response as if it were the shell. Reading the
+ * build artifact directly sidesteps that regardless of whether protection is
+ * ever turned on for this project.
+ *
+ * dist/index.html is not on the function's default trace (nothing in api/
+ * imports it as code), so vercel.json declares it via functions.includeFiles
+ * to get it bundled alongside the function.
  */
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
 let shellCache = null;
 
-export async function getShell(req) {
+export function getShell() {
   if (shellCache) return shellCache;
-
-  const host = req.headers['x-forwarded-host'] || req.headers.host;
-  const proto = req.headers['x-forwarded-proto'] || 'https';
-  const res = await fetch(`${proto}://${host}/index.html`);
-  if (!res.ok) throw new Error(`Could not load shell: ${res.status}`);
-
-  shellCache = await res.text();
+  shellCache = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf-8');
   return shellCache;
 }

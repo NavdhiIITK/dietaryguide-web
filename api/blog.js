@@ -143,7 +143,7 @@ export default async function handler(req, res) {
   const slug = String(req.query?.slug || '').trim();
 
   try {
-    const shell = await getShell(req);
+    const shell = getShell();
 
     if (!slug) {
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -180,7 +180,7 @@ export default async function handler(req, res) {
     // Never hard-fail a reader: fall back to the plain SPA shell, which still
     // renders the post client-side.
     try {
-      const shell = await getShell(req);
+      const shell = getShell();
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('Cache-Control', 'no-store');
       return res.status(200).send(shell);
