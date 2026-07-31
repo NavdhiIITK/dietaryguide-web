@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
-import { ArrowDown, ArrowRight, Utensils, Calculator, BookOpen, Heart, Clock } from "lucide-react";
+import { ArrowDown, ArrowRight, Utensils, BookOpen, Heart, Clock } from "lucide-react";
 import { allIndianRecipes } from "@/data/recipes";
 import { useLatestBlogPosts } from "@/hooks/use-latest-blog-posts";
 import PressGallery from "@/components/PressGallery";
@@ -79,59 +79,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section ref={contentRef} className="py-24 bg-gray-900">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Explore Our Features</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">Expert insights, healthy recipes, and intelligent tools—everything you need to elevate your wellness journey.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
-              <div className="w-20 h-20 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-8 mx-auto">
-                <Calculator className="w-10 h-10 text-amber-400" />
-              </div>
-              <h3 className="text-2xl font-bold mb-6 text-white">AI-Powered Tools</h3>
-              <p className="text-gray-300 leading-relaxed mb-8">
-                Get personalized recommendations based on your health data and goals.
-              </p>
-              <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
-                <Link to="/tools">Try Our Tools</Link>
-              </Button>
-            </Card>
-
-            <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
-              <div className="w-20 h-20 rounded-2xl bg-green-500/10 flex items-center justify-center mb-8 mx-auto">
-                <Utensils className="w-10 h-10 text-green-400" />
-              </div>
-              <h3 className="text-2xl font-bold mb-6 text-white">Healthy Recipes</h3>
-              <p className="text-gray-300 leading-relaxed mb-8">
-                Explore a variety of delicious and nutritious recipes tailored to your dietary needs.
-              </p>
-              <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
-                <Link to="/recipes">Discover Recipes</Link>
-              </Button>
-            </Card>
-
-            <Card className="bg-gray-800 border-gray-700 rounded-3xl p-8 text-center hover:bg-gray-750 transition-all duration-300 hover:-translate-y-2 shadow-xl">
-              <div className="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8 mx-auto">
-                <BookOpen className="w-10 h-10 text-blue-400" />
-              </div>
-              <h3 className="text-2xl font-bold mb-6 text-white">Evidence-Based Articles</h3>
-              <p className="text-gray-300 leading-relaxed mb-8">
-                Access a library of articles written by experts, covering a wide range of health topics.
-              </p>
-              <Button asChild variant="outline" className="rounded-full border-gray-600 hover:bg-gray-700 text-white">
-                <Link to="/blog">Read Articles</Link>
-              </Button>
-            </Card>
-          </div>
-        </div>
-      </section>
-
       {/* Featured Articles Section */}
-      <section className="py-24 bg-gray-800">
+      <section ref={contentRef} className="py-24 bg-gray-800">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-16">
             <div>
