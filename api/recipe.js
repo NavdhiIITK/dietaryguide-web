@@ -10,7 +10,6 @@
 
 import { escapeHtml, serializeJsonLd, getShell, renderIntoShell } from './_lib.js';
 import { buildRecipeMeta, buildRecipeSchemas } from '../shared/site-seo.mjs';
-import { allIndianRecipes } from '../src/data/recipes.ts';
 
 function buildHead(recipe) {
   const meta = buildRecipeMeta(recipe);
@@ -97,6 +96,16 @@ function buildBody(recipe) {
 export default async function handler(req, res) {
   const id = String(req.query?.id || '').trim();
   const shell = getShell();
+
+  // TEMPORARY diagnostic: dynamic import so a load failure is catchable and
+  // its real error surfaces here, instead of an opaque FUNCTION_INVOCATION_FAILED.
+  let allIndianRecipes;
+  try {
+    ({ allIndianRecipes } = await import('../src/data/recipes.ts'));
+  } catch (error) {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    return res.status(500).send(`IMPORT FAILED: ${error?.message}\n\n${error?.stack}`);
+  }
 
   const recipe = allIndianRecipes.find((r) => r.id === id);
 
