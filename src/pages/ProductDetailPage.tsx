@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import SEOOptimizer from "@/components/SEOOptimizer";
+import { buildProductMeta, buildProductSchemas } from "@shared/site-seo.mjs";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -165,29 +166,22 @@ const ProductDetailPage = () => {
     { key: "benefits", label: "Benefits" },
   ];
 
+  // Mirrors api/product.js exactly. seoConfig.ts's old Product builder
+  // fabricated a "Verified Buyer" review whenever reviewCount was set but no
+  // real topReview existed — fake-review markup Google's guidelines
+  // explicitly prohibit. These builders only ever emit a review when
+  // storeProduct.topReview is a real value.
+  const seo = buildProductMeta(product, storeProduct);
+
   return (
     <div className="dg-store" style={{ fontFamily: ff, background: C.cream, minHeight: "100vh" }}>
       <SEOOptimizer
-        title={(storeProduct?.seoTitle || `${product.name} – Buy Online`) + ' | Dietary Guide Store'}
-        description={storeProduct?.seoDescription || `Buy ${product.name} online. ${product.subtitle || product.description?.substring(0, 120)}. ₹${product.price}${product.originalPrice ? ` (was ₹${product.originalPrice})` : ''}. Clean-label, no preservatives. Free shipping on ₹999+.`}
+        exactTitle={seo.title}
+        description={seo.description}
         keywords={storeProduct?.seoKeywords || `buy ${product.name} online India, ${product.name} price, healthy ${(product.tags || []).join(', ')} snacks, Dietary Guide ${product.name}`}
         url={`/products/${product.id}`}
-        image={product.image || product.images?.[0]}
-        schemaType="Product"
-        schemaData={{
-          ...product,
-          ...(storeProduct ? {
-            seoDescription: storeProduct.seoDescription,
-            nutrition: storeProduct.nutrition,
-            topReview: storeProduct.topReview,
-            faqs: storeProduct.faqs,
-          } : {}),
-        }}
-        breadcrumbs={[
-          { name: "Home", url: "https://dietaryguide.in/" },
-          { name: "Products", url: "https://dietaryguide.in/products" },
-          { name: product.name, url: `https://dietaryguide.in/products/${product.id}` }
-        ]}
+        image={seo.image}
+        additionalSchemas={buildProductSchemas(product, storeProduct)}
       />
       <style>{`
         .dg-store h1, .dg-store h2, .dg-store h3, .dg-store h4, .dg-store h5, .dg-store h6,
