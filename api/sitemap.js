@@ -9,8 +9,19 @@
 
 import { SITE_URL } from '../shared/blog-seo.mjs';
 import { SITEMAP_FIELDS, escapeXml, getPublishedPosts } from './_lib.js';
+import { allIndianRecipes } from '../src/data/recipes.ts';
+import { storeProducts } from '../src/data/products.ts';
 
-/** Routes that are not backed by Firestore, preserved from the old static file. */
+/**
+ * Recipe and product URLs are generated from the same data files api/recipe.js
+ * and api/product.js import — not hand-copied here. The previous static
+ * sitemap listed /products/sp-1b, which was never a real product, and never
+ * listed wt-1 ("The Wellness Treat"), which is; it also listed five
+ * /tools/* sub-paths that don't correspond to any route ToolsPage registers
+ * (it switches tabs via internal state, not routing), so Google was being
+ * pointed at five pages that render the catch-all NotFound screen. Deriving
+ * the list from source data makes that class of drift impossible.
+ */
 const STATIC_ROUTES = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
   { path: '/blog', changefreq: 'daily', priority: '0.9' },
@@ -18,31 +29,6 @@ const STATIC_ROUTES = [
   { path: '/tools', changefreq: 'weekly', priority: '0.9' },
   { path: '/products', changefreq: 'weekly', priority: '0.8' },
   { path: '/app', changefreq: 'monthly', priority: '0.8' },
-
-  { path: '/recipes/moong-dal-chilla', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/vegetable-oats-upma', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/besan-cheela-spinach', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/vegetable-dalia', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/sprouted-moong-salad', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/ragi-porridge', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/millet-idli-coconut-chutney', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/poha-vegetables', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/tofu-bhurji', changefreq: 'monthly', priority: '0.7' },
-  { path: '/recipes/spinach-banana-flaxseed-smoothie', changefreq: 'monthly', priority: '0.7' },
-
-  { path: '/tools/bmi-calculator', changefreq: 'monthly', priority: '0.8' },
-  { path: '/tools/ai-diet-planner', changefreq: 'monthly', priority: '0.8' },
-  { path: '/tools/ai-meal-analyzer', changefreq: 'monthly', priority: '0.8' },
-  { path: '/tools/ai-recipe-generator', changefreq: 'monthly', priority: '0.8' },
-  { path: '/tools/ai-workout-planner', changefreq: 'monthly', priority: '0.8' },
-
-  { path: '/products/sp-1', changefreq: 'weekly', priority: '0.7' },
-  { path: '/products/sp-1b', changefreq: 'weekly', priority: '0.7' },
-  { path: '/products/sp-2', changefreq: 'weekly', priority: '0.7' },
-  { path: '/products/sp-2b', changefreq: 'weekly', priority: '0.7' },
-  { path: '/products/sp-4', changefreq: 'weekly', priority: '0.7' },
-  { path: '/products/sp-5', changefreq: 'weekly', priority: '0.7' },
-  { path: '/products/sp-6', changefreq: 'weekly', priority: '0.7' },
 ];
 
 /** Sitemaps take W3C dates; Firestore gives full ISO timestamps. */
@@ -87,6 +73,12 @@ export default async function handler(req, res) {
         changefreq: 'monthly',
         priority: '0.8',
       })
+    ),
+    ...allIndianRecipes.map((recipe) =>
+      urlEntry({ loc: `${SITE_URL}/recipes/${recipe.id}`, lastmod: today, changefreq: 'monthly', priority: '0.7' })
+    ),
+    ...storeProducts.map((product) =>
+      urlEntry({ loc: `${SITE_URL}/products/${product.id}`, lastmod: today, changefreq: 'weekly', priority: '0.7' })
     ),
   ];
 
