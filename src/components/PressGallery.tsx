@@ -30,6 +30,13 @@ function GalleryCard({
     videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : ""
   );
 
+  // An image that fails to load (an expired signed CDN link, a moved file)
+  // renders as a zero-height box, which collapses the masonry cell and leaves
+  // the caption overlapping the card below it. Drop the item entirely instead:
+  // a gallery one item short reads as intentional, three broken boxes do not.
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -48,6 +55,10 @@ function GalleryCard({
             src={item.src}
             alt={item.caption}
             loading="lazy"
+            onError={() => {
+              console.warn(`PressGallery: image failed to load, hiding item — ${item.src}`);
+              setFailed(true);
+            }}
             className="w-full h-auto object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         ) : (
