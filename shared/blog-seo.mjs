@@ -25,6 +25,10 @@ export const EXPERT_AUTHOR_TITLE = 'Practising Dietitian, 22+ years in clinical 
  * "sharmaamish911", "DIETARY GUIDE TEAM ", "Dt . Nishi Sharma",
  * "Dt. nishi sharma" - onto one canonical author.
  *
+ * Note: compare against the COMPACTED form (lowercased, non-alphanumerics
+ * stripped), never the raw byline - a literal like "DIETARY GUIDE TEAM"
+ * can never match `compact` and is silently dead code.
+ *
  * Google builds author entities from the byline string, so five spellings
  * read as five different (and two of them anonymous) authors, splitting the
  * credibility signal that health content depends on. Normalising here rather
