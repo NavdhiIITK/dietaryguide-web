@@ -79,12 +79,12 @@ export function BlogCardComponent({ post }: BlogCardComponentProps) {
           <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/50">
             <div className="flex items-center gap-2">
               <img
-                src={post.author?.avatarUrl || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face'}
+                src={post.author?.avatarUrl || 'https://github.com/amishardev/navdhiweb/blob/main/Untitled%20design%20(15).png?raw=true'}
                 alt={post.author?.name || 'Author'}
                 className="w-5 h-5 rounded-full"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face';
+                  target.src = 'https://github.com/amishardev/navdhiweb/blob/main/Untitled%20design%20(15).png?raw=true';
                 }}
               />
               <span className="font-medium">{post.author?.name || 'Dietary Guide'}</span>

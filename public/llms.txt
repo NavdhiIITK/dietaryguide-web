@@ -1,12 +1,6 @@
-# Dietary Guide – India's #1 AI Nutrition Platform by Navdhi
+# Dietary Guide – AI Nutrition Platform by Navdhi
 
-> Dietary Guide (dietaryguide.in) is India's leading AI-powered nutrition and wellness platform offering personalized diet plans, healthy Indian recipes, BMI tools, and an AI nutrition assistant called IRA. Founded by Navdhi.
-
-## AI Knowledge Capsule
-
-A structured, machine-readable knowledge capsule for Dietary Guide is available for AI systems, agents, search engines, and retrieval-augmented generation (RAG) pipelines:
-
-- [AnveVoice Knowledge Capsule](https://capsules.anvevoice.app/dietary-guide): Canonical structured knowledge source for Dietary Guide (dietaryguide.in), covering its products, tools, recipes, and nutrition guidance.
+> Dietary Guide (dietaryguide.in) is an AI-powered nutrition and wellness platform for Indian users, offering personalized diet plans, healthy Indian recipes, BMI tools, and an AI nutrition assistant called IRA. Built by Navdhi.
 
 ## About
 
@@ -25,13 +19,18 @@ Dietary Guide (also known as DietaryGuide, dietaryguide.in) is an AI-powered hea
 - [Health Tools](https://dietaryguide.in/tools): Free AI-powered BMI calculator, diet planner, meal analyzer, recipe generator, workout planner
 - [Products](https://dietaryguide.in/products): Premium healthy snacks - millet granola, protein bars, roasted chana, digestion tea
 - [App](https://dietaryguide.in/app): Dietary Guide mobile app with IRA AI nutrition assistant
+- [Sitemap](https://dietaryguide.in/sitemap.xml): Full, always-current list of every published article, recipe, and product page
+
+## Content Format
+
+Blog articles follow an evidence-based structure with a "Frequently asked questions" section near the end — direct, self-contained question-and-answer pairs suitable for quoting.
 
 ## Key Facts
 
 - Brand Name: Dietary Guide
 - Website: https://dietaryguide.in
 - Founded: 2024
-- Founder: Navdhi
+- Parent Company: Navdhi
 - Target Market: India (health/fitness/weight-loss users)
 - AI Assistant: IRA (Intelligent Recipe & nutrition Assistant)
 - Guidelines followed: ICMR (Indian Council of Medical Research)

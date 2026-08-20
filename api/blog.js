@@ -20,6 +20,7 @@ import {
   buildBlogMeta,
   buildBlogSchemas,
   improveContentImages,
+  normalizeAuthorName,
 } from '../shared/blog-seo.mjs';
 import {
   SUMMARY_FIELDS,
@@ -107,7 +108,7 @@ function buildBody(post, related) {
   <header>
     <h1>${escapeHtml(post.title)}</h1>
     ${post.subtitle ? `<p>${escapeHtml(post.subtitle)}</p>` : ''}
-    <p>By <span>${escapeHtml(post.author_name)}</span>${
+    <p>By <span>${escapeHtml(normalizeAuthorName(post.author_name))}</span>${
       published ? ` · <time datetime="${escapeHtml(published)}">${escapeHtml(publishedLabel)}</time>` : ''
     } · ${escapeHtml(String(post.reading_time))} min read</p>
     ${tags ? `<ul>${tags}</ul>` : ''}

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from 'date-fns';
-import { buildBlogMeta, buildBlogSchemas, improveContentImages } from '@shared/blog-seo.mjs';
+import { buildBlogMeta, buildBlogSchemas, improveContentImages, normalizeAuthorName } from '@shared/blog-seo.mjs';
 
 const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -202,7 +202,7 @@ const BlogDetailPage = () => {
                   </AvatarFallback>
                 </Avatar>
                 <span className="font-medium text-foreground">
-                  {post.author?.name || post.author_name || 'Dietary Guide'}
+                  {normalizeAuthorName(post.author?.name || post.author_name)}
                 </span>
               </div>
               
@@ -271,7 +271,7 @@ const BlogDetailPage = () => {
                 </Avatar>
                 <div>
                   <p className="font-medium">
-                    {post.author?.name || post.author_name || 'Dietary Guide'}
+                    {normalizeAuthorName(post.author?.name || post.author_name)}
                   </p>
                   <p className="text-sm text-muted-foreground">Author</p>
                 </div>
