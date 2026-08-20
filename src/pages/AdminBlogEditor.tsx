@@ -144,7 +144,7 @@ const AdminBlogEditor = () => {
         tags,
         image,
         author_name: user?.displayName || user?.email?.split('@')[0] || 'Team DietaryGuide',
-        author_avatar_url: user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
+        author_avatar_url: user?.photoURL || 'https://github.com/amishardev/navdhiweb/blob/main/Untitled%20design%20(15).png?raw=true',
         meta_title: finalMetaTitle,
         meta_description: finalMetaDescription,
         published
