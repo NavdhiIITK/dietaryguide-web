@@ -14,6 +14,39 @@
 export const SITE_URL = 'https://dietaryguide.in';
 export const SITE_NAME = 'Dietary Guide';
 export const AUTHOR_NAME = 'Dietary Guide by Navdhi';
+
+/** Canonical byline + its stable schema.org @id (see seoConfig.ts author). */
+export const EXPERT_AUTHOR_NAME = 'Dt. Nishi Sharma';
+export const EXPERT_AUTHOR_ID = 'https://dietaryguide.in/#nishi-sharma';
+export const EXPERT_AUTHOR_TITLE = 'Practising Dietitian, 22+ years in clinical nutrition';
+
+/**
+ * Collapse the byline variants that accumulated across published posts -
+ * "sharmaamish911", "DIETARY GUIDE TEAM ", "Dt . Nishi Sharma",
+ * "Dt. nishi sharma" - onto one canonical author.
+ *
+ * Google builds author entities from the byline string, so five spellings
+ * read as five different (and two of them anonymous) authors, splitting the
+ * credibility signal that health content depends on. Normalising here rather
+ * than rewriting Firestore means old posts, posts published today, and any
+ * future typo all resolve to the same person without a data migration.
+ */
+export function normalizeAuthorName(name) {
+  const raw = String(name || '').trim();
+  if (!raw) return EXPERT_AUTHOR_NAME;
+  // Any spelling/spacing/casing of "Dt Nishi Sharma", plus the admin
+  // username and the generic team byline, all map to the named dietitian.
+  // Keep digits - the admin handle ends in them.
+  const compact = raw.toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (
+    compact.includes('nishisharma') ||
+    compact === 'sharmaamish911' ||
+    compact === 'dietaryguideteam'
+  ) {
+    return EXPERT_AUTHOR_NAME;
+  }
+  return raw;
+}
 export const TWITTER_HANDLE = '@dietaryguide';
 export const LOGO_URL = `${SITE_URL}/logo/dg.png`;
 export const FALLBACK_IMAGE = `${SITE_URL}/social-preview.png`;
@@ -67,10 +100,29 @@ export function buildBlogMeta(post) {
     title: post.meta_title || post.title,
     description,
     image: post.image || FALLBACK_IMAGE,
-    author: post.author_name || post.author?.name || AUTHOR_NAME,
+    author: normalizeAuthorName(post.author_name || post.author?.name),
     published,
     modified: post.updated_at || published,
     tags: Array.isArray(post.tags) ? post.tags.filter((t) => typeof t === 'string') : [],
+  };
+}
+
+/**
+ * Author node for an Article. Only the known expert carries the shared @id
+ * and credentials; anyone else is emitted as a plain named Person so their
+ * posts never claim her identity or qualifications.
+ */
+export function buildAuthorSchema(authorName) {
+  const name = normalizeAuthorName(authorName);
+  if (name !== EXPERT_AUTHOR_NAME) {
+    return { '@type': 'Person', name };
+  }
+  return {
+    '@type': 'Person',
+    '@id': EXPERT_AUTHOR_ID,
+    name,
+    jobTitle: EXPERT_AUTHOR_TITLE,
+    url: SITE_URL,
   };
 }
 
@@ -89,9 +141,15 @@ export function buildBlogSchemas(post) {
     image: { '@type': 'ImageObject', url: meta.image },
     datePublished: meta.published,
     dateModified: meta.modified,
-    author: { '@type': 'Organization', name: AUTHOR_NAME, url: SITE_URL },
+    // A named, credentialed Person rather than the organization: for YMYL
+    // health content Google looks for demonstrable author expertise, and an
+    // org-only byline forfeits that signal entirely. The @id and credentials
+    // are only attached when the byline really is the expert author - a
+    // future guest writer must not inherit someone else's identity.
+    author: buildAuthorSchema(meta.author),
     publisher: {
       '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
       name: SITE_NAME,
       logo: { '@type': 'ImageObject', url: LOGO_URL },
     },

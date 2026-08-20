@@ -22,6 +22,12 @@ declare module '@shared/blog-seo.mjs' {
     tags: string[];
   }
 
+  export const EXPERT_AUTHOR_NAME: string;
+  export const EXPERT_AUTHOR_ID: string;
+  export const EXPERT_AUTHOR_TITLE: string;
+
+  export function normalizeAuthorName(name?: string): string;
+  export function buildAuthorSchema(authorName?: string): any;
   export function stripHtml(html: string): string;
   export function extractFaqs(content: string): Array<{ question: string; answer: string }>;
   export function buildBlogMeta(post: any): BlogSeoMeta;

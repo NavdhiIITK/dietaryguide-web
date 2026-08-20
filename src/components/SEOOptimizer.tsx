@@ -53,6 +53,10 @@ const SEOOptimizer = ({
     // Always include base schemas for every page
     schemas.push(structuredDataSchemas.organization);
     schemas.push(structuredDataSchemas.website);
+    // Emitted sitewide so the Person @id referenced by the Organization
+    // (founder) and by every Article (author) actually resolves to a real
+    // node instead of a dangling reference.
+    schemas.push(structuredDataSchemas.author);
     
     // Add page-specific schemas
     if (schemaType === "Recipe" && schemaData) {

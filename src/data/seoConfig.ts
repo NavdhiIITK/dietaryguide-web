@@ -122,6 +122,38 @@ export const seoMetadata = {
 };
 
 export const structuredDataSchemas = {
+  /**
+   * The site's named expert author. Health/nutrition content is treated by
+   * Google as YMYL ("Your Money or Your Life"), where demonstrable author
+   * credentials carry unusual weight - an anonymous or username byline is a
+   * material ranking handicap. Referenced by @id from both the Organization
+   * (as founder) and every Article (as author) so all three resolve to one
+   * entity instead of several disconnected strings.
+   */
+  author: {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://dietaryguide.in/#nishi-sharma",
+    "name": "Dt. Nishi Sharma",
+    "givenName": "Nishi",
+    "familyName": "Sharma",
+    "jobTitle": "Founder & Practising Dietitian",
+    "description":
+      "Practising dietitian with 22+ years in clinical nutrition science, and founder of Dietary Guide. Builds ICMR-aligned nutrition guidance for Indian diets.",
+    "knowsAbout": [
+      "Clinical Nutrition",
+      "Dietetics",
+      "Indian Diet Planning",
+      "ICMR Dietary Guidelines",
+      "Weight Management",
+      "Diabetes Nutrition",
+      "Thyroid Nutrition",
+      "Vegetarian Protein Nutrition"
+    ],
+    "worksFor": { "@id": "https://dietaryguide.in/#organization" },
+    "url": "https://dietaryguide.in"
+  },
+
   // Main Organization Schema
   organization: {
     "@context": "https://schema.org",
@@ -138,22 +170,34 @@ export const structuredDataSchemas = {
     },
     "description": "Leading platform for AI-powered Indian diet plans, healthy recipes, BMI tools, meal planning, and personalized nutrition guidance based on ICMR guidelines",
     "foundingDate": "2024",
-    "founder": {
-      "@type": "Person",
-      "name": "Navdhi"
+    // Navdhi is the parent company, not a person. The founder is a
+    // practising dietitian - the credential Google weighs most heavily for
+    // health (YMYL) content, and previously absent from the entity data.
+    "founder": { "@id": "https://dietaryguide.in/#nishi-sharma" },
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Navdhi Innovations Pvt Ltd",
+      "url": "https://navdhi.in"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "IIT Kanpur, Kalyanpur",
+      "addressLocality": "Kanpur",
+      "addressRegion": "Uttar Pradesh",
+      "postalCode": "208016",
+      "addressCountry": "IN"
     },
     "contactPoint": [
       {
         "@type": "ContactPoint",
-        "telephone": "+91-XXXXXXXXXX",
+        "email": "amish@navdhi.com",
         "contactType": "customer service",
         "availableLanguage": ["English", "Hindi"]
       }
     ],
     "sameAs": [
-      "https://facebook.com/dietaryguide",
-      "https://instagram.com/dietaryguide",
-      "https://twitter.com/dietaryguide"
+      "https://navdhi.in",
+      "https://instagram.com/dietaryguide.in"
     ],
     "knowsAbout": [
       "Nutrition",
