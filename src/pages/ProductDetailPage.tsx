@@ -47,7 +47,17 @@ function truncateAtWord(text: string, maxLen: number): string {
   return `${lastSpace > 0 ? cut.slice(0, lastSpace) : cut}…`;
 }
 
-type TabKey = "description" | "nutrition" | "ingredients" | "benefits";
+const MANUFACTURER = {
+  name: "FiziQ Nutrition and Wellness Inc",
+  address: "236A, Regent Shipra Sun City, Indirapuram, Ghaziabad, Uttar Pradesh - 201014, India",
+  certificates: [
+    { src: "/images/certificates/fiziq-registrations.webp", label: "GST, FSSAI, IEC, MSME & Export Registrations" },
+    { src: "/images/certificates/usfda-certificate.webp", label: "USFDA Registered Facility" },
+    { src: "/images/certificates/rex-certificate.webp", label: "EU REX Registered Exporter" },
+  ],
+};
+
+type TabKey ="description" | "nutrition" | "ingredients" | "benefits";
 
 const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -680,6 +690,56 @@ const ProductDetailPage = () => {
                 ))}
               </ul>
             )}
+          </div>
+        </div>
+
+        {/* ─── Manufactured By ─── */}
+        <div
+          style={{
+            marginTop: 48,
+            padding: 24,
+            background: C.white,
+            border: `1px solid ${C.brandLight}`,
+            borderRadius: 16,
+            maxWidth: 720,
+          }}
+        >
+          <p style={{ fontSize: 13, fontWeight: 600, color: C.brand, textTransform: "uppercase", letterSpacing: 1.2, margin: "0 0 8px" }}>
+            Manufactured By
+          </p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: C.dark, margin: "0 0 4px" }}>
+            {MANUFACTURER.name}
+          </p>
+          <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6, margin: "0 0 20px" }}>
+            {MANUFACTURER.address}
+          </p>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            {MANUFACTURER.certificates.map((cert) => (
+              <a
+                key={cert.src}
+                href={cert.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`${cert.label} (click to view full size)`}
+                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, textDecoration: "none", width: 110 }}
+              >
+                <img
+                  src={cert.src}
+                  alt={cert.label}
+                  loading="lazy"
+                  style={{
+                    width: 110,
+                    height: 110,
+                    objectFit: "contain",
+                    background: C.cream,
+                    border: `1px solid ${C.brandLight}`,
+                    borderRadius: 10,
+                    padding: 4,
+                  }}
+                />
+                <span style={{ fontSize: 11, color: C.textMuted, textAlign: "center", lineHeight: 1.3 }}>{cert.label}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
