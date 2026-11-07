@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById } from "@/data/products";
+import { getProductById, VARIANT_SEP } from "@/data/products";
 import { productMap } from "@/data/store-products";
 import { useCart } from "@/context/cart-context";
 import Navbar from "@/components/Navbar";
@@ -70,6 +70,7 @@ const ProductDetailPage = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("description");
   const [liked, setLiked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [variantIdx, setVariantIdx] = useState(0);
   const [slideshowPaused, setSlideshowPaused] = useState(false);
 
   // Auto-advance slideshow
@@ -154,19 +155,27 @@ const ProductDetailPage = () => {
     );
   }
 
+  const variants = product.variants ?? [];
+  const variant = variants[variantIdx];
+  const price = variant?.price ?? product.price;
+  const originalPrice = variant ? variant.originalPrice : product.originalPrice;
+
   const handleAddToCart = () => {
+    // Default pack keeps the plain product id so existing carts still match.
+    const cartId = variant && variantIdx > 0 ? `${product.id}${VARIANT_SEP}${variant.id}` : product.id;
+    const cartName = variant ? `${product.name} (${variant.label})` : product.name;
     for (let i = 0; i < qty; i++) {
-      addItem({ id: product.id, name: product.name, price: product.price, image: product.image });
+      addItem({ id: cartId, name: cartName, price, image: product.image });
     }
     toast({
       title: "Added to cart!",
-      description: `${qty}× ${product.name}`,
+      description: `${qty}× ${cartName}`,
     });
     setQty(1);
   };
 
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+  const discount = originalPrice
+    ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : 0;
 
   const tabs: { key: TabKey; label: string }[] = [
@@ -463,11 +472,11 @@ const ProductDetailPage = () => {
 
             {/* Price */}
             <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 24 }}>
-              <span style={{ fontSize: 36, fontWeight: 700, color: C.dark }}>₹{product.price}</span>
-              {product.originalPrice && (
+              <span style={{ fontSize: 36, fontWeight: 700, color: C.dark }}>₹{price.toLocaleString("en-IN")}</span>
+              {originalPrice && (
                 <>
                   <span style={{ fontSize: 18, color: C.textMuted, textDecoration: "line-through" }}>
-                    ₹{product.originalPrice}
+                    ₹{originalPrice.toLocaleString("en-IN")}
                   </span>
                   <span
                     style={{
@@ -489,6 +498,44 @@ const ProductDetailPage = () => {
             <p className="pdp-short-desc" style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: "0 0 28px", maxWidth: 500 }}>
               {truncateAtWord(product.description, 180)}
             </p>
+
+            {/* Pack size */}
+            {variants.length > 1 && (
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: C.dark, margin: "0 0 10px", letterSpacing: 0.3, textAlign: "left" }}>
+                  Pack size
+                </p>
+                <div role="radiogroup" aria-label="Pack size" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  {variants.map((v, i) => {
+                    const active = i === variantIdx;
+                    return (
+                      <button
+                        key={v.id}
+                        role="radio"
+                        aria-checked={active}
+                        onClick={() => setVariantIdx(i)}
+                        style={{
+                          minWidth: 110,
+                          padding: "10px 18px",
+                          borderRadius: 12,
+                          border: `1.5px solid ${active ? C.brand : C.brandLight}`,
+                          background: active ? C.brandUltraLight : C.white,
+                          cursor: "pointer",
+                          fontFamily: ff,
+                          textAlign: "left",
+                          transition: "border-color .2s, background .2s",
+                        }}
+                      >
+                        <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: C.dark }}>{v.label}</span>
+                        <span style={{ display: "block", fontSize: 13, color: active ? C.brandDark : C.textMuted }}>
+                          ₹{v.price.toLocaleString("en-IN")}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* Qty + Add to cart */}
             <div className="pdp-qty-cart-row" style={{ display: "flex", gap: 12, alignItems: "stretch", marginBottom: 16, flexWrap: "wrap" }}>
@@ -570,7 +617,7 @@ const ProductDetailPage = () => {
                 }}
               >
                 <ShoppingCart size={18} />
-                Add to Cart — ₹{(product.price * qty).toLocaleString("en-IN")}
+                Add to Cart — ₹{(price * qty).toLocaleString("en-IN")}
               </button>
 
               {/* Wishlist */}
@@ -764,10 +811,12 @@ const ProductDetailPage = () => {
         }}
       >
         <div>
-          <p style={{ fontSize: 14, fontWeight: 700, color: C.dark, margin: 0 }}>₹{product.price}</p>
-          {product.originalPrice && (
+          <p style={{ fontSize: 14, fontWeight: 700, color: C.dark, margin: 0 }}>
+            ₹{price.toLocaleString("en-IN")}{variant ? ` · ${variant.label}` : ""}
+          </p>
+          {originalPrice && (
             <p style={{ fontSize: 11, color: C.textMuted, textDecoration: "line-through", margin: 0 }}>
-              ₹{product.originalPrice}
+              ₹{originalPrice.toLocaleString("en-IN")}
             </p>
           )}
         </div>

@@ -68,7 +68,7 @@ const storeProducts: Product[] = [
     price: 149,
     originalPrice: 549,
     image:
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png",
+      "https://raw.githubusercontent.com/amishardev/dgblog/main/Premium%20Millet%20Granola%20Pouch.png",
     tags: ["protein", "millet"],
     badge: "New",
   },

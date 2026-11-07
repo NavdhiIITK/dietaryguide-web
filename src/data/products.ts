@@ -17,10 +17,28 @@ export interface ProductDetail {
   ingredients: string[];
   benefits: string[];
   nutrition: { label: string; value: string }[];
+  /** Pack sizes. The first one is the default and matches price/originalPrice. */
+  variants?: ProductVariant[];
 }
+
+export interface ProductVariant {
+  id: string;
+  label: string;
+  price: number;
+  originalPrice?: number;
+}
+
+/** Cart ids for non-default variants look like "sp-1__1kg". */
+export const VARIANT_SEP = "__";
+export const baseProductId = (cartId: string) => cartId.split(VARIANT_SEP)[0];
 
 const HERO_PRODUCT_IMG =
   "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/refs/heads/main/324t32t4erwt-removebg-preview.png";
+
+const GRANOLA_POUCH_IMG =
+  "https://raw.githubusercontent.com/amishardev/dgblog/main/Premium%20Millet%20Granola%20Pouch.png";
+const GRANOLA_SCENE_IMG =
+  "https://raw.githubusercontent.com/amishardev/dgblog/main/Warm%20Millet%20Granola%20Breakfast%20Scene.png";
 
 export const storeProducts: ProductDetail[] = [
   {
@@ -73,15 +91,11 @@ export const storeProducts: ProductDetail[] = [
     subtitle: "21g protein / serving",
     price: 149,
     originalPrice: 549,
-    image:
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png",
-    images: [
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/WhatsApp%20Image%202026-03-01%20at%2012.14.15%20AM-Photoroom.png",
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2001_35_55%20AM.png",
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2001_36_04%20AM.png",
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2001_36_08%20AM.png",
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2001_37_08%20AM.png",
-      "https://raw.githubusercontent.com/amishardev/DGWEBSITEIMG/main/ChatGPT%20Image%20Mar%206,%202026,%2001_37_11%20AM.png",
+    image: GRANOLA_POUCH_IMG,
+    images: [GRANOLA_POUCH_IMG, GRANOLA_SCENE_IMG],
+    variants: [
+      { id: "100g", label: "100g", price: 149, originalPrice: 549 },
+      { id: "1kg", label: "1kg", price: 1499 },
     ],
     tags: ["protein", "millet"],
     badge: "New",
