@@ -3,6 +3,7 @@ import { useCart } from "@/context/cart-context";
 import { useAuth } from "@/context/auth-context";
 import { X, Plus, Minus, ShoppingBag, Trash2, Eye, EyeOff, Loader2, CheckCircle, MapPin, ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { baseProductId } from "@/data/products";
 import { createOrder } from "@/services/storeService";
 import { processPayment, PAYMENT_STATUS_LABELS } from "@/services/paymentService";
 import { Address, AddressInput, formatAddressLine } from "@/types/address";
@@ -274,7 +275,7 @@ const CartDrawer = () => {
                   <div
                     onClick={() => {
                       closeCart();
-                      navigate(`/products/${item.id}`);
+                      navigate(`/products/${baseProductId(item.id)}`);
                     }}
                     style={{
                       width: 80,
@@ -313,7 +314,7 @@ const CartDrawer = () => {
                         }}
                         onClick={() => {
                           closeCart();
-                          navigate(`/products/${item.id}`);
+                          navigate(`/products/${baseProductId(item.id)}`);
                         }}
                       >
                         {item.name}
