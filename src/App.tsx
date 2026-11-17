@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useLayoutEffect, type ReactNode } from "react";
+import { lazy, Suspense, useLayoutEffect, type ReactNode } from "react";
 import { ThemeProvider, useTheme } from "./components/ThemeProvider";
 import { AuthProvider } from "@/context/auth-context";
 import { AdminAuthProvider } from "@/context/admin-auth-context";
@@ -8,24 +8,27 @@ import { AnalyticsRouteTracker } from "@/components/AnalyticsRouteTracker";
 
 // Pages
 import Index from "./pages/Index";
-import BlogListPage from "./pages/BlogListPage";
-import BlogDetailPage from "./pages/BlogDetailPage";
-import AdminLogin from "./pages/AdminLogin";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminBlogEditor from "./pages/AdminBlogEditor";
-import ContentDetailPage from "./pages/ContentDetailPage";
-import RecipePage from "./pages/RecipePage";
-import RecipeDetailPage from "./pages/RecipeDetailPage";
-import ToolsPage from "./pages/ToolsPage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductDetailPage from "./pages/ProductDetailPage";
-import AppPage from "./pages/AppPage";
-import AppPromotionPage from "./pages/AppPromotionPage";
-import SEODashboardPage from "./pages/SEODashboardPage";
-import StoreAccountPage from "./pages/StoreAccountPage";
-import ProfilePage from "./pages/ProfilePage";
-import OrdersPage from "./pages/OrdersPage";
-import NotFound from "./pages/NotFound";
+const BlogListPage = lazy(() => import("./pages/BlogListPage"));
+const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const AdminBlogEditor = lazy(() => import("./pages/AdminBlogEditor"));
+const ContentDetailPage = lazy(() => import("./pages/ContentDetailPage"));
+const RecipePage = lazy(() => import("./pages/RecipePage"));
+const RecipeDetailPage = lazy(() => import("./pages/RecipeDetailPage"));
+const ToolsPage = lazy(() => import("./pages/ToolsPage"));
+const ProductsPage = lazy(() => import("./pages/ProductsPage"));
+const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage"));
+const AppPage = lazy(() => import("./pages/AppPage"));
+const AppPromotionPage = lazy(() => import("./pages/AppPromotionPage"));
+const SEODashboardPage = lazy(() => import("./pages/SEODashboardPage"));
+const StoreAccountPage = lazy(() => import("./pages/StoreAccountPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const OrdersPage = lazy(() => import("./pages/OrdersPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const TechnologyPage = lazy(() => import("./pages/TechnologyPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const LegalPage = lazy(() => import("./pages/LegalPage"));
 
 import "./App.css";
 
@@ -54,6 +57,7 @@ function App() {
         <AdminAuthProvider>
         <CartProvider>
         <AnalyticsRouteTracker />
+        <Suspense fallback={<div className="min-h-screen bg-[#FBF9F1]" />}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/blog" element={<BlogListPage />} />
@@ -75,9 +79,14 @@ function App() {
           <Route path="/products/orders" element={<StoreLayout><OrdersPage /></StoreLayout>} />
           <Route path="/products/:id" element={<StoreLayout><ProductDetailPage /></StoreLayout>} />
           <Route path="/app" element={<AppPromotionPage />} />
+          <Route path="/technology" element={<TechnologyPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/privacy" element={<LegalPage kind="privacy" />} />
+          <Route path="/terms" element={<LegalPage kind="terms" />} />
           <Route path="/seo-dashboard" element={<SEODashboardPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
         </CartProvider>
         </AdminAuthProvider>
       </AuthProvider>

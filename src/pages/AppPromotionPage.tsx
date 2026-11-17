@@ -1,459 +1,203 @@
-import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
+import { ArrowRight, ArrowUpRight, Camera, CalendarDays, MessageCircle, TrendingUp, ShieldCheck, Sparkles, Lock, Home, BarChart3, User } from "lucide-react";
 import SEOOptimizer from "@/components/SEOOptimizer";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { 
-  Smartphone, 
-  Download, 
-  MessageCircle, 
-  Camera, 
-  Calendar,
-  TrendingUp,
-  User,
-  Shield,
-  Brain,
-  CheckCircle,
-  Star,
-  Check,
-  X
-} from "lucide-react";
+import Reveal from "@/components/Reveal";
+import { PageShell } from "@/components/PageShell";
+import { Phone, HomeScreen, ChatScreen, LogScreen } from "@/components/home/WhyAndApp";
+import { LINKS } from "@/data/brand";
 
-const GooglePlayLogo = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+const GooglePlayMark = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
   </svg>
 );
 
-const AppleStoreLogo = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z"/>
-  </svg>
-);
+const steps = [
+  {
+    n: "01",
+    t: "Tell us about you",
+    d: "A few simple questions to begin: height and weight, age and lifestyle, your health goals, how you exercise, and what you like to eat.",
+  },
+  {
+    n: "02",
+    t: "Meet IRA at home",
+    d: "Your home screen is IRA's home too. Log meals from there, check the day, and ask a question whenever one comes up.",
+  },
+  {
+    n: "03",
+    t: "Log, learn, adjust",
+    d: "Photograph or type your meals, follow your guidance, and watch your stats move. Change your preferences any time.",
+  },
+];
 
-const AppPromotionPage = () => {
-  const [activeStep, setActiveStep] = useState(1);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+const features = [
+  { Icon: Camera, t: "Smart meal logging", d: "Take a photo or type what you ate. IRA recognises the food and keeps track for you." },
+  { Icon: MessageCircle, t: "Chat with IRA", d: "Ask anything about nutrition and get a clear, friendly answer in seconds." },
+  { Icon: CalendarDays, t: "Google Calendar sync", d: "Meal and workout reminders land in the calendar you already use." },
+  { Icon: TrendingUp, t: "Progress tracking", d: "Follow your BMI, your health improvements and the goals you reach." },
+];
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX - window.innerWidth / 2) * 0.05,
-        y: (e.clientY - window.innerHeight / 2) * 0.05
-      });
-    };
+const tabs = [
+  { Icon: Home, t: "Home", d: "Your dashboard, with meal logging and IRA" },
+  { Icon: MessageCircle, t: "Chat", d: "A full conversation with IRA" },
+  { Icon: BarChart3, t: "Stats", d: "Health progress and achievements" },
+  { Icon: User, t: "Profile", d: "Update your preferences any time" },
+];
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+const AppPromotionPage = () => (
+  <PageShell>
+    <SEOOptimizer
+      title="Dietary Guide App | Meet IRA, Your AI Nutrition Assistant"
+      description="Download the Dietary Guide app for Android. Meet IRA, your AI nutrition assistant. Log meals with a photo, get personalised Indian diet guidance, sync reminders with Google Calendar and track your progress."
+      keywords="Dietary Guide app, IRA AI nutrition assistant, diet app India, AI meal logging app, food photo recognition app, Indian diet planner app, calorie tracker India, nutrition app Android"
+      url="/app"
+      schemaType="MobileApplication"
+      breadcrumbs={[
+        { name: "Home", url: "https://dietaryguide.in/" },
+        { name: "App", url: "https://dietaryguide.in/app" },
+      ]}
+    />
 
-  const steps = [
-    {
-      id: 1,
-      title: "Getting to Know You",
-      description: "Answer a few simple questions about your health, goals, and preferences",
-      features: ["Height & Weight", "Age & Lifestyle", "Health Goals", "Exercise Routine", "Dietary Preferences"]
-    },
-    {
-      id: 2,
-      title: "Welcome to IRA's Home!",
-      description: "Meet IRA, your AI nutrition buddy with personality and smart meal tracking",
-      features: ["Emoji-based AI Avatar", "Mood-responsive Interface", "Smart Meal Logging", "Photo Recognition"]
-    }
-  ];
-
-  const stats = [
-    { number: "2000+", label: "Happy Users" },
-    { number: "500+", label: "Health Goals Achieved" }
-  ];
-
-  const comparisonFeatures = [
-    {
-      feature: "AI Nutrition Buddy (IRA)",
-      dietaryGuide: true,
-      competitors: false,
-      description: "Personalized AI companion with emoji-based personality"
-    },
-    {
-      feature: "Photo Meal Recognition",
-      dietaryGuide: true,
-      competitors: "Limited",
-      description: "Advanced AI recognizes food from photos instantly"
-    },
-    {
-      feature: "Expert Consultations",
-      dietaryGuide: true,
-      competitors: "Paid Separately",
-      description: "Built-in access to nutrition experts"
-    },
-    {
-      feature: "Local Indian Recipes",
-      dietaryGuide: true,
-      competitors: false,
-      description: "Extensive database of authentic Indian recipes"
-    },
-    {
-      feature: "Google Calendar Sync",
-      dietaryGuide: true,
-      competitors: false,
-      description: "Automatic meal and workout scheduling"
-    },
-    {
-      feature: "Personalized Diet Plans",
-      dietaryGuide: true,
-      competitors: "Basic",
-      description: "Tailored plans based on lifestyle and goals"
-    },
-    {
-      feature: "Chat-based Interface",
-      dietaryGuide: true,
-      competitors: false,
-      description: "Natural conversation with your AI buddy"
-    },
-    {
-      feature: "Mood-responsive Design",
-      dietaryGuide: true,
-      competitors: false,
-      description: "Interface adapts to your mood and preferences"
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
-      <SEOOptimizer
-        title="Dietary Guide App – AI Nutrition Assistant IRA for Indian Users"
-        description="Download the Dietary Guide App featuring IRA, your AI nutrition buddy. Smart meal logging, photo food recognition, Google Calendar sync, personalized Indian diet plans & expert consultations. Free on Android & iOS."
-        keywords="diet app India, AI nutrition app, meal tracker app India, IRA AI assistant, food photo recognition app, calorie tracker India, personalized diet app, health app India, Google fit diet app, Indian diet planner app"
-        url="/app"
-        schemaType="MobileApplication"
-        breadcrumbs={[
-          { name: "Home", url: "https://dietaryguide.in/" },
-          { name: "App", url: "https://dietaryguide.in/app" }
-        ]}
-      />
-      <Navbar />
-      
-      <main className="pt-32 pb-20">
-        <div className="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20">
-          {/* Hero Section */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Your <span className="text-gradient">Smart Nutrition</span> Buddy 
-                <br />is Waiting For You
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-xl">
-                Meet the Dietary Guide App featuring IRA - your emoji-based AI nutrition companion that understands your lifestyle, 
-                plans your meals, and helps you achieve your health goals with personality.
-              </p>
-              
-              {/* Download Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button 
-                  size="lg" 
-                  className="bg-forest hover:bg-spring text-white rounded-full px-8"
-                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg', '_blank')}
-                >
-                  <GooglePlayLogo />
-                  <span className="ml-2">Get it on Google Play</span>
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="rounded-full px-8"
-                  onClick={() => window.open('https://play.google.com/store/apps/details?id=com.cyrusdemon7.dg', '_blank')}
-                >
-                  <AppleStoreLogo />
-                  <span className="ml-2">Download on App Store</span>
-                </Button>
-              </div>
-
-              {/* Free Trial */}
-              <div className="flex items-center gap-4 pt-6">
-                <div className="bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-medium">
-                  Free
-                </div>
-                <span className="text-muted-foreground">Start 7 Days Free Trial Now</span>
-              </div>
-            </div>
-
-            {/* Phone Mockups */}
-            <div className="relative flex justify-center items-center">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-forest/20 to-spring/20 blur-3xl rounded-full"></div>
-                <div 
-                  className="relative bg-card border rounded-3xl p-6 max-w-sm mx-auto shadow-2xl transition-transform duration-300 ease-out"
-                  style={{
-                    transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`
-                  }}
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold">Dietary Guide</h3>
-                      <div className="w-8 h-8 bg-gradient-to-r from-forest to-spring rounded-full flex items-center justify-center text-white text-sm">
-                        😊
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="bg-muted rounded-lg p-3">
-                        <div className="text-sm font-medium">Good Morning!</div>
-                        <div className="text-xs text-muted-foreground">Ready to log your breakfast?</div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="bg-forest/10 rounded-lg p-3 text-center">
-                          <Camera className="h-6 w-6 mx-auto mb-2 text-forest" />
-                          <div className="text-xs">Photo Log</div>
-                        </div>
-                        <div className="bg-spring/10 rounded-lg p-3 text-center">
-                          <MessageCircle className="h-6 w-6 mx-auto mb-2 text-spring" />
-                          <div className="text-xs">Chat with IRA</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    {/* Hero */}
+    <section className="dg-grain relative overflow-hidden bg-brand-teal pb-0 pt-[128px] text-brand-cream md:pt-[160px]">
+      <div aria-hidden className="pointer-events-none absolute -right-32 top-24 h-[520px] w-[520px] rounded-full bg-brand-terra/15 blur-3xl" />
+      <div className="dg-wrap relative grid items-end gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="pb-14 lg:pb-28">
+          <p className="dg-eyebrow text-brand-terra">The Dietary Guide app</p>
+          <h1 className="mt-6 text-[clamp(3rem,7.6vw,6.6rem)]">
+            Your nutrition buddy is <em className="text-brand-terra">waiting for you.</em>
+          </h1>
+          <p className="mt-7 max-w-xl text-[1.08rem] leading-[1.75] text-brand-cream/70">
+            Meet IRA, the AI nutrition assistant inside the Dietary Guide app. She learns your lifestyle, helps plan your meals, logs what you eat from a photo and keeps you moving towards your goals.
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href={LINKS.playStore} target="_blank" rel="noopener noreferrer" className="dg-btn dg-btn-terra">
+              <GooglePlayMark /> Get it on Google Play
+            </a>
+            <a href="#how-it-works" className="dg-btn dg-btn-line-light">
+              How it works <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
-
-          {/* Stats Section */}
-          <div className="grid md:grid-cols-2 gap-8 mb-20">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl md:text-6xl font-bold text-gradient mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* What is IRA Section */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">🌟 What is the Dietary Guide App?</h2>
-            <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              The Dietary Guide App features IRA, your smart, emoji-based nutrition buddy. IRA talks to you, helps you plan what to eat, 
-              tracks your meals, and even gives you reminders to stay on track. Think of it like a health coach 
-              that lives in your phone, understands your lifestyle, and actually cares.
-            </p>
-          </div>
-
-          {/* Comparison Table Section */}
-          <div className="mb-20">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-              📊 Why Choose Dietary Guide Over Other Apps?
-            </h2>
-            <div className="bg-card rounded-lg shadow-lg overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted">
-                    <TableHead className="font-bold text-lg">Feature</TableHead>
-                    <TableHead className="font-bold text-lg text-center">
-                      <span className="text-gradient">Dietary Guide</span>
-                    </TableHead>
-                    <TableHead className="font-bold text-lg text-center">Other Diet Apps</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {comparisonFeatures.map((item, index) => (
-                    <TableRow key={index} className="hover:bg-muted/50">
-                      <TableCell className="font-medium">
-                        <div>
-                          <div className="font-semibold">{item.feature}</div>
-                          <div className="text-sm text-muted-foreground">{item.description}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-center">
-                        {item.dietaryGuide === true ? (
-                          <div className="flex items-center justify-center">
-                            <Check className="h-6 w-6 text-forest" />
-                          </div>
-                        ) : (
-                          <span className="text-forest font-semibold">{item.dietaryGuide}</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        {item.competitors === false ? (
-                          <div className="flex items-center justify-center">
-                            <X className="h-6 w-6 text-destructive" />
-                          </div>
-                        ) : item.competitors === true ? (
-                          <div className="flex items-center justify-center">
-                            <Check className="h-6 w-6 text-forest" />
-                          </div>
-                        ) : (
-                          <span className="text-muted-foreground">{item.competitors}</span>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-            <div className="text-center mt-8">
-              <p className="text-lg text-muted-foreground">
-                ✨ <span className="font-semibold text-gradient">Dietary Guide</span> offers features that other apps simply don't have!
-              </p>
-            </div>
-          </div>
-
-          {/* How It Works Section */}
-          <div className="mb-20">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">👣 How It Works — Step-by-Step</h2>
-            
-            <div className="grid lg:grid-cols-2 gap-12">
-              {steps.map((step) => (
-                <Card 
-                  key={step.id}
-                  className={`cursor-pointer transition-all duration-300 ${
-                    activeStep === step.id ? 'border-forest shadow-lg' : 'border-border'
-                  }`}
-                  onClick={() => setActiveStep(step.id)}
-                >
-                  <CardHeader>
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gradient-to-r from-forest to-spring rounded-full flex items-center justify-center text-white font-bold">
-                        {step.id}
-                      </div>
-                      <CardTitle className="text-xl">🟢 Step {step.id}: {step.title}</CardTitle>
-                    </div>
-                    <CardDescription className="text-base">{step.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      {step.features.map((feature, index) => (
-                        <li key={index} className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-forest" />
-                          <span className="text-sm">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-            <Card className="text-center p-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-forest to-spring rounded-full flex items-center justify-center mx-auto mb-4">
-                <Camera className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2">🍽️ Smart Meal Logging</h3>
-              <p className="text-sm text-muted-foreground">Take photos or type what you eat. IRA's AI recognizes and tracks everything.</p>
-            </Card>
-
-            <Card className="text-center p-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-forest to-spring rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2">📅 Auto Scheduling</h3>
-              <p className="text-sm text-muted-foreground">Syncs with Google Calendar for meal and workout reminders.</p>
-            </Card>
-
-            <Card className="text-center p-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-forest to-spring rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2">💬 Chat with IRA</h3>
-              <p className="text-sm text-muted-foreground">Ask IRA anything about nutrition, get instant expert advice.</p>
-            </Card>
-
-            <Card className="text-center p-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-forest to-spring rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2">📊 Progress Tracking</h3>
-              <p className="text-sm text-muted-foreground">Monitor BMI, health improvements, and goal achievements.</p>
-            </Card>
-          </div>
-
-          {/* Navigation Features */}
-          <div className="mb-20">
-            <h2 className="text-3xl font-bold text-center mb-12">🧭 Four Simple Tabs</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: "H", title: "Home", desc: "Main dashboard with meal logging and IRA" },
-                { icon: <MessageCircle className="h-6 w-6" />, title: "Chat", desc: "Full conversation with your AI buddy IRA" },
-                { icon: <TrendingUp className="h-6 w-6" />, title: "Stats", desc: "Health progress and achievements" },
-                { icon: <User className="h-6 w-6" />, title: "Profile", desc: "Update your preferences anytime" }
-              ].map((tab, index) => (
-                <Card key={index} className="text-center p-6 hover:shadow-lg transition-shadow">
-                  <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                    {typeof tab.icon === 'string' ? (
-                      <span className="font-bold text-lg">{tab.icon}</span>
-                    ) : (
-                      tab.icon
-                    )}
-                  </div>
-                  <h3 className="font-semibold mb-2">{tab.title}</h3>
-                  <p className="text-sm text-muted-foreground">{tab.desc}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Benefits Section */}
-          <div className="bg-muted rounded-lg p-8 mb-20">
-            <h2 className="text-3xl font-bold text-center mb-8">✅ What You Can Expect with the Dietary Guide App</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                "No more confusion about what to eat",
-                "No more missed meals or inconsistent dieting",
-                "No boring calorie counting",
-                "A real-time, living, friendly AI assistant (IRA) helping you become your best self"
-              ].map((benefit, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-forest" />
-                  <span>{benefit}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Security Section */}
-          <div className="text-center mb-20">
-            <h2 className="text-3xl font-bold mb-6">🔒 Safe and Private</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { icon: <Shield className="h-8 w-8" />, title: "Secure Login", desc: "One-click Google sign-in, no passwords needed" },
-                { icon: <Brain className="h-8 w-8" />, title: "Smart AI", desc: "Advanced AI that learns and improves with you" },
-                { icon: <Star className="h-8 w-8" />, title: "Privacy First", desc: "Your data is never sold or shared" }
-              ].map((item, index) => (
-                <Card key={index} className="text-center p-6">
-                  <div className="text-forest mx-auto mb-4">{item.icon}</div>
-                  <h3 className="font-semibold mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA Section */}
-          <div className="text-center bg-gradient-to-r from-forest to-spring rounded-lg p-12 text-white">
-            <h2 className="text-3xl font-bold mb-4">Ready to Meet IRA?</h2>
-            <p className="text-xl mb-8 opacity-90">
-              Download the Dietary Guide App and start your journey to better health with your personal AI nutrition buddy
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="rounded-full px-8">
-                <Download className="mr-2 h-5 w-5" />
-                Download Now - It's Free!
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-full px-8 bg-transparent border-white text-white hover:bg-white hover:text-forest">
-                Learn More
-              </Button>
-            </div>
-          </div>
+          <p className="mt-5 text-[0.8rem] text-brand-cream/50">Free to download on Android. One-tap Google sign-in.</p>
         </div>
-      </main>
 
-      <Footer />
-    </div>
-  );
-};
+        <div className="relative mx-auto flex w-full max-w-[520px] items-end justify-center">
+          <Phone className="relative z-0 -mr-12 mb-12 aspect-[9/19] w-[200px] -rotate-6 md:w-[230px]">
+            <ChatScreen />
+          </Phone>
+          <Phone className="relative z-10 -mb-16 aspect-[9/19] w-[230px] md:w-[260px]">
+            <HomeScreen />
+          </Phone>
+        </div>
+      </div>
+    </section>
+
+    {/* Steps */}
+    <section id="how-it-works" className="scroll-mt-24 bg-brand-paper pb-20 pt-32 md:pb-28 md:pt-40">
+      <div className="dg-wrap">
+        <Reveal className="max-w-3xl">
+          <p className="dg-eyebrow text-brand-terra">How it works</p>
+          <h2 className="mt-5 text-[clamp(2.5rem,5.4vw,4.4rem)] text-brand-teal">
+            Three steps, <em className="text-brand-terra">then it just fits in.</em>
+          </h2>
+        </Reveal>
+        <ol className="mt-14 grid gap-10 border-t border-brand-teal/15 pt-10 md:grid-cols-3 md:gap-8">
+          {steps.map((s, i) => (
+            <Reveal as="li" key={s.n} delay={i * 80}>
+              <p className="font-editorial text-[3.6rem] leading-none text-brand-terra">{s.n}</p>
+              <h3 className="mt-4 text-[1.9rem] text-brand-teal">{s.t}</h3>
+              <p className="mt-3 text-[0.97rem] leading-[1.7] text-brand-teal/70">{s.d}</p>
+            </Reveal>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    {/* Features */}
+    <section className="bg-brand-cream py-20 md:py-28">
+      <div className="dg-wrap grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        <Reveal className="relative mx-auto w-full max-w-[300px]">
+          <Phone className="aspect-[9/19] w-full">
+            <LogScreen />
+          </Phone>
+        </Reveal>
+        <div>
+          <Reveal>
+            <p className="dg-eyebrow text-brand-terra">Inside the app</p>
+            <h2 className="mt-5 text-[clamp(2.4rem,5vw,4rem)] text-brand-teal">
+              Less typing. <em className="text-brand-terra">More eating well.</em>
+            </h2>
+          </Reveal>
+          <ul className="mt-10 grid gap-x-8 gap-y-9 sm:grid-cols-2">
+            {features.map(({ Icon, t, d }, i) => (
+              <Reveal as="li" key={t} delay={i * 70}>
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-teal text-brand-cream">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <h3 className="mt-4 text-[1.6rem] text-brand-teal">{t}</h3>
+                <p className="mt-2 text-[0.95rem] leading-[1.65] text-brand-teal/70">{d}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {/* Tabs */}
+    <section className="bg-brand-paper py-20 md:py-28">
+      <div className="dg-wrap">
+        <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <h2 className="max-w-xl text-[clamp(2.4rem,5vw,4rem)] text-brand-teal">
+            Four tabs. <em className="text-brand-terra">Nothing to learn.</em>
+          </h2>
+          <p className="max-w-sm text-[0.98rem] leading-[1.7] text-brand-teal/70">The whole app fits in four places, so you always know where things are.</p>
+        </Reveal>
+        <ul className="mt-12 grid grid-cols-2 border-l border-t border-brand-teal/15 lg:grid-cols-4">
+          {tabs.map(({ Icon, t, d }, i) => (
+            <Reveal as="li" key={t} delay={i * 60} className="border-b border-r border-brand-teal/15 p-6 md:p-8">
+              <Icon className="h-6 w-6 text-brand-terra" />
+              <h3 className="mt-6 text-[1.9rem] text-brand-teal md:text-[2.3rem]">{t}</h3>
+              <p className="mt-2 text-[0.92rem] leading-[1.6] text-brand-teal/65">{d}</p>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    {/* Privacy */}
+    <section className="bg-brand-paper pb-20 md:pb-28">
+      <div className="dg-wrap">
+        <Reveal className="grid gap-8 rounded-[2rem] bg-brand-cream p-7 md:grid-cols-3 md:p-12">
+          {[
+            { Icon: ShieldCheck, t: "Secure login", d: "One-tap Google sign-in. No new password to remember." },
+            { Icon: Sparkles, t: "Gets to know you", d: "IRA uses your profile and history to make suggestions more relevant." },
+            { Icon: Lock, t: "Privacy first", d: "Your data is never sold." },
+          ].map(({ Icon, t, d }) => (
+            <div key={t}>
+              <Icon className="h-6 w-6 text-brand-terra" />
+              <h3 className="mt-4 text-[1.7rem] text-brand-teal">{t}</h3>
+              <p className="mt-2 text-[0.95rem] leading-[1.65] text-brand-teal/70">{d}</p>
+            </div>
+          ))}
+        </Reveal>
+      </div>
+    </section>
+
+    {/* CTA */}
+    <section className="dg-grain bg-brand-terra py-20 text-brand-paper md:py-24">
+      <div className="dg-wrap flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+        <h2 className="max-w-2xl text-[clamp(2.6rem,5.6vw,4.6rem)]">Ready to meet IRA?</h2>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <a href={LINKS.playStore} target="_blank" rel="noopener noreferrer" className="dg-btn bg-brand-paper text-brand-teal hover:bg-brand-cream">
+            <GooglePlayMark /> Get it on Google Play
+          </a>
+          <Link to="/tools" className="dg-btn border border-brand-paper/50 text-brand-paper hover:bg-brand-paper/10">
+            Try the free web tools <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  </PageShell>
+);
 
 export default AppPromotionPage;
