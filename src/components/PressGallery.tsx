@@ -48,7 +48,7 @@ function GalleryCard({
       <button
         type="button"
         onClick={() => (item.type === "image" ? onOpenImage() : videoId && onOpenVideo(`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`))}
-        className="group relative block w-full overflow-hidden rounded-[22px] border border-white/10 bg-white/5 shadow-xl backdrop-blur-md transition-shadow duration-300 hover:shadow-2xl hover:shadow-primary/10 text-left"
+        className="group relative block w-full overflow-hidden rounded-[1.5rem] bg-brand-deep text-left shadow-[0_30px_60px_-40px_rgba(0,0,0,0.8)] transition-shadow duration-300 hover:shadow-[0_40px_70px_-35px_rgba(0,0,0,0.9)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-terra"
       >
         {item.type === "image" ? (
           <img
@@ -71,15 +71,15 @@ function GalleryCard({
               className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/30">
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-110">
-                <Play className="h-7 w-7 translate-x-0.5 fill-gray-900 text-gray-900" />
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-terra shadow-lg transition-transform duration-300 group-hover:scale-110">
+                <Play className="h-7 w-7 translate-x-0.5 fill-brand-paper text-brand-paper" />
               </span>
             </div>
           </div>
         )}
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent p-5 pt-12">
-          <p className="text-sm font-medium leading-snug text-white line-clamp-2">{item.caption}</p>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-deep/90 via-brand-deep/30 to-transparent p-5 pt-12">
+          <p className="font-sans text-[0.86rem] font-semibold leading-snug text-brand-cream line-clamp-2">{item.caption}</p>
         </div>
       </button>
     </motion.div>
@@ -222,11 +222,16 @@ export default function PressGallery() {
   );
 
   return (
-    <section className="py-24 bg-gray-800">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-6 text-white">Trusted by Leaders, Institutions & Industry</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+    <section id="press" className="dg-grain relative scroll-mt-20 bg-brand-teal py-20 text-left text-brand-cream md:py-32">
+      <div className="dg-wrap">
+        <div className="mb-14 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div>
+            <p className="dg-eyebrow text-brand-terra">In the room</p>
+            <h2 className="mt-5 text-[clamp(2.6rem,5.6vw,4.8rem)]">
+              Trusted by leaders, <em className="text-brand-terra">institutions and industry.</em>
+            </h2>
+          </div>
+          <p className="max-w-md text-[1.02rem] leading-[1.75] text-brand-cream/70 lg:ml-auto">
             Real collaborations, meetings, media appearances and recognition that reflect our journey.
           </p>
         </div>

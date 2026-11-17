@@ -54,6 +54,16 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         // Custom colors - enhanced with lush greens
+        brand: {
+          teal: "#16393C",
+          deep: "#0D2628",
+          moss: "#3F6B63",
+          cream: "#F5F2E2",
+          paper: "#FBF9F1",
+          sand: "#E8E2CB",
+          terra: "#C06B3A",
+          clay: "#A85628",
+        },
         "teal-light": "#4ECDC4",
         "teal-dark": "#1A535C", 
         "leaf": "#7CB518",
@@ -71,6 +81,7 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         display: ["var(--font-display)"],
+        editorial: ['"Fraunces"', "Georgia", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
