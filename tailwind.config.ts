@@ -63,6 +63,7 @@ export default {
           sand: "#E8E2CB",
           terra: "#C06B3A",
           clay: "#A85628",
+          sage: "#ACB9A3",
         },
         "teal-light": "#4ECDC4",
         "teal-dark": "#1A535C", 

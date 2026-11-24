@@ -7,7 +7,8 @@ import { CartProvider } from "@/context/cart-context";
 import { AnalyticsRouteTracker } from "@/components/AnalyticsRouteTracker";
 
 // Pages
-import Index from "./pages/Index";
+import LinksPage from "./pages/LinksPage";
+const Index = lazy(() => import("./pages/Index"));
 const BlogListPage = lazy(() => import("./pages/BlogListPage"));
 const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
@@ -59,7 +60,9 @@ function App() {
         <AnalyticsRouteTracker />
         <Suspense fallback={<div className="min-h-screen bg-[#FBF9F1]" />}>
         <Routes>
-          <Route path="/" element={<Index />} />
+          {/* "/" is the link-in-bio landing page; the full marketing homepage lives at /home */}
+          <Route path="/" element={<LinksPage />} />
+          <Route path="/home" element={<Index />} />
           <Route path="/blog" element={<BlogListPage />} />
           <Route path="/blog/:slug" element={<BlogDetailPage />} />
 

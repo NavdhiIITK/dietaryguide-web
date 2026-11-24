@@ -21,8 +21,8 @@ const Index = () => {
         title="Dietary Guide by Navdhi | AI-Powered Nutrition, Wellness & Healthy Food"
         description="Dietary Guide is an AI-powered nutrition and wellness platform by Navdhi. Meet IRA, our AI nutrition assistant, log meals with a photo, track BMI and progress, and shop healthy snacks made by the same team."
         keywords="Dietary Guide, dietaryguide.in, Dietary Guide by Navdhi, AI nutrition assistant, IRA nutrition assistant, AI meal logging, Indian diet plan, BMI calculator, personalised nutrition India, ICMR 2024 dietary guidelines, healthy snacks India, chana jor, millet granola, protein bar India, Navdhi"
-        url="/"
-        breadcrumbs={[{ name: "Home", url: "https://dietaryguide.in/" }]}
+        url="/home"
+        breadcrumbs={[{ name: "Home", url: "https://dietaryguide.in/home" }]}
       />
       <Navbar />
       <main id="main" className="flex-1">

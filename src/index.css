@@ -554,3 +554,167 @@
   .dg-marquee, .dg-float, .dg-float-slow, .dg-pulse-dot { animation: none; }
   .dg-btn, .dg-btn svg, .dg-zoom img { transition: none; }
 }
+
+
+/* ───────────────────────── Link-in-bio landing page ("/") ─────────────────────────
+   Markup: src/pages/LinksPage.tsx and src/components/links. Content: src/data/links.ts.
+   The sage below is brand.sage in tailwind.config.ts, and the theme-color set for "/". */
+
+/* While the page is mounted the whole document is sage, so overscroll, safe areas and
+   the first paint (index.html adds this class before React loads) all match. */
+html.dg-links-route,
+html.dg-links-route body { background-color: #ACB9A3; }
+
+@layer components {
+  .dg-links {
+    --sage: #ACB9A3;
+    --teal: #16393C;
+    --deep: #0D2628;
+    --cream: #F5F2E2;
+    --paper: #FBF9F1;
+    --terra: #C06B3A;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    /* Vertical rhythm follows the viewport height, so the whole composition still fits one
+       screen on short phones without a fixed height. The svh versions are further down. */
+    --gap: clamp(1.25rem, 6vh - 1.25rem, 2.75rem);
+    --pad-top: clamp(1.25rem, 10vh - 2.75rem, 4.5rem);
+
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 100vh;
+    padding-top: calc(env(safe-area-inset-top, 0px) + var(--pad-top));
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+    background: var(--sage);
+    color: var(--teal);
+    font-family: 'Manrope', system-ui, sans-serif;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* One centred column: full width less a 20px gutter on phones, capped at 30rem on desktop. */
+  .dg-links-main,
+  .dg-links-foot { width: 100%; max-width: 30rem; padding-inline: 1.25rem; }
+  .dg-links-main { margin-block: auto; display: flex; flex-direction: column; gap: var(--gap); }
+
+  /* Profile */
+  .dg-links-mascot { position: relative; width: clamp(7.25rem, min(40vw, 21vh), 10.5rem); aspect-ratio: 1; margin-inline: auto; }
+  .dg-links-mascot::before {
+    content: ""; position: absolute; inset: -60%; z-index: -1; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(closest-side, rgba(245, 242, 226, .5), rgba(245, 242, 226, 0));
+  }
+  .dg-links-mascot__disc {
+    position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden;
+    padding: 6%; border-radius: 50%; border: 5px solid var(--cream); background: #000;
+    box-shadow: 0 0 0 1px rgba(22, 57, 60, .1), 0 24px 40px -22px rgba(13, 38, 40, .65);
+  }
+  .dg-links-mascot__disc img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; user-select: none; }
+  .dg-links-mascot__monogram { font-size: 2.25rem; font-weight: 800; letter-spacing: -.04em; color: var(--cream); }
+
+  .dg-links-name {
+    margin-top: 1.25rem;
+    font-family: inherit; font-weight: 800; font-size: clamp(1.95rem, 8.6vw, 2.375rem);
+    line-height: 1.05; letter-spacing: -.035em; color: var(--teal);
+  }
+  .dg-links-tagline {
+    margin-top: .55rem;
+    font-size: 1.02rem; font-weight: 500; line-height: 1.4; letter-spacing: -.005em;
+    color: rgba(22, 57, 60, .9);
+  }
+
+  /* Calls to action */
+  .dg-links-list { display: flex; flex-direction: column; gap: .875rem; }
+  .dg-links-btn {
+    position: relative; display: grid; grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; align-items: center; column-gap: .5rem;
+    width: 100%; min-height: 4.375rem; padding: .75rem; border-radius: 1.375rem;
+    background: var(--cream); color: var(--teal);
+    font-size: 1.04rem; font-weight: 700; line-height: 1.2; letter-spacing: -.012em;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), 0 1px 2px rgba(13, 38, 40, .06), 0 16px 28px -20px rgba(13, 38, 40, .55);
+    transition: transform .22s var(--ease), background-color .22s var(--ease), box-shadow .22s var(--ease);
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  }
+  .dg-links-btn:active { transform: scale(.985); }
+  .dg-links-btn:focus-visible,
+  .dg-links-social:focus-visible { outline: 2.5px solid var(--deep); outline-offset: 3px; }
+  .dg-links-btn__icon {
+    display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: .95rem;
+    background: rgba(22, 57, 60, .07); color: var(--teal);
+    transition: background-color .22s var(--ease), color .22s var(--ease);
+  }
+  .dg-links-btn__arrow { justify-self: center; opacity: .45; transition: transform .22s var(--ease), opacity .22s var(--ease), color .22s var(--ease); }
+
+  /* Short screens: slightly shorter buttons. Narrow phones: slimmer side columns, then
+     slightly smaller type, so every label stays on one line. */
+  @media (max-height: 700px) { .dg-links-btn { min-height: 4rem; padding-block: .625rem; } }
+  @media (max-width: 374px) {
+    .dg-links-btn { grid-template-columns: 2.5rem minmax(0, 1fr) 2.5rem; column-gap: .25rem; }
+    .dg-links-btn__icon { width: 2.5rem; height: 2.5rem; border-radius: .875rem; }
+  }
+  @media (max-width: 345px) { .dg-links-btn { font-size: .9rem; } }
+
+  .dg-links-btn--primary {
+    background: var(--teal); color: var(--cream);
+    box-shadow: inset 0 1px 0 rgba(245, 242, 226, .1), 0 1px 2px rgba(13, 38, 40, .12), 0 18px 30px -18px rgba(13, 38, 40, .75);
+  }
+  .dg-links-btn--primary .dg-links-btn__icon { background: rgba(245, 242, 226, .12); color: var(--cream); }
+  .dg-links-btn--primary .dg-links-btn__arrow { opacity: .6; }
+
+  .dg-links-caption {
+    margin-top: .7rem;
+    font-size: .8rem; font-weight: 500; line-height: 1.3; letter-spacing: 0;
+    color: rgba(22, 57, 60, .9);
+  }
+
+  /* Social row */
+  .dg-links-social {
+    display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%;
+    border: 1.5px solid rgba(22, 57, 60, .3); color: var(--teal);
+    transition: transform .22s var(--ease), background-color .22s var(--ease), border-color .22s var(--ease), color .22s var(--ease);
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  }
+  .dg-links-social svg { width: 1.2rem; height: 1.2rem; }
+  .dg-links-social:active { transform: scale(.94); }
+
+  .dg-links-foot { margin-top: var(--gap); }
+  .dg-links-foot p { font-size: .76rem; font-weight: 500; line-height: 1.4; letter-spacing: .02em; color: rgba(22, 57, 60, .88); }
+
+  /* Where supported, measure against the small viewport (the height left once mobile browser
+     chrome is showing) so nothing sits under the address bar or an in-app browser's toolbar. */
+  @supports (height: 100svh) {
+    .dg-links {
+      --gap: clamp(1.25rem, 6svh - 1.25rem, 2.75rem);
+      --pad-top: clamp(1.25rem, 10svh - 2.75rem, 4.5rem);
+      min-height: 100svh;
+    }
+    .dg-links-mascot { width: clamp(7.25rem, min(40vw, 21svh), 10.5rem); }
+  }
+
+  /* Hover only where a real pointer exists, so nothing stays "stuck" after a tap. */
+  @media (hover: hover) {
+    .dg-links-btn:hover {
+      transform: translateY(-2px); background: var(--paper);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 2px 4px rgba(13, 38, 40, .06), 0 22px 34px -20px rgba(13, 38, 40, .6);
+    }
+    .dg-links-btn:hover .dg-links-btn__icon { background: var(--terra); color: var(--paper); }
+    .dg-links-btn:hover .dg-links-btn__arrow { opacity: 1; color: var(--terra); transform: translate(2px, -2px); }
+    .dg-links-btn--primary:hover {
+      background: var(--deep);
+      box-shadow: inset 0 1px 0 rgba(245, 242, 226, .1), 0 2px 4px rgba(13, 38, 40, .14), 0 24px 36px -18px rgba(13, 38, 40, .8);
+    }
+    .dg-links-btn--primary:hover .dg-links-btn__arrow { color: var(--cream); }
+    .dg-links-social:hover { transform: translateY(-2px); background: var(--teal); border-color: var(--teal); color: var(--cream); }
+  }
+
+  /* Entrance: elements start from their keyframe and settle into their resting styles,
+     so hover transforms keep working once the animation has finished. */
+  .dg-links-bloom { animation: dg-links-bloom .7s var(--ease) backwards; }
+  .dg-links-rise { animation: dg-links-rise .6s var(--ease) var(--d, 0ms) backwards; }
+}
+
+@keyframes dg-links-bloom { from { opacity: 0; transform: scale(.94); } }
+@keyframes dg-links-rise { from { opacity: 0; transform: translateY(10px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .dg-links-bloom, .dg-links-rise { animation: none; }
+  .dg-links-btn, .dg-links-btn__icon, .dg-links-btn__arrow, .dg-links-social { transition: none; }
+  .dg-links-btn:hover, .dg-links-btn:active, .dg-links-social:hover, .dg-links-social:active,
+  .dg-links-btn:hover .dg-links-btn__arrow { transform: none; }
+}

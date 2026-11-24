@@ -15,10 +15,10 @@ const columns = [
   {
     title: "Features",
     links: [
-      { name: "IRA, AI nutrition assistant", href: "/#ira" },
-      { name: "Photo meal logging", href: "/#meal-logging" },
-      { name: "Diet guidance", href: "/#diet-guidance" },
-      { name: "BMI and health analytics", href: "/#analytics" },
+      { name: "IRA, AI nutrition assistant", href: "/home#ira" },
+      { name: "Photo meal logging", href: "/home#meal-logging" },
+      { name: "Diet guidance", href: "/home#diet-guidance" },
+      { name: "BMI and health analytics", href: "/home#analytics" },
     ],
   },
   {
