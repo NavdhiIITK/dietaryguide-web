@@ -39,7 +39,7 @@ export const SEO = {
   title: "Dietary Guide | Eat Better. Live Healthier.",
   description:
     "Dietary Guide in one place. Download the app, explore our products, watch our latest video and follow us on YouTube, LinkedIn and Instagram.",
-  url: `${SITE_ORIGIN}/`,
+  url: `${SITE_ORIGIN}/link-in-bio-landing`,
   image: `${SITE_ORIGIN}/social-preview.png`,
   imageAlt: "Dietary Guide. Eat Better. Live Healthier.",
 } as const;

@@ -18,7 +18,7 @@ const rise = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 const SCHEMAS = [structuredDataSchemas.organization, structuredDataSchemas.website, structuredDataSchemas.author];
 
 /**
- * Link-in-bio landing page served at "/". A standalone microsite: no site navbar or footer.
+ * Link-in-bio landing page served at "/link-in-bio-landing". A standalone microsite: no site navbar or footer.
  * All copy and destinations come from src/data/links.ts.
  */
 const LinksPage = () => {
