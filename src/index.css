@@ -556,7 +556,7 @@
 }
 
 
-/* ───────────────────────── Link-in-bio landing page ("/") ─────────────────────────
+/* ───────────────────────── Link-in-bio landing page ("/link-in-bio-landing") ─────────────────────────
    Markup: src/pages/LinksPage.tsx and src/components/links. Content: src/data/links.ts.
    The sage below is brand.sage in tailwind.config.ts, and the theme-color set for "/". */
 

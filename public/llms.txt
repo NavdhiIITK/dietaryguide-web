@@ -13,8 +13,7 @@ Dietary Guide (also known as DietaryGuide, dietaryguide.in) is an AI-powered hea
 
 ## Key Pages
 
-- [Homepage](https://dietaryguide.in/): Quick links to the app, products, latest video and social channels
-- [Platform overview](https://dietaryguide.in/home): Full overview of the platform, IRA, the app and the product range
+- [Homepage](https://dietaryguide.in/): Main entry point with platform overview
 - [Blog](https://dietaryguide.in/blog): Evidence-based nutrition and wellness articles
 - [Recipes](https://dietaryguide.in/recipes): Healthy Indian breakfast recipes for weight loss
 - [Health Tools](https://dietaryguide.in/tools): Free AI-powered BMI calculator, diet planner, meal analyzer, recipe generator, workout planner

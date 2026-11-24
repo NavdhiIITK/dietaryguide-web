@@ -7,8 +7,7 @@ import { CartProvider } from "@/context/cart-context";
 import { AnalyticsRouteTracker } from "@/components/AnalyticsRouteTracker";
 
 // Pages
-import LinksPage from "./pages/LinksPage";
-const Index = lazy(() => import("./pages/Index"));
+import Index from "./pages/Index";
 const BlogListPage = lazy(() => import("./pages/BlogListPage"));
 const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
@@ -27,6 +26,7 @@ const StoreAccountPage = lazy(() => import("./pages/StoreAccountPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const OrdersPage = lazy(() => import("./pages/OrdersPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const LinksPage = lazy(() => import("./pages/LinksPage"));
 const TechnologyPage = lazy(() => import("./pages/TechnologyPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const LegalPage = lazy(() => import("./pages/LegalPage"));
@@ -60,9 +60,8 @@ function App() {
         <AnalyticsRouteTracker />
         <Suspense fallback={<div className="min-h-screen bg-[#FBF9F1]" />}>
         <Routes>
-          {/* "/" is the link-in-bio landing page; the full marketing homepage lives at /home */}
-          <Route path="/" element={<LinksPage />} />
-          <Route path="/home" element={<Index />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/link-in-bio-landing" element={<LinksPage />} />
           <Route path="/blog" element={<BlogListPage />} />
           <Route path="/blog/:slug" element={<BlogDetailPage />} />
 

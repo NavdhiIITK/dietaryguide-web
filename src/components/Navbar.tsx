@@ -19,12 +19,12 @@ interface NavItem {
 const navigation: NavItem[] = [
   {
     name: "Platform",
-    href: "/home#platform",
+    href: "/#platform",
     children: [
-      { name: "AI Nutrition Assistant", href: "/home#ira", note: "Meet IRA, your nutrition companion" },
-      { name: "Meal Logging", href: "/home#meal-logging", note: "Log a meal with a photograph" },
-      { name: "Diet Guidance", href: "/home#diet-guidance", note: "Plans shaped around Indian food" },
-      { name: "Health Analytics", href: "/home#analytics", note: "BMI, metrics and progress" },
+      { name: "AI Nutrition Assistant", href: "/#ira", note: "Meet IRA, your nutrition companion" },
+      { name: "Meal Logging", href: "/#meal-logging", note: "Log a meal with a photograph" },
+      { name: "Diet Guidance", href: "/#diet-guidance", note: "Plans shaped around Indian food" },
+      { name: "Health Analytics", href: "/#analytics", note: "BMI, metrics and progress" },
       { name: "Free Health Tools", href: "/tools", note: "Try the tools on the web" },
     ],
   },
@@ -32,9 +32,9 @@ const navigation: NavItem[] = [
     name: "Our Products",
     href: "/products",
     children: [
-      { name: "Healthy Snacks", href: "/home#products-snacks", note: "Chana Jor and Rajma Jor Masala" },
-      { name: "Protein Products", href: "/home#products-protein", note: "Millet granola and protein bars" },
-      { name: "Wellness Range", href: "/home#products-wellness", note: "Digestion Tea and The Wellness Treat" },
+      { name: "Healthy Snacks", href: "/#products-snacks", note: "Chana Jor and Rajma Jor Masala" },
+      { name: "Protein Products", href: "/#products-protein", note: "Millet granola and protein bars" },
+      { name: "Wellness Range", href: "/#products-wellness", note: "Digestion Tea and The Wellness Treat" },
       { name: "Shop everything", href: "/products", note: "Visit the Dietary Guide store" },
     ],
   },
@@ -122,7 +122,7 @@ const Navbar = () => {
   const isActive = (item: NavItem) => {
     const path = item.href.split("#")[0];
     if (item.href.includes("#") && path === "/about") return false;
-    if (path === "/home") return false;
+    if (path === "/") return false;
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
@@ -195,7 +195,7 @@ const Navbar = () => {
             : "border-brand-teal/10 bg-brand-paper/90 backdrop-blur-sm"
         }`}
       >
-        <Link to="/home" aria-label="Dietary Guide, home" className="flex shrink-0 items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-terra">
+        <Link to="/" aria-label="Dietary Guide, home" className="flex shrink-0 items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-terra">
           <img src={LOGO.onLight} alt="Dietary Guide" width={500} height={152} className="h-8 w-auto md:h-9" />
         </Link>
 
