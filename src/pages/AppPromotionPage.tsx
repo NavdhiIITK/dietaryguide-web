@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Camera, CalendarDays, MessageCircle, TrendingUp, ShieldCheck, Sparkles, Lock, Home, BarChart3, User } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Camera, CalendarDays, MessageCircle, TrendingUp, ShieldCheck, Sparkles, Lock, Home, BarChart3, User, ScanLine } from "lucide-react";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import Reveal from "@/components/Reveal";
 import { PageShell } from "@/components/PageShell";
-import { Phone, HomeScreen, ChatScreen, LogScreen } from "@/components/home/WhyAndApp";
+import { Phone } from "@/components/home/WhyAndApp";
 import { LINKS } from "@/data/brand";
 
 const GooglePlayMark = () => (
@@ -38,10 +38,44 @@ const features = [
 ];
 
 const tabs = [
-  { Icon: Home, t: "Home", d: "Your dashboard, with meal logging and IRA" },
-  { Icon: MessageCircle, t: "Chat", d: "A full conversation with IRA" },
-  { Icon: BarChart3, t: "Stats", d: "Health progress and achievements" },
+  { Icon: Home, t: "Home", d: "Your day at a glance: streak, calories and today's meals" },
+  { Icon: BarChart3, t: "Metrics", d: "BMI, daily energy needs and IRA's recommendations" },
+  { Icon: ScanLine, t: "Scan", d: "Photograph a meal and get its nutrition and health score" },
+  { Icon: MessageCircle, t: "IRA AI", d: "A full conversation with IRA" },
   { Icon: User, t: "Profile", d: "Update your preferences any time" },
+];
+
+/** Real screenshots from the Dietary Guide Android app (public/brand/app). */
+const SCREENS = {
+  home: { src: "/brand/app/home.webp", alt: "Dietary Guide app home screen showing a one-day streak, calorie goal, IRA's insight and today's nutrition" },
+  chat: { src: "/brand/app/ira-chat.webp", alt: "IRA AI chat in the Dietary Guide app: asking IRA for vegetarian dinner suggestions" },
+  scan: { src: "/brand/app/scan.webp", alt: "Food scan result in the Dietary Guide app: Margherita pizza slices with a 92/100 health score, calories, protein, carbs and fat" },
+  metrics: { src: "/brand/app/metrics.webp", alt: "Metrics tab in the Dietary Guide app showing BMI, BMR, TDEE, a calorie target and IRA's recommendations" },
+  share: { src: "/brand/app/share.webp", alt: "Share your meal screen in the Dietary Guide app with story styles" },
+  onboarding: { src: "/brand/app/onboarding.webp", alt: "Dietary Guide app onboarding step asking for your weight, with a live BMI reading" },
+} as const;
+
+type ScreenKey = keyof typeof SCREENS;
+
+/** A real app screenshot inside the phone frame. */
+const AppScreen = ({ screen, className = "", eager = false }: { screen: ScreenKey; className?: string; eager?: boolean }) => (
+  <Phone className={`aspect-[9/19] ${className}`}>
+    <img
+      src={SCREENS[screen].src}
+      alt={SCREENS[screen].alt}
+      width={540}
+      height={1152}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      className="h-full w-full bg-white object-cover object-top pt-[26px]"
+    />
+  </Phone>
+);
+
+const gallery: { screen: ScreenKey; t: string; d: string }[] = [
+  { screen: "onboarding", t: "Set up in minutes", d: "Answer a few questions and see your BMI as you go." },
+  { screen: "metrics", t: "Know your numbers", d: "BMI, daily energy needs and a calorie target made for you." },
+  { screen: "share", t: "Share your progress", d: "Turn a meal or a streak into a story in one tap." },
 ];
 
 const AppPromotionPage = () => (
@@ -82,12 +116,8 @@ const AppPromotionPage = () => (
         </div>
 
         <div className="relative mx-auto flex w-full max-w-[520px] items-end justify-center">
-          <Phone className="relative z-0 -mr-12 mb-12 aspect-[9/19] w-[200px] -rotate-6 md:w-[230px]">
-            <ChatScreen />
-          </Phone>
-          <Phone className="relative z-10 -mb-16 aspect-[9/19] w-[230px] md:w-[260px]">
-            <HomeScreen />
-          </Phone>
+          <AppScreen screen="chat" eager className="relative z-0 -mr-12 mb-12 w-[200px] -rotate-6 md:w-[230px]" />
+          <AppScreen screen="home" eager className="relative z-10 -mb-16 w-[230px] md:w-[260px]" />
         </div>
       </div>
     </section>
@@ -117,9 +147,7 @@ const AppPromotionPage = () => (
     <section className="bg-brand-cream py-20 md:py-28">
       <div className="dg-wrap grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <Reveal className="relative mx-auto w-full max-w-[300px]">
-          <Phone className="aspect-[9/19] w-full">
-            <LogScreen />
-          </Phone>
+          <AppScreen screen="scan" className="w-full" />
         </Reveal>
         <div>
           <Reveal>
@@ -143,16 +171,37 @@ const AppPromotionPage = () => (
       </div>
     </section>
 
+    {/* Real screens */}
+    <section className="bg-brand-teal py-20 text-brand-cream md:py-28">
+      <div className="dg-wrap">
+        <Reveal className="max-w-3xl">
+          <p className="dg-eyebrow text-brand-terra">A look inside</p>
+          <h2 className="mt-5 text-[clamp(2.4rem,5vw,4rem)]">
+            The real app, <em className="text-brand-terra">screen by screen.</em>
+          </h2>
+        </Reveal>
+        <ul className="mt-14 grid gap-14 sm:grid-cols-3 sm:gap-8">
+          {gallery.map(({ screen, t, d }, i) => (
+            <Reveal as="li" key={screen} delay={i * 80} className="flex flex-col items-center text-center">
+              <AppScreen screen={screen} className="w-full max-w-[250px]" />
+              <h3 className="mt-8 text-[1.7rem]">{t}</h3>
+              <p className="mt-2 max-w-[18rem] text-[0.95rem] leading-[1.65] text-brand-cream/70">{d}</p>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+
     {/* Tabs */}
     <section className="bg-brand-paper py-20 md:py-28">
       <div className="dg-wrap">
         <Reveal className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <h2 className="max-w-xl text-[clamp(2.4rem,5vw,4rem)] text-brand-teal">
-            Four tabs. <em className="text-brand-terra">Nothing to learn.</em>
+            Five tabs. <em className="text-brand-terra">Nothing to learn.</em>
           </h2>
-          <p className="max-w-sm text-[0.98rem] leading-[1.7] text-brand-teal/70">The whole app fits in four places, so you always know where things are.</p>
+          <p className="max-w-sm text-[0.98rem] leading-[1.7] text-brand-teal/70">The whole app fits in five places, so you always know where things are.</p>
         </Reveal>
-        <ul className="mt-12 grid grid-cols-2 border-l border-t border-brand-teal/15 lg:grid-cols-4">
+        <ul className="mt-12 grid grid-cols-2 border-l border-t border-brand-teal/15 md:grid-cols-3 lg:grid-cols-5">
           {tabs.map(({ Icon, t, d }, i) => (
             <Reveal as="li" key={t} delay={i * 60} className="border-b border-r border-brand-teal/15 p-6 md:p-8">
               <Icon className="h-6 w-6 text-brand-terra" />
