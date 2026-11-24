@@ -6,10 +6,10 @@ import { PageShell, PageHero } from "@/components/PageShell";
 import { researchProjects } from "@/components/home/Research";
 
 const live = [
-  { t: "IRA, AI nutrition assistant", d: "Conversational nutrition help backed by knowledge retrieval.", href: "/#ira" },
-  { t: "Photo meal logging", d: "Food recognition from a photograph, straight into your journal.", href: "/#meal-logging" },
-  { t: "Diet guidance", d: "Personalised plans built around Indian meals.", href: "/#diet-guidance" },
-  { t: "BMI and health analytics", d: "BMI, intake and progress tracking.", href: "/#analytics" },
+  { t: "IRA, AI nutrition assistant", d: "Conversational nutrition help backed by knowledge retrieval.", href: "/home#ira" },
+  { t: "Photo meal logging", d: "Food recognition from a photograph, straight into your journal.", href: "/home#meal-logging" },
+  { t: "Diet guidance", d: "Personalised plans built around Indian meals.", href: "/home#diet-guidance" },
+  { t: "BMI and health analytics", d: "BMI, intake and progress tracking.", href: "/home#analytics" },
   { t: "Free web tools", d: "BMI calculator, diet planner, meal analyser and more.", href: "/tools" },
 ];
 
