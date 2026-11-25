@@ -48,7 +48,7 @@ const tabs = [
 const SCREENS = {
   home: { src: "/brand/app/home.webp", alt: "Dietary Guide app home screen showing a one-day streak, calorie goal, IRA's insight and today's nutrition" },
   chat: { src: "/brand/app/ira-chat.webp", alt: "IRA AI chat in the Dietary Guide app: asking IRA for vegetarian dinner suggestions" },
-  scanner: { src: "/brand/app/scanner.webp", alt: "AI Scanner in the Dietary Guide app with options to scan a meal, scan a label, pick from the library or log manually" },
+  scan: { src: "/brand/app/scan-soya.webp", alt: "Food scan result in the Dietary Guide app: soya chunks curry with rice, 82/100 health score, 538 kcal and 26 g protein" },
   metrics: { src: "/brand/app/metrics.webp", alt: "Metrics tab in the Dietary Guide app showing BMI, BMR, TDEE, a calorie target and IRA's recommendations" },
   profile: { src: "/brand/app/profile.webp", alt: "Profile tab in the Dietary Guide app showing the bunny avatar, goal, BMI, weight, height and age" },
   onboarding: { src: "/brand/app/onboarding.webp", alt: "Dietary Guide app onboarding step asking for your weight, with a live BMI reading" },
@@ -146,7 +146,7 @@ const AppPromotionPage = () => (
     <section className="bg-brand-cream py-20 md:py-28">
       <div className="dg-wrap grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <Reveal className="relative mx-auto w-full max-w-[300px]">
-          <AppScreen screen="scanner" className="w-full" />
+          <AppScreen screen="scan" className="w-full" />
         </Reveal>
         <div>
           <Reveal>
