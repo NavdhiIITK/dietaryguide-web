@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Camera, CalendarDays, MessageCircle, TrendingUp, ShieldCheck, Sparkles, Lock, Home, BarChart3, User, ScanLine } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Camera, MessageCircle, TrendingUp, ShieldCheck, Sparkles, Lock, Home, BarChart3, User, ScanLine } from "lucide-react";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import Reveal from "@/components/Reveal";
 import { PageShell } from "@/components/PageShell";
@@ -33,7 +33,6 @@ const steps = [
 const features = [
   { Icon: Camera, t: "Smart meal logging", d: "Take a photo or type what you ate. IRA recognises the food and keeps track for you." },
   { Icon: MessageCircle, t: "Chat with IRA", d: "Ask anything about nutrition and get a clear, friendly answer in seconds." },
-  { Icon: CalendarDays, t: "Google Calendar sync", d: "Meal and workout reminders land in the calendar you already use." },
   { Icon: TrendingUp, t: "Progress tracking", d: "Follow your BMI, your health improvements and the goals you reach." },
 ];
 
@@ -51,7 +50,7 @@ const SCREENS = {
   chat: { src: "/brand/app/ira-chat.webp", alt: "IRA AI chat in the Dietary Guide app: asking IRA for vegetarian dinner suggestions" },
   scanner: { src: "/brand/app/scanner.webp", alt: "AI Scanner in the Dietary Guide app with options to scan a meal, scan a label, pick from the library or log manually" },
   metrics: { src: "/brand/app/metrics.webp", alt: "Metrics tab in the Dietary Guide app showing BMI, BMR, TDEE, a calorie target and IRA's recommendations" },
-  share: { src: "/brand/app/share.webp", alt: "Share your meal screen in the Dietary Guide app with story styles" },
+  profile: { src: "/brand/app/profile.webp", alt: "Profile tab in the Dietary Guide app showing the bunny avatar, goal, BMI, weight, height and age" },
   onboarding: { src: "/brand/app/onboarding.webp", alt: "Dietary Guide app onboarding step asking for your weight, with a live BMI reading" },
 } as const;
 
@@ -75,14 +74,14 @@ const AppScreen = ({ screen, className = "", eager = false }: { screen: ScreenKe
 const gallery: { screen: ScreenKey; t: string; d: string }[] = [
   { screen: "onboarding", t: "Set up in minutes", d: "Answer a few questions and see your BMI as you go." },
   { screen: "metrics", t: "Know your numbers", d: "BMI, daily energy needs and a calorie target made for you." },
-  { screen: "share", t: "Share your progress", d: "Turn a meal or a streak into a story in one tap." },
+  { screen: "profile", t: "Make it yours", d: "Your goal, body stats and preferences, all in one place." },
 ];
 
 const AppPromotionPage = () => (
   <PageShell>
     <SEOOptimizer
       title="Dietary Guide App | Meet IRA, Your AI Nutrition Assistant"
-      description="Download the Dietary Guide app for Android. Meet IRA, your AI nutrition assistant. Log meals with a photo, get personalised Indian diet guidance, sync reminders with Google Calendar and track your progress."
+      description="Download the Dietary Guide app for Android. Meet IRA, your AI nutrition assistant. Log meals with a photo, get personalised Indian diet guidance and track your progress."
       keywords="Dietary Guide app, IRA AI nutrition assistant, diet app India, AI meal logging app, food photo recognition app, Indian diet planner app, calorie tracker India, nutrition app Android"
       url="/app"
       schemaType="MobileApplication"
