@@ -695,7 +695,7 @@ export const structuredDataSchemas = {
     "name": "Dietary Guide – AI Nutrition Assistant",
     "operatingSystem": "Android, iOS",
     "applicationCategory": "HealthApplication",
-    "description": "AI-powered nutrition app featuring IRA, your personal diet buddy. Smart meal logging, photo food recognition, personalized Indian diet plans, and Google Calendar integration.",
+    "description": "AI-powered nutrition app featuring IRA, your personal diet buddy. Smart meal logging, photo food recognition and personalized Indian diet plans.",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -705,7 +705,6 @@ export const structuredDataSchemas = {
       "AI Nutrition Buddy (IRA)",
       "Photo Meal Recognition",
       "Personalized Indian Diet Plans",
-      "Google Calendar Sync",
       "Expert Consultations",
       "Mood-responsive Interface",
       "Smart Meal Logging",

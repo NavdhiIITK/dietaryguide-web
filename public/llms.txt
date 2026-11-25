@@ -34,7 +34,7 @@ Blog articles follow an evidence-based structure with a "Frequently asked questi
 - Target Market: India (health/fitness/weight-loss users)
 - AI Assistant: IRA (Intelligent Recipe & nutrition Assistant)
 - Guidelines followed: ICMR (Indian Council of Medical Research)
-- Features: Meal logging, photo food recognition, Google Calendar sync, wearable integration
+- Features: Meal logging, photo food recognition, wearable integration
 - Products: Clean-label, no preservatives, no added sugar
 - Free tools: BMI calculator, AI diet planner, recipe generator, workout planner, meal analyzer
 
