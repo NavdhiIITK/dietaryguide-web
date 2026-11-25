@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Mail, MapPin, Instagram, Facebook } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail, Instagram, Facebook } from "lucide-react";
 import SEOOptimizer from "@/components/SEOOptimizer";
 import Reveal from "@/components/Reveal";
 import { PageShell, PageHero } from "@/components/PageShell";
-import { LOGO, LINKS, COMPANY } from "@/data/brand";
+import { LOGO, LINKS } from "@/data/brand";
 
 const parts = [
   { k: "Dietary Guide", v: "The consumer brand. An AI nutrition app, free web tools, a nutrition journal and a range of healthy foods." },
@@ -101,13 +101,6 @@ const AboutPage = () => (
             </span>
             <ArrowUpRight className="h-5 w-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
-          <div className="flex items-start gap-4 rounded-2xl border border-brand-cream/15 p-6">
-            <MapPin className="mt-1 h-5 w-5 shrink-0 text-brand-terra" />
-            <span>
-              <span className="block text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-cream/50">Address</span>
-              <span className="mt-1 block text-[1rem] leading-relaxed text-brand-cream/85">{COMPANY.address}</span>
-            </span>
-          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               { href: LINKS.instagram, label: "Instagram", Icon: Instagram },

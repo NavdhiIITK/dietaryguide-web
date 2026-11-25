@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Instagram, Facebook, Mail, MapPin } from "lucide-react";
-import { LOGO, LINKS, COMPANY } from "@/data/brand";
+import { ArrowUpRight, Instagram, Facebook, Mail } from "lucide-react";
+import { LOGO, LINKS } from "@/data/brand";
 
 const columns = [
   {
@@ -94,10 +94,6 @@ const Footer = () => {
                 <a href={`mailto:${LINKS.email}`} className="inline-flex items-center gap-2.5 transition-colors hover:text-brand-terra">
                   <Mail className="h-4 w-4 shrink-0 text-brand-terra" /> {LINKS.email}
                 </a>
-              </li>
-              <li className="flex gap-2.5">
-                <MapPin className="mt-1 h-4 w-4 shrink-0 text-brand-terra" />
-                <span className="leading-relaxed">{COMPANY.address}</span>
               </li>
             </ul>
             <div className="mt-6 flex gap-2.5">
