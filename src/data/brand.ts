@@ -18,10 +18,6 @@ export const LINKS = {
   capsule: "https://capsules.anvevoice.app/dietary-guide",
 };
 
-export const COMPANY = {
-  address: "236A, Regent Shipra Sun City, Indirapuram, Ghaziabad, Uttar Pradesh - 201014, India",
-};
-
 export interface ShowcaseProduct {
   id: string;
   name: string;
